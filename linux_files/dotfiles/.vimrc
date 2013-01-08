@@ -57,6 +57,9 @@ NeoBundle 'Shougo/neosnippet'
 " -- neosnippetのスニペット
 NeoBundle 'honza/snipmate-snippets'
 
+" -- scala-vim-snippets
+NeoBundle 'tommorris/scala-vim-snippets'
+
 " vim-scripts repos
 
 " non github repos
@@ -198,7 +201,7 @@ if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 
-let g:neosnippet#snippets_directory='~/.vim/bundle/'
+let g:neosnippet#snippets_directory='~/.vim/bundle/,~/.vim/bundle/scala-vim-snippets/'
 
 "##########################################################################
 "# 文字コード自動認識
