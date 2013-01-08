@@ -25,10 +25,7 @@ do
     info "$fileのシンボリックリンクを生成します"
 
     target=$TARGET_DIR/$file
-    if [ ! -e $target ]; then  # ファイルが存在しなければ処理
-      ln -s $BASE_DIR/$file $target
-      info "$fileのシンボリックリンクを生成しました"
-    elif [ -L $target ]; then  # 同名のシンボリックリンクが存在
+    if [ -L $target ]; then  # 同名のシンボリックリンクが存在
       warn "$fileがシンボリックリンクとして存在しています。削除して置き換えますか？(y/n)"
       read ans
       if [ $ans = 'y' -o $ans = 'Y' ]; then
@@ -52,6 +49,9 @@ do
         ln -s $BASE_DIR/$file $target
         info "$fileのシンボリックリンクを生成しました"
       fi
+    else  # ファイルが存在しなければ処理
+      ln -s $BASE_DIR/$file $target
+      info "$fileのシンボリックリンクを生成しました"
     fi
   fi
 done
