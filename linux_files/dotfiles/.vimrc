@@ -60,6 +60,18 @@ NeoBundle 'honza/snipmate-snippets'
 " -- scala-vim-snippets
 NeoBundle 'tommorris/scala-vim-snippets'
 
+" -- matchit
+NeoBundle 'tsaleh/vim-matchit'
+
+" -- quickrun
+NeoBundle 'thinca/vim-quickrun'
+
+" -- unite-grep
+NeoBundle 'Sixeight/unite-grep'
+
+" -- vimshell
+NeoBundle 'Shougo/vimshell'
+
 " vim-scripts repos
 
 " non github repos
@@ -94,9 +106,9 @@ autocmd BufWritePre * :%s/\s\+$//ge
 "# キーマッピング
 "##########################################################################
 " Uniteでバッファ一覧を開く
-"noremap <C-U>b :Unite buffer<CR>
+noremap <Leader>ub :Unite buffer<CR>
 " Uniteで同一ディレクトリ内のファイル一覧を出す
-"noremap <C-U>f :UniteWithBufferDir -buffer-name=files file<CR>
+noremap <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
 " ESC連打でハイライトを消す
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " 検索語が画面の中央に来るようにする
