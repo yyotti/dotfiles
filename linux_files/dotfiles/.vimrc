@@ -72,6 +72,15 @@ NeoBundle 'Sixeight/unite-grep'
 " -- vimshell
 NeoBundle 'Shougo/vimshell'
 
+" -- vim-indent-guides
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+" -- vimfiler
+NeoBundle 'Shougo/vimfiler'
+
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
+
 " vim-scripts repos
 
 " non github repos
@@ -214,6 +223,12 @@ if has('conceal')
 endif
 
 let g:neosnippet#snippets_directory='~/.vim/bundle/,~/.vim/bundle/scala-vim-snippets/'
+
+"##########################################################################
+"# vim-indent-guidesの設定
+"##########################################################################
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
 
 "##########################################################################
 "# 文字コード自動認識

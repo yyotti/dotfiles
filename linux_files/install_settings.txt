@@ -1,0 +1,188 @@
+Linux Mint のインストールと設定
+
+●インストール
+Live CD から起動し、デスクトップにあるインストールアイコンでインストーラ起動。
+ウィザードに従って設定していく。
+・パーティション
+    /(ルート)      ext4  150000MB
+     swap          swap   10000MB   ←メモリサイズの2.5倍とってみた
+・キーボードは英語で
+
+●インストール完了後すぐにやること
+ターミナルで
+LANG=C xdg-user-dirs-gtk-update
+を打って、一度再起動。
+起動したら、メニュー→システム管理→アップデートマネージャで、ある限りアップデート。
+
+●マウント設定
+sudo mkdir /mnt/common
+sudo /etc/fstab
+最後に下記を追加。
+/dev/sdb1      /mnt/common      ntfs-3g defaults,locale=ja_JP.UTF-8 0 0
+マウントしてみる。
+sudo mount -a
+アクセス確認
+cd /mnt/common
+
+●Mozcインストール・設定
+Synapticパッケージマネージャで「mozc」で検索。
+ibus-mozcをインストールする。
+インストールしたら一度再起動し、タスクトレイのキーボードアイコンのメニューで
+「Preference」を表示。
+「General」タブの「Keyboard Shortcuts」→「Enable or disable」で、Alt+grave以外の
+ショートカットを削除しておく。
+GUIがMATEでなくCinnamonの場合、Alt+graveに別のショートカットが割り当てられている
+ため、解除の方法を探す必要がある。（GNOME3でこうなったのかな？MATEはGNOME2ベース）
+
+●Chromiumインストール
+Synapticパッケージマネージャで「chrome」で検索。
+chromium-browserをインストールする。
+あとはChromeと同じように設定していく。
+
+●Rictyフォントインストール
+http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html
+を見ながらインストール。
+
+●ターミナルの外観設定
+ターミナルの「編集」→「プロファイル」で、デフォルトプロファイルの使用フォントを
+Rictyに変更する。
+また、デフォルトサイズを160列48行に設定。
+
+●ctagsインストール
+sudo apt-get install ctags
+ソースコードのディレクトリパスを指定して
+ctags -f ~/scala/tags_scala_2.10.0 -R ソースコードディレクトリパス
+
+●vim/gvim インストール
+##### 手順を書く #####
+
+●Vundle設定
+
+●vim 設定
+・.vimrc
+・.gvimrc
+・カラーテーマ
+
+●Dropboxインストール
+Dropboxのページから、Ubuntu用インストーラをダウンロードし、インストール。
+Synapticパッケージマネージャで「dropbox」で検索。
+「caja-dropbox」をインストール。
+ターミナルで
+dropbox start -i
+でデーモンをインストール。
+あとはウィザードに従って設定。
+
+●設定ファイルをDropboxから移す
+##### 手順を書く #####
+
+●alias設定
+~/.bashrcを作成し、下記のalias設定を記述。
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+
+●RabbitVCSインストール
+http://vavai.net/2012/10/solved-rabbitvcs-subversion-menu-on-nautiluscaja-linuxmint-13-maya/
+を見ながらインストール。
+一応、コマンドを載せておく。
+cd /tmp
+sudo add-apt-repository ppa:rabbitvcs/ppa
+sudo apt-get update
+sudo apt-get install rabbitvcs-nautilus3 python-caja rabbitvcs-core
+wget http://www.excellent.co.id/wp-content/uploads/2012/10/rabbit-caja.tar.gz
+tar xvzf rabbit-caja.tar.gz
+sudo cp caja* /usr/lib/pymodules/python2.7/rabbitvcs/util/
+sudo mkdir -p /usr/lib/caja/extensions-2.0/python/
+sudo cp RabbitVCS.py /usr/lib/caja/extensions-2.0/phthon/
+※ログアウト/ログインするとコンテキストメニューにRabbitVCSのメニューが追加されている。
+
+●JDK6をインストール
+http://www.jusuchyne.com/codingforme/2012/05/installing-oracle-java-jdk-6-or-7-on-ubuntu/
+を見ながらインストール。
+一応、手順を書いておく。
+
+・ダウンロード
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+から、JDK6の最新版をダウンロードしてくる。
+Debian系32bitなら、XXX-linux-i586.binをダウンロードすること。
+
+ダウンロードしたファイルを/tmpに置いて、
+※以下の手順では、JDKのバージョンでファイル名が変わる。
+
+chmod +x jdk-6u38-linux-i586.bin
+./jdk-6u38-linux-i586.bin
+sudo mv jdk1.6.0_38 /usr/lib/jvm/
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.6.0_32/bin/javac 1
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.6.0_32/bin/java 1
+sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.6.0_32/bin/javaws 1
+↓それぞれ、デフォルトを選ぶ
+sudo update-alternatives --config javac
+sudo update-alternatives --config java
+sudo update-alternatives --config javaws
+↓バージョンを確認
+java -version
+javac -version
+javaws -version   ←これだけヘルプが出るはず
+↓デフォルトJavaのロケーションを確認
+ls -la /etc/alternatives/java*
+
+●Android SDK インストール
+##### 手順を書く #####
+
+●Scala インストール
+##### 手順を書く #####
+
+●Play Framework インストール
+##### 手順を書く #####
+
+●Putty インストール
+Synapticパッケージマネージャで「putty」で検索。
+「putty」をインストールする。
+
+●Eclipseをインストール
+http://www.eclipse.org/downloads/
+から辿って、望みのバージョンのEclipseをダウンロードしてくる。
+~/eclipse を作成し、その下にバージョンごとのディレクトリを切り、展開する。
+例）
+mkdir -p ~/eclipse/indigo_3.7
+cd ~/eclipse/indigo_3.7
+tar xvzf ~/Downloads/eclipse-java-indigo-SR2-linux-gtk.tar.gz
+
+その後、Eclipseを起動する前に
+http://mergedoc.sourceforge.jp/
+からpleiadesの安定版をダウンロードし、Eclipseディレクトリに展開する。
+例）
+unzip ~/Downloads/pleiades_1.3.4.zip
+
+eclipse.iniの下記の点を変更。（オリジナルはバックアップしといたほうがいいかも）
+・-showsplashとその下の行（計2行）を削除。
+・最終行に
+  -javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar
+  を追記する。
+・-Xmxの後を1152m(1024+128)に変更。（Scala IDEのため）
+
+-cleanでEclipseを起動する。
+
+●Eclipse起動後
+!!! プラグインインストール後の再起動は自動ではなく手動でやる !!!
+
+・ワークスペース
+  ~/workspace_3.7など、バージョンごとにワークスペースを作成する。
+・設定ダイアログで
+  テキストエディタの設定（空白を表示、など）
+  フォント設定
+  カラーテーマ
+・プラグインインストール
+  ##### プラグイン列挙 #####
+
+●Eclipse起動スクリプト（ランチャ生成時などに使用）
+eclipse.sh
+------------------------
+cwd=`dirname ${0}`
+cd ${cwd}
+./eclipse
+------------------------
+
+●バックアップ設定
+##### 手順を書く #####
+
