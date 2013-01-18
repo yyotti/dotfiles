@@ -1,7 +1,9 @@
 # ~/にscalaディレクトリとplayディレクトリへのシンボリックリンクを作成すること
-export SCALA_HOME=/home/yosuke/scala/scala-2.10.0
+export SCALA_HOME=/home/yosuke/scala
 export PATH=$PATH:$SCALA_HOME/bin
-export PATH=$PATH:/home/yosuke/play/play-2.0.4
+export PATH=$PATH:/home/yosuke/play
+export ANDROID_SDK_HOME=/home/yosuke/android-sdk-linux
+export PATH=$PATH:$ANDROID_SDK_HOME/platform-tools
 
 alias rm='rm -i'
 alias mv='mv -i'

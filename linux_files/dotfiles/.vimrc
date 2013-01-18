@@ -119,7 +119,7 @@ noremap <Leader>ub :Unite buffer<CR>
 " Uniteで同一ディレクトリ内のファイル一覧を出す
 noremap <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
 " ESC連打でハイライトを消す
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+nmap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 " 検索語が画面の中央に来るようにする
 nmap n nzz
 nmap N Nzz
@@ -183,7 +183,7 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "let g:neocomplcache_enable_auto_select = 1
 
 " Shell like behavior(not recommended).
-"set completeopt+=longest
+set completeopt+=longest,menuone,preview
 "let g:neocomplcache_enable_auto_select = 1
 "let g:neocomplcache_disable_auto_complete = 1
 "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
@@ -195,6 +195,9 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" 下記はEclim連携時のみ有効？
+autocmd FileType scala setlocal omnifunc=eclim#scala#complete#CodeComplete
+autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
 
 " Enable heavy omni completion, which require computational power and may stall the vim.
 if !exists('g:neocomplcache_omni_patterns')
@@ -231,57 +234,69 @@ let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
 "##########################################################################
+"# vimfilerの設定
+"##########################################################################
+" vimデフォルトのエクスプローラをvimfilerで置き換える
+let g:vimfiler_as_default_explorer = 1
+" セーフモードは無効で起動
+let g:vimfiler_safe_mode_by_default = 0
+" 現在開いているバッファのディレクトリを開く
+nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
+" 現在開いているバッファをIDE風に開く
+nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+
+"##########################################################################
 "# 文字コード自動認識
 "##########################################################################
-if &encoding !=# 'utf-8'
-  set encoding=japan
-  set fileencoding=japan
-endif
-if has('iconv')
-  let s:enc_euc = 'euc-jp'
-  let s:enc_jis = 'iso-2022-jp'
-  " iconvがeucJP-msに対応しているかをチェック
-  if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
-    let s:enc_euc = 'eucjp-ms'
-    let s:enc_jis = 'iso-2022-jp-3'
-  " iconvがJISX0213に対応しているかをチェック
-  elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-    let s:enc_euc = 'euc-jisx0213'
-    let s:enc_jis = 'iso-2022-jp-3'
-  endif
-  " fileencodingsを構築
-  if &encoding ==# 'utf-8'
-    let s:fileencodings_default = &fileencodings
-    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-    let &fileencodings = &fileencodings .','. s:fileencodings_default
-    unlet s:fileencodings_default
-  else
-    let &fileencodings = &fileencodings .','. s:enc_jis
-    set fileencodings+=utf-8,ucs-2le,ucs-2
-    if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
-      set fileencodings+=cp932
-      set fileencodings-=euc-jp
-      set fileencodings-=euc-jisx0213
-      set fileencodings-=eucjp-ms
-      let &encoding = s:enc_euc
-      let &fileencoding = s:enc_euc
-    else
-      let &fileencodings = &fileencodings .','. s:enc_euc
-    endif
-  endif
-  " 定数を処分
-  unlet s:enc_euc
-  unlet s:enc_jis
-endif
-" 日本語を含まない場合は fileencoding に encoding を使うようにする
-if has('autocmd')
-  function! AU_ReCheck_FENC()
-    if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-      let &fileencoding=&encoding
-    endif
-  endfunction
-  autocmd BufReadPost * call AU_ReCheck_FENC()
-endif
+"if &encoding !=# 'utf-8'
+"  set encoding=japan
+"  set fileencoding=japan
+"endif
+"if has('iconv')
+"  let s:enc_euc = 'euc-jp'
+"  let s:enc_jis = 'iso-2022-jp'
+"  " iconvがeucJP-msに対応しているかをチェック
+"  if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+"    let s:enc_euc = 'eucjp-ms'
+"    let s:enc_jis = 'iso-2022-jp-3'
+"  " iconvがJISX0213に対応しているかをチェック
+"  elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+"    let s:enc_euc = 'euc-jisx0213'
+"    let s:enc_jis = 'iso-2022-jp-3'
+"  endif
+"  " fileencodingsを構築
+"  if &encoding ==# 'utf-8'
+"    let s:fileencodings_default = &fileencodings
+"    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+"    let &fileencodings = &fileencodings .','. s:fileencodings_default
+"    unlet s:fileencodings_default
+"  else
+"    let &fileencodings = &fileencodings .','. s:enc_jis
+"    set fileencodings+=utf-8,ucs-2le,ucs-2
+"    if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+"      set fileencodings+=cp932
+"      set fileencodings-=euc-jp
+"      set fileencodings-=euc-jisx0213
+"      set fileencodings-=eucjp-ms
+"      let &encoding = s:enc_euc
+"      let &fileencoding = s:enc_euc
+"    else
+"      let &fileencodings = &fileencodings .','. s:enc_euc
+"    endif
+"  endif
+"  " 定数を処分
+"  unlet s:enc_euc
+"  unlet s:enc_jis
+"endif
+"" 日本語を含まない場合は fileencoding に encoding を使うようにする
+"if has('autocmd')
+"  function! AU_ReCheck_FENC()
+"    if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
+"      let &fileencoding=&encoding
+"    endif
+"  endfunction
+"  autocmd BufReadPost * call AU_ReCheck_FENC()
+"endif
 " 改行コードの自動認識
 set fileformats=unix,dos,mac
 " □とか○の文字があってもカーソル位置がずれないようにする
