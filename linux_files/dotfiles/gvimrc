@@ -1,0 +1,29 @@
+" vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
+
+" Linuxならkaoriyaさんのgvimrcをインクルード
+if has('unix') && filereadable($HOME . '/.gvimrc_kaoriya')
+  source $HOME/.gvimrc_kaoriya
+endif
+
+" 表示設定 {{{
+" カラーテーマ
+set background=light
+colorscheme solarized
+
+" フォント
+if has('unix')
+  set guifont=Ricty,12
+  set linespace=1
+endif
+
+" }}} 表示設定
+
+" ウィンドウ設定 {{{
+set columns=160
+set lines=50
+set guioptions-=m
+set guioptions-=T
+
+" }}} ウィンドウ設定
+
+

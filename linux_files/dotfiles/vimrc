@@ -1,0 +1,113 @@
+" vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
+
+" Linuxならkaoriyaさんのvimrcをインクルード
+if has('unix') && filereadable($HOME . '/.vimrc_kaoriya')
+  source $HOME/.vimrc_kaoriya
+endif
+
+" NeoBundle設定 {{{
+set nocompatible
+
+if has('vim_starting')
+  if has('unix')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+  endif
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" NeoBundleをNeoBundleで管理する
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" 推奨されているvimproc
+" インストール後、自動的にビルドされる
+NeoBundle 'Shougo/vimproc', { 'build' : {
+   \      'cygwin' : 'make -f make_cygwin.mak',
+   \      'mac' : 'make -f make_mac.mak',
+   \      'unix' : 'make -f make_unix.mak',
+   \     },
+   \ }
+
+" -- Soralized
+NeoBundle 'altercation/vim-colors-solarized'
+
+" 必須!!
+filetype plugin indent on
+
+" インストールチェック
+NeoBundleCheck
+
+" }}} NeoBundle設定
+
+" 表示設定 {{{
+" シンタックスハイライト
+syntax enable
+
+" カラーテーマ
+set background=dark
+colorscheme solarized
+
+" 行番号を表示
+set number
+
+" ルーラーを表示
+set ruler
+
+" タブや改行を表示
+set list
+if has('win32')
+  set listchars=tab:>>,extends:<,trail:>
+else
+  set listchars=tab:»\ ,extends:«,trail:»,eol:↲
+endif
+
+" 画面上でのタブ幅
+set tabstop=4
+
+" 入力モード時にステータスラインの色を変える
+augroup InsertHook
+autocmd!
+autocmd InsertEnter * highlight StatusLine guifg=#CCDC90 guibg=#2E4340
+autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#CCDC90
+augroup END
+
+" カーソル行をハイライト
+set cursorline
+augroup cch
+	autocmd! cch
+	autocmd WinLeave * set nocursorline
+	autocmd WinEnter,BufRead * set cursorline
+augroup END
+:hi clear CursorLine
+:hi CursorLine gui=underline
+hi CursorLine ctermbg=black guibg=black
+
+" }}} 表示設定
+
+" ファイル操作設定 {{{
+" バックアップファイルを作成する
+set backup
+
+" バックアップファイルの作成場所
+set backupdir=$HOME/.vimbackup
+" スワップファイルの作成場所
+set directory=$HOME/.vimbackup
+
+" 編集中でも他のファイルを開けるように
+set hidden
+" 保存時に行末の空白を除去
+autocmd BufWritePre * :%s/\s\+$//ge
+
+" }}} ファイル操作設定
+
+" クリップボードを共有
+if has('unix')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+
+" □とか○の文字があってもカーソル位置がずれないようにする
+if exists('&ambiwidth')
+  set ambiwidth=double
+endif
