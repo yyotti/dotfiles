@@ -8,6 +8,7 @@ endif
 " editexisting {{{
 runtime macros/editexisting.vim
 " }}} editexisting
+
 " 表示設定 {{{
 " カラーテーマ
 set background=light
@@ -28,5 +29,3 @@ set guioptions-=m
 set guioptions-=T
 
 " }}} ウィンドウ設定
-
-
