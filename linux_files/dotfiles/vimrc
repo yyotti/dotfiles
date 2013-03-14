@@ -11,10 +11,12 @@ set nocompatible
 if has('vim_starting')
   if has('unix')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand('~/.vim/bundle/'))
+  else
+    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand($HOME . '/.vim/bundle/'))
   endif
 endif
-
-call neobundle#rc(expand('~/.vim/bundle/'))
 
 " NeoBundleをNeoBundleで管理する
 NeoBundleFetch 'Shougo/neobundle.vim'
