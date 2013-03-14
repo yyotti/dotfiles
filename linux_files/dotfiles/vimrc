@@ -49,11 +49,29 @@ NeoBundle 'honza/snipmate-snippets'
 " -- Soralized
 NeoBundle 'altercation/vim-colors-solarized'
 
-" 必須!!
-filetype plugin indent on
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
+
+" -- quickrun
+NeoBundle 'thinca/vim-quickrun'
+
+" -- sudo.vim
+NeoBundle 'vim-scripts/sudo.vim'
+
+" -- vimshell
+NeoBundle 'Shougo/vimshell'
+
+" -- vim-scala
+NeoBundle 'derekwyatt/vim-scala'
+
+" -- scala-vim-snippets
+NeoBundle 'tommorris/scala-vim-snippets'
 
 " インストールチェック
 NeoBundleCheck
+
+" 必須!!
+filetype plugin indent on
 
 " }}} NeoBundle設定
 
@@ -112,9 +130,10 @@ autocmd FileType scala setlocal omnifunc=scalacomplete#CompleteTags
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
-let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
+let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets,~/.vim/bundle/scala-vim-snippets'
 
 " }}} neosnippet
+
 " }}} 各プラグインの設定
 
 " 表示設定 {{{
@@ -221,6 +240,40 @@ vnoremap k gk
 " コマンドラインで日付・タイムスタンプを補完
 cnoremap <expr> <C-X>dt strftime('%Y%m%d')
 cnoremap <expr> <C-X>ts strftime('%Y%m%d%H%M%S')
+
+" " 対応するカッコとかを自動で閉じる
+" inoremap { {}<LEFT>
+" inoremap [ []<LEFT>
+" inoremap ( ()<LEFT>
+" inoremap " ""<LEFT>
+" inoremap ' ''<LEFT>
+
+" " 同時に閉じを入力しても二重にならないように
+" inoremap {} {}<LEFT>
+" inoremap [] []<LEFT>
+" inoremap () ()<LEFT>
+" inoremap "" ""<LEFT>
+" inoremap '' ''<LEFT>
+
+" 改行の時に括弧を自動で閉じる
+inoremap <expr><CR> <SID>ExCr()
+function! s:ExCr()
+  if col('.') != col('$')
+	return "\<CR>"
+  endif
+
+  let l = getline('.')
+  if l =~ '{$'
+	return "\<CR>}\<Up>\<End>\<CR>"
+  elseif l =~ '($'
+    return "\<CR>)\<Up>\<End>\<CR>"
+  elseif l =~ '[$'
+	return "\<CR>]\<Up>\<End>\<CR>"
+  else
+	return "\<CR>"
+  endif
+endfunction
+
 " }}} プラグイン非依存
 
 " Unite {{{
@@ -265,4 +318,5 @@ imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 " }}} neosnippet
+
 " }}} キーマッピング

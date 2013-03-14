@@ -5,6 +5,9 @@ if has('unix') && filereadable($HOME . '/.gvimrc_kaoriya')
   source $HOME/.gvimrc_kaoriya
 endif
 
+" editexisting {{{
+runtime macros/editexisting.vim
+" }}} editexisting
 " 表示設定 {{{
 " カラーテーマ
 set background=light
