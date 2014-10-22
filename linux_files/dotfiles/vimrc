@@ -69,6 +69,18 @@ NeoBundle 'derekwyatt/vim-scala'
 " -- scala-vim-snippets
 NeoBundle 'tommorris/scala-vim-snippets'
 
+" -- vim-less
+NeoBundle 'groenewege/vim-less'
+
+" -- html5
+NeoBundle 'taichouchou2/html5.vim'
+
+" -- vim-cofee-script
+NeoBundle 'kchmck/vim-coffee-script'
+
+" -- smarty-syntax
+NeoBundle 'smarty-syntax'
+
 " インストールチェック
 NeoBundleCheck
 
@@ -205,7 +217,7 @@ autocmd BufWritePre * :%s/\s\+$//ge
 
 " ファイルタイプ設定 {{{
 " tplファイルはHTMLとして認識
-autocmd BufRead,BufNewFile *.tpl set filetype=html
+"autocmd BufRead,BufNewFile *.tpl set filetype=html
 
 " }}} ファイルタイプ設定
 
