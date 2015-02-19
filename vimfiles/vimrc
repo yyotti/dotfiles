@@ -57,6 +57,7 @@ NeoBundle 'Shougo/neocomplcache.vim'
 " -------- NeoBundle 'Shougo/neosnippet'
 " --------
 " -------- " -- neosnippetのスニペット
+" -------- " ※Shougo/neosnippet-snippets にするっぽい
 " -------- NeoBundle 'honza/snipmate-snippets'
 " --------
 " -------- " -- tcomment_vim
