@@ -35,9 +35,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "   \     },
 "   \ }
 
+" -- Solarized
+NeoBundle 'altercation/vim-colors-solarized'
+
 " -- Unite
 NeoBundle 'Shougo/unite.vim'
-" --------
+
 " -------- " -- vimfiler
 " -------- NeoBundle 'Shougo/vimfiler'
 " --------
@@ -52,9 +55,6 @@ NeoBundle 'Shougo/unite.vim'
 " --------
 " -------- " -- neosnippetのスニペット
 " -------- NeoBundle 'honza/snipmate-snippets'
-" --------
-" -------- " -- Soralized
-" -------- NeoBundle 'altercation/vim-colors-solarized'
 " --------
 " -------- " -- tcomment_vim
 " -------- NeoBundle 'tomtom/tcomment_vim'
@@ -124,9 +124,9 @@ let g:vimfiler_as_default_explorer = 1
 " シンタックスハイライト
 syntax enable
 
-" カラーテーマ TODO 後
-" -------- set background=dark
-" -------- colorscheme solarized
+" カラーテーマ
+set background=dark
+colorscheme solarized
 
 " 行番号を表示
 set number
