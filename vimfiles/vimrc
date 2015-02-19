@@ -33,55 +33,55 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " --------    \      'unix' : 'make -f make_unix.mak',
 " --------    \     },
 " --------    \ }
-" -------- 
+" --------
 " -------- " -- Unite
 " -------- NeoBundle 'Shougo/unite.vim'
-" -------- 
+" --------
 " -------- " -- vimfiler
 " -------- NeoBundle 'Shougo/vimfiler'
-" -------- 
+" --------
 " -------- " -- surround
 " -------- NeoBundle 'tpope/vim-surround'
-" -------- 
+" --------
 " -------- " -- neocomplcache
 " -------- NeoBundle 'Shougo/neocomplcache'
-" -------- 
+" --------
 " -------- " -- neosnippet
 " -------- NeoBundle 'Shougo/neosnippet'
-" -------- 
+" --------
 " -------- " -- neosnippetのスニペット
 " -------- NeoBundle 'honza/snipmate-snippets'
-" -------- 
+" --------
 " -------- " -- Soralized
 " -------- NeoBundle 'altercation/vim-colors-solarized'
-" -------- 
+" --------
 " -------- " -- tcomment_vim
 " -------- NeoBundle 'tomtom/tcomment_vim'
-" -------- 
+" --------
 " -------- " -- quickrun
 " -------- NeoBundle 'thinca/vim-quickrun'
-" -------- 
+" --------
 " -------- " -- sudo.vim
 " -------- NeoBundle 'vim-scripts/sudo.vim'
-" -------- 
+" --------
 " -------- " -- vimshell
 " -------- NeoBundle 'Shougo/vimshell'
-" -------- 
+" --------
 " -------- " -- vim-scala
 " -------- NeoBundle 'derekwyatt/vim-scala'
-" -------- 
+" --------
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
-" -------- 
+" --------
 " -------- " -- vim-less
 " -------- NeoBundle 'groenewege/vim-less'
-" -------- 
+" --------
 " -------- " -- html5
 " -------- NeoBundle 'taichouchou2/html5.vim'
-" -------- 
+" --------
 " -------- " -- vim-coffee-script
 " -------- NeoBundle 'kchmck/vim-coffee-script'
-" -------- 
+" --------
 " -------- " -- smarty-syntax
 " -------- NeoBundle 'smarty-syntax'
 
@@ -274,7 +274,7 @@ endfunction
 " -------- " neocomplcache {{{
 " -------- inoremap <expr><C-g> neocomplcache#undo_completion()
 " -------- inoremap <expr><C-l> neocomplcache#complete_common_string()
-" -------- 
+" --------
 " -------- " CRでポップアップをクローズする
 " -------- inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 " -------- " TABで補完
