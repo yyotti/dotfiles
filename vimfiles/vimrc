@@ -44,9 +44,12 @@ NeoBundle 'Shougo/unite.vim'
 " -- vimfiler
 NeoBundle 'Shougo/vimfiler'
 
-" -------- " -- surround
-" -------- NeoBundle 'tpope/vim-surround'
-" --------
+" -- surround
+NeoBundle 'tpope/vim-surround'
+
+" -- repeat(surroundとセットで)
+NeoBundle 'tpope/vim-repeat'
+
 " -------- " -- neocomplcache
 " -------- NeoBundle 'Shougo/neocomplcache'
 " --------
