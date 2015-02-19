@@ -1,18 +1,16 @@
 " vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
 
-" Linuxならkaoriyaさんのgvimrcをインクルード
-if has('unix') && filereadable($HOME . '/.gvimrc_kaoriya')
-  source $HOME/.gvimrc_kaoriya
-endif
+" kaoriyaさんのgvimrcをインクルード
+source $HOME/.gvimrc_kaoriya
 
 " editexisting {{{
 runtime macros/editexisting.vim
 " }}} editexisting
 
 " 表示設定 {{{
-" カラーテーマ
-set background=light
-colorscheme solarized
+" -------- " カラーテーマ
+" -------- set background=light
+" -------- colorscheme solarized
 
 " フォント
 if has('unix')
