@@ -178,6 +178,8 @@ set backup
 set backupdir=$HOME/.vim/.backup
 " スワップファイルの作成場所
 set directory=$HOME/.vim/.backup
+" undoファイル（.*.un~）の作成場所
+set undodir=$HOME/.vim/.backup
 
 " 編集中でも他のファイルを開けるように
 set hidden
