@@ -62,11 +62,12 @@ NeoBundle 'Shougo/neocomplcache.vim'
 
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
-" --------
+
 " -------- " -- quickrun
 " -------- NeoBundle 'thinca/vim-quickrun'
-" --------
+
 " -------- " -- sudo.vim
+" -------- " ※Winで必要か？
 " -------- NeoBundle 'vim-scripts/sudo.vim'
 " --------
 " -------- " -- vimshell
@@ -80,10 +81,10 @@ NeoBundle 'tomtom/tcomment_vim'
 " --------
 " -------- " -- vim-less
 " -------- NeoBundle 'groenewege/vim-less'
-" --------
-" -------- " -- html5
-" -------- NeoBundle 'taichouchou2/html5.vim'
-" --------
+
+" -- html5
+NeoBundle 'taichouchou2/html5.vim'
+
 " -------- " -- vim-coffee-script
 " -------- NeoBundle 'kchmck/vim-coffee-script'
 " --------
