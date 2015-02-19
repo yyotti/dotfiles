@@ -64,6 +64,7 @@ NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'tomtom/tcomment_vim'
 
 " -------- " -- quickrun
+" -------- " ※あんまり必要ない気がする
 " -------- NeoBundle 'thinca/vim-quickrun'
 
 " -------- " -- sudo.vim
