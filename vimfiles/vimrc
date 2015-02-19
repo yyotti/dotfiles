@@ -41,9 +41,9 @@ NeoBundle 'altercation/vim-colors-solarized'
 " -- Unite
 NeoBundle 'Shougo/unite.vim'
 
-" -------- " -- vimfiler
-" -------- NeoBundle 'Shougo/vimfiler'
-" --------
+" -- vimfiler
+NeoBundle 'Shougo/vimfiler'
+
 " -------- " -- surround
 " -------- NeoBundle 'tpope/vim-surround'
 " --------
@@ -267,12 +267,12 @@ imap <C-s> <Plug>(neocomplcache_start_unite_snippet)
 noremap <Leader>ug :Unite grep<CR>
 " }}} Unite
 
-" -------- " vimfiler {{{
-" -------- " 現在開いているバッファのディレクトリを開く
-" -------- nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
-" -------- " 現在開いているバッファをIDE風に開く
-" -------- nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=40 -no-quit<CR>
-" -------- " }}} vimfiler
+" vimfiler {{{
+" 現在開いているバッファのディレクトリを開く
+nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
+" 現在開いているバッファをIDE風に開く
+nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=40 -no-quit<CR>
+" }}} vimfiler
 
 " -------- " neocomplcache {{{
 " -------- inoremap <expr><C-g> neocomplcache#undo_completion()
