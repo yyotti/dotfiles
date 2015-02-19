@@ -22,8 +22,8 @@ if not exist %USERPROFILE%\_gvimrc (
 )
 
 rem バックアップディレクトリ等を作成する
-if not exist %USERPROFILE%\.vimbackup (
-	mkdir %USERPROFILE%\.vimbackup
+if not exist %USERPROFILE%\.vim\.backup (
+	mkdir %USERPROFILE%\.vim\.backup
 )
 
 rem 最初のカレントに戻る
