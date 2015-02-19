@@ -88,7 +88,7 @@ NeoBundle 'taichouchou2/html5.vim'
 
 " -------- " -- vim-coffee-script
 " -------- NeoBundle 'kchmck/vim-coffee-script'
-" --------
+
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
 
