@@ -59,9 +59,9 @@ NeoBundle 'Shougo/neocomplcache.vim'
 " -------- " -- neosnippetのスニペット
 " -------- " ※Shougo/neosnippet-snippets にするっぽい
 " -------- NeoBundle 'honza/snipmate-snippets'
-" --------
-" -------- " -- tcomment_vim
-" -------- NeoBundle 'tomtom/tcomment_vim'
+
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
 " --------
 " -------- " -- quickrun
 " -------- NeoBundle 'thinca/vim-quickrun'
