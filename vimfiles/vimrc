@@ -50,9 +50,9 @@ NeoBundle 'tpope/vim-surround'
 " -- repeat(surroundとセットで)
 NeoBundle 'tpope/vim-repeat'
 
-" -------- " -- neocomplcache
-" -------- NeoBundle 'Shougo/neocomplcache'
-" --------
+" -- neocomplcache
+NeoBundle 'Shougo/neocomplcache.vim'
+
 " -------- " -- neosnippet
 " -------- NeoBundle 'Shougo/neosnippet'
 " --------
@@ -114,7 +114,40 @@ let g:vimfiler_as_default_explorer = 1
 " }}} vimfiler
 
 " neocomplcache {{{
-" TODO あとでサイトを見て最新の設定を記述する
+" AutoComplPopを無効化する（入れてないから不要なはず）
+let g:acp_enableAtStartup = 0
+" neocomplcacheを有効化
+let g:neocomplcache_enable_at_startup = 1
+" スマートケース
+let g:neocomplcache_enable_smart_case = 1
+" 最小の入力数
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" 辞書定義
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
+
+" キーワード定義
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" オムニ補完
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" ヘビーなオムニ補完を有効化
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 " }}} neocomplcache
 
 " neosnippet {{{
@@ -277,20 +310,24 @@ nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
 nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=40 -no-quit<CR>
 " }}} vimfiler
 
-" -------- " neocomplcache {{{
-" -------- inoremap <expr><C-g> neocomplcache#undo_completion()
-" -------- inoremap <expr><C-l> neocomplcache#complete_common_string()
-" --------
-" -------- " CRでポップアップをクローズする
-" -------- inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-" -------- " TABで補完
-" -------- inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" -------- " <C-h>や<BS>でポップアップをクローズして1文字消す
-" -------- inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-" -------- inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" -------- inoremap <expr><C-y> neocomplcache#close_popup()
-" -------- inoremap <expr><C-e> neocomplcache#cancel_popup()
-" -------- " }}} neocomplcache
+" neocomplcache {{{
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+" 推奨されるキーマッピング
+" CRでポップアップをクローズしてインデントを保存
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+endfunction
+" TABで補完
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>や<BS>でポップアップをクローズして1文字消す
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
+" }}} neocomplcache
 
 " -------- " neosnippet {{{
 " -------- imap <C-k> <Plug>(neosnippet_expand_or_jump)
