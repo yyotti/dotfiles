@@ -1,0 +1,341 @@
+" vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
+
+" Linuxならkaoriyaさんのvimrcをインクルード
+if has('unix') && filereadable($HOME . '/.vimrc_kaoriya')
+  source $HOME/.vimrc_kaoriya
+endif
+
+" NeoBundle設定 {{{
+set nocompatible
+
+if has('vim_starting')
+  if has('unix')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand('~/.vim/bundle/'))
+  else
+    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand($HOME . '/.vim/bundle/'))
+  endif
+endif
+
+" NeoBundleをNeoBundleで管理する
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" 推奨されているvimproc
+" インストール後、自動的にビルドされる
+NeoBundle 'Shougo/vimproc', { 'build' : {
+   \      'cygwin' : 'make -f make_cygwin.mak',
+   \      'mac' : 'make -f make_mac.mak',
+   \      'unix' : 'make -f make_unix.mak',
+   \     },
+   \ }
+
+" -- Unite
+NeoBundle 'Shougo/unite.vim'
+
+" -- vimfiler
+NeoBundle 'Shougo/vimfiler'
+
+" -- surround
+NeoBundle 'tpope/vim-surround'
+
+" -- neocomplcache
+NeoBundle 'Shougo/neocomplcache'
+
+" -- neosnippet
+NeoBundle 'Shougo/neosnippet'
+
+" -- neosnippetのスニペット
+NeoBundle 'honza/snipmate-snippets'
+
+" -- Soralized
+NeoBundle 'altercation/vim-colors-solarized'
+
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
+
+" -- quickrun
+NeoBundle 'thinca/vim-quickrun'
+
+" -- sudo.vim
+NeoBundle 'vim-scripts/sudo.vim'
+
+" -- vimshell
+NeoBundle 'Shougo/vimshell'
+
+" -- vim-scala
+NeoBundle 'derekwyatt/vim-scala'
+
+" -- scala-vim-snippets
+NeoBundle 'tommorris/scala-vim-snippets'
+
+" -- vim-less
+NeoBundle 'groenewege/vim-less'
+
+" -- html5
+NeoBundle 'taichouchou2/html5.vim'
+
+" -- vim-cofee-script
+NeoBundle 'kchmck/vim-coffee-script'
+
+" -- smarty-syntax
+NeoBundle 'smarty-syntax'
+
+" インストールチェック
+NeoBundleCheck
+
+" 必須!!
+filetype plugin indent on
+
+" }}} NeoBundle設定
+
+" 各プラグインの設定 {{{
+" matchit {{{
+runtime macros/matchit.vim
+" }}} matchit
+
+" vimfiler {{{
+" デフォルトのファイラをvimfilerに置き換える
+let g:vimfiler_as_default_explorer = 1
+
+" セーフモードは無効
+"let g:vimfiler_safe_mode_by_default = 0
+
+" }}} vimfiler
+
+" neocomplcache {{{
+" neocomplcacheを有効化
+let g:neocomplcache_enable_at_startup = 1
+" 3文字目から補完を開始
+let g:neocomplcache_auto_completion_start_length = 3
+" アンダースコア区切りの補完を有効化(必要か？)
+let g:neocomplcache_enable_underbar_completion = 1
+" 大文字・小文字の区別なく補完
+let g:neocomplcache_enable_smart_case = 1
+" ファイルタイプに依存するものたち
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist'
+    \ }
+" キーワードの区切りを示す正規表現文字列
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" オムニ補完の設定
+if !exists('ǵ:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+" オムニ補完を有効にする
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType scala setlocal omnifunc=scalacomplete#CompleteTags
+
+" }}} neocomplcache
+
+" neosnippet {{{
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets,~/.vim/bundle/scala-vim-snippets'
+
+" }}} neosnippet
+
+" }}} 各プラグインの設定
+
+" 表示設定 {{{
+" シンタックスハイライト
+syntax enable
+
+" カラーテーマ
+set background=dark
+colorscheme solarized
+
+" 行番号を表示
+set number
+
+" ルーラーを表示
+set ruler
+
+" タブや改行を表示
+set list
+if has('win32')
+  set listchars=tab:>>,extends:<,trail:>
+else
+  set listchars=tab:»\ ,extends:«,trail:»,eol:↲
+endif
+
+" 画面上でのタブ幅
+set tabstop=4
+" 改行しない
+set nowrap
+" 自動折り返し無し
+set tw=0
+
+" 入力モード時にステータスラインの色を変える
+augroup InsertHook
+autocmd!
+autocmd InsertEnter * highlight StatusLine guifg=#CCDC90 guibg=#2E4340
+autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#CCDC90
+augroup END
+
+" カーソル行をハイライト
+set cursorline
+augroup cch
+	autocmd! cch
+	autocmd WinLeave * set nocursorline
+	autocmd WinEnter,BufRead * set cursorline
+augroup END
+:hi clear CursorLine
+:hi CursorLine gui=underline
+hi CursorLine ctermbg=black guibg=black
+
+" }}} 表示設定
+
+" ファイル操作設定 {{{
+" バックアップファイルを作成する
+set backup
+
+" バックアップファイルの作成場所
+set backupdir=$HOME/.vimbackup
+" スワップファイルの作成場所
+set directory=$HOME/.vimbackup
+
+" 編集中でも他のファイルを開けるように
+set hidden
+" 保存時に行末の空白を除去
+autocmd BufWritePre * :%s/\s\+$//ge
+
+" }}} ファイル操作設定
+
+" ファイルタイプ設定 {{{
+" tplファイルはHTMLとして認識
+"autocmd BufRead,BufNewFile *.tpl set filetype=html
+
+" }}} ファイルタイプ設定
+
+" その他の設定 {{{
+" クリップボードを共有
+if has('unix')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+
+" □とか○の文字があってもカーソル位置がずれないようにする
+if exists('&ambiwidth')
+  set ambiwidth=double
+endif
+
+" }}} その他の設定
+
+" キーマッピング {{{
+" プラグイン非依存 {{{
+" ESC連打でハイライトを消す
+nmap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
+
+" 検索語が画面中央に来るようにする
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+
+" 表示行で移動
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" コマンドラインで日付・タイムスタンプを補完
+cnoremap <expr> <C-X>dt strftime('%Y%m%d')
+cnoremap <expr> <C-X>ts strftime('%Y%m%d%H%M%S')
+
+" " 対応するカッコとかを自動で閉じる
+" inoremap { {}<LEFT>
+" inoremap [ []<LEFT>
+" inoremap ( ()<LEFT>
+" inoremap " ""<LEFT>
+" inoremap ' ''<LEFT>
+
+" " 同時に閉じを入力しても二重にならないように
+" inoremap {} {}<LEFT>
+" inoremap [] []<LEFT>
+" inoremap () ()<LEFT>
+" inoremap "" ""<LEFT>
+" inoremap '' ''<LEFT>
+
+" 改行の時に括弧を自動で閉じる
+inoremap <expr><CR> <SID>ExCr()
+function! s:ExCr()
+  if col('.') != col('$')
+	return "\<CR>"
+  endif
+
+  let l = getline('.')
+  if l =~ '{$'
+	return "\<CR>}\<Up>\<End>\<CR>"
+  elseif l =~ '($'
+    return "\<CR>)\<Up>\<End>\<CR>"
+  elseif l =~ '[$'
+	return "\<CR>]\<Up>\<End>\<CR>"
+  else
+	return "\<CR>"
+  endif
+endfunction
+
+" }}} プラグイン非依存
+
+" Unite {{{
+" バッファ一覧を開く
+noremap <Leader>ub :Unite buffer<CR>
+" 同一ディレクトリ内のファイル一覧を出す
+noremap <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
+" スニペット一覧
+imap <C-s> <Plug>(neocomplcache_start_unite_snippet)
+" Unite-grep
+noremap <Leader>ug :Unite grep<CR>
+" }}} Unite
+
+" vimfiler {{{
+" 現在開いているバッファのディレクトリを開く
+nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
+
+" 現在開いているバッファをIDE風に開く
+nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=40 -no-quit<CR>
+
+" }}} vimfiler
+
+" neocomplcache {{{
+"imap <C-k> <Plug>(neocomplcache_snippets_expand)
+"smap <C-k> <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+" CRでポップアップをクローズする
+inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+" TABで補完
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>や<BS>でポップアップをクローズして1文字消す
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
+
+" }}} neocomplcache
+
+" neosnippet {{{
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+
+" }}} neosnippet
+
+" }}} キーマッピング
