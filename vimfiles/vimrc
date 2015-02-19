@@ -1,8 +1,5 @@
 " vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
 
-" kaoriyaさんのvimrcをインクルード
-source $HOME/.vimrc_kaoriya
-
 " NeoBundle設定 {{{
 
 " Note: Skip initialization for vim-tiny or vim-small.

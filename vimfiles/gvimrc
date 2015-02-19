@@ -1,8 +1,5 @@
 " vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
 
-" kaoriyaさんのgvimrcをインクルード
-source $HOME/.gvimrc_kaoriya
-
 " editexisting {{{
 runtime macros/editexisting.vim
 " }}} editexisting
