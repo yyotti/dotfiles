@@ -53,12 +53,11 @@ NeoBundle 'tpope/vim-repeat'
 " -- neocomplcache
 NeoBundle 'Shougo/neocomplcache.vim'
 
-" -------- " -- neosnippet
-" -------- NeoBundle 'Shougo/neosnippet'
-" --------
-" -------- " -- neosnippetのスニペット
-" -------- " ※Shougo/neosnippet-snippets にするっぽい
-" -------- NeoBundle 'honza/snipmate-snippets'
+" -- neosnippet
+NeoBundle 'Shougo/neosnippet'
+
+" -- neosnippetのスニペット
+NeoBundle 'Shougo/neosnippet-snippets'
 
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
@@ -84,7 +83,8 @@ NeoBundle 'tomtom/tcomment_vim'
 " -------- NeoBundle 'groenewege/vim-less'
 
 " -- html5
-NeoBundle 'taichouchou2/html5.vim'
+" オムニ補完で問題が起こるぽいのでいったん削除
+" NeoBundle 'taichouchou2/html5.vim'
 
 " -------- " -- vim-coffee-script
 " -------- NeoBundle 'kchmck/vim-coffee-script'
@@ -332,9 +332,20 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 inoremap <expr><C-e> neocomplcache#cancel_popup()
 " }}} neocomplcache
 
-" -------- " neosnippet {{{
-" -------- imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" -------- smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" -------- " }}} neosnippet
+" neosnippet {{{
+" プラグインキーマッピング
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" Tabでも補完する
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For snippet_complete marker.
+if has('concela')
+  set conceallevel=2 concealcursor=i
+endif
+" }}} neosnippet
 
 " }}} キーマッピング
