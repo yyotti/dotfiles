@@ -41,6 +41,10 @@ NeoBundle 'altercation/vim-colors-solarized'
 " -- Unite
 NeoBundle 'Shougo/unite.vim'
 
+" -- neomru
+" ※Uniteから分離したらしい
+NeoBundle 'Shougo/neomru.vim'
+
 " -- vimfiler
 NeoBundle 'Shougo/vimfiler'
 
@@ -115,6 +119,15 @@ let g:vimfiler_as_default_explorer = 1
 "let g:vimfiler_safe_mode_by_default = 0
 
 " }}} vimfiler
+
+" Unite {{{
+" insertモードで起動する
+let g:unite_enable_start_insert=1
+" yank/deleteの履歴を有効にする
+let g:unite_source_history_yank_enable=1
+" ファイル履歴のMAX
+let g:unite_source_file_mru_limit=200
+" }}} Unite
 
 " neocomplcache {{{
 " AutoComplPopを無効化する（入れてないから不要なはず）
@@ -296,14 +309,21 @@ endfunction
 " }}} プラグイン非依存
 
 " Unite {{{
+" prefix定義
+nnoremap [unite] <Nop>
+nmap <Space>u [unite]
+
 " バッファ一覧を開く
-noremap <Leader>ub :Unite buffer<CR>
+nnoremap <silent> [unite]b :Unite buffer<CR>
 " 同一ディレクトリ内のファイル一覧を出す
-noremap <Leader>uf :UniteWithBufferDir -buffer-name=files file<CR>
-" スニペット一覧
-imap <C-s> <Plug>(neocomplcache_start_unite_snippet)
+nnoremap <silent> [unite]f :UniteWithBufferDir -buffer-name=files file<CR>
 " Unite-grep
-noremap <Leader>ug :Unite grep<CR>
+nnoremap <silent> [unite]g :Unite grep -buffer-name=grep<CR>
+nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
+" ヤンク
+nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+" 最近使ったファイル
+nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
 " }}} Unite
 
 " vimfiler {{{
