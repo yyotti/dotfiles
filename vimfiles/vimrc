@@ -82,16 +82,16 @@ NeoBundle 'tomtom/tcomment_vim'
 " --------
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
-" --------
-" -------- " -- vim-less
-" -------- NeoBundle 'groenewege/vim-less'
 
 " -- html5
 " オムニ補完で問題が起こるぽいのでいったん削除
 " NeoBundle 'taichouchou2/html5.vim'
 
-" -------- " -- vim-coffee-script
-" -------- NeoBundle 'kchmck/vim-coffee-script'
+" -- vim-less
+NeoBundle 'groenewege/vim-less'
+
+" -- vim-coffee-script
+NeoBundle 'kchmck/vim-coffee-script'
 
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
