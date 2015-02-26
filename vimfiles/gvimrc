@@ -1,7 +1,7 @@
 " vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
 
 " editexisting {{{
-runtime! macros/editexisting.vim
+runtime macros/editexisting.vim
 " }}} editexisting
 
 " 表示設定 {{{
