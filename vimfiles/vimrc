@@ -73,10 +73,10 @@ NeoBundle 'tomtom/tcomment_vim'
 " -------- " -- sudo.vim
 " -------- " ※Winで必要か？
 " -------- NeoBundle 'vim-scripts/sudo.vim'
-" --------
-" -------- " -- vimshell
-" -------- NeoBundle 'Shougo/vimshell'
-" --------
+
+" -- vimshell
+NeoBundle 'Shougo/vimshell'
+
 " -------- " -- vim-scala
 " -------- NeoBundle 'derekwyatt/vim-scala'
 " --------
@@ -308,6 +308,18 @@ function! s:ExCr()
   endif
 endfunction
 
+" visualモードで連続ペースト
+vnoremap <silent> <C-p> "0p<CR>
+
+" vimrcを開く
+nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
+" vimrcをリロード
+nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC<CR>
+" gvimrcを開く
+nnoremap <silent> <Space>eg :<C-u>edit $MYGVIMRC<CR>
+" gvimrcをリロード
+nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
+
 " }}} プラグイン非依存
 
 " Unite {{{
@@ -329,10 +341,14 @@ nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
 " }}} Unite
 
 " vimfiler {{{
+" prefix定義
+nnoremap [vimfiler] <Nop>
+nmap <Space>f [vimfiler]
+
 " 現在開いているバッファのディレクトリを開く
-nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
+nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
 " 現在開いているバッファをIDE風に開く
-nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=40 -no-quit<CR>
+nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
 " }}} vimfiler
 
 " neocomplcache {{{
