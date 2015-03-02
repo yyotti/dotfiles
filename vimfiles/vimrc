@@ -96,9 +96,6 @@ NeoBundle 'kchmck/vim-coffee-script'
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
 
-" -- lexima
-NeoBundle 'cohama/lexima.vim'
-
 call neobundle#end()
 
 " 必須!!
