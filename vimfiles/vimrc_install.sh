@@ -17,5 +17,10 @@ if [ ! -e ~/.vim/.backup ]; then
 	mkdir -p ~/.vim/.backup
 fi
 
+# neobundleをインストールする
+if [ ! -e ~/.vim/bundle ]; then
+	curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
+fi
+
 # 最初のカレントに戻る
 cd ${current}
