@@ -25,15 +25,21 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 
-" vimprocは香り屋版にバンドルされているので、Winでは不要
-" Linuxで必要になるなら有効にする
-"" インストール後、自動的にビルドされる
-"NeoBundle 'Shougo/vimproc', { 'build' : {
-"   \      'cygwin' : 'make -f make_cygwin.mak',
-"   \      'mac' : 'make -f make_mac.mak',
-"   \      'unix' : 'make -f make_unix.mak',
-"   \     },
-"   \ }
+if has('unix')
+  " vimprocは香り屋版にバンドルされているので、Winでは不要
+  " Linuxで必要になるなら有効にする
+  " インストール後、自動的にビルドされる
+  " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
+  NeoBundle 'Shougo/vimproc', {
+  \ 'build' : {
+  \     'windows' : 'tools\\update-dll-mingw',
+  \     'cygwin' : 'make -f make_cygwin.mak',
+  \     'mac' : 'make -f make_mak.mak',
+  \     'linux' : 'make',
+  \     'unix' : 'gmake',
+  \     },
+  \ }
+endif
 
 " -- Solarized
 NeoBundle 'altercation/vim-colors-solarized'
@@ -95,6 +101,11 @@ NeoBundle 'kchmck/vim-coffee-script'
 
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
+
+if ('unix')
+  " -- fcitx
+  NeoBundle 'vim-scripts/fcitx.vim'
+endif
 
 call neobundle#end()
 
@@ -173,6 +184,12 @@ let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 " }}} 各プラグインの設定
 
 " 表示設定 {{{
+if has('unix')
+  " Linuxで文字化けするので、Linuxならtermencodingをutf-8にする（kaoriya vimrcではcp932になる？）
+  set termencoding=utf-8
+  set encoding=utf-8
+endif
+
 " シンタックスハイライト
 syntax enable
 
