@@ -1,6 +1,6 @@
 Linux Mint 17.1 のインストールと設定
 
-＜インストール＞
+●インストール
 Live CD (もしくは USB) から起動し、デスクトップにあるインストールアイコンで
 インストーラ起動。
 ウィザードに従って設定していく。
@@ -16,6 +16,12 @@ $ LANG=C xdg-user-dirs-gtk-update
 選択して二度と聞かない設定にしておく。
 起動したら、メニュー→システム管理→アップデートマネージャである限りアップデー
 トしておく。
+
+●無線LANドライバのコンパイル・インストール
+※最初は完全にネットにつながらないので、あらかじめ別ディスク上にソースをclone
+しておく。
+※Mintのバージョンが上がれば、そのうち不溶になるかもしれない
+TODO 記述
 
 ●Mozcインストール・設定
 Synapticパッケージマネージャで「fcitx-mozc」で検索。
@@ -123,6 +129,21 @@ $ sh vimfiles/vimrc_install.sh
 りでエラーが出るかもしれない。インストールが終わったらいったんVimを終了して、
 再度起動してみる。エラーは出ないはず。
 
+●bashrc設定
+githubからcloneしてshを叩くだけ
+$ cd ~/git
+$ git clone https://github.com/YosukeTsutsui/linux_files.git
+$ sh linux_files/dotinstall.sh
+$ source ~/.bashrc
+
+●Puttyインストール
+Synapticパッケージマネージャで「putty」で検索。
+「putty」をインストールする。
+できればどこかに設定を共有できる仕組みを作りたいところ。
+
+●FileZillaインストール
+Synapticパッケージマネージャで「filezilla」で検索。
+できればどこかに設定を共有できる仕組みを作りたいところ。
 
 ==== ここより下は古い。整理しなければ。 ====
 
@@ -137,12 +158,6 @@ dropbox start -i
 
 ●設定ファイルをDropboxから移す
 ##### 手順を書く #####
-
-●alias設定
-~/.bashrcを作成し、下記のalias設定を記述。
-alias rm='rm -i'
-alias mv='mv -i'
-alias cp='cp -i'
 
 ●RabbitVCSインストール
 http://vavai.net/2012/10/solved-rabbitvcs-subversion-menu-on-nautiluscaja-linuxmint-13-maya/
@@ -197,54 +212,6 @@ ls -la /etc/alternatives/java*
 
 ●Play Framework インストール
 ##### 手順を書く #####
-
-●Putty インストール
-Synapticパッケージマネージャで「putty」で検索。
-「putty」をインストールする。
-
-●Eclipseをインストール
-http://www.eclipse.org/downloads/
-から辿って、望みのバージョンのEclipseをダウンロードしてくる。
-~/eclipse を作成し、その下にバージョンごとのディレクトリを切り、展開する。
-例）
-mkdir -p ~/eclipse/indigo_3.7
-cd ~/eclipse/indigo_3.7
-tar xvzf ~/Downloads/eclipse-java-indigo-SR2-linux-gtk.tar.gz
-
-その後、Eclipseを起動する前に
-http://mergedoc.sourceforge.jp/
-からpleiadesの安定版をダウンロードし、Eclipseディレクトリに展開する。
-例）
-unzip ~/Downloads/pleiades_1.3.4.zip
-
-eclipse.iniの下記の点を変更。（オリジナルはバックアップしといたほうがいいかも）
-・-showsplashとその下の行（計2行）を削除。
-・最終行に
-  -javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar
-  を追記する。
-・-Xmxの後を1152m(1024+128)に変更。（Scala IDEのため）
-
--cleanでEclipseを起動する。
-
-●Eclipse起動後
-!!! プラグインインストール後の再起動は自動ではなく手動でやる !!!
-
-・ワークスペース
-  ~/workspace_3.7など、バージョンごとにワークスペースを作成する。
-・設定ダイアログで
-  テキストエディタの設定（空白を表示、など）
-  フォント設定
-  カラーテーマ
-・プラグインインストール
-  ##### プラグイン列挙 #####
-
-●Eclipse起動スクリプト（ランチャ生成時などに使用）
-eclipse.sh
-------------------------
-cwd=`dirname ${0}`
-cd ${cwd}
-./eclipse
-------------------------
 
 ●バックアップ設定
 ##### 手順を書く #####
