@@ -42,11 +42,21 @@ https://www.google.com/intl/ja/chrome/browser/
 https://github.com/yascentur/Ricty
 を見ながらインストール。
 
-●ターミナルの外観設定
+●ターミナルのフォント設定
 ターミナルの「編集」→「プロファイル」で、デフォルトプロファイルの使用フォントを
 Rictyに変更する。
 また、デフォルトサイズを160列48行に設定。
 ※ついでにMozcの設定でRictyを指定してもいいかもしれない
+
+●ターミナルの色設定
+Synapticパッケージマネージャで dconf-cli と dconf-editor をインストールする。
+その後、あらかじめターミナルで適当な名前のプロファイルを作っておき、
+$ mkdir ~/.soralized
+$ cd ~/.soralized
+$ git clone git://github.com/NeuralSandwich/mate-terminal-colors-solarized.git
+$ cd mate-terminal-colors-solarized
+$ ./install.h
+プロファイルを変更して完了。
 
 ●Kaoriya-Vim インストール
 まず必要なパッケージのインストール。
