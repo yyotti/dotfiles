@@ -107,6 +107,9 @@ if ('unix')
   NeoBundle 'vim-scripts/fcitx.vim'
 endif
 
+" -- fugitive
+NeoBundle 'tpope/vim-fugitive'
+
 call neobundle#end()
 
 " 必須!!
@@ -180,6 +183,12 @@ let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 " neosnippet {{{
 " TODO あとでサイトを見て最新の設定を記述する
 " }}} neosnippet
+
+" fugitive {{{
+au FileType gitcommit nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType gitcommit inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+au FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+" }}} fugitive
 
 " }}} 各プラグインの設定
 
@@ -333,20 +342,20 @@ endfunction
 vnoremap <silent> <C-p> "0p<CR>
 
 " vimrcを開く
-nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Leader>ev :<C-u>edit $MYVIMRC<CR>
 " vimrcをリロード
-nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>rv :<C-u>source $MYVIMRC<CR>
 " gvimrcを開く
-nnoremap <silent> <Space>eg :<C-u>edit $MYGVIMRC<CR>
+nnoremap <silent> <Leader>eg :<C-u>edit $MYGVIMRC<CR>
 " gvimrcをリロード
-nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
+nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
 " }}} プラグイン非依存
 
 " Unite {{{
 " prefix定義
 nnoremap [unite] <Nop>
-nmap <Space>u [unite]
+nmap <Leader>u [unite]
 
 " バッファ一覧を開く
 nnoremap <silent> [unite]b :Unite buffer<CR>
@@ -364,7 +373,7 @@ nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
 " vimfiler {{{
 " prefix定義
 nnoremap [vimfiler] <Nop>
-nmap <Space>f [vimfiler]
+nmap <Leader>f [vimfiler]
 
 " 現在開いているバッファのディレクトリを開く
 nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
