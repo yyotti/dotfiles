@@ -248,6 +248,12 @@ augroup END
 :hi CursorLine gui=underline
 hi CursorLine ctermbg=black guibg=black
 
+" vimdiffの色設定
+highlight DiffAdd cterm=bold ctermfg=10 ctermbg=22
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText cterm=bold ctermfg=10 ctermbg=21
+
 " }}} 表示設定
 
 " ファイル操作設定 {{{
@@ -292,6 +298,20 @@ endif
 " Ctrl+a,Ctrl+xでインクリメント、デクリメントするときに、先頭に
 " 0詰めされた 001 などを8進数ではなく普通の数字とみなす
 set nf=""
+
+" diffコマンド
+" -- git diff を使う。
+" -- git diff の出力はVIMが対応していないらしいので、変換スクリプトを
+" -- かませて実行する。
+set diffexpr=GitDiff()
+function! GitDiff()
+  let opt = ""
+  if &diffopt =~ "iwhite"
+    let opt = opt . "-b "
+  endif
+  silent execute "!git-diff-normal-format ".opt.v:fname_in." ".v:fname_new." > ".v:fname_out
+  redraw!
+endfunction
 
 " }}} その他の設定
 
