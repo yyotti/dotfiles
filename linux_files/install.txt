@@ -163,6 +163,24 @@ ppa:noobslab/apps
 Synapticパッケージマネージャで「再読込」を押してリポジトリの追加を反映すると、
 「Synapse」で検索すると出てくるようになるので、インストールする。
 
+●JDK7をインストール
+まずプリインストールされているJavaを削除する
+$ sudo apt-get purge openjdk-\*
+OracleサイトなどからJDK7をダウンロードする。rpmではなくtar.gzをダウンロードすること。
+$ cd /tmp
+$ mkdir -p ~/opt/jdk
+$ tar zxvf ~/Downloads/jdk-7u75-linux-i586.tar.gz
+$ mv jdk1.7.0_75/ ~/opt/jdk/
+コマンド群をパス無しで実行できるように設定する。
+（一般的には ~/.profile にパスを通すらしいが）
+$ sudo update-alternatives --install /usr/bin/java java ~/opt/jdk/jdk1.7.0_75/bin/java 10
+$ sudo update-alternatives --install /usr/bin/javac javac ~/opt/jdk/jdk1.7.0_75/bin/javac 10
+$ sudo update-alternatives --install /usr/bin/javaws javaws ~/opt/jdk/jdk1.7.0_75/bin/javaws 10
+複数バージョンのJDKをインストールした場合、使用するコマンドを選択する。
+$ sudo update-alternatives --config java
+$ sudo update-alternatives --config javac
+$ sudo update-alternatives --config javaws
+
 ==== ここより下は古い。整理しなければ。 ====
 
 ●Dropboxインストール
@@ -191,36 +209,6 @@ sudo cp caja* /usr/lib/pymodules/python2.7/rabbitvcs/util/
 sudo mkdir -p /usr/lib/caja/extensions-2.0/python/
 sudo cp RabbitVCS.py /usr/lib/caja/extensions-2.0/phthon/
 ※ログアウト/ログインするとコンテキストメニューにRabbitVCSのメニューが追加されている。
-
-●JDK6をインストール
-http://www.jusuchyne.com/codingforme/2012/05/installing-oracle-java-jdk-6-or-7-on-ubuntu/
-を見ながらインストール。
-一応、手順を書いておく。
-
-・ダウンロード
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
-から、JDK6の最新版をダウンロードしてくる。
-Debian系32bitなら、XXX-linux-i586.binをダウンロードすること。
-
-ダウンロードしたファイルを/tmpに置いて、
-※以下の手順では、JDKのバージョンでファイル名が変わる。
-
-chmod +x jdk-6u38-linux-i586.bin
-./jdk-6u38-linux-i586.bin
-sudo mv jdk1.6.0_38 /usr/lib/jvm/
-sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.6.0_32/bin/javac 1
-sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.6.0_32/bin/java 1
-sudo update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/jdk1.6.0_32/bin/javaws 1
-↓それぞれ、デフォルトを選ぶ
-sudo update-alternatives --config javac
-sudo update-alternatives --config java
-sudo update-alternatives --config javaws
-↓バージョンを確認
-java -version
-javac -version
-javaws -version   ←これだけヘルプが出るはず
-↓デフォルトJavaのロケーションを確認
-ls -la /etc/alternatives/java*
 
 ●Android SDK インストール
 ##### 手順を書く #####
