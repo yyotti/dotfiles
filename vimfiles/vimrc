@@ -436,4 +436,15 @@ if has('concela')
 endif
 " }}} neosnippet
 
+" fugitive {{{
+" prefix定義
+nnoremap [fugitive] <Nop>
+nmap <Leader>g [fugitive]
+
+" git-status
+nnoremap <silent> [fugitive]s :<C-u>Gstatus<CR>
+" git-diff
+nnoremap <silent> [fugitive]d :<C-u>Gvdiff<CR>
+
+" }}}
 " }}} キーマッピング
