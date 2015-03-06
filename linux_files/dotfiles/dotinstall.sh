@@ -23,7 +23,7 @@ mklink() {
   file=$1
   info "$fileのシンボリックリンクを生成します"
 
-  target=$TARGET_DIR/.$file
+  target=$2
   if [ -L $target ]; then  # 同名のシンボリックリンクが存在
     warn "$fileがシンボリックリンクとして存在しています。削除して置き換えますか？(y/n)"
     read ans
@@ -54,6 +54,6 @@ mklink() {
   fi
 }
 
-mklink bashrc
+mklink bashrc ~/.bashrc
 
 # vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
