@@ -3,8 +3,6 @@
 readonly BASE_DIR=$(cd $(dirname $0) && pwd)
 cd $BASE_DIR
 
-readonly TARGET_DIR=$(cd ~ && pwd)
-
 msg() {
   color=$1
   shift
@@ -55,5 +53,6 @@ mklink() {
 }
 
 mklink bashrc ~/.bashrc
+mklink git-completion.bash ~/.git-completion.bash
 
 # vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
