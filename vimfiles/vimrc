@@ -102,11 +102,6 @@ NeoBundle 'kchmck/vim-coffee-script'
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
 
-if ('unix')
-  " -- fcitx
-  NeoBundle 'vim-scripts/fcitx.vim'
-endif
-
 " -- fugitive
 NeoBundle 'tpope/vim-fugitive'
 
