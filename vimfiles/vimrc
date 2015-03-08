@@ -400,6 +400,24 @@ nnoremap <silent> <Leader>eg :<C-u>edit $MYGVIMRC<CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
+" Linux MintでESCでIMEをON/OFFする
+if has('unix')
+  set iminsert=2
+  set imsearch=2
+  set imactivatefunc=ImActivate
+  function! ImActivate(active)
+    if a:active
+      call system('fcitx-remote -o')
+    else
+      call system('fcitx-remote -c')
+    endif
+  endfunction
+  set imstatusfunc=ImStatus
+  function! ImStatus()
+    return system('fcitx-remote')[0] is# '2'
+  endfunction
+endif
+
 " }}} プラグイン非依存
 
 " Unite {{{
