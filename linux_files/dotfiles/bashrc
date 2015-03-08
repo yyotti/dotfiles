@@ -3,9 +3,6 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 
-alias vi='gvim'
-alias vim='gvim'
-
 # git settings
 source ~/.git-completion.bash
 GIT_PS1_SHOWDIRTYSTATE=true
