@@ -18,7 +18,7 @@ endif
 " }}} 表示設定
 
 " ウィンドウ設定 {{{
-set columns=160
+set columns=180
 set lines=50
 set guioptions-=m
 set guioptions-=T
