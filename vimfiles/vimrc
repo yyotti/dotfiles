@@ -169,10 +169,13 @@ endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 " オムニ補完
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup omni
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 " ヘビーなオムニ補完を有効化
 if !exists('g:neocomplcache_force_omni_patterns')
@@ -299,7 +302,10 @@ set undodir=$HOME/.vim/.backup
 set hidden
 
 " 保存時に行末の空白を除去
-autocmd BufWritePre * :%s/\s\+$//ge
+augroup del_end_ws
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//ge
+augroup END
 
 " }}} ファイル操作設定
 
