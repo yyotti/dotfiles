@@ -111,6 +111,9 @@ NeoBundle 'tpope/vim-fugitive'
 " -- gitv
 NeoBundle 'gregsexton/gitv'
 
+" -- syntastic
+NeoBundle 'scrooloose/syntastic'
+
 call neobundle#end()
 
 " 必須!!
@@ -193,6 +196,19 @@ au FileType gitcommit nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType gitcommit inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 au FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 " }}} fugitive
+
+" syntastic {{{
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs = 1
+let g:syntastic_echo_current_error = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_enable_highlighting = 1
+" なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
+let g:syntastic_php_php_args = '-l'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatusLineFlag()}
+set statusline+=%*
+" }}} syntastic
 
 " }}} 各プラグインの設定
 
