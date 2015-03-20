@@ -99,6 +99,7 @@ $ ./configure \
 --enable-pythoninterp=yes \
 --enable-python3interp=yes \
 --enable-rubyinterp=yes \
+--enable-luainterp=yes \
 --enable-cscope \
 --disable-netbeans \
 --enable-multibyte \
