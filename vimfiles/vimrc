@@ -114,6 +114,15 @@ NeoBundle 'gregsexton/gitv'
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
 
+" Linuxでfcitxを制御するためのプラグイン
+if has('unix')
+  NeoBundle "koron/imcsc-vim", {
+  \ "rtp":"fcitx-python",
+  \ "directory":"fcitx-python",
+  \ 'name':'fcitx-python',
+  \ }
+endif
+
 call neobundle#end()
 
 " 必須!!
@@ -415,24 +424,6 @@ nnoremap <silent> <Leader>rv :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
-
-" Linux MintでESCでIMEをON/OFFする
-if has('unix')
-  set iminsert=2
-  set imsearch=2
-  set imactivatefunc=ImActivate
-  function! ImActivate(active)
-    if a:active
-      call system('fcitx-remote -o')
-    else
-      call system('fcitx-remote -c')
-    endif
-  endfunction
-  set imstatusfunc=ImStatus
-  function! ImStatus()
-    return system('fcitx-remote')[0] is# '2'
-  endfunction
-endif
 
 " }}} プラグイン非依存
 
