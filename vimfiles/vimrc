@@ -125,6 +125,9 @@ if has('unix')
   endif
 endif
 
+" -- eskk
+NeoBundle 'tyru/eskk.vim'
+
 call neobundle#end()
 
 " 必須!!
@@ -221,6 +224,24 @@ set statusline+=%{SyntasticStatusLineFlag()}
 set statusline+=%*
 " }}} syntastic
 
+" eskk {{{
+set imdisable
+set iminsert=2
+set imsearch=0
+
+let g:eskk#directory = "~/.eskk_vim"
+let g:eskk#dictionary = {
+  \ 'path': "~/.eskk_vim/dictionary/eskk",
+  \ 'sorted': 0,
+  \ 'encoding': 'utf-8',
+  \}
+let g:eskk#large_dictionary = {
+  \ 'path': "~/.eskk_vim/dictionary/SKK-JISYO.L",
+  \ 'sorted': 1,
+  \ 'encoding': 'euc-jp',
+  \}
+let g:eskk#enable_completion = 1
+" }}} eskk
 " }}} 各プラグインの設定
 
 " 表示設定 {{{

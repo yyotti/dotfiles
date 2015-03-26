@@ -63,6 +63,10 @@ make_dir() {
 mklink `pwd`/vimrc ~/.vimrc
 mklink `pwd`/gvimrc ~/.gvimrc
 
+# eskk関係
+make_dir ~/.eskk_vim
+mklink `pwd`/eskk_vim/dictionary ~/.eskk_vim/dictionary
+
 # vimdiffでgit-diffを使うためのシェルスクリプトを設定する
 # ついでにgitの設定も済ませる
 if which git > /dev/null 2>&1; then
