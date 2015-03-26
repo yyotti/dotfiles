@@ -44,7 +44,7 @@ mklink() {
       info "$fileのシンボリックリンクを生成しました"
     fi
   else  # ファイルが存在しなければ処理
-    ln -s $BASE_DIR/$file $target
+    ln -s $file $target
     info "$fileのシンボリックリンクを生成しました"
   fi
 }
@@ -64,8 +64,8 @@ mklink `pwd`/vimrc ~/.vimrc
 mklink `pwd`/gvimrc ~/.gvimrc
 
 # eskk関係
-make_dir ~/.eskk_vim
-mklink `pwd`/eskk_vim/dictionary ~/.eskk_vim/dictionary
+make_dir ~/.eskk_vim/dictionary
+mklink `pwd`/eskk_vim/dictionary/SKK-JISYO.L ~/.eskk_vim/dictionary/SKK-JISYO.L
 
 # vimdiffでgit-diffを使うためのシェルスクリプトを設定する
 # ついでにgitの設定も済ませる
