@@ -226,7 +226,11 @@ set statusline+=%*
 
 " eskk {{{
 set imdisable
-set iminsert=2
+if has('multi_byte_ime') || has('xim') || has('global-ime')
+  set iminsert=2
+else
+  set iminsert=0
+endif
 set imsearch=0
 
 let g:eskk#directory = "~/.eskk_vim"
