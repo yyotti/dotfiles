@@ -62,6 +62,12 @@ $ ./install.h
 まず必要なパッケージのインストール。
 $ sudo apt-get mercurial libncurses5-dev libgtk2.0-dev xorg-dev
 
+mercurialのmq extensionを使うために、~/.hgrcを作成して下記を記述。
+[ui]
+name = tsutsui
+[extensions]
+mq=
+
 TODO 他にLuaなどが必要だが、↓のconfigureオプションも含めてWin版と同じにしたい
 ので、要調査
 
