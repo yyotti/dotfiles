@@ -108,8 +108,8 @@ NeoBundle 'smarty-syntax'
 " -- fugitive
 NeoBundle 'tpope/vim-fugitive'
 
-" -- gitv
-NeoBundle 'gregsexton/gitv'
+" -- Agit
+NeoBundle 'cohama/agit.vim'
 
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
@@ -516,15 +516,18 @@ if has('concela')
 endif
 " }}} neosnippet
 
-" fugitive {{{
+" fugitive, Agit {{{
 " prefix定義
-nnoremap [fugitive] <Nop>
-nmap <Leader>g [fugitive]
+nnoremap [git] <Nop>
+nmap <Leader>g [git]
 
 " git-status
-nnoremap <silent> [fugitive]s :<C-u>Gstatus<CR>
+nnoremap <silent> [git]s :<C-u>Gstatus<CR>
 " git-diff
-nnoremap <silent> [fugitive]d :<C-u>Gvdiff<CR>
+nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
 
-" }}}
+" Agit
+nnoremap <silent> [git]a :<C-u>Agit<CR>
+
+" }}} fugitive, Agit
 " }}} キーマッピング
