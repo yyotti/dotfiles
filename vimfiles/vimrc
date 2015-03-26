@@ -116,7 +116,7 @@ NeoBundle 'scrooloose/syntastic'
 
 " Linuxでfcitxを制御するためのプラグイン
 if has('unix')
-  if executable('fcitx')
+  if executable('fcitx') && (has('python') || has('python3'))
     NeoBundle "koron/imcsc-vim", {
     \ "rtp":"fcitx-python",
     \ "directory":"fcitx-python",
