@@ -74,8 +74,7 @@ TODO 他にLuaなどが必要だが、↓のconfigureオプションも含めて
 リポジトリからソースを取得、このときkaoriyaパッチも同時に取得する。
 $ mkdir ~/vim_src
 $ cd ~/vim_src
-$ hg qclone https://vim.googlecode.com/hg ./vim \
-> -p https://bitbucket.org/koron/vim-kaoriya-patches
+$ hg qclone https://vim.googlecode.com/hg ./vim -p https://bitbucket.org/koron/vim-kaoriya-patches
 $ cd vim
 
 ソースとパッチのバージョンを合わせるため、
@@ -91,32 +90,34 @@ $ hg update v7-4-648
 $ hg update ab23aa --mq
 などでパッチのリビジョンを変更する。
 
+後々コンパイルし直すときのためにブランチを切っておく
+$ hg branch kaoriya-7.4.648
+
 パッチを当てる。
-$hq qpush -a
+$ hg qseries
+でパッチの一覧が見れる。全部のパッチを当てるには
+$ hq qpush -a
 このとき、バージョンがバッチリ合ってないといくつかのパッチは失敗するかもしれな
 いが、中身を見て何とか調整する。
 
 あとはconfigureしてmakeする。
 $ ./configure \
---enable-gui=gtk2 \
---disable-darwin \
---disable-selinux \
---enable-perlinterp=yes \
---enable-pythoninterp=yes \
---enable-python3interp=yes \
---enable-rubyinterp=yes \
---enable-luainterp=yes \
---enable-cscope \
---disable-netbeans \
---enable-multibyte \
---enable-xim \
---enable-fontset \
+--prefix=/usr/local \
 --with-features=huge \
---with-compiledby="Yosuke Tsutsui <yosuke.tsutsui [at] gmail.com>" \
---with-tlib=ncurses \
---enable-fail-if-missing \
+--enable-gui=gtk2 \
+--enable-multibyte \
+--enable-perlinterp \
+--enable-pythoninterp \
+--enable-python3interp \
+--enable-tclinterp \
+--enable-rubyinterp \
+--enable-luainterp=dynamic \
 --with-lua-prefix=/usr \
---with-luajit
+--with-luajit \
+--enable-gpm \
+--enable-cscope \
+--enable-fontset \
+--enable-fail-if-missing
 $ make -j 4
 $ sudo make install
 ※--prefixを指定していないので、/usr/local にインストールされる。
