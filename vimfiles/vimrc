@@ -302,6 +302,7 @@ else
   set statusline+=%t " ファイル名のみ
 endif
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
+set statusline+=%{eskk#statusline()}
 set statusline+=%{fugitive#statusline()} " Gitのブランチ名を表示
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
