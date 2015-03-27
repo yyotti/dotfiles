@@ -288,17 +288,17 @@ set statusline+=%m " 修正フラグ
 set statusline+=%r " 読み込み専用フラグ
 set statusline+=%h " ヘルプバッファフラグ
 set statusline+=%w " プレビューウィンドウフラグ
-set statusline+=%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'} " fencとffを表示
+set statusline+=[
+set statusline+=%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding} " 文字コードを表示
+set statusline+=:
+set statusline+=%{&fileformat} " ファイルタイプ表示
+set statusline+=]
 set statusline+=%y " バッファ内のファイルタイプ
 set statusline+=\  " 空白スペース
-if winwidth(0) >= 130
-  set statusline+=%F " バッファ内のファイルのフルパス
-else
-  set statusline+=%t " ファイル名のみ
-endif
+set statusline+=%<%F " バッファ内のファイルのフルパス
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
-set statusline+=%{eskk#statusline()}
-set statusline+=%{fugitive#statusline()} " Gitのブランチ名を表示
+set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
+set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
 set statusline+=/
