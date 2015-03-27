@@ -217,9 +217,6 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
 " なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
 let g:syntastic_php_php_args = '-l'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatusLineFlag()}
-set statusline+=%*
 " }}} syntastic
 
 " eskk {{{
@@ -311,6 +308,10 @@ set statusline+=%L " バッファ内の総行数
 " set statusline+=%V " 画面上の何列目にカーソルがあるか
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%P " ファイル内の何%の位置にあるか
+set statusline+=\  " 空白スペース
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 " 入力モード時にステータスラインの色を変える
 augroup InsertHook
