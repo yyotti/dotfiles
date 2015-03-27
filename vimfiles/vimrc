@@ -112,20 +112,6 @@ NeoBundle 'cohama/agit.vim'
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
 
-" Linuxでfcitxを制御するためのプラグイン
-if has('unix')
-  if executable('fcitx') && (has('python') || has('python3'))
-    NeoBundle "koron/imcsc-vim", {
-    \ "rtp":"fcitx-python",
-    \ "directory":"fcitx-python",
-    \ 'name':'fcitx-python',
-    \ }
-  endif
-endif
-
-" -- eskk
-NeoBundle 'tyru/eskk.vim'
-
 call neobundle#end()
 
 " 必須!!
@@ -219,28 +205,6 @@ let g:syntastic_enable_highlighting = 1
 let g:syntastic_php_php_args = '-l'
 " }}} syntastic
 
-" eskk {{{
-set imdisable
-if has('multi_byte_ime') || has('xim') || has('global-ime')
-  set iminsert=2
-else
-  set iminsert=0
-endif
-set imsearch=0
-
-let g:eskk#directory = "~/.eskk_vim"
-let g:eskk#dictionary = {
-  \ 'path': "~/.eskk_vim/dictionary/eskk",
-  \ 'sorted': 0,
-  \ 'encoding': 'utf-8',
-  \}
-let g:eskk#large_dictionary = {
-  \ 'path': "~/.eskk_vim/dictionary/SKK-JISYO.L",
-  \ 'sorted': 1,
-  \ 'encoding': 'euc-jp',
-  \}
-let g:eskk#enable_completion = 1
-" }}} eskk
 " }}} 各プラグインの設定
 
 " 表示設定 {{{
@@ -297,7 +261,6 @@ set statusline+=%y " バッファ内のファイルタイプ
 set statusline+=\  " 空白スペース
 set statusline+=%<%F " バッファ内のファイルのフルパス
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
-set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
 set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか

@@ -64,8 +64,8 @@ mklink `pwd`/vimrc ~/.vimrc
 mklink `pwd`/gvimrc ~/.gvimrc
 
 # eskk関係
-make_dir ~/.eskk_vim/dictionary
-mklink `pwd`/eskk_vim/dictionary/SKK-JISYO.L ~/.eskk_vim/dictionary/SKK-JISYO.L
+# make_dir ~/.eskk_vim/dictionary
+# mklink `pwd`/eskk_vim/dictionary/SKK-JISYO.L ~/.eskk_vim/dictionary/SKK-JISYO.L
 
 # vimdiffでgit-diffを使うためのシェルスクリプトを設定する
 # ついでにgitの設定も済ませる
