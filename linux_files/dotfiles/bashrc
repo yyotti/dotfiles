@@ -5,7 +5,7 @@ alias cp='cp -i'
 
 # ヒストリ
 export HISTCONTROL=ignoreboth # 重複は無視し、かつスペースで始まるコマンドも無視する
-export HISTIGNORE="history*:cd*:ls*:ll*" # よく使うコマンドは記録しない
+export HISTIGNORE="history*:cd*:ls*:ll*:groot" # よく使うコマンドは記録しない
 export HISTSIZE=10000 # ヒストリの履歴を増やす
 # 複数端末でヒストリを共有する
 function share_history {
@@ -26,5 +26,11 @@ function lcd {
 	local dir="$(find . -maxdepth 1 -type d | sed -e 's;\./;;' | peco )"
 	if [ ! -z "$dir" ]; then
 		cd "$dir"
+	fi
+}
+
+function groot {
+	if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+		cd `git rev-parse --show-toplevel`
 	fi
 }
