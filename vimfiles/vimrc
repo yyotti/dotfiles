@@ -143,6 +143,12 @@ let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable=1
 " ファイル履歴のMAX
 let g:unite_source_file_mru_limit=200
+
+" Unite-bookmark
+augroup unite_bookmark
+  autocmd!
+  autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
+augroup END
 " }}} Unite
 
 " neocomplete {{{
@@ -170,7 +176,7 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " オムニ補完
-augroup omni
+augroup neocomplete
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -286,7 +292,7 @@ augroup END
 " カーソル行をハイライト
 set cursorline
 augroup cch
-  autocmd! cch
+  autocmd!
   autocmd WinLeave * set nocursorline
   autocmd WinEnter,BufRead * set cursorline
 augroup END
