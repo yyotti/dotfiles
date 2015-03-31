@@ -26,5 +26,24 @@ if not exist %USERPROFILE%\.vim\.backup (
 	mkdir %USERPROFILE%\.vim\.backup
 )
 
+rem skk辞書のインストール
+if not exist %USERPROFILE%\.skk (
+	mkdir %USERPROFILE%\.skk
+)
+if not exist %USERPROFILE%\.skk\SKK-JISYO.L (
+	mklink %USERPROFILE%\.skk\SKK-JISYO.L %CD%\skk\SKK-JISYO.L
+)
+
+rem NeoBundleをインストール
+if not exists %USERPROFILE%\.vim\bundle (
+	git > NUL 2>&1
+	if not %ERRORLEVEL% == 0 (
+		mkdir %USERPROFILE%\.vim\bundle
+		git clone "https://github.com/Shougo/neobundle.vim" "%USERPROFILE%\.vim\bundle\neobundle.vim"
+	) else (
+		echo gitコマンドが存在しませんのでNeoBundleをインストールできませんでした
+	)
+)
+
 rem 最初のカレントに戻る
 cd %CURRENT%

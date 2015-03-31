@@ -112,6 +112,9 @@ NeoBundle 'cohama/agit.vim'
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
 
+" -- eskk.vim
+NeoBundle 'tyru/eskk.vim'
+
 call neobundle#end()
 
 " 必須!!
@@ -210,6 +213,26 @@ let g:syntastic_enable_highlighting = 1
 " なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
 let g:syntastic_php_php_args = '-l'
 " }}} syntastic
+
+" eskk {{{
+let g:eskk#directory = '~/.skk'
+if has('gui_running')
+  set imdisable
+endif
+if has('vim_starting')
+  let g:eskk#enable_completion=1
+  let g:eskk#dictionary = {
+    \ 'path': '~/.skk/skk-jisyo.user',
+    \ 'sorted': 0,
+    \ 'encoding': 'utf-8',
+    \ }
+  let g:eskk#large_dictionary = {
+    \ 'path': '~/.skk/SKK-JISYO.L',
+    \ 'sorted': 1,
+    \ 'encoding': 'euc-jp',
+    \ }
+endif
+" }}} eskk
 
 " }}} 各プラグインの設定
 
