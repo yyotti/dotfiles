@@ -331,6 +331,17 @@ augroup END
 " }}} ファイル操作設定
 
 " ファイルタイプ設定 {{{
+
+" PHP {{{
+let php_sql_query = 1
+let php_baselib = 1
+let php_htmlInStrings = 1
+let php_noShortTags = 1
+let php_parent_error_close = 1
+
+" DBをMySQLにする（シンタックスハイライトがきく？）
+let g:sql_type_default='mysql'
+" }}} PHP
 " }}} ファイルタイプ設定
 
 " その他の設定 {{{
