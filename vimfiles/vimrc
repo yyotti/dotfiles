@@ -115,6 +115,9 @@ NeoBundle 'scrooloose/syntastic'
 " -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
 
+" -- vim-unified-diff
+NeoBundle 'lambdalisue/vim-unified-diff'
+
 call neobundle#end()
 
 " 必須!!
@@ -239,6 +242,20 @@ if has('vim_starting')
     \ }
 endif
 " }}} eskk
+
+" vim-unified-diff {{{
+"set diffexpr=unified_diff#diffexpr()
+
+" configure with the flllowings (default values are shown below)
+"let unified_diff#executable = 'git'
+"let unified_diff#arguments = [
+"  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+"  \ ]
+"let unified_diff#iwhite_arguments = [
+"  \   '--ignore--all-space',
+"  \ ]
+
+" }}} vim-unified-diff
 
 " }}} 各プラグインの設定
 
@@ -395,15 +412,15 @@ set nf=""
 " -- git diff を使う。
 " -- git diff の出力はVIMが対応していないらしいので、変換スクリプトを
 " -- かませて実行する。
-set diffexpr=GitDiff()
-function! GitDiff()
-  let opt = ""
-  if &diffopt =~ "iwhite"
-    let opt = opt . "-b "
-  endif
-  silent execute "!git-diff-normal-format ".opt.v:fname_in." ".v:fname_new." > ".v:fname_out
-  redraw!
-endfunction
+"set diffexpr=GitDiff()
+"function! GitDiff()
+"  let opt = ""
+"  if &diffopt =~ "iwhite"
+"    let opt = opt . "-b "
+"  endif
+"  silent execute "!git-diff-normal-format ".opt.v:fname_in." ".v:fname_new." > ".v:fname_out
+"  redraw!
+"endfunction
 
 " }}} その他の設定
 
