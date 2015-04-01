@@ -290,6 +290,7 @@ set statusline+=%y " バッファ内のファイルタイプ
 set statusline+=\  " 空白スペース
 set statusline+=%<%F " バッファ内のファイルのフルパス
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
+set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
 set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
