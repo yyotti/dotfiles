@@ -116,7 +116,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tyru/eskk.vim'
 
 " -- vim-unified-diff
-NeoBundle 'lambdalisue/vim-unified-diff'
+"NeoBundle 'lambdalisue/vim-unified-diff'
 
 call neobundle#end()
 
@@ -244,7 +244,7 @@ endif
 " }}} eskk
 
 " vim-unified-diff {{{
-set diffexpr=unified_diff#diffexpr()
+"set diffexpr=unified_diff#diffexpr()
 
 " configure with the flllowings (default values are shown below)
 "let unified_diff#executable = 'git'
