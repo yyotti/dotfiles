@@ -244,7 +244,7 @@ endif
 " }}} eskk
 
 " vim-unified-diff {{{
-"set diffexpr=unified_diff#diffexpr()
+set diffexpr=unified_diff#diffexpr()
 
 " configure with the flllowings (default values are shown below)
 "let unified_diff#executable = 'git'
@@ -407,20 +407,6 @@ endif
 " Ctrl+a,Ctrl+xでインクリメント、デクリメントするときに、先頭に
 " 0詰めされた 001 などを8進数ではなく普通の数字とみなす
 set nf=""
-
-" diffコマンド
-" -- git diff を使う。
-" -- git diff の出力はVIMが対応していないらしいので、変換スクリプトを
-" -- かませて実行する。
-"set diffexpr=GitDiff()
-"function! GitDiff()
-"  let opt = ""
-"  if &diffopt =~ "iwhite"
-"    let opt = opt . "-b "
-"  endif
-"  silent execute "!git-diff-normal-format ".opt.v:fname_in." ".v:fname_new." > ".v:fname_out
-"  redraw!
-"endfunction
 
 " }}} その他の設定
 
