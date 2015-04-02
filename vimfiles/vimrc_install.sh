@@ -67,22 +67,8 @@ mklink `pwd`/gvimrc ~/.gvimrc
 make_dir ~/.skk
 mklink `pwd`/skk/SKK-JISYO.L ~/.skk/SKK-JISYO.L
 
-# vimdiffでgit-diffを使うためのシェルスクリプトを設定する
-# ついでにgitの設定も済ませる
-if which git > /dev/null 2>&1; then
-  info "vimからgit-diffを使うためのスクリプトを設定します"
-  make_dir ~/bin
-  mklink `pwd`/git-diff-normal-format.sh ~/bin/git-diff-normal-format
-  info "vimからgit-diffを使うためのスクリプトを設定しました"
-  info "git-diffの設定を行います"
-  git config --global diff.tool "vimdiff"
-  git config --global diff.algorithm "histogram"
-  info "git-diffを設定しました"
-fi
-
 # バックアップディレクトリ等を作成する
 make_dir ~/.vim/.backup
-
 
 # neobundleをインストールする
 if [ ! -e ~/.vim/bundle ]; then
