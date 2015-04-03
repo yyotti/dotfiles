@@ -489,6 +489,8 @@ nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
 " ブックマーク一覧
 nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
+" バッファ内で行を検索
+nnoremap <silent> [unite]l :<C-u>Unite line<CR>
 " }}} Unite
 
 " vimfiler {{{
