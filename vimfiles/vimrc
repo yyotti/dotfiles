@@ -120,6 +120,9 @@ if has('unix')
   NeoBundle 'lambdalisue/vim-unified-diff'
 endif
 
+" -- vim-merginal
+NeoBundle 'idanarye/vim-merginal'
+
 call neobundle#end()
 
 " 必須!!
