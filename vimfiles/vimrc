@@ -115,10 +115,8 @@ NeoBundle 'scrooloose/syntastic'
 " -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
 
-if has('unix')
-  " -- vim-unified-diff
-  NeoBundle 'lambdalisue/vim-unified-diff'
-endif
+" -- vim-unified-diff
+NeoBundle 'lambdalisue/vim-unified-diff'
 
 " -- vim-merginal
 NeoBundle 'idanarye/vim-merginal'
@@ -248,21 +246,19 @@ if has('vim_starting')
 endif
 " }}} eskk
 
-if has('unix')
-  " vim-unified-diff {{{
-  set diffexpr=unified_diff#diffexpr()
+" vim-unified-diff {{{
+set diffexpr=unified_diff#diffexpr()
 
-  " configure with the flllowings (default values are shown below)
-  "let unified_diff#executable = 'git'
-  "let unified_diff#arguments = [
-  "  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
-  "  \ ]
-  "let unified_diff#iwhite_arguments = [
-  "  \   '--ignore--all-space',
-  "  \ ]
+" configure with the flllowings (default values are shown below)
+"let unified_diff#executable = 'git'
+"let unified_diff#arguments = [
+"  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+"  \ ]
+"let unified_diff#iwhite_arguments = [
+"  \   '--ignore--all-space',
+"  \ ]
 
-  " }}} vim-unified-diff
-endif
+" }}} vim-unified-diff
 
 " }}} 各プラグインの設定
 
