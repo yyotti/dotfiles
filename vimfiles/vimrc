@@ -542,7 +542,7 @@ if has('concela')
 endif
 " }}} neosnippet
 
-" fugitive, Agit {{{
+" fugitive, Agit, Merginal {{{
 " prefix定義
 nnoremap [git] <Nop>
 nmap <Leader>g [git]
@@ -555,5 +555,8 @@ nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
 " Agit
 nnoremap <silent> [git]a :<C-u>Agit<CR>
 
-" }}} fugitive, Agit
+" Merginal
+nnoremap <silent> [git]m :<C-u>Merginal<CR>
+
+" }}} fugitive, Agit, Merginal
 " }}} キーマッピング
