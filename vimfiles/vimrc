@@ -84,10 +84,13 @@ NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
       \}
 
-" }}}
-
 " -- neocomplete
-NeoBundle 'Shougo/neocomplete.vim'
+if has('lua')
+  NeoBundleLazy 'Shougo/neocomplete.vim', {
+        \   'depends': ['Shougo/vimproc'],
+        \ }
+endif
+" }}}
 
 " -- neosnippet
 NeoBundle 'Shougo/neosnippet'
@@ -270,48 +273,80 @@ endif
 
 " }}}
 
-" matchit {{{
-runtime macros/matchit.vim
+" neocomplete {{{
+if neobundle#tap('neocomplete.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " AutoComplPopを無効化する（入れてないから不要なはず）
+  let g:acp_enableAtStartup = 0
+  " neocompleteを有効化
+  let g:neocomplete#enable_at_startup = 1
+  " スマートケース
+  let g:neocomplete#enable_smart_case = 1
+  " 最小の入力数
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+  " 辞書定義
+  let g:neocomplete#sources#dictionary#dictionaries = {
+        \   'default': '',
+        \   'vimshell': $HOME.'/.vimshell_hist',
+        \   'scheme': $HOME.'/.gosh_completions'
+        \ }
+
+  " キーワード定義
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+  " オムニ補完
+  augroup neocomplete
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup END
+
+  " ヘビーなオムニ補完を有効化
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+  " }}}
+
+  " キーマッピング {{{
+  inoremap <expr><C-g> neocomplete#undo_completion()
+  inoremap <expr><C-l> neocomplete#complete_common_string()
+
+  " 推奨されるキーマッピング
+  " CRでポップアップをクローズしてインデントを保存
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return neocomplete#close_popup() . "\<CR>"
+  endfunction
+  " TABで補完
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>や<BS>でポップアップをクローズして1文字消す
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><C-y> neocomplete#close_popup()
+  inoremap <expr><C-e> neocomplete#cancel_popup()
+  " }}}
+  call neobundle#untap()
+endif
 " }}}
 
-" neocomplete {{{
-" AutoComplPopを無効化する（入れてないから不要なはず）
-let g:acp_enableAtStartup = 0
-" neocompleteを有効化
-let g:neocomplete#enable_at_startup = 1
-" スマートケース
-let g:neocomplete#enable_smart_case = 1
-" 最小の入力数
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" 辞書定義
-let g:neocomplete#sources#dictionary#dictionaries = {
-      \   'default': '',
-      \   'vimshell': $HOME.'/.vimshell_hist',
-      \   'scheme': $HOME.'/.gosh_completions'
-      \ }
-
-" キーワード定義
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" オムニ補完
-augroup neocomplete
-  autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-
-" ヘビーなオムニ補完を有効化
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" matchit {{{
+runtime macros/matchit.vim
 " }}}
 
 " neosnippet {{{
@@ -586,24 +621,6 @@ nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 " }}}
 
 
-" neocomplete {{{
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
-
-" 推奨されるキーマッピング
-" CRでポップアップをクローズしてインデントを保存
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-endfunction
-" TABで補完
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>や<BS>でポップアップをクローズして1文字消す
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-" }}}
 
 " neosnippet {{{
 " プラグインキーマッピング
