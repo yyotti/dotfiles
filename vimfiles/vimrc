@@ -65,14 +65,16 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \   'depends': ['Shougo/vimproc.vim'],
       \ }
 
+" -- vimfiler
+NeoBundleLazy 'Shougo/vimfiler', {
+      \   'depends': ['Shougo/unite.vim'],
+      \ }
+
 " }}} Lazy
 
 " -- neomru
 " ※Uniteから分離したらしい
 NeoBundle 'Shougo/neomru.vim'
-
-" -- vimfiler
-NeoBundle 'Shougo/vimfiler'
 
 " -- surround
 NeoBundle 'tpope/vim-surround'
@@ -187,18 +189,33 @@ endif
 
 " }}} Unite
 
+" vimfiler {{{
+if neobundle#tap('vimfiler')
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       'VimFiler',
+        \       'VimFilerBufferDir',
+        \       'VimFilerExplorer',
+        \     ]
+        \   }
+        \ })
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('vimfiler')
+      " デフォルトのファイラをvimfilerに置き換える
+      let g:vimfiler_as_default_explorer = 1
+
+      " セーフモードは無効
+      " let g:vimfiler_safe_mode_by_default = 0
+    endif
+  endfunction
+endif
+
+" }}} vimfiler
+
 " matchit {{{
 runtime macros/matchit.vim
 " }}} matchit
-
-" vimfiler {{{
-" デフォルトのファイラをvimfilerに置き換える
-let g:vimfiler_as_default_explorer = 1
-
-" セーフモードは無効
-"let g:vimfiler_safe_mode_by_default = 0
-
-" }}} vimfiler
 
 " neocomplete {{{
 " AutoComplPopを無効化する（入れてないから不要なはず）
