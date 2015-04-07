@@ -57,6 +57,14 @@ endif
 " -- Solarized
 NeoBundle 'altercation/vim-colors-solarized'
 
+" -- surround
+NeoBundle 'tpope/vim-surround'
+
+" -- repeat
+NeoBundle 'tpope/vim-repeat', {
+      \   'depends': ['tpope/vim-surround'],
+      \ }
+
 " }}}
 
 " Lazy {{{
@@ -77,12 +85,6 @@ NeoBundle 'Shougo/neomru.vim', {
       \}
 
 " }}}
-
-" -- surround
-NeoBundle 'tpope/vim-surround'
-
-" -- repeat(surroundとセットで)
-NeoBundle 'tpope/vim-repeat'
 
 " -- neocomplete
 NeoBundle 'Shougo/neocomplete.vim'
