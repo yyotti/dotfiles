@@ -297,6 +297,7 @@ set diffexpr=unified_diff#diffexpr()
 "let unified_diff#iwhite_arguments = [
 "  \   '--ignore--all-space',
 "  \ ]
+let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする
 
 " }}} vim-unified-diff
 
