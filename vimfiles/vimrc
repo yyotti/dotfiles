@@ -84,6 +84,9 @@ NeoBundle 'idanarye/vim-merginal', {
 " -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
 
+" -- vim-unified-diff
+NeoBundle 'lambdalisue/vim-unified-diff'
+
 " }}}
 
 " Lazy {{{
@@ -149,9 +152,6 @@ NeoBundle 'smarty-syntax'
 
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
-
-" -- vim-unified-diff
-NeoBundle 'lambdalisue/vim-unified-diff'
 
 call neobundle#end()
 
@@ -504,6 +504,25 @@ if neobundle#tap('eskk.vim')
 endif
 " }}}
 
+" vim-unified-diff {{{
+if neobundle#tap('vim-unified-diff')
+  " settings {{{
+  set diffexpr=unified_diff#diffexpr()
+
+  " configure with the flllowings (default values are shown below)
+  "let unified_diff#executable = 'git'
+  "let unified_diff#arguments = [
+  "  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+  "  \ ]
+  "let unified_diff#iwhite_arguments = [
+  "  \   '--ignore--all-space',
+  "  \ ]
+  let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする TODO できていないぽい
+  " }}}
+endif
+
+" }}}
+
 " syntastic {{{
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1
@@ -512,21 +531,6 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
 " なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
 let g:syntastic_php_php_args = '-l'
-" }}}
-
-" vim-unified-diff {{{
-set diffexpr=unified_diff#diffexpr()
-
-" configure with the flllowings (default values are shown below)
-"let unified_diff#executable = 'git'
-"let unified_diff#arguments = [
-"  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
-"  \ ]
-"let unified_diff#iwhite_arguments = [
-"  \   '--ignore--all-space',
-"  \ ]
-let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする
-
 " }}}
 
 " }}}
