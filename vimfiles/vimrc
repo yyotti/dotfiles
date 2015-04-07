@@ -138,6 +138,9 @@ NeoBundleLazy 'LeafCage/nebula.vim'
 " -- vim-scala
 NeoBundleLazy 'derekwyatt/vim-scala'
 
+" -- vim-less
+NeoBundleLazy 'groenewege/vim-less'
+
 " }}}
 
 " -------- " -- scala-vim-snippets
@@ -146,9 +149,6 @@ NeoBundleLazy 'derekwyatt/vim-scala'
 " -- html5
 " オムニ補完で問題が起こるぽいのでいったん削除
 " NeoBundle 'taichouchou2/html5.vim'
-
-" -- vim-less
-NeoBundle 'groenewege/vim-less'
 
 " -- vim-coffee-script
 NeoBundle 'kchmck/vim-coffee-script'
@@ -604,6 +604,29 @@ if neobundle#tap('vim-scala')
   augroup vim_scala
     autocmd!
     source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
+  augroup END
+
+  " }}}
+endif
+" }}}
+
+" vim-less {{{
+if neobundle#tap('vim-less')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'less',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " ftdetectが読み込まれないので、ここで読んでしまう
+  augroup vim_less
+    autocmd!
+    source ~/.vim/bundle/vim-less/ftdetect/less.vim
   augroup END
 
   " }}}
