@@ -219,7 +219,6 @@ if neobundle#tap('unite.vim')
   " バッファ内で行を検索
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " }}}
-  call neobundle#untap()
 endif
 
 " [neomru] {{{
@@ -229,8 +228,6 @@ if neobundle#tap('neomru.vim')
         \     'on_source': ['unite.vim'],
         \   },
         \ })
-
-  call neobundle#untap()
 endif
 " }}}
 
@@ -273,8 +270,6 @@ if neobundle#tap('vimfiler')
   " 現在開いているバッファをIDE風に開く
   nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
   " }}}
-
-  call neobundle#untap()
 endif
 
 " }}}
@@ -347,7 +342,6 @@ if neobundle#tap('neocomplete.vim')
   inoremap <expr><C-y> neocomplete#close_popup()
   inoremap <expr><C-e> neocomplete#cancel_popup()
   " }}}
-  call neobundle#untap()
 endif
 " }}}
 
@@ -392,8 +386,6 @@ if neobundle#tap('neosnippet.vim')
     set conceallevel=2 concealcursor=i
   endif
   " }}}
-
-  call neobundle#untap()
 endif
 " }}}
 
@@ -406,8 +398,6 @@ if neobundle#tap('neosnippet-snippets.vim')
         \   },
         \ })
   " }}}
-
-  call neobundle#untap()
 endif
 " }}}
 
@@ -439,7 +429,6 @@ if neobundle#tap('vim-fugitive')
   " git-diff
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
   " }}}
-  call neobundle#untap()
 endif
 " }}}
 
@@ -462,7 +451,6 @@ if neobundle#tap('vimshell')
         \   },
         \ })
   " }}}
-  call neobundle#untap()
 endif
 " }}}
 
@@ -476,7 +464,6 @@ if neobundle#tap('eskk.vim')
   if has('vim_starting')
     if neobundle#tap('neocomplete')
       let g:eskk#enable_completion=1
-      call neobundle#untap()
     endif
     let g:eskk#dictionary = {
           \   'path': '~/.skk/skk-jisyo.user',
@@ -490,7 +477,6 @@ if neobundle#tap('eskk.vim')
           \ }
   endif
   " }}}
-  call neobundle#untap()
 endif
 " }}}
 
@@ -535,8 +521,6 @@ syntax enable
 set background=dark
 if neobundle#tap('vim-colors-solarized')
   colorscheme solarized
-
-  call neobundle#untap()
 endif
 
 " 行番号を表示
