@@ -15,7 +15,7 @@ if has('vim_starting')
   " neobundle をインストールしていなければ自動でインストール
   if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
     echo 'install neobundle...'
-    :call system('curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh')
+    call system('curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh')
   endif
 
   " 必須
@@ -197,18 +197,19 @@ if neobundle#tap('vimfiler')
         \       'VimFiler',
         \       'VimFilerBufferDir',
         \       'VimFilerExplorer',
-        \     ]
+        \     ],
+        \     'mappings': [
+        \       '<Plug>(vimfiler_switch)',
+        \     ],
+        \     'explorer': 1,
         \   }
         \ })
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('vimfiler')
-      " デフォルトのファイラをvimfilerに置き換える
-      let g:vimfiler_as_default_explorer = 1
+  " デフォルトのファイラをvimfilerに置き換える
+  let g:vimfiler_as_default_explorer = 1
 
-      " セーフモードは無効
-      " let g:vimfiler_safe_mode_by_default = 0
-    endif
-  endfunction
+  " セーフモードは無効
+  " let g:vimfiler_safe_mode_by_default = 0
+
   call neobundle#untap()
 endif
 
