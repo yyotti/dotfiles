@@ -31,7 +31,7 @@ if has('unix')
   " Linuxで必要になるなら有効にする
   " インストール後、自動的にビルドされる
   " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
-  NeoBundle 'Shougo/vimproc', {
+  NeoBundle 'Shougo/vimproc.vim', {
   \ 'build' : {
   \     'windows' : 'tools\\update-dll-mingw',
   \     'cygwin' : 'make -f make_cygwin.mak',
