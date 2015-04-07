@@ -69,6 +69,9 @@ NeoBundle 'tpope/vim-repeat', {
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 
+" -- eskk.vim
+NeoBundle 'tyru/eskk.vim'
+
 " }}}
 
 " Lazy {{{
@@ -137,9 +140,6 @@ NeoBundle 'cohama/agit.vim'
 
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
-
-" -- eskk.vim
-NeoBundle 'tyru/eskk.vim'
 
 " -- vim-unified-diff
 NeoBundle 'lambdalisue/vim-unified-diff'
@@ -466,6 +466,34 @@ if neobundle#tap('vimshell')
 endif
 " }}}
 
+" eskk {{{
+if neobundle#tap('eskk.vim')
+  " settings {{{
+  let g:eskk#directory = '~/.skk'
+  if has('gui_running')
+    set imdisable
+  endif
+  if has('vim_starting')
+    if neobundle#tap('neocomplete')
+      let g:eskk#enable_completion=1
+      call neobundle#untap()
+    endif
+    let g:eskk#dictionary = {
+          \   'path': '~/.skk/skk-jisyo.user',
+          \   'sorted': 0,
+          \   'encoding': 'utf-8',
+          \ }
+    let g:eskk#large_dictionary = {
+          \   'path': '~/.skk/SKK-JISYO.L',
+          \   'sorted': 1,
+          \   'encoding': 'euc-jp',
+          \ }
+  endif
+  " }}}
+  call neobundle#untap()
+endif
+" }}}
+
 " syntastic {{{
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1
@@ -474,26 +502,6 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
 " なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
 let g:syntastic_php_php_args = '-l'
-" }}}
-
-" eskk {{{
-let g:eskk#directory = '~/.skk'
-if has('gui_running')
-  set imdisable
-endif
-if has('vim_starting')
-  let g:eskk#enable_completion=1
-  let g:eskk#dictionary = {
-        \   'path': '~/.skk/skk-jisyo.user',
-        \   'sorted': 0,
-        \   'encoding': 'utf-8',
-        \ }
-  let g:eskk#large_dictionary = {
-        \   'path': '~/.skk/SKK-JISYO.L',
-        \   'sorted': 1,
-        \   'encoding': 'euc-jp',
-        \ }
-endif
 " }}}
 
 " vim-unified-diff {{{
