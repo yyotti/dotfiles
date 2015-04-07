@@ -462,7 +462,7 @@ if neobundle#tap('eskk.vim')
     set imdisable
   endif
   if has('vim_starting')
-    if neobundle#tap('neocomplete')
+    if neobundle#tap('neocomplete.vim')
       let g:eskk#enable_completion=1
     endif
     let g:eskk#dictionary = {
