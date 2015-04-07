@@ -135,10 +135,10 @@ NeoBundleLazy 'scrooloose/syntastic'
 " -- nebula
 NeoBundleLazy 'LeafCage/nebula.vim'
 
-" }}}
-
 " -- vim-scala
-NeoBundle 'derekwyatt/vim-scala'
+NeoBundleLazy 'derekwyatt/vim-scala'
+
+" }}}
 
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
@@ -582,6 +582,30 @@ if neobundle#tap('nebula.vim')
       nnoremap <silent> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
     endif
   endfunction
+  " }}}
+endif
+" }}}
+
+" vim-scala {{{
+if neobundle#tap('vim-scala')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'sbt.scala',
+        \       'scala',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " ftdetectが読み込まれないので、ここで読んでしまう
+  augroup vim_scala
+    autocmd!
+    source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
+  augroup END
+
   " }}}
 endif
 " }}}
