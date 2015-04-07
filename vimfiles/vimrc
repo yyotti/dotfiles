@@ -42,14 +42,14 @@ if has('unix')
   " インストール後、自動的にビルドされる
   " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
   NeoBundle 'Shougo/vimproc.vim', {
-  \ 'build' : {
-  \     'windows' : 'tools\\update-dll-mingw',
-  \     'cygwin' : 'make -f make_cygwin.mak',
-  \     'mac' : 'make -f make_mak.mak',
-  \     'linux' : 'make',
-  \     'unix' : 'gmake',
-  \     },
-  \ }
+        \   'build': {
+        \     'windows': 'tools\\update-dll-mingw',
+        \     'cygwin': 'make -f make_cygwin.mak',
+        \     'mac': 'make -f make_mak.mak',
+        \     'linux': 'make',
+        \     'unix': 'gmake',
+        \   },
+        \ }
 endif
 " }}} vimproc
 
@@ -62,8 +62,8 @@ NeoBundle 'altercation/vim-colors-solarized'
 " Lazy {{{
 " -- Unite
 NeoBundleLazy 'Shougo/unite.vim', {
-  \ 'depends': ['Shougo/vimproc.vim'],
-  \ }
+      \   'depends': ['Shougo/vimproc.vim'],
+      \ }
 
 " }}} Lazy
 
@@ -213,10 +213,10 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " 辞書定義
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-    \ }
+      \   'default': '',
+      \   'vimshell': $HOME.'/.vimshell_hist',
+      \   'scheme': $HOME.'/.gosh_completions'
+      \ }
 
 " キーワード定義
 if !exists('g:neocomplete#keyword_patterns')
@@ -274,15 +274,15 @@ endif
 if has('vim_starting')
   let g:eskk#enable_completion=1
   let g:eskk#dictionary = {
-    \ 'path': '~/.skk/skk-jisyo.user',
-    \ 'sorted': 0,
-    \ 'encoding': 'utf-8',
-    \ }
+        \   'path': '~/.skk/skk-jisyo.user',
+        \   'sorted': 0,
+        \   'encoding': 'utf-8',
+        \ }
   let g:eskk#large_dictionary = {
-    \ 'path': '~/.skk/SKK-JISYO.L',
-    \ 'sorted': 1,
-    \ 'encoding': 'euc-jp',
-    \ }
+        \   'path': '~/.skk/SKK-JISYO.L',
+        \   'sorted': 1,
+        \   'encoding': 'euc-jp',
+        \ }
 endif
 " }}} eskk
 
