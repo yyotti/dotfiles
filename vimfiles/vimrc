@@ -90,13 +90,16 @@ if has('lua')
         \   'depends': ['Shougo/vimproc'],
         \ }
 endif
-" }}}
 
 " -- neosnippet
-NeoBundle 'Shougo/neosnippet'
+NeoBundleLazy 'Shougo/neosnippet', {
+      \   'depends': ['Shougo/neosnippet-snippets'],
+      \ }
 
 " -- neosnippetのスニペット
-NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundleLazy 'Shougo/neosnippet-snippets'
+
+" }}}
 
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
@@ -345,12 +348,68 @@ if neobundle#tap('neocomplete.vim')
 endif
 " }}}
 
-" matchit {{{
-runtime macros/matchit.vim
+" neosnippet {{{
+if neobundle#tap('neosnippet.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \     'filetype': 'snippet',
+        \     'commands': [
+        \       'NeoSnippetEdit',
+        \       'NeoSnippetSource',
+        \     ],
+        \     'filetypes': [
+        \       'nsnippet',
+        \     ],
+        \     'unite_sources': [
+        \       'snippet',
+        \       'neosnippet/user',
+        \       'neosnippet/runtime',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " setting {{{
+  " }}}
+
+  " キーマッピング {{{
+  " プラグインキーマッピング
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+
+  " Tabでも補完する
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  " For snippet_complete marker.
+  if has('concela')
+    set conceallevel=2 concealcursor=i
+  endif
+  " }}}
+
+  call neobundle#untap()
+endif
 " }}}
 
-" neosnippet {{{
-" TODO あとでサイトを見て最新の設定を記述する
+" neosnippet-snippets {{{
+if neobundle#tap('neosnippet-snippets.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'on_source': ['neosnippet.vim'],
+        \   },
+        \ })
+  " }}}
+
+  call neobundle#untap()
+endif
+" }}}
+
+" matchit {{{
+runtime macros/matchit.vim
 " }}}
 
 " fugitive {{{
@@ -622,21 +681,6 @@ nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
 
 
-" neosnippet {{{
-" プラグインキーマッピング
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-
-" Tabでも補完する
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For snippet_complete marker.
-if has('concela')
-  set conceallevel=2 concealcursor=i
-endif
-" }}}
 
 " fugitive, Agit, Merginal {{{
 " prefix定義
