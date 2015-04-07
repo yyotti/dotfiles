@@ -233,6 +233,7 @@ endif
 
 " vimfiler {{{
 if neobundle#tap('vimfiler')
+  " config {{{
   call neobundle#config({
         \   'autoload': {
         \     'commands': [
@@ -246,11 +247,27 @@ if neobundle#tap('vimfiler')
         \     'explorer': 1,
         \   }
         \ })
+  " }}} config
+
+  " 定数定義 {{{
   " デフォルトのファイラをvimfilerに置き換える
   let g:vimfiler_as_default_explorer = 1
 
   " セーフモードは無効
   " let g:vimfiler_safe_mode_by_default = 0
+
+  " }}} 定数定義
+
+  " キーマッピング {{{
+  " prefix定義
+  nnoremap [vimfiler] <Nop>
+  nmap <Leader>f [vimfiler]
+
+  " 現在開いているバッファのディレクトリを開く
+  nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
+  " 現在開いているバッファをIDE風に開く
+  nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
+  " }}} キーマッピング
 
   call neobundle#untap()
 endif
@@ -572,17 +589,6 @@ nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
 " }}} プラグイン非依存
 
-
-" vimfiler {{{
-" prefix定義
-nnoremap [vimfiler] <Nop>
-nmap <Leader>f [vimfiler]
-
-" 現在開いているバッファのディレクトリを開く
-nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
-" 現在開いているバッファをIDE風に開く
-nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
-" }}} vimfiler
 
 " neocomplete {{{
 inoremap <expr><C-g> neocomplete#undo_completion()
