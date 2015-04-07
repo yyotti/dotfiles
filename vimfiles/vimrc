@@ -80,7 +80,7 @@ NeoBundleLazy 'Shougo/vimfiler', {
 
 " -- neomru
 " ※Uniteから分離したらしい
-NeoBundle 'Shougo/neomru.vim', {
+NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
       \}
 
@@ -168,15 +168,8 @@ if neobundle#tap('unite.vim')
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced('unite.vim')
-
       " デフォルトアクションを書き換える
       call unite#custom_default_action('directory', 'vimfiler')
-
-      " Unite-bookmark
-      augroup unite_bookmark
-       autocmd!
-       autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
-      augroup END
     endif
   endfunction
   " }}}
@@ -188,6 +181,12 @@ if neobundle#tap('unite.vim')
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
+
+  " Unite-bookmark
+  augroup unite_bookmark
+    autocmd!
+    autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
+  augroup END
   " }}}
 
   " キーマッピング {{{
@@ -215,7 +214,7 @@ if neobundle#tap('unite.vim')
 endif
 
 " [neomru] {{{
-if neobundle#tap('neomru')
+if neobundle#tap('neomru.vim')
   call neobundle#config({
         \   'autoload': {
         \     'on_source': ['unite.vim'],
