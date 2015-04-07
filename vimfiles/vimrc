@@ -146,6 +146,14 @@ NeoBundleLazy 'kchmck/vim-coffee-script'
 
 " }}}
 
+" NeoBundle管理以外 {{{
+
+" matchit {{{
+runtime macros/matchit.vim
+" }}}
+
+" }}}
+
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
 
@@ -405,10 +413,6 @@ if neobundle#tap('neosnippet-snippets.vim')
         \ })
   " }}}
 endif
-" }}}
-
-" matchit {{{
-runtime macros/matchit.vim
 " }}}
 
 " fugitive, Agit, Merginal {{{
