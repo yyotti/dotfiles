@@ -126,6 +126,9 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
 
+" -- syntastic
+NeoBundleLazy 'scrooloose/syntastic'
+
 " }}}
 
 " -- tcomment_vim
@@ -149,9 +152,6 @@ NeoBundle 'kchmck/vim-coffee-script'
 
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
-
-" -- syntastic
-NeoBundle 'scrooloose/syntastic'
 
 call neobundle#end()
 
@@ -524,13 +524,37 @@ endif
 " }}}
 
 " syntastic {{{
-let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_highlighting = 1
-" なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
-let g:syntastic_php_php_args = '-l'
+if neobundle#tap('syntastic')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \     'commands': [
+        \       'Errors',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('syntastic')
+      " ステータスラインに表示を追加
+      set statusline+=\  " 空白スペース
+      set statusline+=%#warningmsg#
+      set statusline+=%{exists('*SyntasticStatuslineFlag')?SyntasticStatuslineFlag():''} " syntasticによるチェック結果
+      set statusline+=%*
+    endif
+  endfunction
+  " }}}
+
+  " settings {{{
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 1
+  " }}}
+endif
 " }}}
 
 " }}}
@@ -591,8 +615,12 @@ set statusline+=%y " バッファ内のファイルタイプ
 set statusline+=\  " 空白スペース
 set statusline+=%<%F " バッファ内のファイルのフルパス
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
-set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
-set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
+if neobundle#tap('eskk.vim')
+  set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
+endif
+if neobundle#tap('vim-fugitive')
+  set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
+endif
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
 set statusline+=/
@@ -602,10 +630,6 @@ set statusline+=%L " バッファ内の総行数
 " set statusline+=%V " 画面上の何列目にカーソルがあるか
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%P " ファイル内の何%の位置にあるか
-set statusline+=\  " 空白スペース
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " 入力モード時にステータスラインの色を変える
 augroup InsertHook
