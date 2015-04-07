@@ -121,6 +121,9 @@ NeoBundle 'lambdalisue/vim-unified-diff'
 " -- vim-merginal
 NeoBundle 'idanarye/vim-merginal'
 
+" -- nebula
+NeoBundle 'LeafCage/nebula.vim'
+
 call neobundle#end()
 
 " 必須!!
