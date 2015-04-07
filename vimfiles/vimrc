@@ -87,6 +87,9 @@ NeoBundle 'tyru/eskk.vim'
 " -- vim-unified-diff
 NeoBundle 'lambdalisue/vim-unified-diff'
 
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
+
 " }}}
 
 " Lazy {{{
@@ -130,9 +133,6 @@ NeoBundleLazy 'Shougo/vimshell', {
 NeoBundleLazy 'scrooloose/syntastic'
 
 " }}}
-
-" -- tcomment_vim
-NeoBundle 'tomtom/tcomment_vim'
 
 " -- vim-scala
 NeoBundle 'derekwyatt/vim-scala'
