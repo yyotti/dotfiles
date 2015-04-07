@@ -150,9 +150,6 @@ NeoBundle 'groenewege/vim-less'
 " -- vim-coffee-script
 NeoBundle 'kchmck/vim-coffee-script'
 
-" -- smarty-syntax
-NeoBundle 'smarty-syntax'
-
 call neobundle#end()
 
 " 必須!!
