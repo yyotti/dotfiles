@@ -103,13 +103,15 @@ NeoBundleLazy 'Shougo/neosnippet', {
 " -- neosnippetのスニペット
 NeoBundleLazy 'Shougo/neosnippet-snippets'
 
+" -- vimshell
+NeoBundleLazy 'Shougo/vimshell', {
+      \   'depends': ['Shougo/vimproc'],
+      \ }
+
 " }}}
 
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
-
-" -- vimshell
-NeoBundle 'Shougo/vimshell'
 
 " -- vim-scala
 NeoBundle 'derekwyatt/vim-scala'
@@ -436,6 +438,29 @@ if neobundle#tap('vim-fugitive')
   nnoremap <silent> [git]s :<C-u>Gstatus<CR>
   " git-diff
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
+  " }}}
+  call neobundle#untap()
+endif
+" }}}
+
+" vimshell {{{
+if neobundle#tap('vimshell')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       {
+        \         'name': 'VimShell',
+        \         'complete': 'customlist,vimshell#complete',
+        \       },
+        \       'VimShellExecute',
+        \       'VimShellPop',
+        \     ],
+        \     'mappings': [
+        \       '<Plug>(vimshell_switch)'
+        \     ],
+        \   },
+        \ })
   " }}}
   call neobundle#untap()
 endif
