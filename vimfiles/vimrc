@@ -98,14 +98,6 @@ NeoBundle 'Shougo/neosnippet-snippets'
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
 
-" -------- " -- quickrun
-" -------- " ※あんまり必要ない気がする
-" -------- NeoBundle 'thinca/vim-quickrun'
-
-" -------- " -- sudo.vim
-" -------- " ※Winで必要か？
-" -------- NeoBundle 'vim-scripts/sudo.vim'
-
 " -- vimshell
 NeoBundle 'Shougo/vimshell'
 
