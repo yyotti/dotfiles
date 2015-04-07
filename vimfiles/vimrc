@@ -111,6 +111,11 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
 
+" -- Agit
+NeoBundleLazy 'cohama/agit.vim', {
+      \   'depends': ['tpope/vim-fugitive'],
+      \ }
+
 " }}}
 
 " -- tcomment_vim
@@ -134,9 +139,6 @@ NeoBundle 'kchmck/vim-coffee-script'
 
 " -- smarty-syntax
 NeoBundle 'smarty-syntax'
-
-" -- Agit
-NeoBundle 'cohama/agit.vim'
 
 " -- syntastic
 NeoBundle 'scrooloose/syntastic'
@@ -410,6 +412,7 @@ runtime macros/matchit.vim
 nnoremap [git] <Nop>
 nmap <Leader>g [git]
 
+" fugitive {{{
 if neobundle#tap('vim-fugitive')
   " settings {{{
   augroup fugitive_cmd
@@ -430,6 +433,24 @@ if neobundle#tap('vim-fugitive')
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
   " }}}
 endif
+" }}}
+
+" agit {{{
+if neobundle#tap('agit.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       'Agit',
+        \     ]
+        \   }
+        \ })
+  " }}}
+  " キーマッピング {{{
+  nnoremap <silent> [git]a :<C-u>Agit<CR>
+  " }}}
+endif
+" }}}
 " }}}
 
 " vimshell {{{
@@ -721,9 +742,6 @@ nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
 
 " fugitive, Agit, Merginal {{{
-
-" Agit
-nnoremap <silent> [git]a :<C-u>Agit<CR>
 
 " Merginal
 nnoremap <silent> [git]m :<C-u>Merginal<CR>
