@@ -588,8 +588,6 @@ endif
 
 " }}}
 
-" }}}
-
 " 表示設定 {{{
 if has('unix')
   " Linuxで文字化けするので、Linuxならtermencodingをutf-8にする（kaoriya vimrcではcp932になる？）
