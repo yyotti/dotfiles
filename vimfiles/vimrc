@@ -811,9 +811,8 @@ set nf=""
 
 " }}}
 
-" キーマッピング {{{
+" プラグイン非依存のキーマッピング {{{
 
-" プラグイン非依存 {{{
 " ESC連打でハイライトを消す
 nmap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
@@ -866,5 +865,4 @@ nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
-" }}}
 " }}}
