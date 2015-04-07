@@ -132,6 +132,9 @@ NeoBundleLazy 'Shougo/vimshell', {
 " -- syntastic
 NeoBundleLazy 'scrooloose/syntastic'
 
+" -- nebula
+NeoBundleLazy 'LeafCage/nebula.vim'
+
 " }}}
 
 " -- vim-scala
@@ -354,12 +357,12 @@ if neobundle#tap('neosnippet.vim')
   call neobundle#config({
         \   'autoload': {
         \     'insert': 1,
-        \     'filetype': 'snippet',
         \     'commands': [
         \       'NeoSnippetEdit',
         \       'NeoSnippetSource',
         \     ],
         \     'filetypes': [
+        \       'snippet',
         \       'nsnippet',
         \     ],
         \     'unite_sources': [
@@ -552,6 +555,37 @@ if neobundle#tap('syntastic')
   let g:syntastic_check_on_wq = 1
   " }}}
 endif
+" }}}
+
+" nebula {{{
+if neobundle#tap('nebula.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'vim',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('nebula.vim')
+      " prefix定義
+      nnoremap [nebula] <Nop>
+      nmap <Leader>n [nebula]
+
+      nnoremap <silent> [nebula]l :<C-u>NebulaPutLazy<CR>
+      nnoremap <silent> [nebula]c :<C-u>NebulaPutConfig<CR>
+      nnoremap <silent> [nebula]y :<C-u>NebulaYankOptions<CR>
+      nnoremap <silent> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
+    endif
+  endfunction
+  " }}}
+endif
+" }}}
+
 " }}}
 
 " }}}
