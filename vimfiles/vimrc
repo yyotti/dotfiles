@@ -78,6 +78,9 @@ NeoBundle 'Shougo/neomru.vim', {
 
 " }}}
 
+" -- surround
+NeoBundle 'tpope/vim-surround'
+
 " -- repeat(surroundとセットで)
 NeoBundle 'tpope/vim-repeat'
 
