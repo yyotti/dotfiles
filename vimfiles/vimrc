@@ -29,7 +29,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " 必須
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" }}} NeoBundle
+" }}}
 
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
@@ -51,13 +51,13 @@ if has('unix')
         \   },
         \ }
 endif
-" }}} vimproc
+" }}}
 
 " Lazyしないプラグイン {{{
 " -- Solarized
 NeoBundle 'altercation/vim-colors-solarized'
 
-" }}} Lazyしないプラグイン
+" }}}
 
 " Lazy {{{
 " -- Unite
@@ -76,7 +76,7 @@ NeoBundle 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
       \}
 
-" }}} Lazy
+" }}}
 
 " -- repeat(surroundとセットで)
 NeoBundle 'tpope/vim-repeat'
@@ -149,7 +149,7 @@ filetype plugin indent on
 " インストールチェック
 NeoBundleCheck
 
-" }}} プラグイン管理
+" }}}
 
 " 各プラグインの設定 {{{
 
@@ -166,7 +166,7 @@ if neobundle#tap('unite.vim')
         \     ]
         \   }
         \ })
-  " }}} config
+  " }}}
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
@@ -182,7 +182,7 @@ if neobundle#tap('unite.vim')
       augroup END
     endif
   endfunction
-  " }}} on_source
+  " }}}
 
   " settings {{{
   " insertモードで起動する
@@ -191,7 +191,7 @@ if neobundle#tap('unite.vim')
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
-  " }}} settings
+  " }}}
 
   " キーマッピング {{{
   " prefix定義
@@ -213,7 +213,7 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
   " バッファ内で行を検索
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
-  " }}} キーマッピング
+  " }}}
   call neobundle#untap()
 endif
 
@@ -227,9 +227,9 @@ if neobundle#tap('neomru')
 
   call neobundle#untap()
 endif
-" }}} [neomru]
+" }}}
 
-" }}} Unite
+" }}}
 
 " vimfiler {{{
 if neobundle#tap('vimfiler')
@@ -247,7 +247,7 @@ if neobundle#tap('vimfiler')
         \     'explorer': 1,
         \   }
         \ })
-  " }}} config
+  " }}}
 
   " settings {{{
   " デフォルトのファイラをvimfilerに置き換える
@@ -256,7 +256,7 @@ if neobundle#tap('vimfiler')
   " セーフモードは無効
   " let g:vimfiler_safe_mode_by_default = 0
 
-  " }}} settings
+  " }}}
 
   " キーマッピング {{{
   " prefix定義
@@ -267,16 +267,16 @@ if neobundle#tap('vimfiler')
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
   " 現在開いているバッファをIDE風に開く
   nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
-  " }}} キーマッピング
+  " }}}
 
   call neobundle#untap()
 endif
 
-" }}} vimfiler
+" }}}
 
 " matchit {{{
 runtime macros/matchit.vim
-" }}} matchit
+" }}}
 
 " neocomplete {{{
 " AutoComplPopを無効化する（入れてないから不要なはず）
@@ -316,11 +316,11 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" }}} neocomplete
+" }}}
 
 " neosnippet {{{
 " TODO あとでサイトを見て最新の設定を記述する
-" }}} neosnippet
+" }}}
 
 " fugitive {{{
 augroup fugitive_cmd
@@ -332,7 +332,7 @@ augroup fugitive_cmd
   autocmd FileType gitcommit :set fileencoding=utf-8
   autocmd FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 augroup END
-" }}} fugitive
+" }}}
 
 " syntastic {{{
 let g:syntastic_check_on_open = 1
@@ -342,7 +342,7 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
 " なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
 let g:syntastic_php_php_args = '-l'
-" }}} syntastic
+" }}}
 
 " eskk {{{
 let g:eskk#directory = '~/.skk'
@@ -362,7 +362,7 @@ if has('vim_starting')
         \   'encoding': 'euc-jp',
         \ }
 endif
-" }}} eskk
+" }}}
 
 " vim-unified-diff {{{
 set diffexpr=unified_diff#diffexpr()
@@ -377,9 +377,9 @@ set diffexpr=unified_diff#diffexpr()
 "  \ ]
 let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする
 
-" }}} vim-unified-diff
+" }}}
 
-" }}} 各プラグインの設定
+" }}}
 
 " 表示設定 {{{
 if has('unix')
@@ -475,7 +475,7 @@ highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText cterm=bold ctermfg=10 ctermbg=21
 
-" }}} 表示設定
+" }}}
 
 " ファイル操作設定 {{{
 " バックアップファイルを作成する
@@ -497,7 +497,7 @@ augroup del_end_ws
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
 
-" }}} ファイル操作設定
+" }}}
 
 " ファイルタイプ設定 {{{
 
@@ -510,8 +510,8 @@ let g:php_folding = 1
 
 " DBをMySQLにする（シンタックスハイライトがきく？）
 let g:sql_type_default='mysql'
-" }}} PHP
-" }}} ファイルタイプ設定
+" }}}
+" }}}
 
 " その他の設定 {{{
 " クリップボードを共有
@@ -530,7 +530,7 @@ endif
 " 0詰めされた 001 などを8進数ではなく普通の数字とみなす
 set nf=""
 
-" }}} その他の設定
+" }}}
 
 " キーマッピング {{{
 
@@ -587,7 +587,7 @@ nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
-" }}} プラグイン非依存
+" }}}
 
 
 " neocomplete {{{
@@ -607,7 +607,7 @@ inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y> neocomplete#close_popup()
 inoremap <expr><C-e> neocomplete#cancel_popup()
-" }}} neocomplete
+" }}}
 
 " neosnippet {{{
 " プラグインキーマッピング
@@ -623,7 +623,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expan
 if has('concela')
   set conceallevel=2 concealcursor=i
 endif
-" }}} neosnippet
+" }}}
 
 " fugitive, Agit, Merginal {{{
 " prefix定義
@@ -641,5 +641,5 @@ nnoremap <silent> [git]a :<C-u>Agit<CR>
 " Merginal
 nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
-" }}} fugitive, Agit, Merginal
-" }}} キーマッピング
+" }}}
+" }}}
