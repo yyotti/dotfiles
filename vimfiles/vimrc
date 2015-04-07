@@ -69,6 +69,18 @@ NeoBundle 'tpope/vim-repeat', {
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 
+" -- Agit
+" ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
+NeoBundle 'cohama/agit.vim', {
+      \   'depends': ['tpope/vim-fugitive'],
+      \ }
+
+" -- vim-merginal
+" ※これもautocmdを使っているので遅延ロードできない
+NeoBundle 'idanarye/vim-merginal', {
+      \   'depends': ['tpope/vim-fugitive'],
+      \ }
+
 " -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
 
@@ -111,11 +123,6 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
 
-" -- Agit
-NeoBundleLazy 'cohama/agit.vim', {
-      \   'depends': ['tpope/vim-fugitive'],
-      \ }
-
 " }}}
 
 " -- tcomment_vim
@@ -145,9 +152,6 @@ NeoBundle 'scrooloose/syntastic'
 
 " -- vim-unified-diff
 NeoBundle 'lambdalisue/vim-unified-diff'
-
-" -- vim-merginal
-NeoBundle 'idanarye/vim-merginal'
 
 call neobundle#end()
 
@@ -437,17 +441,16 @@ endif
 
 " agit {{{
 if neobundle#tap('agit.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       'Agit',
-        \     ]
-        \   }
-        \ })
-  " }}}
   " キーマッピング {{{
   nnoremap <silent> [git]a :<C-u>Agit<CR>
+  " }}}
+endif
+" }}}
+
+" Merginal {{{
+if neobundle#tap('vim-merginal')
+  " キーマッピング {{{
+  nnoremap <silent> [git]m :<C-u>Merginal<CR>
   " }}}
 endif
 " }}}
@@ -735,16 +738,6 @@ nnoremap <silent> <Leader>rv :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
-
-" }}}
-
-
-
-
-" fugitive, Agit, Merginal {{{
-
-" Merginal
-nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
 " }}}
 " }}}
