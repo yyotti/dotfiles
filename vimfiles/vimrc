@@ -184,6 +184,7 @@ if neobundle#tap('unite.vim')
       augroup END
     endif
   endfunction
+  call neobundle#untap()
 endif
 
 " }}} Unite
@@ -208,6 +209,7 @@ if neobundle#tap('vimfiler')
       " let g:vimfiler_safe_mode_by_default = 0
     endif
   endfunction
+  call neobundle#untap()
 endif
 
 " }}} vimfiler
