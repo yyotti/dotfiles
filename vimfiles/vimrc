@@ -415,7 +415,7 @@ endif
 " }}}
 
 " neosnippet-snippets {{{
-if neobundle#tap('neosnippet-snippets.vim')
+if neobundle#tap('neosnippet-snippets')
   " config {{{
   call neobundle#config({
         \   'autoload': {
@@ -437,7 +437,10 @@ if neobundle#tap('neosnippet-additional')
   " }}}
 
   " setting {{{
-  let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-additional/snippets/'
+  if !exists('g:neosnippet#snippets_directory')
+    let g:neosnippet#snippets_directory = []
+  endif
+  let g:neosnippet#snippets_directory += ['~/.vim/bundle/neosnippet-additional/snippets/']
   " }}}
 endif
 " }}}
