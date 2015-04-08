@@ -144,6 +144,10 @@ NeoBundleLazy 'groenewege/vim-less'
 " -- vim-coffee-script
 NeoBundleLazy 'kchmck/vim-coffee-script'
 
+" -- vim-vimlint
+NeoBundleLazy 'syngan/vim-vimlint', {
+      \   'depends': 'ynkdir/vim-vimlparser',
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -152,6 +156,9 @@ NeoBundleLazy 'kchmck/vim-coffee-script'
 runtime macros/matchit.vim
 " }}}
 
+" }}}
+
+" 試験的に導入するプラグイン {{{
 " }}}
 
 " -------- " -- scala-vim-snippets
@@ -190,7 +197,7 @@ if neobundle#tap('unite.vim')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('unite.vim')
+    if neobundle#is_sourced(a:bundle.name)
       " デフォルトアクションを書き換える
       call unite#custom_default_action('directory', 'vimfiler')
     endif
@@ -390,7 +397,7 @@ if neobundle#tap('neosnippet')
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
   " For snippet_complete marker.
-  if has('concela')
+  if has('conceal')
     set conceallevel=2 concealcursor=i
   endif
   " }}}
@@ -536,7 +543,7 @@ if neobundle#tap('syntastic')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('syntastic')
+    if neobundle#is_sourced(a:bundle.name)
       " ステータスラインに表示を追加
       set statusline+=\  " 空白スペース
       set statusline+=%#warningmsg#
@@ -569,7 +576,7 @@ if neobundle#tap('nebula.vim')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('nebula.vim')
+    if neobundle#is_sourced(a:bundle.name)
       " prefix定義
       nnoremap [nebula] <Nop>
       nmap <Leader>n [nebula]
@@ -650,6 +657,23 @@ if neobundle#tap('vim-coffee-script')
     source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
   augroup END
 
+  " }}}
+endif
+" }}}
+
+" vim-vimlint {{{
+if neobundle#tap('vim-vimlint')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'functions': [
+        \       'vimlint#vimlint',
+        \     ],
+        \     'on_source': [
+        \       'syntastic',
+        \     ],
+        \   },
+        \ })
   " }}}
 endif
 " }}}
