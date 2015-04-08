@@ -154,6 +154,18 @@ runtime macros/matchit.vim
 
 " }}}
 
+" 試験的に導入するプラグイン {{{
+" -- vim-vimlint
+NeoBundle 'syngan/vim-vimlint', {
+      \   'depends': 'ynkdir/vim-vimlparser',
+      \   'autoload': {
+      \     'functions': [
+      \       'vimlint#vimlint',
+      \     ],
+      \   },
+      \ }
+" }}}
+
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
 
