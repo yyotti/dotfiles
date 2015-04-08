@@ -90,6 +90,13 @@ NeoBundle 'lambdalisue/vim-unified-diff'
 " -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
 
+" -- vim-vimlint
+" ※vim-watchdogsを使おうとすると、Lazyにできないらしい
+" TODO なんとかLazyにしたい
+NeoBundle 'syngan/vim-vimlint', {
+      \   'depends': 'ynkdir/vim-vimlparser',
+      \ }
+
 " }}}
 
 " Lazy {{{
@@ -129,9 +136,6 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
 
-" -- syntastic
-NeoBundleLazy 'scrooloose/syntastic'
-
 " -- nebula
 NeoBundleLazy 'LeafCage/nebula.vim'
 
@@ -144,9 +148,13 @@ NeoBundleLazy 'groenewege/vim-less'
 " -- vim-coffee-script
 NeoBundleLazy 'kchmck/vim-coffee-script'
 
-" -- vim-vimlint
-NeoBundleLazy 'syngan/vim-vimlint', {
-      \   'depends': 'ynkdir/vim-vimlparser',
+" -- vim-watchdogs
+NeoBundleLazy 'osyo-manga/vim-watchdogs', {
+      \   'depends': [
+      \     'thinca/vim-quickrun',
+      \     'Shougo/vimproc',
+      \     'osyo-manga/shabadou.vim',
+      \   ],
       \ }
 " }}}
 
@@ -528,40 +536,6 @@ endif
 
 " }}}
 
-" syntastic {{{
-if neobundle#tap('syntastic')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'insert': 1,
-        \     'commands': [
-        \       'Errors',
-        \     ]
-        \   }
-        \ })
-  " }}}
-
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      " ステータスラインに表示を追加
-      set statusline+=\  " 空白スペース
-      set statusline+=%#warningmsg#
-      set statusline+=%{exists('*SyntasticStatuslineFlag')?SyntasticStatuslineFlag():''} " syntasticによるチェック結果
-      set statusline+=%*
-    endif
-  endfunction
-  " }}}
-
-  " settings {{{
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 1
-  " }}}
-endif
-" }}}
-
 " nebula {{{
 if neobundle#tap('nebula.vim')
   " config {{{
@@ -663,17 +637,53 @@ endif
 
 " vim-vimlint {{{
 if neobundle#tap('vim-vimlint')
+  " " config {{{
+  " call neobundle#config({
+  "       \   'autoload': {
+  "       \     'functions': [
+  "       \       'vimlint#vimlint',
+  "       \     ],
+  "       \     'on_source': [
+  "       \       'vim-watchdogs',
+  "       \     ],
+  "       \   },
+  "       \ })
+  " " }}}
+endif
+" }}}
+
+" vim-watchdogs {{{
+if neobundle#tap('vim-watchdogs')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'functions': [
-        \       'vimlint#vimlint',
-        \     ],
-        \     'on_source': [
-        \       'syntastic',
-        \     ],
-        \   },
+        \     'insert': 1,
+        \   }
         \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+      " 設定を追加してやる
+      let g:quickrun_config = {
+            \   'watchdogs_checker/_': {
+            \     'runner/vimproc/updatetime': 20,
+            \   },
+            \ }
+      call watchdogs#setup(g:quickrun_config)
+    endif
+  endfunction
+  " }}}
+
+  " settings {{{
+  " 書き込み後にシンタックスチェックを行う
+  let g:watchdogs_check_BufWritePost_enable = 1
+
+  " 一定時間以上キー入力がなかった場合にシンタックスチェックを行う
+  " バッファに書き込み後、1度だけ行われる
+  let g:watchdogs_check_CursorHold_enable = 1
+
   " }}}
 endif
 " }}}
