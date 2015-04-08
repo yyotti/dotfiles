@@ -161,6 +161,11 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \     'osyo-manga/shabadou.vim',
       \   ],
       \ }
+
+" -- vim-qfsigns
+NeoBundleLazy 'KazuakiM/vim-qfsigns', {
+      \   'depends': ['osyo-manga/vim-watchdogs'],
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -172,8 +177,6 @@ runtime macros/matchit.vim
 " }}}
 
 " 試験的に導入するプラグイン {{{
-" -- vim-hier
-NeoBundle 'jceb/vim-hier'
 " }}}
 
 " -------- " -- scala-vim-snippets
@@ -689,21 +692,21 @@ if neobundle#tap('vim-watchdogs')
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
       " 設定を追加してやる
-      if !exists('g:quickrun_config')
-        let g:quickrun_config = {}
-      endif
-      let g:quickrun_config = {
-            \   'watchdogs_checker/_': {
-            \     'runner/vimproc/updatetime': 20,
-            \     'outputter/quickfix/open_cmd': '',
-            \   },
-            \ }
       call watchdogs#setup(g:quickrun_config)
     endif
   endfunction
   " }}}
 
   " settings {{{
+  if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+  endif
+  if !has_key(g:quickrun_config, 'watchdogs_checker/_')
+    let g:quickrun_config['watchdogs_checker/_'] = {}
+  endif
+  let g:quickrun_config['watchdogs_checker/_']['runner/vimproc/updatetime'] = 20
+  let g:quickrun_config['watchdogs_checker/_']['outputter/quickfix/open_cmd'] = ''
+
   " 書き込み後にシンタックスチェックを行う
   let g:watchdogs_check_BufWritePost_enable = 1
 
@@ -711,6 +714,31 @@ if neobundle#tap('vim-watchdogs')
   " バッファに書き込み後、1度だけ行われる
   let g:watchdogs_check_CursorHold_enable = 1
 
+  " }}}
+endif
+" }}}
+
+" vim-qfsigns {{{
+if neobundle#tap('vim-qfsigns')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'on_source': ['vim-watchdogs'],
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+  endif
+  if !has_key(g:quickrun_config, 'watchdogs_checker/_')
+    let g:quickrun_config['watchdogs_checker/_'] = {}
+  endif
+  let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/enable_exit'] = 1
+  let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/priority_exit'] = 3
+
+  let g:qfsigns#AutoJump = 1
   " }}}
 endif
 " }}}
