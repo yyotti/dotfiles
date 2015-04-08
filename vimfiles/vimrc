@@ -1,14 +1,21 @@
 scriptencoding utf-8
-" vim:set ts=8 sts=2 sw=2 tw=0 foldmethod=marker:
+" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
 
-" NeoBundle設定 {{{
+" プラグイン管理 {{{
 
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
 
+" NeoBundle {{{
 if has('vim_starting')
   if &compatible
     set nocompatible
+  endif
+
+  " neobundle をインストールしていなければ自動でインストール
+  if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
+    echo 'install neobundle...'
+    call system('curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh')
   endif
 
   " 必須
@@ -22,95 +29,57 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " 必須
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" }}}
+
 " My Bundles here:
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 
+" vimproc {{{
 if has('unix')
   " vimprocは香り屋版にバンドルされているので、Winでは不要
   " Linuxで必要になるなら有効にする
   " インストール後、自動的にビルドされる
   " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
   NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-  \     'windows' : 'tools\\update-dll-mingw',
-  \     'cygwin' : 'make -f make_cygwin.mak',
-  \     'mac' : 'make -f make_mak.mak',
-  \     'linux' : 'make',
-  \     'unix' : 'gmake',
-  \     },
-  \ }
+        \   'build': {
+        \     'windows': 'tools\\update-dll-mingw',
+        \     'cygwin': 'make -f make_cygwin.mak',
+        \     'mac': 'make -f make_mak.mak',
+        \     'linux': 'make',
+        \     'unix': 'gmake',
+        \   },
+        \ }
 endif
+" }}}
 
+" Lazyしないプラグイン {{{
 " -- Solarized
 NeoBundle 'altercation/vim-colors-solarized'
-
-" -- Unite
-NeoBundle 'Shougo/unite.vim'
-
-" -- neomru
-" ※Uniteから分離したらしい
-NeoBundle 'Shougo/neomru.vim'
-
-" -- vimfiler
-NeoBundle 'Shougo/vimfiler'
 
 " -- surround
 NeoBundle 'tpope/vim-surround'
 
-" -- repeat(surroundとセットで)
-NeoBundle 'tpope/vim-repeat'
-
-" -- neocomplete
-NeoBundle 'Shougo/neocomplete.vim'
-
-" -- neosnippet
-NeoBundle 'Shougo/neosnippet'
-
-" -- neosnippetのスニペット
-NeoBundle 'Shougo/neosnippet-snippets'
-
-" -- tcomment_vim
-NeoBundle 'tomtom/tcomment_vim'
-
-" -------- " -- quickrun
-" -------- " ※あんまり必要ない気がする
-" -------- NeoBundle 'thinca/vim-quickrun'
-
-" -------- " -- sudo.vim
-" -------- " ※Winで必要か？
-" -------- NeoBundle 'vim-scripts/sudo.vim'
-
-" -- vimshell
-NeoBundle 'Shougo/vimshell'
-
-" -- vim-scala
-NeoBundle 'derekwyatt/vim-scala'
-
-" -------- " -- scala-vim-snippets
-" -------- NeoBundle 'tommorris/scala-vim-snippets'
-
-" -- html5
-" オムニ補完で問題が起こるぽいのでいったん削除
-" NeoBundle 'taichouchou2/html5.vim'
-
-" -- vim-less
-NeoBundle 'groenewege/vim-less'
-
-" -- vim-coffee-script
-NeoBundle 'kchmck/vim-coffee-script'
-
-" -- smarty-syntax
-NeoBundle 'smarty-syntax'
+" -- repeat
+NeoBundle 'tpope/vim-repeat', {
+      \   'depends': ['tpope/vim-surround'],
+      \ }
 
 " -- fugitive
+" ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 
 " -- Agit
-NeoBundle 'cohama/agit.vim'
+" ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
+NeoBundle 'cohama/agit.vim', {
+      \   'depends': ['tpope/vim-fugitive'],
+      \ }
 
-" -- syntastic
-NeoBundle 'scrooloose/syntastic'
+" -- vim-merginal
+" ※これもautocmdを使っているので遅延ロードできない
+NeoBundle 'idanarye/vim-merginal', {
+      \   'depends': ['tpope/vim-fugitive'],
+      \ }
 
 " -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
@@ -118,8 +87,79 @@ NeoBundle 'tyru/eskk.vim'
 " -- vim-unified-diff
 NeoBundle 'lambdalisue/vim-unified-diff'
 
-" -- vim-merginal
-NeoBundle 'idanarye/vim-merginal'
+" -- tcomment_vim
+NeoBundle 'tomtom/tcomment_vim'
+
+" }}}
+
+" Lazy {{{
+" -- Unite
+NeoBundleLazy 'Shougo/unite.vim', {
+      \   'depends': ['Shougo/vimproc'],
+      \ }
+
+" -- vimfiler
+NeoBundleLazy 'Shougo/vimfiler', {
+      \   'depends': ['Shougo/unite.vim'],
+      \ }
+
+" -- neomru
+" ※Uniteから分離したらしい
+NeoBundleLazy 'Shougo/neomru.vim', {
+      \   'depends': ['Shougo/unite.vim'],
+      \}
+
+" -- neocomplete
+if has('lua')
+  NeoBundleLazy 'Shougo/neocomplete.vim', {
+        \   'depends': ['Shougo/vimproc'],
+        \ }
+endif
+
+" -- neosnippet
+NeoBundleLazy 'Shougo/neosnippet', {
+      \   'depends': ['Shougo/neosnippet-snippets'],
+      \ }
+
+" -- neosnippetのスニペット
+NeoBundleLazy 'Shougo/neosnippet-snippets'
+
+" -- vimshell
+NeoBundleLazy 'Shougo/vimshell', {
+      \   'depends': ['Shougo/vimproc'],
+      \ }
+
+" -- syntastic
+NeoBundleLazy 'scrooloose/syntastic'
+
+" -- nebula
+NeoBundleLazy 'LeafCage/nebula.vim'
+
+" -- vim-scala
+NeoBundleLazy 'derekwyatt/vim-scala'
+
+" -- vim-less
+NeoBundleLazy 'groenewege/vim-less'
+
+" -- vim-coffee-script
+NeoBundleLazy 'kchmck/vim-coffee-script'
+
+" }}}
+
+" NeoBundle管理以外 {{{
+
+" matchit {{{
+runtime macros/matchit.vim
+" }}}
+
+" }}}
+
+" -------- " -- scala-vim-snippets
+" -------- NeoBundle 'tommorris/scala-vim-snippets'
+
+" -- html5
+" オムニ補完で問題が起こるぽいのでいったん削除
+" NeoBundle 'taichouchou2/html5.vim'
 
 " -- nebula
 NeoBundle 'LeafCage/nebula.vim'
@@ -132,138 +172,498 @@ filetype plugin indent on
 " インストールチェック
 NeoBundleCheck
 
-" }}} NeoBundle設定
+" }}}
 
 " 各プラグインの設定 {{{
-" matchit {{{
-runtime macros/matchit.vim
-" }}} matchit
-
-" vimfiler {{{
-" デフォルトのファイラをvimfilerに置き換える
-let g:vimfiler_as_default_explorer = 1
-
-" セーフモードは無効
-"let g:vimfiler_safe_mode_by_default = 0
-
-" }}} vimfiler
 
 " Unite {{{
-" insertモードで起動する
-let g:unite_enable_start_insert=1
-" yank/deleteの履歴を有効にする
-let g:unite_source_history_yank_enable=1
-" ファイル履歴のMAX
-let g:unite_source_file_mru_limit=200
+if neobundle#tap('unite.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       {
+        \         'name': 'Unite',
+        \         'complete': 'customlist,unite#complete_source'
+        \       },
+        \     ]
+        \   }
+        \ })
+  " }}}
 
-" Unite-bookmark
-augroup unite_bookmark
-  autocmd!
-  autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
-augroup END
-" }}} Unite
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('unite.vim')
+      " デフォルトアクションを書き換える
+      call unite#custom_default_action('directory', 'vimfiler')
+    endif
+  endfunction
+  " }}}
+
+  " settings {{{
+  " insertモードで起動する
+  let g:unite_enable_start_insert=1
+  " yank/deleteの履歴を有効にする
+  let g:unite_source_history_yank_enable=1
+  " ファイル履歴のMAX
+  let g:unite_source_file_mru_limit=200
+
+  " Unite-bookmark
+  augroup unite_bookmark
+    autocmd!
+    autocmd FileType vimfiler call unite#custom_default_action('directory', 'lcd')
+  augroup END
+  " }}}
+
+  " キーマッピング {{{
+  " prefix定義
+  nnoremap [unite] <Nop>
+  nmap <Leader>u [unite]
+
+  " バッファ一覧を開く
+  nnoremap <silent> [unite]b :Unite buffer<CR>
+  " 同一ディレクトリ内のファイル一覧を出す
+  nnoremap <silent> [unite]f :UniteWithBufferDir -buffer-name=files file<CR>
+  " Unite-grep
+  nnoremap <silent> [unite]g :Unite grep -buffer-name=grep<CR>
+  nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
+  " ヤンク
+  nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+  " 最近使ったファイル
+  nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
+  " ブックマーク一覧
+  nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
+  " バッファ内で行を検索
+  nnoremap <silent> [unite]l :<C-u>Unite line<CR>
+  " }}}
+endif
+
+" [neomru] {{{
+if neobundle#tap('neomru.vim')
+  call neobundle#config({
+        \   'autoload': {
+        \     'on_source': ['unite.vim'],
+        \   },
+        \ })
+endif
+" }}}
+
+" }}}
+
+" vimfiler {{{
+if neobundle#tap('vimfiler')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       'VimFiler',
+        \       'VimFilerBufferDir',
+        \       'VimFilerExplorer',
+        \     ],
+        \     'mappings': [
+        \       '<Plug>(vimfiler_switch)',
+        \     ],
+        \     'explorer': 1,
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " デフォルトのファイラをvimfilerに置き換える
+  let g:vimfiler_as_default_explorer = 1
+
+  " セーフモードは無効
+  " let g:vimfiler_safe_mode_by_default = 0
+
+  " }}}
+
+  " キーマッピング {{{
+  " prefix定義
+  nnoremap [vimfiler] <Nop>
+  nmap <Leader>f [vimfiler]
+
+  " 現在開いているバッファのディレクトリを開く
+  nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
+  " 現在開いているバッファをIDE風に開く
+  nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
+  " }}}
+endif
+
+" }}}
 
 " neocomplete {{{
-" AutoComplPopを無効化する（入れてないから不要なはず）
-let g:acp_enableAtStartup = 0
-" neocompleteを有効化
-let g:neocomplete#enable_at_startup = 1
-" スマートケース
-let g:neocomplete#enable_smart_case = 1
-" 最小の入力数
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+if neobundle#tap('neocomplete.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \   }
+        \ })
+  " }}}
 
-" 辞書定義
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-    \ }
+  " settings {{{
+  " AutoComplPopを無効化する（入れてないから不要なはず）
+  let g:acp_enableAtStartup = 0
+  " neocompleteを有効化
+  let g:neocomplete#enable_at_startup = 1
+  " スマートケース
+  let g:neocomplete#enable_smart_case = 1
+  " 最小の入力数
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" キーワード定義
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
+  " 辞書定義
+  let g:neocomplete#sources#dictionary#dictionaries = {
+        \   'default': '',
+        \   'vimshell': $HOME.'/.vimshell_hist',
+        \   'scheme': $HOME.'/.gosh_completions'
+        \ }
+
+  " キーワード定義
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+  " オムニ補完
+  augroup neocomplete
+    autocmd!
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup END
+
+  " ヘビーなオムニ補完を有効化
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+  " }}}
+
+  " キーマッピング {{{
+  inoremap <expr><C-g> neocomplete#undo_completion()
+  inoremap <expr><C-l> neocomplete#complete_common_string()
+
+  " 推奨されるキーマッピング
+  " CRでポップアップをクローズしてインデントを保存
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return neocomplete#close_popup() . "\<CR>"
+  endfunction
+  " TABで補完
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>や<BS>でポップアップをクローズして1文字消す
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><C-y> neocomplete#close_popup()
+  inoremap <expr><C-e> neocomplete#cancel_popup()
+  " }}}
 endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" オムニ補完
-augroup neocomplete
-  autocmd!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-
-" ヘビーなオムニ補完を有効化
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" }}} neocomplete
+" }}}
 
 " neosnippet {{{
-" TODO あとでサイトを見て最新の設定を記述する
-" }}} neosnippet
+if neobundle#tap('neosnippet.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \     'commands': [
+        \       'NeoSnippetEdit',
+        \       'NeoSnippetSource',
+        \     ],
+        \     'filetypes': [
+        \       'snippet',
+        \       'nsnippet',
+        \     ],
+        \     'unite_sources': [
+        \       'snippet',
+        \       'neosnippet/user',
+        \       'neosnippet/runtime',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " setting {{{
+  " }}}
+
+  " キーマッピング {{{
+  " プラグインキーマッピング
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+
+  " Tabでも補完する
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  " For snippet_complete marker.
+  if has('concela')
+    set conceallevel=2 concealcursor=i
+  endif
+  " }}}
+endif
+" }}}
+
+" neosnippet-snippets {{{
+if neobundle#tap('neosnippet-snippets.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'on_source': ['neosnippet.vim'],
+        \   },
+        \ })
+  " }}}
+endif
+" }}}
+
+" fugitive, Agit, Merginal {{{
+" prefix定義
+nnoremap [git] <Nop>
+nmap <Leader>g [git]
 
 " fugitive {{{
-augroup fugitive_cmd
-  autocmd!
-  autocmd FileType gitcommit nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-  autocmd FileType gitcommit inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-  " Windowsだとコミット画面のfencがcp932になるので、強制的にutf-8にする
-  " オプションで変更できたりするのかな？
-  autocmd FileType gitcommit :set fileencoding=utf-8
-  autocmd FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-augroup END
-" }}} fugitive
+if neobundle#tap('vim-fugitive')
+  " settings {{{
+  augroup fugitive_cmd
+    autocmd!
+    autocmd FileType gitcommit nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+    autocmd FileType gitcommit inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+    " Windowsだとコミット画面のfencがcp932になるので、強制的にutf-8にする
+    " オプションで変更できたりするのかな？
+    autocmd FileType gitcommit :set fileencoding=utf-8
+    autocmd FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+  augroup END
+  " }}}
 
-" syntastic {{{
-let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_highlighting = 1
-" なぜかPHPのコマンドのオプションを上書きしないと動かないらしい
-let g:syntastic_php_php_args = '-l'
-" }}} syntastic
+  " キーマッピング {{{
+  " git-status
+  nnoremap <silent> [git]s :<C-u>Gstatus<CR>
+  " git-diff
+  nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
+  " }}}
+endif
+" }}}
+
+" agit {{{
+if neobundle#tap('agit.vim')
+  " キーマッピング {{{
+  nnoremap <silent> [git]a :<C-u>Agit<CR>
+  " }}}
+endif
+" }}}
+
+" Merginal {{{
+if neobundle#tap('vim-merginal')
+  " キーマッピング {{{
+  nnoremap <silent> [git]m :<C-u>Merginal<CR>
+  " }}}
+endif
+" }}}
+" }}}
+
+" vimshell {{{
+if neobundle#tap('vimshell')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \       {
+        \         'name': 'VimShell',
+        \         'complete': 'customlist,vimshell#complete',
+        \       },
+        \       'VimShellExecute',
+        \       'VimShellPop',
+        \     ],
+        \     'mappings': [
+        \       '<Plug>(vimshell_switch)'
+        \     ],
+        \   },
+        \ })
+  " }}}
+endif
+" }}}
 
 " eskk {{{
-let g:eskk#directory = '~/.skk'
-if has('gui_running')
-  set imdisable
+if neobundle#tap('eskk.vim')
+  " settings {{{
+  let g:eskk#directory = '~/.skk'
+  if has('gui_running')
+    set imdisable
+  endif
+  if has('vim_starting')
+    if neobundle#tap('neocomplete.vim')
+      let g:eskk#enable_completion=1
+    endif
+    let g:eskk#dictionary = {
+          \   'path': '~/.skk/skk-jisyo.user',
+          \   'sorted': 0,
+          \   'encoding': 'utf-8',
+          \ }
+    let g:eskk#large_dictionary = {
+          \   'path': '~/.skk/SKK-JISYO.L',
+          \   'sorted': 1,
+          \   'encoding': 'euc-jp',
+          \ }
+  endif
+  " }}}
 endif
-if has('vim_starting')
-  let g:eskk#enable_completion=1
-  let g:eskk#dictionary = {
-    \ 'path': '~/.skk/skk-jisyo.user',
-    \ 'sorted': 0,
-    \ 'encoding': 'utf-8',
-    \ }
-  let g:eskk#large_dictionary = {
-    \ 'path': '~/.skk/SKK-JISYO.L',
-    \ 'sorted': 1,
-    \ 'encoding': 'euc-jp',
-    \ }
-endif
-" }}} eskk
+" }}}
 
 " vim-unified-diff {{{
-set diffexpr=unified_diff#diffexpr()
+if neobundle#tap('vim-unified-diff')
+  " settings {{{
+  set diffexpr=unified_diff#diffexpr()
 
-" configure with the flllowings (default values are shown below)
-"let unified_diff#executable = 'git'
-"let unified_diff#arguments = [
-"  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
-"  \ ]
-"let unified_diff#iwhite_arguments = [
-"  \   '--ignore--all-space',
-"  \ ]
+  " configure with the flllowings (default values are shown below)
+  "let unified_diff#executable = 'git'
+  "let unified_diff#arguments = [
+  "  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+  "  \ ]
+  "let unified_diff#iwhite_arguments = [
+  "  \   '--ignore--all-space',
+  "  \ ]
+  let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする TODO できていないぽい
+  " }}}
+endif
 
-" }}} vim-unified-diff
+" }}}
 
-" }}} 各プラグインの設定
+" syntastic {{{
+if neobundle#tap('syntastic')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'insert': 1,
+        \     'commands': [
+        \       'Errors',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('syntastic')
+      " ステータスラインに表示を追加
+      set statusline+=\  " 空白スペース
+      set statusline+=%#warningmsg#
+      set statusline+=%{exists('*SyntasticStatuslineFlag')?SyntasticStatuslineFlag():''} " syntasticによるチェック結果
+      set statusline+=%*
+    endif
+  endfunction
+  " }}}
+
+  " settings {{{
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 1
+  " }}}
+endif
+" }}}
+
+" nebula {{{
+if neobundle#tap('nebula.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'vim',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced('nebula.vim')
+      " prefix定義
+      nnoremap [nebula] <Nop>
+      nmap <Leader>n [nebula]
+
+      nnoremap <silent> [nebula]l :<C-u>NebulaPutLazy<CR>
+      nnoremap <silent> [nebula]c :<C-u>NebulaPutConfig<CR>
+      nnoremap <silent> [nebula]y :<C-u>NebulaYankOptions<CR>
+      nnoremap <silent> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
+    endif
+  endfunction
+  " }}}
+endif
+" }}}
+
+" vim-scala {{{
+if neobundle#tap('vim-scala')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'sbt.scala',
+        \       'scala',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " ftdetectが読み込まれないので、ここで読んでしまう
+  augroup vim_scala
+    autocmd!
+    source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
+  augroup END
+
+  " }}}
+endif
+" }}}
+
+" vim-less {{{
+if neobundle#tap('vim-less')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'less',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " ftdetectが読み込まれないので、ここで読んでしまう
+  augroup vim_less
+    autocmd!
+    source ~/.vim/bundle/vim-less/ftdetect/less.vim
+  augroup END
+
+  " }}}
+endif
+" }}}
+
+" vim-coffee-script {{{
+if neobundle#tap('vim-coffee-script')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'coffee',
+        \     ]
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  " ftdetectが読み込まれないので、ここで読んでしまう
+  augroup vim_less
+    autocmd!
+    source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
+  augroup END
+
+  " }}}
+endif
+" }}}
+
+" }}}
 
 " 表示設定 {{{
 if has('unix')
@@ -277,7 +677,9 @@ syntax enable
 
 " カラーテーマ
 set background=dark
-colorscheme solarized
+if neobundle#tap('vim-colors-solarized')
+  colorscheme solarized
+endif
 
 " 行番号を表示
 set number
@@ -319,8 +721,12 @@ set statusline+=%y " バッファ内のファイルタイプ
 set statusline+=\  " 空白スペース
 set statusline+=%<%F " バッファ内のファイルのフルパス
 set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
-set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
-set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
+if neobundle#tap('eskk.vim')
+  set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
+endif
+if neobundle#tap('vim-fugitive')
+  set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
+endif
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
 set statusline+=/
@@ -330,10 +736,6 @@ set statusline+=%L " バッファ内の総行数
 " set statusline+=%V " 画面上の何列目にカーソルがあるか
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%P " ファイル内の何%の位置にあるか
-set statusline+=\  " 空白スペース
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " 入力モード時にステータスラインの色を変える
 augroup InsertHook
@@ -359,7 +761,7 @@ highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText cterm=bold ctermfg=10 ctermbg=21
 
-" }}} 表示設定
+" }}}
 
 " ファイル操作設定 {{{
 " バックアップファイルを作成する
@@ -381,7 +783,7 @@ augroup del_end_ws
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
 
-" }}} ファイル操作設定
+" }}}
 
 " ファイルタイプ設定 {{{
 
@@ -394,8 +796,8 @@ let g:php_folding = 1
 
 " DBをMySQLにする（シンタックスハイライトがきく？）
 let g:sql_type_default='mysql'
-" }}} PHP
-" }}} ファイルタイプ設定
+" }}}
+" }}}
 
 " その他の設定 {{{
 " クリップボードを共有
@@ -414,11 +816,10 @@ endif
 " 0詰めされた 001 などを8進数ではなく普通の数字とみなす
 set nf=""
 
-" }}} その他の設定
+" }}}
 
-" キーマッピング {{{
+" プラグイン非依存のキーマッピング {{{
 
-" プラグイン非依存 {{{
 " ESC連打でハイライトを消す
 nmap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
@@ -471,91 +872,4 @@ nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 " gvimrcをリロード
 nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 
-" }}} プラグイン非依存
-
-" Unite {{{
-" prefix定義
-nnoremap [unite] <Nop>
-nmap <Leader>u [unite]
-
-" バッファ一覧を開く
-nnoremap <silent> [unite]b :Unite buffer<CR>
-" 同一ディレクトリ内のファイル一覧を出す
-nnoremap <silent> [unite]f :UniteWithBufferDir -buffer-name=files file<CR>
-" Unite-grep
-nnoremap <silent> [unite]g :Unite grep -buffer-name=grep<CR>
-nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
-" ヤンク
-nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
-" 最近使ったファイル
-nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
-" ブックマーク一覧
-nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
-" バッファ内で行を検索
-nnoremap <silent> [unite]l :<C-u>Unite line<CR>
-" }}} Unite
-
-" vimfiler {{{
-" prefix定義
-nnoremap [vimfiler] <Nop>
-nmap <Leader>f [vimfiler]
-
-" 現在開いているバッファのディレクトリを開く
-nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
-" 現在開いているバッファをIDE風に開く
-nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
-" }}} vimfiler
-
-" neocomplete {{{
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
-
-" 推奨されるキーマッピング
-" CRでポップアップをクローズしてインデントを保存
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-endfunction
-" TABで補完
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>や<BS>でポップアップをクローズして1文字消す
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-" }}} neocomplete
-
-" neosnippet {{{
-" プラグインキーマッピング
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-
-" Tabでも補完する
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For snippet_complete marker.
-if has('concela')
-  set conceallevel=2 concealcursor=i
-endif
-" }}} neosnippet
-
-" fugitive, Agit, Merginal {{{
-" prefix定義
-nnoremap [git] <Nop>
-nmap <Leader>g [git]
-
-" git-status
-nnoremap <silent> [git]s :<C-u>Gstatus<CR>
-" git-diff
-nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
-
-" Agit
-nnoremap <silent> [git]a :<C-u>Agit<CR>
-
-" Merginal
-nnoremap <silent> [git]m :<C-u>Merginal<CR>
-
-" }}} fugitive, Agit, Merginal
-" }}} キーマッピング
+" }}}
