@@ -205,7 +205,7 @@ if neobundle#tap('unite.vim')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('unite.vim')
+    if neobundle#is_sourced(a:bundle.name)
       " デフォルトアクションを書き換える
       call unite#custom_default_action('directory', 'vimfiler')
     endif
@@ -551,7 +551,7 @@ if neobundle#tap('syntastic')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('syntastic')
+    if neobundle#is_sourced(a:bundle.name)
       " ステータスラインに表示を追加
       set statusline+=\  " 空白スペース
       set statusline+=%#warningmsg#
@@ -584,7 +584,7 @@ if neobundle#tap('nebula.vim')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced('nebula.vim')
+    if neobundle#is_sourced(a:bundle.name)
       " prefix定義
       nnoremap [nebula] <Nop>
       nmap <Leader>n [nebula]
