@@ -161,9 +161,6 @@ runtime macros/matchit.vim
 " オムニ補完で問題が起こるぽいのでいったん削除
 " NeoBundle 'taichouchou2/html5.vim'
 
-" -- nebula
-NeoBundle 'LeafCage/nebula.vim'
-
 call neobundle#end()
 
 " 必須!!
@@ -357,7 +354,7 @@ endif
 " }}}
 
 " neosnippet {{{
-if neobundle#tap('neosnippet.vim')
+if neobundle#tap('neosnippet')
   " config {{{
   call neobundle#config({
         \   'autoload': {
@@ -405,7 +402,7 @@ if neobundle#tap('neosnippet-snippets.vim')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'on_source': ['neosnippet.vim'],
+        \     'on_source': ['neosnippet'],
         \   },
         \ })
   " }}}
