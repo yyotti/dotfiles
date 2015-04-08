@@ -124,12 +124,17 @@ if has('lua')
 endif
 
 " -- neosnippet
-NeoBundleLazy 'Shougo/neosnippet', {
-      \   'depends': ['Shougo/neosnippet-snippets'],
-      \ }
+NeoBundleLazy 'Shougo/neosnippet'
 
 " -- neosnippetのスニペット
-NeoBundleLazy 'Shougo/neosnippet-snippets'
+NeoBundleLazy 'Shougo/neosnippet-snippets', {
+      \   'depends': ['Shougo/neosnippet'],
+      \ }
+
+" -- neosnippetのスニペット（オリジナル）
+NeoBundleLazy 'YosukeTsutsui/neosnippet-additional', {
+      \   'depends': ['Shougo/neosnippet'],
+      \ }
 
 " -- vimshell
 NeoBundleLazy 'Shougo/vimshell', {
@@ -391,9 +396,6 @@ if neobundle#tap('neosnippet')
         \ })
   " }}}
 
-  " setting {{{
-  " }}}
-
   " キーマッピング {{{
   " プラグインキーマッピング
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -420,6 +422,22 @@ if neobundle#tap('neosnippet-snippets.vim')
         \     'on_source': ['neosnippet'],
         \   },
         \ })
+  " }}}
+endif
+" }}}
+
+" neosnippet-additional {{{
+if neobundle#tap('neosnippet-additional')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'on_source': ['neosnippet'],
+        \   },
+        \ })
+  " }}}
+
+  " setting {{{
+  let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-additional/snippets/'
   " }}}
 endif
 " }}}
