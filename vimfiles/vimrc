@@ -144,6 +144,10 @@ NeoBundleLazy 'groenewege/vim-less'
 " -- vim-coffee-script
 NeoBundleLazy 'kchmck/vim-coffee-script'
 
+" -- vim-vimlint
+NeoBundleLazy 'syngan/vim-vimlint', {
+      \   'depends': 'ynkdir/vim-vimlparser',
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -155,15 +159,6 @@ runtime macros/matchit.vim
 " }}}
 
 " 試験的に導入するプラグイン {{{
-" -- vim-vimlint
-NeoBundle 'syngan/vim-vimlint', {
-      \   'depends': 'ynkdir/vim-vimlparser',
-      \   'autoload': {
-      \     'functions': [
-      \       'vimlint#vimlint',
-      \     ],
-      \   },
-      \ }
 " }}}
 
 " -------- " -- scala-vim-snippets
@@ -665,6 +660,23 @@ if neobundle#tap('vim-coffee-script')
     source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
   augroup END
 
+  " }}}
+endif
+" }}}
+
+" vim-vimlint {{{
+if neobundle#tap('vim-vimlint')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'functions': [
+        \       'vimlint#vimlint',
+        \     ],
+        \     'on_source': [
+        \       'syntastic',
+        \     ],
+        \   },
+        \ })
   " }}}
 endif
 " }}}
