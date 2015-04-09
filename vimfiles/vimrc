@@ -54,110 +54,64 @@ endif
 " }}}
 
 " Lazyしないプラグイン {{{
-" -- Solarized
 NeoBundle 'altercation/vim-colors-solarized'
-
-" -- surround
 NeoBundle 'tpope/vim-surround'
-
-" -- repeat
 NeoBundle 'tpope/vim-repeat', {
       \   'depends': ['tpope/vim-surround'],
       \ }
-
-" -- fugitive
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
-
-" -- Agit
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
 NeoBundle 'cohama/agit.vim', {
       \   'depends': ['tpope/vim-fugitive'],
       \ }
-
-" -- vim-merginal
-" ※これもautocmdを使っているので遅延ロードできない
+" ※vim-merginalもautocmdを使っているので遅延ロードできない
 NeoBundle 'idanarye/vim-merginal', {
       \   'depends': ['tpope/vim-fugitive'],
       \ }
-
-" -- eskk.vim
 NeoBundle 'tyru/eskk.vim'
-
-" -- vim-unified-diff
 NeoBundle 'lambdalisue/vim-unified-diff'
-
-" -- tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
-
-" -- vim-vimlint
 " ※vim-watchdogsを使おうとすると、Lazyにできないらしい
 " TODO なんとかLazyにしたい
 NeoBundle 'syngan/vim-vimlint', {
       \   'depends': 'ynkdir/vim-vimlparser',
       \ }
-
-" -- vim-textobj-multiblock
 NeoBundle 'osyo-manga/vim-textobj-multiblock', {
       \   'depends': 'kana/vim-textobj-user',
       \ }
 " }}}
 
 " Lazy {{{
-" -- Unite
 NeoBundleLazy 'Shougo/unite.vim', {
       \   'depends': ['Shougo/vimproc'],
       \ }
-
-" -- vimfiler
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends': ['Shougo/unite.vim'],
       \ }
-
-" -- neomru
 " ※Uniteから分離したらしい
 NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
       \}
-
-" -- neocomplete
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete.vim', {
         \   'depends': ['Shougo/vimproc'],
         \ }
 endif
-
-" -- neosnippet
 NeoBundleLazy 'Shougo/neosnippet'
-
-" -- neosnippetのスニペット
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet'],
       \ }
-
-" -- neosnippetのスニペット（オリジナル）
 NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
       \   'depends': ['Shougo/neosnippet'],
       \ }
-
-" -- vimshell
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
-
-" -- nebula
 NeoBundleLazy 'LeafCage/nebula.vim'
-
-" -- vim-scala
 NeoBundleLazy 'derekwyatt/vim-scala'
-
-" -- vim-less
 NeoBundleLazy 'groenewege/vim-less'
-
-" -- vim-coffee-script
 NeoBundleLazy 'kchmck/vim-coffee-script'
-
-" -- vim-watchdogs
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \   'depends': [
       \     'thinca/vim-quickrun',
@@ -165,35 +119,29 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \     'osyo-manga/shabadou.vim',
       \   ],
       \ }
-
-" -- vim-qfsigns
 NeoBundleLazy 'KazuakiM/vim-qfsigns', {
       \   'depends': ['osyo-manga/vim-watchdogs'],
       \ }
-
-" -- vim-qfstatusline
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['osyo-manga/vim-watchdogs'],
       \ }
 " }}}
 
 " NeoBundle管理以外 {{{
-
-" matchit {{{
 runtime macros/matchit.vim
 " }}}
 
-" }}}
-
 " 試験的に導入するプラグイン {{{
-" }}}
 
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
 
 " -- html5
 " オムニ補完で問題が起こるぽいのでいったん削除
+"   →直ったらしいので再度導入を検討する
 " NeoBundle 'taichouchou2/html5.vim'
+
+" }}}
 
 call neobundle#end()
 
