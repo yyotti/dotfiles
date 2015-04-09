@@ -73,11 +73,6 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-" ※vim-watchdogsを使おうとすると、Lazyにできないらしい
-" TODO なんとかLazyにしたい
-NeoBundle 'syngan/vim-vimlint', {
-      \   'depends' : 'ynkdir/vim-vimlparser',
-      \ }
 NeoBundle 'osyo-manga/vim-textobj-multiblock', {
       \   'depends' : 'kana/vim-textobj-user',
       \ }
@@ -129,6 +124,12 @@ NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
 if has('gui_running')
   NeoBundleLazy 'tyru/restart.vim'
 endif
+NeoBundleLazy 'syngan/vim-vimlint', {
+      \   'depends' : [
+      \     'ynkdir/vim-vimlparser',
+      \     'osyo-manga/vim-watchdogs',
+      \   ],
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -624,18 +625,38 @@ endif
 
 " vim-vimlint {{{
 if neobundle#tap('vim-vimlint')
-  " " config {{{
-  " call neobundle#config({
-  "       \   'autoload' : {
-  "       \     'functions' : [
-  "       \       'vimlint#vimlint',
-  "       \     ],
-  "       \     'on_source' : [
-  "       \       'vim-watchdogs',
-  "       \     ],
-  "       \   },
-  "       \ })
-  " " }}}
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source' : [
+        \       'vim-watchdogs',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+      function! s:get_plugin_dir(plugin_name) abort
+        return substitute(fnamemodify(globpath(&rtp, "autoload/".a:plugin_name.".vim"), ":h:h"), '\\', '/', "g")
+      endfunction
+
+      if !exists('g:quickrun_config')
+        let g:quickrun_config = {}
+      endif
+      if !has_key(g:quickrun_config, 'vim/watchdogs_checker')
+        let g:quickrun_config['vim/watchdogs_checker'] = {}
+      endif
+      let g:quickrun_config['vim/watchdogs_checker']['type'] = 'watchdogs_checker/vimlint'
+      if !has_key(g:quickrun_config, 'watchdogs_checker/vimlint')
+        let g:quickrun_config['watchdogs_checker/vimlint'] = {}
+      endif
+      let g:quickrun_config['watchdogs_checker/vimlint']['exec'] = '%C -X -N -u NONE -i NONE -V1 -e -s -c "set rtp+='.s:get_plugin_dir('vimlparser').','.s:get_plugin_dir('vimlint').'" -c "call vimlint#vimlint(''%s'', %{ exists(''g:vimlint#config'') ? string(g:vimlint#config) : g:watchdogs#vimlint_empty_config })" -c "qall!"'
+      call watchdogs#setup(g:quickrun_config)
+    endif
+  endfunction
+  " }}}
 endif
 " }}}
 
