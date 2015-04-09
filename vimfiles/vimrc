@@ -42,12 +42,12 @@ if has('unix')
   " インストール後、自動的にビルドされる
   " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
   NeoBundle 'Shougo/vimproc', {
-        \   'build': {
-        \     'windows': 'tools\\update-dll-mingw',
-        \     'cygwin': 'make -f make_cygwin.mak',
-        \     'mac': 'make -f make_mak.mak',
-        \     'linux': 'make',
-        \     'unix': 'gmake',
+        \   'build' : {
+        \     'windows' : 'tools\\update-dll-mingw',
+        \     'cygwin' : 'make -f make_cygwin.mak',
+        \     'mac' : 'make -f make_mak.mak',
+        \     'linux' : 'make',
+        \     'unix' : 'gmake',
         \   },
         \ }
 endif
@@ -57,17 +57,17 @@ endif
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat', {
-      \   'depends': ['tpope/vim-surround'],
+      \   'depends' : ['tpope/vim-surround'],
       \ }
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
 NeoBundle 'cohama/agit.vim', {
-      \   'depends': ['tpope/vim-fugitive'],
+      \   'depends' : ['tpope/vim-fugitive'],
       \ }
 " ※vim-merginalもautocmdを使っているので遅延ロードできない
 NeoBundle 'idanarye/vim-merginal', {
-      \   'depends': ['tpope/vim-fugitive'],
+      \   'depends' : ['tpope/vim-fugitive'],
       \ }
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
@@ -75,55 +75,55 @@ NeoBundle 'tomtom/tcomment_vim'
 " ※vim-watchdogsを使おうとすると、Lazyにできないらしい
 " TODO なんとかLazyにしたい
 NeoBundle 'syngan/vim-vimlint', {
-      \   'depends': 'ynkdir/vim-vimlparser',
+      \   'depends' : 'ynkdir/vim-vimlparser',
       \ }
 NeoBundle 'osyo-manga/vim-textobj-multiblock', {
-      \   'depends': 'kana/vim-textobj-user',
+      \   'depends' : 'kana/vim-textobj-user',
       \ }
 " }}}
 
 " Lazy {{{
 NeoBundleLazy 'Shougo/unite.vim', {
-      \   'depends': ['Shougo/vimproc'],
+      \   'depends' : ['Shougo/vimproc'],
       \ }
 NeoBundleLazy 'Shougo/vimfiler', {
-      \   'depends': ['Shougo/unite.vim'],
+      \   'depends' : ['Shougo/unite.vim'],
       \ }
 " ※Uniteから分離したらしい
 NeoBundleLazy 'Shougo/neomru.vim', {
-      \   'depends': ['Shougo/unite.vim'],
+      \   'depends' : ['Shougo/unite.vim'],
       \}
 if has('lua')
   NeoBundleLazy 'Shougo/neocomplete.vim', {
-        \   'depends': ['Shougo/vimproc'],
+        \   'depends' : ['Shougo/vimproc'],
         \ }
 endif
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
-      \   'depends': ['Shougo/neosnippet'],
+      \   'depends' : ['Shougo/neosnippet'],
       \ }
 NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
-      \   'depends': ['Shougo/neosnippet'],
+      \   'depends' : ['Shougo/neosnippet'],
       \ }
 NeoBundleLazy 'Shougo/vimshell', {
-      \   'depends': ['Shougo/vimproc'],
+      \   'depends' : ['Shougo/vimproc'],
       \ }
 NeoBundleLazy 'LeafCage/nebula.vim'
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
-      \   'depends': [
+      \   'depends' : [
       \     'thinca/vim-quickrun',
       \     'Shougo/vimproc',
       \     'osyo-manga/shabadou.vim',
       \   ],
       \ }
 NeoBundleLazy 'KazuakiM/vim-qfsigns', {
-      \   'depends': ['osyo-manga/vim-watchdogs'],
+      \   'depends' : ['osyo-manga/vim-watchdogs'],
       \ }
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
-      \   'depends': ['osyo-manga/vim-watchdogs'],
+      \   'depends' : ['osyo-manga/vim-watchdogs'],
       \ }
 " }}}
 
@@ -159,11 +159,11 @@ NeoBundleCheck
 if neobundle#tap('unite.vim')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
+        \   'autoload' : {
+        \     'commands' : [
         \       {
-        \         'name': 'Unite',
-        \         'complete': 'customlist,unite#complete_source'
+        \         'name' : 'Unite',
+        \         'complete' : 'customlist,unite#complete_source'
         \       },
         \     ]
         \   }
@@ -216,8 +216,8 @@ endif
 " neomru {{{
 if neobundle#tap('neomru.vim')
   call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['unite.vim'],
+        \   'autoload' : {
+        \     'on_source' : ['unite.vim'],
         \   },
         \ })
 endif
@@ -227,16 +227,16 @@ endif
 if neobundle#tap('vimfiler')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
+        \   'autoload' : {
+        \     'commands' : [
         \       'VimFiler',
         \       'VimFilerBufferDir',
         \       'VimFilerExplorer',
         \     ],
-        \     'mappings': [
+        \     'mappings' : [
         \       '<Plug>(vimfiler_switch)',
         \     ],
-        \     'explorer': 1,
+        \     'explorer' : 1,
         \   }
         \ })
   " }}}
@@ -268,8 +268,8 @@ endif
 if neobundle#tap('neocomplete.vim')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'insert': 1,
+        \   'autoload' : {
+        \     'insert' : 1,
         \   }
         \ })
   " }}}
@@ -287,9 +287,9 @@ if neobundle#tap('neocomplete.vim')
 
   " 辞書定義
   let g:neocomplete#sources#dictionary#dictionaries = {
-        \   'default': '',
-        \   'vimshell': $HOME.'/.vimshell_hist',
-        \   'scheme': $HOME.'/.gosh_completions'
+        \   'default' : '',
+        \   'vimshell' : $HOME.'/.vimshell_hist',
+        \   'scheme' : $HOME.'/.gosh_completions'
         \ }
 
   " キーワード定義
@@ -339,17 +339,17 @@ endif
 if neobundle#tap('neosnippet')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'insert': 1,
-        \     'commands': [
+        \   'autoload' : {
+        \     'insert' : 1,
+        \     'commands' : [
         \       'NeoSnippetEdit',
         \       'NeoSnippetSource',
         \     ],
-        \     'filetypes': [
+        \     'filetypes' : [
         \       'snippet',
         \       'nsnippet',
         \     ],
-        \     'unite_sources': [
+        \     'unite_sources' : [
         \       'snippet',
         \       'neosnippet/user',
         \       'neosnippet/runtime',
@@ -380,8 +380,8 @@ endif
 if neobundle#tap('neosnippet-snippets')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['neosnippet'],
+        \   'autoload' : {
+        \     'on_source' : ['neosnippet'],
         \   },
         \ })
   " }}}
@@ -392,8 +392,8 @@ endif
 if neobundle#tap('neosnippet-additional')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['neosnippet'],
+        \   'autoload' : {
+        \     'on_source' : ['neosnippet'],
         \   },
         \ })
   " }}}
@@ -456,16 +456,16 @@ endif
 if neobundle#tap('vimshell')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
+        \   'autoload' : {
+        \     'commands' : [
         \       {
-        \         'name': 'VimShell',
-        \         'complete': 'customlist,vimshell#complete',
+        \         'name' : 'VimShell',
+        \         'complete' : 'customlist,vimshell#complete',
         \       },
         \       'VimShellExecute',
         \       'VimShellPop',
         \     ],
-        \     'mappings': [
+        \     'mappings' : [
         \       '<Plug>(vimshell_switch)'
         \     ],
         \   },
@@ -486,14 +486,14 @@ if neobundle#tap('eskk.vim')
       let g:eskk#enable_completion=1
     endif
     let g:eskk#dictionary = {
-          \   'path': '~/.skk/skk-jisyo.user',
-          \   'sorted': 0,
-          \   'encoding': 'utf-8',
+          \   'path' : '~/.skk/skk-jisyo.user',
+          \   'sorted' : 0,
+          \   'encoding' : 'utf-8',
           \ }
     let g:eskk#large_dictionary = {
-          \   'path': '~/.skk/SKK-JISYO.L',
-          \   'sorted': 1,
-          \   'encoding': 'euc-jp',
+          \   'path' : '~/.skk/SKK-JISYO.L',
+          \   'sorted' : 1,
+          \   'encoding' : 'euc-jp',
           \ }
   endif
   " }}}
@@ -523,8 +523,8 @@ endif
 if neobundle#tap('nebula.vim')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'filetypes': [
+        \   'autoload' : {
+        \     'filetypes' : [
         \       'vim',
         \     ],
         \   },
@@ -552,8 +552,8 @@ endif
 if neobundle#tap('vim-scala')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'filetypes': [
+        \   'autoload' : {
+        \     'filetypes' : [
         \       'sbt.scala',
         \       'scala',
         \     ]
@@ -576,8 +576,8 @@ endif
 if neobundle#tap('vim-less')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'filetypes': [
+        \   'autoload' : {
+        \     'filetypes' : [
         \       'less',
         \     ]
         \   }
@@ -599,8 +599,8 @@ endif
 if neobundle#tap('vim-coffee-script')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'filetypes': [
+        \   'autoload' : {
+        \     'filetypes' : [
         \       'coffee',
         \     ]
         \   }
@@ -622,11 +622,11 @@ endif
 if neobundle#tap('vim-vimlint')
   " " config {{{
   " call neobundle#config({
-  "       \   'autoload': {
-  "       \     'functions': [
+  "       \   'autoload' : {
+  "       \     'functions' : [
   "       \       'vimlint#vimlint',
   "       \     ],
-  "       \     'on_source': [
+  "       \     'on_source' : [
   "       \       'vim-watchdogs',
   "       \     ],
   "       \   },
@@ -639,8 +639,8 @@ endif
 if neobundle#tap('vim-watchdogs')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'insert': 1,
+        \   'autoload' : {
+        \     'insert' : 1,
         \   }
         \ })
   " }}}
@@ -679,8 +679,8 @@ endif
 if neobundle#tap('vim-qfsigns')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['vim-watchdogs'],
+        \   'autoload' : {
+        \     'on_source' : ['vim-watchdogs'],
         \   }
         \ })
   " }}}
@@ -704,8 +704,8 @@ endif
 if neobundle#tap('vim-qfstatusline')
   " config {{{
   call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['vim-watchdogs'],
+        \   'autoload' : {
+        \     'on_source' : ['vim-watchdogs'],
         \   }
         \ })
   " }}}
