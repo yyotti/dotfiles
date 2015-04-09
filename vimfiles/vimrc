@@ -54,6 +54,7 @@ endif
 " }}}
 
 " Lazyしないプラグイン {{{
+" TODO gvimでないと見た目があまりよくないので、gvim専用にする
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat', {
@@ -763,6 +764,7 @@ syntax enable
 
 " カラーテーマ
 set background=dark
+" TODO gvimでないと見た目があまりよくないので、別のcolorschemeにする
 if neobundle#tap('vim-colors-solarized')
   colorscheme solarized
 endif
