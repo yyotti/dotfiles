@@ -211,7 +211,9 @@ if neobundle#tap('unite.vim')
   " }}}
 endif
 
-" [neomru] {{{
+" }}}
+
+" neomru {{{
 if neobundle#tap('neomru.vim')
   call neobundle#config({
         \   'autoload': {
@@ -219,8 +221,6 @@ if neobundle#tap('neomru.vim')
         \   },
         \ })
 endif
-" }}}
-
 " }}}
 
 " vimfiler {{{
