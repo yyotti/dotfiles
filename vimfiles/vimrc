@@ -126,6 +126,9 @@ NeoBundleLazy 'KazuakiM/vim-qfsigns', {
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends' : ['osyo-manga/vim-watchdogs'],
       \ }
+if has('gui_running')
+  NeoBundleLazy 'tyru/restart.vim'
+endif
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -750,6 +753,23 @@ if neobundle#tap('vim-textobj-multiblock')
 endif
 " }}}
 
+" restart.vim {{{
+if neobundle#tap('restart.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [
+        \       'Restart',
+        \     ],
+        \   }
+        \ })
+  " }}}
+
+  " settings {{{
+  command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages' | Restart
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
