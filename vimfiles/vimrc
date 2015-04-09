@@ -132,7 +132,7 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \ }
 
 " -- neosnippetのスニペット（オリジナル）
-NeoBundleLazy 'YosukeTsutsui/neosnippet-additional', {
+NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
       \   'depends': ['Shougo/neosnippet'],
       \ }
 
