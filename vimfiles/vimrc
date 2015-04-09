@@ -713,7 +713,9 @@ if neobundle#tap('vim-qfstatusline')
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
+      set statusline+=%#warningmsg#
       set statusline+=%{StatuslineUpdate()}
+      set statusline+=%*
     endif
   endfunction
   " }}}
