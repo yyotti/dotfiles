@@ -97,6 +97,10 @@ NeoBundle 'syngan/vim-vimlint', {
       \   'depends': 'ynkdir/vim-vimlparser',
       \ }
 
+" -- vim-textobj-multiblock
+NeoBundle 'osyo-manga/vim-textobj-multiblock', {
+      \   'depends': 'kana/vim-textobj-user',
+      \ }
 " }}}
 
 " Lazy {{{
@@ -780,6 +784,17 @@ if neobundle#tap('vim-qfstatusline')
     return qfstatusline#Update()
   endfunction
   let g:Qfstatusline#UpdateCmd = function('StatuslineUpdate')
+  " }}}
+endif
+" }}}
+
+" vim-textobj-multiblock {{{
+if neobundle#tap('vim-textobj-multiblock')
+  " キーマッピング {{{
+  omap ab <Plug>(textobj-multiblock-a)
+  omap ib <Plug>(textobj-multiblock-i)
+  vmap ab <Plug>(textobj-multiblock-a)
+  vmap ib <Plug>(textobj-multiblock-i)
   " }}}
 endif
 " }}}
