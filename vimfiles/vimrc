@@ -54,8 +54,11 @@ endif
 " }}}
 
 " Lazyしないプラグイン {{{
-" TODO gvimでないと見た目があまりよくないので、gvim専用にする
+" GVim用
 NeoBundle 'altercation/vim-colors-solarized'
+" Vim用
+" TODO 256色で表示すれば、両方ともsolarizedでいいかも
+NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat', {
       \   'depends' : ['tpope/vim-surround'],
@@ -823,12 +826,24 @@ endif
 " シンタックスハイライト
 syntax enable
 
-" カラーテーマ
-set background=dark
-" TODO gvimでないと見た目があまりよくないので、別のcolorschemeにする
-if neobundle#tap('vim-colors-solarized')
-  colorscheme solarized
+if has('gui_running')
+  " カラーテーマ
+  if neobundle#is_installed('vim-colors-solarized')
+    set background=light
+    colorscheme solarized
+  else
+    colorscheme desert
+  endif
+else
+  if neobundle#is_installed('jellybeans.vim')
+    set t_Co=256
+    colorscheme jellybeans
+    set background=dark
+  else
+    colorscheme desert
+  endif
 endif
+
 
 " 行番号を表示
 set number
@@ -839,11 +854,6 @@ set ruler
 " タブや改行を表示
 set list
 set listchars=tab:»\ ,extends:<,trail:>
-"if has('win32')
-"  set listchars=tab:>>,extends:<,trail:>
-"else
-"  set listchars=tab:≫\ ,extends:≪,trail:≫
-"endif
 
 " 画面上でのタブ幅
 set tabstop=4
@@ -855,6 +865,7 @@ set nowrap
 set tw=0
 
 " ステータスラインの表示
+" TODO lightlineでカスタマイズする
 set statusline=%< " 行が長すぎるときに切り詰める位置
 set statusline+=[%n] " バッファ番号
 set statusline+=%m " 修正フラグ
@@ -880,13 +891,11 @@ set statusline+=\ \  " 空白スペース2個
 set statusline+=%1l " 何行目にカーソルがあるか
 set statusline+=/
 set statusline+=%L " バッファ内の総行数
-" set statusline+=,
-" set statusline+=%c " 何列目にカーソルがあるか
-" set statusline+=%V " 画面上の何列目にカーソルがあるか
 set statusline+=\ \  " 空白スペース2個
 set statusline+=%P " ファイル内の何%の位置にあるか
 
 " 入力モード時にステータスラインの色を変える
+" TODO lightlineを導入すれば不要か？
 augroup InsertHook
   autocmd!
   autocmd InsertEnter * highlight StatusLine guifg=#CCDC90 guibg=#2E4340
@@ -895,16 +904,9 @@ augroup END
 
 " カーソル行をハイライト
 set cursorline
-augroup cch
-  autocmd!
-  autocmd WinLeave * set nocursorline
-  autocmd WinEnter,BufRead * set cursorline
-augroup END
-:hi clear CursorLine
-:hi CursorLine gui=underline
-hi CursorLine ctermbg=black guibg=black
 
 " vimdiffの色設定
+" TODO 調整の余地あり
 highlight DiffAdd cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
