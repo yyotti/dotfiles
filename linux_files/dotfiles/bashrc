@@ -2,6 +2,7 @@
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
+alias ll='ls -l'
 
 # ヒストリ
 export HISTCONTROL=ignoreboth # 重複は無視し、かつスペースで始まるコマンドも無視する
