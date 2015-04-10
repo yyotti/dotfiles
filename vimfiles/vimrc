@@ -130,6 +130,9 @@ NeoBundleLazy 'syngan/vim-vimlint', {
       \     'osyo-manga/vim-watchdogs',
       \   ],
       \ }
+NeoBundleLazy 'ujihisa/unite-colorscheme', {
+      \   'depends' : ['Shougo/unite.vim']
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -788,6 +791,18 @@ if neobundle#tap('restart.vim')
 
   " settings {{{
   command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages' | Restart
+  " }}}
+endif
+" }}}
+
+" Unite-colorscheme {{{
+if neobundle#tap('unite-colorscheme')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source' : ['unite.vim'],
+        \   }
+        \ })
   " }}}
 endif
 " }}}
