@@ -89,11 +89,9 @@ NeoBundleLazy 'Shougo/vimfiler', {
 NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends' : ['Shougo/unite.vim'],
       \}
-if has('lua')
-  NeoBundleLazy 'Shougo/neocomplete.vim', {
-        \   'depends' : ['Shougo/vimproc'],
-        \ }
-endif
+NeoBundleLazy 'Shougo/neocomplete.vim', {
+      \   'depends' : ['Shougo/vimproc'],
+      \ }
 NeoBundleLazy 'Shougo/neosnippet'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends' : ['Shougo/neosnippet'],
@@ -278,7 +276,9 @@ if neobundle#tap('neocomplete.vim')
   call neobundle#config({
         \   'autoload' : {
         \     'insert' : 1,
-        \   }
+        \   },
+        \   'disabled' : !has('lua'),
+        \   'vim_version' : '7.3.885',
         \ })
   " }}}
 
