@@ -119,9 +119,7 @@ NeoBundleLazy 'KazuakiM/vim-qfsigns', {
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends' : ['osyo-manga/vim-watchdogs'],
       \ }
-if has('gui_running')
-  NeoBundleLazy 'tyru/restart.vim'
-endif
+NeoBundleLazy 'tyru/restart.vim'
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends' : [
       \     'ynkdir/vim-vimlparser',
@@ -784,14 +782,21 @@ if neobundle#tap('restart.vim')
         \   'autoload' : {
         \     'commands' : [
         \       'Restart',
+        \       'RestartWithSession',
         \     ],
-        \   }
+        \   },
+        \   'disabled' : !has('gui_running')
         \ })
   " }}}
 
-  " settings {{{
-  command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages' | Restart
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+      command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages' | Restart
+    endif
+  endfunction
   " }}}
+
 endif
 " }}}
 
