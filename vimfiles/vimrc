@@ -838,7 +838,7 @@ set ruler
 
 " タブや改行を表示
 set list
-set listchars=tab:>>,extends:<,trail:>
+set listchars=tab:»\ ,extends:<,trail:>
 "if has('win32')
 "  set listchars=tab:>>,extends:<,trail:>
 "else
