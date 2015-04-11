@@ -79,6 +79,7 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'osyo-manga/vim-textobj-multiblock', {
       \   'depends' : 'kana/vim-textobj-user',
       \ }
+NeoBundle 'itchyny/lightline.vim'
 " }}}
 
 " Lazy {{{
