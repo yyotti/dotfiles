@@ -819,23 +819,90 @@ endif
 " lightline.vim {{{
 if neobundle#tap('lightline.vim')
   " settings {{{
-  if !exists('g:lightline')
-    let g:lightline = {}
-  endif
-
+  let s:lightline_colorscheme = 'wombat'
   if has('gui_running')
     if neobundle#is_installed('vim-colors-solarized')
-      let g:lightline['colorscheme'] = 'solarized'
-    else
-      let g:lightline['colorscheme'] = 'wombat'
+      let s:lightline_colorscheme = 'solarized'
     endif
   else
     if neobundle#is_installed('jellybeans.vim')
-      let g:lightline['colorscheme'] = 'jellybeans'
-    else
-      let g:lightline['colorscheme'] = 'wombat'
+      let s:lightline_colorscheme = 'jellybeans'
     endif
   endif
+
+  let g:lightline = {
+        \   'colorscheme' : s:lightline_colorscheme,
+        \   'mode_map' : {
+        \     'c' : 'NORMAL',
+        \   },
+        \   'active' : {
+        \     'left' : [
+        \       [
+        \         'mode',
+        \         'paste',
+        \       ],
+        \       [
+        \         'fugitive',
+        \         'filename',
+        \       ],
+        \     ],
+        \   },
+        \   'component_function' : {
+        \     'modified' : 'MyModified',
+        \     'readonly' : 'MyReadonly',
+        \     'fugitive' : 'MyFugitive',
+        \     'filename' : 'MyFilename',
+        \     'fileformat' : 'MyFileformat',
+        \     'filetype' : 'MyFiletype',
+        \     'fileencoding' : 'MyFileencoding',
+        \     'mode' : 'MyMode',
+        \   },
+        \ }
+
+  function! MyModified() abort
+    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
+
+  function! MyReadonly() abort
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+  endfunction
+
+  " TODO 他のプラグインへの依存性が高すぎる。書き方をもっと工夫する。
+  function! MyFilename() abort
+    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+          \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \  &ft == 'unite' ? unite#get_status_string() :
+          \  &ft == 'vimshell' ? vimshell#get_status_string() :
+          \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+          \ ('' != MyModified() ? ' ' . MyModified() : '')
+  endfunction
+
+  function! MyFugitive() abort
+    try
+      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#statusline')
+        return fugitive#statusline()
+      endif
+    catch
+    endtry
+
+    return ''
+  endfunction
+
+  function! MyFileformat() abort
+    return winwidth(0) > 70 ? &fileformat : ''
+  endfunction
+
+  function! MyFiletype() abort
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  endfunction
+
+  function! MyFileencoding() abort
+    return winwidth(0) > 70 ? (strlen(&fileencoding) ? &fileencoding : &enc) : ''
+  endfunction
+
+  function! MyMode() abort
+    return winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
   " }}}
 endif
 " }}}
