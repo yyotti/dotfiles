@@ -742,9 +742,9 @@ if neobundle#tap('vim-qfstatusline')
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
-      set statusline+=%#warningmsg#
-      set statusline+=%{StatuslineUpdate()}
-      set statusline+=%*
+      " set statusline+=%#warningmsg#
+      " set statusline+=%{StatuslineUpdate()}
+      " set statusline+=%*
     endif
   endfunction
   " }}}
@@ -864,43 +864,43 @@ set nowrap
 " 自動折り返しなし
 set tw=0
 
-" ステータスラインの表示
-" TODO lightlineでカスタマイズする
-set statusline=%< " 行が長すぎるときに切り詰める位置
-set statusline+=[%n] " バッファ番号
-set statusline+=%m " 修正フラグ
-set statusline+=%r " 読み込み専用フラグ
-set statusline+=%h " ヘルプバッファフラグ
-set statusline+=%w " プレビューウィンドウフラグ
-set statusline+=[
-set statusline+=%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding} " 文字コードを表示
-set statusline+=:
-set statusline+=%{&fileformat} " ファイルタイプ表示
-set statusline+=]
-set statusline+=%y " バッファ内のファイルタイプ
-set statusline+=\  " 空白スペース
-set statusline+=%<%F " バッファ内のファイルのフルパス
-set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
-if neobundle#tap('eskk.vim')
-  set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
-endif
-if neobundle#tap('vim-fugitive')
-  set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
-endif
-set statusline+=\ \  " 空白スペース2個
-set statusline+=%1l " 何行目にカーソルがあるか
-set statusline+=/
-set statusline+=%L " バッファ内の総行数
-set statusline+=\ \  " 空白スペース2個
-set statusline+=%P " ファイル内の何%の位置にあるか
-
-" 入力モード時にステータスラインの色を変える
-" TODO lightlineを導入すれば不要か？
-augroup InsertHook
-  autocmd!
-  autocmd InsertEnter * highlight StatusLine guifg=#CCDC90 guibg=#2E4340
-  autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#CCDC90
-augroup END
+" " ステータスラインの表示
+" " TODO lightlineでカスタマイズする
+" set statusline=%< " 行が長すぎるときに切り詰める位置
+" set statusline+=[%n] " バッファ番号
+" set statusline+=%m " 修正フラグ
+" set statusline+=%r " 読み込み専用フラグ
+" set statusline+=%h " ヘルプバッファフラグ
+" set statusline+=%w " プレビューウィンドウフラグ
+" set statusline+=[
+" set statusline+=%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding} " 文字コードを表示
+" set statusline+=:
+" set statusline+=%{&fileformat} " ファイルタイプ表示
+" set statusline+=]
+" set statusline+=%y " バッファ内のファイルタイプ
+" set statusline+=\  " 空白スペース
+" set statusline+=%<%F " バッファ内のファイルのフルパス
+" set statusline+=%= " 左寄せ項目と右寄せ項目の区切り
+" if neobundle#tap('eskk.vim')
+"   set statusline+=%{exists('*eskk#statusline')?eskk#statusline():''} " eskkの状態を表示
+" endif
+" if neobundle#tap('vim-fugitive')
+"   set statusline+=%{exists('*fugitive#statusline')?fugitive#statusline():''} " Gitのブランチ名を表示
+" endif
+" set statusline+=\ \  " 空白スペース2個
+" set statusline+=%1l " 何行目にカーソルがあるか
+" set statusline+=/
+" set statusline+=%L " バッファ内の総行数
+" set statusline+=\ \  " 空白スペース2個
+" set statusline+=%P " ファイル内の何%の位置にあるか
+"
+" " 入力モード時にステータスラインの色を変える
+" " TODO lightlineを導入すれば不要か？
+" augroup InsertHook
+"   autocmd!
+"   autocmd InsertEnter * highlight StatusLine guifg=#CCDC90 guibg=#2E4340
+"   autocmd InsertLeave * highlight StatusLine guifg=#2E4340 guibg=#CCDC90
+" augroup END
 
 " カーソル行をハイライト
 set cursorline
