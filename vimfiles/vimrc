@@ -96,12 +96,12 @@ NeoBundleLazy 'Shougo/neomru.vim', {
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends' : ['Shougo/vimproc'],
       \ }
-NeoBundleLazy 'Shougo/neosnippet'
+NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
-      \   'depends' : ['Shougo/neosnippet'],
+      \   'depends' : ['Shougo/neosnippet.vim'],
       \ }
 NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
-      \   'depends' : ['Shougo/neosnippet'],
+      \   'depends' : ['Shougo/neosnippet.vim'],
       \ }
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends' : ['Shougo/vimproc'],
@@ -345,8 +345,8 @@ if neobundle#tap('neocomplete.vim')
 endif
 " }}}
 
-" neosnippet {{{
-if neobundle#tap('neosnippet')
+" neosnippet.vim {{{
+if neobundle#tap('neosnippet.vim')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
@@ -391,7 +391,7 @@ if neobundle#tap('neosnippet-snippets')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'on_source' : ['neosnippet'],
+        \     'on_source' : ['neosnippet.vim'],
         \   },
         \ })
   " }}}
@@ -403,7 +403,7 @@ if neobundle#tap('neosnippet-additional')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'on_source' : ['neosnippet'],
+        \     'on_source' : ['neosnippet.vim'],
         \   },
         \ })
   " }}}
