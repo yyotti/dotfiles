@@ -427,12 +427,9 @@ if neobundle#tap('vim-fugitive')
   " settings {{{
   augroup fugitive_cmd
     autocmd!
-    autocmd FileType gitcommit nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-    autocmd FileType gitcommit inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
     " Windowsだとコミット画面のfencがcp932になるので、強制的にutf-8にする
     " オプションで変更できたりするのかな？
     autocmd FileType gitcommit :set fileencoding=utf-8
-    autocmd FileType fugitiveblame nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
   augroup END
   " }}}
 
