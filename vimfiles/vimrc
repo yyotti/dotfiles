@@ -817,13 +817,13 @@ endif
 if neobundle#tap('lightline.vim')
   " settings {{{
   let s:lightline_colorscheme = has('gui_running') ? 'solarized' : 'jellybeans'
-  " TODO eskkの状態も表示する
   let g:lightline = {
         \   'colorscheme' : s:lightline_colorscheme,
         \   'active' : {
         \     'left' : [
         \       [
         \         'mode',
+        \         'eskk',
         \       ],
         \       [
         \         'filename',
@@ -864,6 +864,9 @@ if neobundle#tap('lightline.vim')
         \   'component_expand' : {
         \     'syntaxcheck' : 'qfstatusline#Update',
         \     'fugitive' : 'fugitive#statusline',
+        \   },
+        \   'component_function' : {
+        \     'eskk' : 'eskk#statusline',
         \   },
         \   'component_type' : {
         \     'syntaxcheck' : 'error',
