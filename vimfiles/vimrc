@@ -163,6 +163,16 @@ NeoBundleCheck
 
 " 各プラグインの設定 {{{
 
+" キーマッピングのためのprefix定義
+nnoremap [unite] <Nop>
+nmap <Leader>u [unite]
+nnoremap [vimfiler] <Nop>
+nmap <Leader>f [vimfiler]
+nnoremap [git] <Nop>
+nmap <Leader>g [git]
+nnoremap [nebula] <Nop>
+nmap <Leader>n [nebula]
+
 " Unite {{{
 if neobundle#tap('unite.vim')
   " config {{{
@@ -197,10 +207,6 @@ if neobundle#tap('unite.vim')
   " }}}
 
   " キーマッピング {{{
-  " prefix定義
-  nnoremap [unite] <Nop>
-  nmap <Leader>u [unite]
-
   " バッファ一覧を開く
   nnoremap <silent> [unite]b :Unite buffer<CR>
   " 同一ディレクトリ内のファイル一覧を出す
@@ -218,7 +224,6 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " }}}
 endif
-
 " }}}
 
 " neomru {{{
@@ -259,17 +264,12 @@ if neobundle#tap('vimfiler')
   " }}}
 
   " キーマッピング {{{
-  " prefix定義
-  nnoremap [vimfiler] <Nop>
-  nmap <Leader>f [vimfiler]
-
   " 現在開いているバッファのディレクトリを開く
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -quit<CR>
   " 現在開いているバッファをIDE風に開く
   nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
   " }}}
 endif
-
 " }}}
 
 " neocomplete {{{
@@ -417,11 +417,6 @@ if neobundle#tap('neosnippet-additional')
 endif
 " }}}
 
-" fugitive, Agit, Merginal {{{
-" prefix定義
-nnoremap [git] <Nop>
-nmap <Leader>g [git]
-
 " fugitive {{{
 if neobundle#tap('vim-fugitive')
   " settings {{{
@@ -456,7 +451,6 @@ if neobundle#tap('vim-merginal')
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
   " }}}
 endif
-" }}}
 " }}}
 
 " vimshell {{{
@@ -541,10 +535,6 @@ if neobundle#tap('nebula.vim')
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
-      " prefix定義
-      nnoremap [nebula] <Nop>
-      nmap <Leader>n [nebula]
-
       nnoremap <silent> [nebula]l :<C-u>NebulaPutLazy<CR>
       nnoremap <silent> [nebula]c :<C-u>NebulaPutConfig<CR>
       nnoremap <silent> [nebula]y :<C-u>NebulaYankOptions<CR>
