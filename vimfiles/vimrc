@@ -821,7 +821,6 @@ if neobundle#tap('lightline.vim')
         \     ],
         \   },
         \   'component' : {
-        \     'mode' : '%{winwidth(0) > 60 ? lightline#mode() : ""}',
         \     'readonly' : '%{&readonly ? "RO" : ""}',
         \     'fileformat' : '%{winwidth(0) > 70 ? &fileformat : ""}',
         \     'filetype' : '%{winwidth(0) > 70 ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
@@ -831,6 +830,7 @@ if neobundle#tap('lightline.vim')
         \     'fugitive' : '%{exists("*fugitive#head") && !empty(fugitive#head()) ? "[".fugitive#head()."]" : ""}',
         \   },
         \   'component_function' : {
+        \     'mode' : 'Mode',
         \     'gitinfo' : 'Gitinfo',
         \   },
         \   'component_expand' : {
@@ -847,6 +847,10 @@ if neobundle#tap('lightline.vim')
         \     'syntaxcheck' : 'error',
         \   },
         \ }
+  function! Mode() abort
+    return winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+
   function! Gitinfo() abort
     if !exists('*GitGutterGetHunkSummary') || !get(g:, 'gitgutter_enabled', 0) || winwidth(0) <= 90
       return ''
