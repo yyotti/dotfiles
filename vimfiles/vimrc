@@ -826,18 +826,17 @@ if neobundle#tap('lightline.vim')
         \     'fileencoding' : '%{winwidth(0) > 70 ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
         \     'filename' : '%{(&ft == "vimfiler" ? vimfiler#get_status_string() : (&ft == "unite" ? unite#get_status_string() : (&ft == "vimshell" ? vimshell#get_status_string() : (!empty(expand("%:t")) ? expand("%:t") : "[No Name]"))))}',
         \     'eskk' : '%{exists("*eskk#statusline") && !empty(eskk#statusline()) ? matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ""}',
+        \     'fugitive' : '%{exists("*fugitive#head") && !empty(fugitive#head()) ? "[".fugitive#head()."]" : ""}',
         \   },
         \   'component_expand' : {
         \     'syntaxcheck' : 'qfstatusline#Update',
-        \   },
-        \   'component_function' : {
-        \     'fugitive' : 'fugitive#statusline',
         \   },
         \   'component_visible_condition' : {
         \     'eskk' : 'exists("*eskk#statusline") && !empty(eskk#statusline())',
         \     'fileformat' : 'winwidth(0) > 70',
         \     'filetype' : 'winwidth(0) > 70',
         \     'fileencoding' : 'winwidth(0) > 70',
+        \     'fugitive' : 'exists("*fugitive#head") && !empty(fugitive#head())',
         \   },
         \   'component_type' : {
         \     'syntaxcheck' : 'error',
