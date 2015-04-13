@@ -54,11 +54,7 @@ endif
 " }}}
 
 " Lazyしないプラグイン {{{
-" GVim用
 NeoBundle 'altercation/vim-colors-solarized'
-" Vim用
-" TODO 256色で表示すれば、両方ともsolarizedでいいかも
-NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat', {
       \   'depends' : ['tpope/vim-surround'],
@@ -805,9 +801,8 @@ endif
 " lightline.vim {{{
 if neobundle#tap('lightline.vim')
   " settings {{{
-  let s:lightline_colorscheme = has('gui_running') ? 'solarized' : 'jellybeans'
   let g:lightline = {
-        \   'colorscheme' : s:lightline_colorscheme,
+        \   'colorscheme' : 'solarized',
         \   'active' : {
         \     'left' : [
         \       [ 'mode', 'eskk', ],
@@ -945,8 +940,8 @@ syntax enable
 
 if !has('gui_running')
   set t_Co=256
-  colorscheme jellybeans
   set background=dark
+  colorscheme solarized
 endif
 
 
