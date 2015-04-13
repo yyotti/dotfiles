@@ -808,32 +808,14 @@ if neobundle#tap('lightline.vim')
         \   'colorscheme' : s:lightline_colorscheme,
         \   'active' : {
         \     'left' : [
-        \       [
-        \         'mode',
-        \         'eskk',
-        \       ],
-        \       [
-        \         'readonly',
-        \         'modified',
-        \         'filename',
-        \       ],
-        \       [
-        \         'fugitive',
-        \       ],
+        \       [ 'mode', 'eskk', ],
+        \       [ 'readonly', 'modified', 'filename', ],
+        \       [ 'fugitive', ],
         \     ],
         \     'right' : [
-        \       [
-        \         'syntaxcheck',
-        \         'lineinfo',
-        \       ],
-        \       [
-        \         'percent',
-        \       ],
-        \       [
-        \         'fileformat',
-        \         'fileencoding',
-        \         'filetype',
-        \       ],
+        \       [ 'syntaxcheck', 'lineinfo', ],
+        \       [ 'percent', ],
+        \       [ 'fileformat', 'fileencoding', 'filetype', ],
         \     ],
         \   },
         \   'component' : {
