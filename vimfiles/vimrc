@@ -80,6 +80,8 @@ NeoBundle 'osyo-manga/vim-textobj-multiblock', {
       \   'depends' : 'kana/vim-textobj-user',
       \ }
 NeoBundle 'itchyny/lightline.vim'
+" ※Git関係は遅延ロードしない方向で統一しておく
+NeoBundle 'airblade/vim-gitgutter'
 " }}}
 
 " Lazy {{{
@@ -842,6 +844,14 @@ if neobundle#tap('lightline.vim')
         \     'syntaxcheck' : 'error',
         \   },
         \ }
+  " }}}
+endif
+" }}}
+
+" vim-gitgutter {{{
+if neobundle#tap('vim-gitgutter')
+  " キーマッピング {{{
+  nnoremap <silent> [git]h :<C-u>GitGutterLineHighlightsToggle<CR>
   " }}}
 endif
 " }}}
