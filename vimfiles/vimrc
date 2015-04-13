@@ -821,9 +821,9 @@ if neobundle#tap('lightline.vim')
         \     ],
         \   },
         \   'component' : {
-        \     'fileformat' : '%{winwidth(0) > 70 ? &fileformat : ""}',
-        \     'filetype' : '%{winwidth(0) > 70 ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
-        \     'fileencoding' : '%{winwidth(0) > 70 ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
+        \     'fileformat' : '%{FileInfoVisible() ? &fileformat : ""}',
+        \     'filetype' : '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
+        \     'fileencoding' : '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
         \   },
         \   'component_function' : {
         \     'mode' : 'Mode',
