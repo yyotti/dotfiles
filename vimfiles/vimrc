@@ -1082,9 +1082,12 @@ vnoremap <silent> <C-p> "0p<CR>
 nnoremap <silent> <Leader>ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
 nnoremap <silent> <Leader>rv :<C-u>source $MYVIMRC<CR>
-" gvimrcを開く
-nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
-" gvimrcをリロード
-nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
+
+if has('gui_running')
+  " gvimrcを開く
+  nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
+  " gvimrcをリロード
+  nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
+endif
 
 " }}}
