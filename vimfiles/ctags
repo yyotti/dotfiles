@@ -1,8 +1,8 @@
 --append=yes
 --sort=yes
 --recurse=yes
---langmap=PHP:+.inc.tpl
+--langmap=PHP:+.inc
 --php-types=cvfd
 --exclude=*.js
---exclude=testsys
---exclude=testsystemplates
+--exclude='*/testsys/'
+--exclude='*/testsystemplates/'
