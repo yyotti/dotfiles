@@ -205,6 +205,7 @@ if neobundle#tap('unite.vim')
   " }}}
 
   " キーマッピング {{{
+  " ※ここで定義しているのは、Uniteが標準でもっているsourceのみ
   " バッファ一覧を開く
   nnoremap <silent> [unite]b :Unite buffer<CR>
   " 同一ディレクトリ内のファイル一覧を出す
@@ -214,8 +215,6 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
   " ヤンク
   nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
-  " 最近使ったファイル
-  nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
   " ブックマーク一覧
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
   " バッファ内で行を検索
@@ -226,11 +225,18 @@ endif
 
 " neomru {{{
 if neobundle#tap('neomru.vim')
+  " config {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'on_source' : ['unite.vim'],
+        \     'unite_sources' : ['file_mru'],
         \   },
         \ })
+  " }}}
+
+  " キーマッピング {{{
+  " 最近使ったファイル
+  nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
+  " }}}
 endif
 " }}}
 
@@ -791,7 +797,7 @@ if neobundle#tap('unite-colorscheme')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'on_source' : ['unite.vim'],
+        \     'unite_sources' : ['colorscheme'],
         \   }
         \ })
   " }}}
