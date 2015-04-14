@@ -957,6 +957,14 @@ if neobundle#tap('unite-tag')
     endif
   endfunction
   " }}}
+
+  " キーマッピング {{{
+  augroup unite_tag
+    autocmd!
+    autocmd BufEnter * if empty(&buftype) | nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately -no-start-insert tag<CR> | endif
+    autocmd BufEnter * if empty(&buftype) | nnoremap <buffer> <C-t> :<C-u>Unite jump<CR> | endif
+  augroup END
+  " }}}
 endif
 " }}}
 " }}}
@@ -1101,7 +1109,4 @@ if has('gui_running')
   " gvimrcをリロード
   nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 endif
-
-" タグジャンプする先が複数ある場合に第1候補に飛ばないようにする
-nnoremap <C-]> g<C-]>
 " }}}
