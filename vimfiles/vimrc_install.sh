@@ -70,11 +70,17 @@ mklink `pwd`/skk/SKK-JISYO.L ~/.skk/SKK-JISYO.L
 # バックアップディレクトリ等を作成する
 make_dir ~/.vim/.backup
 
-# neobundleをインストールする
-if [ ! -e ~/.vim/bundle ]; then
-  info "NeoBundleをインストールします"
-  curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh | sh
-  info "NeoBundleをインストールしました"
+if [ `which git` ]; then
+  # gitのための設定を行う
+  git config --global diff.algorithm "histogram"
+  git config --global diff.tool "vimdiff"
+
+  if [ `which ctags` ]; then
+    # ctagsを使えるようにする
+    mklink `pwd`/ctags ~/.ctags
+    mklink `pwd`/git_tmp ~/.git_tmp
+    git config --global init.templatedir "~/.git_tmp"
+  fi
 fi
 
 # 最初のカレントに戻る

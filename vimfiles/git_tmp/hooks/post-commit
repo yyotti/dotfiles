@@ -1,0 +1,2 @@
+#!/bin/sh
+.git/hooks/ctags_run >/dev/null 2>&1 &

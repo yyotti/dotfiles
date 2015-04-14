@@ -1,0 +1,5 @@
+--append=yes
+--sort=yes
+--recurse=yes
+--langmap=PHP:+.inc.tpl
+--php-types=cvfd
