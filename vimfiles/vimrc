@@ -131,6 +131,12 @@ NeoBundleLazy 'syngan/vim-vimlint', {
 NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends' : ['Shougo/unite.vim']
       \ }
+NeoBundleLazy 'tsukkee/unite-tag', {
+      \ 'depends' : [
+      \     'Shougo/unite.vim',
+      \     'Shougo/neocomplete.vim',
+      \   ]
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -934,6 +940,25 @@ if neobundle#tap('vim-gitgutter')
 endif
 " }}}
 
+" unite-tag {{{
+if neobundle#tap('unite-tag')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : ['tag'],
+        \   },
+        \ })
+  " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+      echomsg string('unite-tag sourced')
+    endif
+  endfunction
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
