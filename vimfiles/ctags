@@ -3,3 +3,6 @@
 --recurse=yes
 --langmap=PHP:+.inc.tpl
 --php-types=cvfd
+--exclude=*.js
+--exclude=testsys
+--exclude=testsystemplates
