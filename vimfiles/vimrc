@@ -1056,25 +1056,6 @@ vnoremap k gk
 cnoremap <expr> <C-X>dt strftime('%Y%m%d')
 cnoremap <expr> <C-X>ts strftime('%Y%m%D%H%M%S')
 
-" " 改行の時に括弧を自動で閉じる
-" inoremap <expr><CR> <SID>ExCr()
-" function! s:ExCr()
-"   if col('.') != col('$')
-"     return "\<CR>"
-"   endif
-"
-"   let l = getline('.')
-"   if l =~ '{$'
-"     return "\<CR>}\<Up>\<End>\<CR>"
-"   elseif l =~ '($'
-"     return "\<CR>)\<Up>\<End>\<CR>"
-"   elseif l =~ '[$'
-"     return "\<CR>]\<Up>\<End>\<CR>"
-"   else
-"     return "\<CR>"
-"   endif
-" endfunction
-
 " visualモードで連続ペースト
 vnoremap <silent> <C-p> "0p<CR>
 
