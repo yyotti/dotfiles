@@ -1090,4 +1090,6 @@ if has('gui_running')
   nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 endif
 
+" タグジャンプする先が複数ある場合に第1候補に飛ばないようにする
+nnoremap <C-]> g<C-]>
 " }}}
