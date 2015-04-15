@@ -1137,6 +1137,10 @@ set nf=""
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
+if !neobundle#is_sourced('vim-anzu')
+  " anzuがロードされていなければ、<Esc><Esc>のマッピングをこっちにする
+  nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
+endif
 
 " 表示行で移動
 nnoremap j gj
