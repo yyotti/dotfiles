@@ -78,6 +78,9 @@ NeoBundle 'osyo-manga/vim-textobj-multiblock', {
 NeoBundle 'itchyny/lightline.vim'
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'osyo-manga/vim-automatic', {
+      \   'depends' : ['osyo-manga/vim-gift'],
+      \ }
 " }}}
 
 " Lazy {{{
@@ -132,7 +135,7 @@ NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends' : ['Shougo/unite.vim']
       \ }
 NeoBundleLazy 'tsukkee/unite-tag', {
-      \ 'depends' : [
+      \   'depends' : [
       \     'Shougo/unite.vim',
       \     'Shougo/neocomplete.vim',
       \   ]
@@ -1035,6 +1038,46 @@ if neobundle#tap('vim-anzu')
 
   " ESC連打でハイライトを消す
   nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
+  " }}}
+endif
+" }}}
+
+" vim-automatic {{{
+if neobundle#tap('vim-automatic')
+  " settings {{{
+  function! s:my_temporary_window_init(config, context) abort
+    nmap <buffer> q <Plug>(quit)
+  endfunction
+
+  let g:automatic_default_match_config = {
+        \   'is_open_other_window' : 1,
+        \ }
+  let g:automatic_default_set_config = {
+        \   'apply' : function('s:my_temporary_window_init'),
+        \ }
+  let g:automatic_config = [
+        \   {
+        \     'match' : {
+        \       'buftype' : 'help',
+        \     },
+        \   },
+        \   {
+        \     'match' : {
+        \       'bufname' : '^.vimshell',
+        \     },
+        \   },
+        \   {
+        \     'match' : {
+        \       'bufname' : '^.unite',
+        \     },
+        \   },
+        \   {
+        \     'match' : {
+        \       'filetype' : '\v^ref-.+',
+        \       'autocmds' : ['FileType'],
+        \     },
+        \   },
+        \ ]
   " }}}
 endif
 " }}}
