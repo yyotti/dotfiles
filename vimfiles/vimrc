@@ -666,6 +666,14 @@ if neobundle#tap('vim-vimlint')
     endif
   endfunction
   " }}}
+
+  " settings {{{
+  " unused argumentを無視する
+  if !exists('g:vimlint#config')
+    let g:vimlint#config = {}
+  endif
+  let g:vimlint#config.EVL103 = 1
+  " }}}
 endif
 " }}}
 
