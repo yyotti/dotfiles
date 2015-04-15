@@ -239,6 +239,12 @@ if neobundle#tap('neomru.vim')
         \ })
   " }}}
 
+  " settings {{{
+  " 表示フォーマットを指定。空にすると表示スピードが上がるらしい。
+  " あまり効果があるようには感じないが、悪さもしないので設定しておく。
+  let g:unite_source_file_mru_filename_format = ''
+  " }}}
+
   " キーマッピング {{{
   " 最近使ったファイル
   nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
