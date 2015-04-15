@@ -1024,6 +1024,9 @@ if neobundle#tap('vim-anzu')
     " 一定時間の入力なし、ウィンドウ移動、タブ移動のときにヒット数の表示を消す
     autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
   augroup END
+
+  " ESC連打でハイライトを消す
+  nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
   " }}}
 endif
 " }}}
@@ -1134,9 +1137,6 @@ set nf=""
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
-
-" ESC連打でハイライトを消す
-nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
 
 " 表示行で移動
 nnoremap j gj
