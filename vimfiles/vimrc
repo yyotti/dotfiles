@@ -141,6 +141,9 @@ NeoBundleLazy 'tsukkee/unite-tag', {
       \   ]
       \ }
 NeoBundleLazy 'osyo-manga/vim-anzu'
+NeoBundleLazy 'kana/vim-operator-replace', {
+      \   'depends' : ['kana/vim-operator-user'],
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1081,6 +1084,27 @@ if neobundle#tap('vim-automatic')
         \     },
         \   },
         \ ]
+  " }}}
+endif
+" }}}
+
+" vim-operator-replace {{{
+if neobundle#tap('vim-operator-replace')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [
+        \       [
+        \         'nx',
+        \         '<Plug>(operator-replace',
+        \       ],
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " キーマッピング {{{
+  map R <Plug>(operator-replace)
   " }}}
 endif
 " }}}
