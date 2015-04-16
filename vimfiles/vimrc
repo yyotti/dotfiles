@@ -1046,7 +1046,7 @@ endif
 if neobundle#tap('vim-automatic')
   " settings {{{
   function! s:my_temporary_window_init(config, context) abort
-    nmap <buffer> q <Plug>(quit)
+    nmap <buffer> q :q<CR>
   endfunction
 
   let g:automatic_default_match_config = {
