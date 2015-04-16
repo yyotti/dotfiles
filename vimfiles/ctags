@@ -1,8 +1,0 @@
---append=yes
---sort=yes
---recurse=yes
---langmap=PHP:+.inc
---php-types=cvfd
---exclude=*.js
---exclude='*/testsys/'
---exclude='*/testsystemplates/'

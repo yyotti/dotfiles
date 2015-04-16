@@ -131,12 +131,6 @@ NeoBundleLazy 'syngan/vim-vimlint', {
 NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends' : ['Shougo/unite.vim']
       \ }
-NeoBundleLazy 'tsukkee/unite-tag', {
-      \ 'depends' : [
-      \     'Shougo/unite.vim',
-      \     'Shougo/neocomplete.vim',
-      \   ]
-      \ }
 NeoBundleLazy 'osyo-manga/vim-anzu'
 " }}}
 
@@ -965,31 +959,6 @@ if neobundle#tap('vim-gitgutter')
 endif
 " }}}
 
-" unite-tag {{{
-if neobundle#tap('unite-tag')
-  " config {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : ['tag'],
-        \   },
-        \ })
-  " }}}
-
-  " settings {{{
-  let g:unite_source_tag_max_fname_length = 100
-  let g:unite_source_tag_max_name_length = 15
-  " }}}
-
-  " キーマッピング {{{
-  augroup unite_tag
-    autocmd!
-    autocmd BufEnter * if empty(&buftype) | nnoremap <silent> <C-]> :<C-u>UniteWithCursorWord -immediately -no-start-insert tag<CR> | endif
-    autocmd BufEnter * if empty(&buftype) | nnoremap <silent> <C-t> :<C-u>Unite jump<CR> | endif
-  augroup END
-  " }}}
-endif
-" }}}
-
 " vim-anzu {{{
 if neobundle#tap('vim-anzu')
   " config {{{
@@ -1174,4 +1143,7 @@ if has('gui_running')
   " gvimrcをリロード
   nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
 endif
+
+" ctagsで複数の候補があるなら一覧表示
+nnoremap <C-]> g<C-]>
 " }}}
