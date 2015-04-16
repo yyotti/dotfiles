@@ -1067,22 +1067,6 @@ if neobundle#tap('vim-automatic')
         \       'buftype' : 'help',
         \     },
         \   },
-        \   {
-        \     'match' : {
-        \       'bufname' : '^.vimshell',
-        \     },
-        \   },
-        \   {
-        \     'match' : {
-        \       'bufname' : '^.unite',
-        \     },
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : '\v^ref-.+',
-        \       'autocmds' : ['FileType'],
-        \     },
-        \   },
         \ ]
   " }}}
 endif
