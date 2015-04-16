@@ -1210,9 +1210,6 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
-" visualモードで連続ペースト
-vnoremap <silent> <C-p> "0p<CR>
-
 " vimrcを開く
 nnoremap <silent> <Leader>ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
