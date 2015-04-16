@@ -1202,10 +1202,6 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
-" コマンドラインで日付・タイムスタンプを補完
-inoremap <silent> <Leader>d= <C-R>=strftime('%Y/%m/%d')<CR>
-inoremap <silent> <Leader>t= <C-R>=strftime('%H:%M:%S')<CR>
-
 " visualモードで連続ペースト
 vnoremap <silent> <C-p> "0p<CR>
 
