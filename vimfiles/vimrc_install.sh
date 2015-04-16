@@ -74,6 +74,13 @@ if [ `which git` ]; then
   # gitのための設定を行う
   git config --global diff.algorithm "histogram"
   git config --global diff.tool "vimdiff"
+
+  if [ `which ctags` ]; then
+    # ctagsを使えるようにする
+    mklink `pwd`/ctags ~/.ctags
+    mklink `pwd`/git_tmp ~/.git_tmp
+    git config --global init.templatedir "~/.git_tmp"
+  fi
 fi
 
 # 最初のカレントに戻る

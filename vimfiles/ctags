@@ -1,0 +1,6 @@
+--sort=yes
+--recurse=yes
+--langmap=PHP:+.inc.tpl
+--php-types=cfdv
+--exclude=testsys
+--exclude=*.js
