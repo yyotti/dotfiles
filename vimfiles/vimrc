@@ -1203,14 +1203,18 @@ vnoremap j gj
 vnoremap k gk
 
 " vimrcを開く
-nnoremap <silent> <Leader>ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
+nnoremap <silent> ,ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
-nnoremap <silent> <Leader>rv :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> ,rv :<C-u>source $MYVIMRC<CR>
 
 if has('gui_running')
   " gvimrcを開く
-  nnoremap <silent> <Leader>eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
+  nnoremap <silent> ,eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
   " gvimrcをリロード
-  nnoremap <silent> <Leader>rg :<C-u>source $MYGVIMRC<CR>
+  nnoremap <silent> ,rg :<C-u>source $MYGVIMRC<CR>
 endif
+
+" カーソル下の単語のヘルプを表示する
+nnoremap gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+vnoremap gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
 " }}}
