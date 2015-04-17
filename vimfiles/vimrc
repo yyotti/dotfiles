@@ -100,7 +100,7 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {
 NeoBundleLazy 'Shougo/neosnippet.vim' " TODO OK
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
