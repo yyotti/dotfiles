@@ -1095,13 +1095,14 @@ if neobundle#tap('vim-ref')
         \     'mappings' : [
         \       [
         \         'sxn',
-        \         '<Plug>(ref-keyword)'
+        \         '<Plug>(ref-keyword)',
+        \         'K',
         \       ],
         \     ],
         \     'commands' : [
         \       {
         \         'complete' : 'customlist,ref#complete',
-        \         'name' : 'Ref'
+        \         'name' : 'Ref',
         \       },
         \       'RefHistory',
         \     ],
