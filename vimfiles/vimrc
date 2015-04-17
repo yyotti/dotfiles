@@ -96,7 +96,7 @@ NeoBundleLazy 'Shougo/neomru.vim', {
       \ } " TODO OK
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
@@ -462,6 +462,50 @@ if neobundle#tap('neocomplete.vim')
   call neobundle#config({
         \   'autoload': {
         \     'insert': 1,
+        \     'unite_sources': [
+        \       'file_include',
+        \       'neocomplete',
+        \     ],
+        \     'mappings': [
+        \       [
+        \         'i',
+        \         '<Plug>(neocomplete_start_'
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'NeoCompleteAutoCompletionLength',
+        \       {
+        \         'complete': 'buffer',
+        \         'name': 'NeoCompleteIncludeMakeCache',
+        \       },
+        \       'NeoCompleteClean',
+        \       'NeoCompleteUnlock',
+        \       {
+        \         'complete': 'customlist,neocomplete#filetype_complete',
+        \         'name': 'NeoCompleteSyntaxMakeCache',
+        \       },
+        \       'NeoCompleteTagMakeCache',
+        \       'NeoCompleteEnable',
+        \       {
+        \         'complete': 'customlist,neocomplete#filetype_complete',
+        \         'name': 'NeoCompleteDictionaryMakeCache',
+        \       },
+        \       {
+        \         'complete': 'buffer',
+        \         'name': 'NeoCompleteVimMakeCache',
+        \       },
+        \       'NeoCompleteLock',
+        \       'NeoCompleteDisable',
+        \       'NeoCompleteToggle',
+        \       {
+        \         'complete': 'filetype',
+        \         'name': 'NeoCompleteSetFileType',
+        \       },
+        \       {
+        \         'complete': 'file',
+        \         'name': 'NeoCompleteBufferMakeCache',
+        \       },
+        \     ],
         \   },
         \   'disabled': !has('lua'),
         \   'vim_version': '7.3.885',
@@ -509,8 +553,8 @@ if neobundle#tap('neocomplete.vim')
   " }}}
 
   " キーマッピング {{{
-  inoremap <expr><C-g> neocomplete#undo_completion()
-  inoremap <expr><C-l> neocomplete#complete_common_string()
+  " inoremap <expr><C-g> neocomplete#undo_completion()
+  " inoremap <expr><C-l> neocomplete#complete_common_string()
 
   " 推奨されるキーマッピング
   " CRでポップアップをクローズしてインデントを保存
