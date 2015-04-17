@@ -93,7 +93,7 @@ NeoBundleLazy 'Shougo/vimfiler', {
 " ※Uniteから分離したらしい
 NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
-      \}
+      \ } " TODO OK
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
       \ }
@@ -329,8 +329,24 @@ endif
 if neobundle#tap('neomru.vim')
   " config {{{
   call neobundle#config({
+        \   'augroup': 'neomru',
         \   'autoload': {
-        \     'unite_sources': ['file_mru'],
+        \     'unite_sources': [
+        \       'mru',
+        \       'neomru',
+        \     ],
+        \     'commands': [
+        \       {
+        \         'complete': 'file',
+        \         'name': 'NeoMRUImportFile',
+        \       },
+        \       'NeoMRUSave',
+        \       {
+        \         'complete': 'file',
+        \         'name': 'NeoMRUImportDirectory',
+        \       },
+        \       'NeoMRUReload',
+        \     ],
         \   },
         \ })
   " }}}
