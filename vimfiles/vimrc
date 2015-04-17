@@ -144,6 +144,7 @@ NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends' : ['kana/vim-operator-user'],
       \ }
+NeoBundleLazy 'thinca/vim-ref'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1081,6 +1082,52 @@ if neobundle#tap('vim-operator-replace')
 
   " キーマッピング {{{
   map R <Plug>(operator-replace)
+  " }}}
+endif
+" }}}
+
+" vim-ref {{{
+if neobundle#tap('vim-ref')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : ['ref'],
+        \     'mappings' : [
+        \       [
+        \         'sxn',
+        \         '<Plug>(ref-keyword)'
+        \       ],
+        \     ],
+        \     'commands' : [
+        \       {
+        \         'complete' : 'customlist,ref#complete',
+        \         'name' : 'Ref'
+        \       },
+        \       'RefHistory',
+        \     ],
+        \   },
+        \   'disabled' : !executable('lynx'),
+        \ })
+  " }}}
+
+  " settings {{{
+  " ホームディレクトリは'~'だとダメっぽい
+  let g:ref_cache_dir = $HOME.'/.vim/vim_ref_cache'
+
+  " PHP
+  let g:ref_phpmanual_path = $HOME."/.vim/refs/php-chunked-xhtml"
+  " }}}
+
+  " キーマッピング {{{
+  " augroup vim_ref
+  "   autocmd!
+  "   autocmd FileType php call s:vim_ref_keymap()
+  " augroup END
+  "
+  " function! s:vim_ref_keymap() abort
+  "   nnoremap <buffer> <silent> gh <Plug>(ref-keyword)
+  "   vnoremap <buffer> <silent> gh <Plug>(ref-keyword)
+  " endfunction
   " }}}
 endif
 " }}}
