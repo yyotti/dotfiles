@@ -256,8 +256,11 @@ if neobundle#tap('unite.vim')
         \         'name' : 'UniteWithProjectDir',
         \       },
         \       {
-        \         'complete' : 'file', 'name': 'UniteBookmarkAdd'},
-        \         {'complete' : 'customlist,unite#complete#buffer_name', 'name': 'UniteFirst',
+        \         'complete' : 'file', 'name' : 'UniteBookmarkAdd'
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UniteFirst',
         \       },
         \       {
         \         'complete' : 'customlist,unite#complete#source',
@@ -1089,7 +1092,7 @@ if neobundle#tap('vim-anzu')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'unite_sources': ['anzu'],
+        \     'unite_sources' : ['anzu'],
         \     'mappings' : [
         \       [
         \         'sxno',
