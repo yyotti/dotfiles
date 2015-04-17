@@ -86,10 +86,10 @@ NeoBundle 'osyo-manga/vim-automatic', {
 " Lazy {{{
 NeoBundleLazy 'Shougo/unite.vim', {
       \   'depends': ['Shougo/vimproc'],
-      \ } " OK
+      \ } " TODO OK
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends': ['Shougo/unite.vim'],
-      \ }
+      \ } " TODO OK
 " ※Uniteから分離したらしい
 NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
@@ -352,27 +352,83 @@ endif
 if neobundle#tap('vimfiler')
   " config {{{
   call neobundle#config({
+        \   'augroup': 'vimfiler',
         \   'autoload': {
-        \     'commands': [
-        \       'VimFiler',
-        \       'VimFilerBufferDir',
-        \       'VimFilerExplorer',
+        \     'unite_sources': [
+        \       'vimfiler_drive',
+        \       'vimfiler_execute',
+        \       'vimfiler_history',
+        \       'vimfiler_mask',
+        \       'vimfiler_popd',
+        \       'vimfiler_sort',
         \     ],
         \     'mappings': [
-        \       '<Plug>(vimfiler_switch)',
+        \       [
+        \         'n',
+        \         '<Plug>(vimfiler_',
+        \       ],
         \     ],
-        \     'explorer': 1,
-        \   }
+        \     'commands': [
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerCurrentDir',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFiler',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerBufferDir',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerSimple',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerWrite',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerCreate',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerExplorer',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerEdit',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerDouble',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerSplit',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerSource',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerRead',
+        \       },
+        \       'VimFilerClose', {
+        \         'complete': 'customlist,vimfiler#complete',
+        \         'name': 'VimFilerTab',
+        \       },
+        \     ],
+        \   },
         \ })
   " }}}
 
   " settings {{{
   " デフォルトのファイラをvimfilerに置き換える
   let g:vimfiler_as_default_explorer = 1
-
-  " セーフモードは無効
-  " let g:vimfiler_safe_mode_by_default = 0
-
   " }}}
 
   " キーマッピング {{{
