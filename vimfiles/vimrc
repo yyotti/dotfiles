@@ -97,7 +97,7 @@ NeoBundleLazy 'Shougo/neomru.vim', {
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
       \ } " TODO OK
-NeoBundleLazy 'Shougo/neosnippet.vim'
+NeoBundleLazy 'Shougo/neosnippet.vim' " TODO OK
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
@@ -578,19 +578,31 @@ if neobundle#tap('neosnippet.vim')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'insert': 1,
-        \     'commands': [
-        \       'NeoSnippetEdit',
-        \       'NeoSnippetSource',
-        \     ],
-        \     'filetypes': [
-        \       'snippet',
-        \       'nsnippet',
-        \     ],
+        \     'on_source': ['neocomplete.vim'],
         \     'unite_sources': [
-        \       'snippet',
-        \       'neosnippet/user',
-        \       'neosnippet/runtime',
+        \       'neosnippet',
+        \       'neosnippet_file',
+        \     ],
+        \     'mappings': [
+        \       [
+        \         'sxi',
+        \         '<Plug>(neosnippet_',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'NeoSnippetClearMarkers',
+        \       {
+        \         'complete': 'file',
+        \         'name': 'NeoSnippetSource',
+        \       },
+        \       {
+        \         'complete': 'customlist,neosnippet#commands#_filetype_complete',
+        \         'name': 'NeoSnippetMakeCache',
+        \       },
+        \       {
+        \         'complete': 'customlist,neosnippet#commands#_edit_complete',
+        \         'name': 'NeoSnippetEdit',
+        \       },
         \     ],
         \   },
         \ })
@@ -781,8 +793,8 @@ if neobundle#tap('vim-scala')
         \     'filetypes': [
         \       'sbt.scala',
         \       'scala',
-        \     ]
-        \   }
+        \     ],
+        \   },
         \ })
   " }}}
 
@@ -804,8 +816,8 @@ if neobundle#tap('vim-less')
         \   'autoload': {
         \     'filetypes': [
         \       'less',
-        \     ]
-        \   }
+        \     ],
+        \   },
         \ })
   " }}}
 
@@ -827,8 +839,8 @@ if neobundle#tap('vim-coffee-script')
         \   'autoload': {
         \     'filetypes': [
         \       'coffee',
-        \     ]
-        \   }
+        \     ],
+        \   },
         \ })
   " }}}
 
