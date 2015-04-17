@@ -86,7 +86,7 @@ NeoBundle 'osyo-manga/vim-automatic', {
 " Lazy {{{
 NeoBundleLazy 'Shougo/unite.vim', {
       \   'depends' : ['Shougo/vimproc'],
-      \ }
+      \ } " OK
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends' : ['Shougo/unite.vim'],
       \ }
@@ -190,13 +190,97 @@ if neobundle#tap('unite.vim')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
+        \     'unite_sources' : [
+        \       'action',
+        \       'alias',
+        \       'bookmark',
+        \       'buffer',
+        \       'change',
+        \       'command',
+        \       'directory',
+        \       'file',
+        \       'file_point',
+        \       'find',
+        \       'function',
+        \       'grep',
+        \       'history_input',
+        \       'history_unite',
+        \       'history_yank',
+        \       'interactive',
+        \       'jump',
+        \       'jump_point',
+        \       'launcher',
+        \       'line',
+        \       'mapping',
+        \       'menu',
+        \       'output',
+        \       'process',
+        \       'rec',
+        \       'register',
+        \       'resume',
+        \       'runtimepath',
+        \       'script',
+        \       'source',
+        \       'tab',
+        \       'vimgrep',
+        \       'window',
+        \       'window_gui',
+        \     ],
         \     'commands' : [
         \       {
-        \         'name' : 'Unite',
-        \         'complete' : 'customlist,unite#complete_source'
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UniteLast',
         \       },
-        \     ]
-        \   }
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithInput',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithCurrentDir',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UniteNext',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UniteClose',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithInputDirectory',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithProjectDir',
+        \       },
+        \       {
+        \         'complete' : 'file', 'name': 'UniteBookmarkAdd'},
+        \         {'complete' : 'customlist,unite#complete#buffer_name', 'name': 'UniteFirst',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithBufferDir',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'UniteWithCursorWord',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UniteResume',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#buffer_name',
+        \         'name' : 'UnitePrevious',
+        \       },
+        \       {
+        \         'complete' : 'customlist,unite#complete#source',
+        \         'name' : 'Unite',
+        \       },
+        \     ],
+        \   },
         \ })
   " }}}
 
