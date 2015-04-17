@@ -1219,7 +1219,7 @@ endif
 augroup keymap_help
   autocmd!
   autocmd FileType vim
-        \ | nnoremap <silent> <buffer> gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
-        \ | vnoremap <silent> <buffer> gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+        \ | nnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+        \ | vnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
 augroup END
 " }}}
