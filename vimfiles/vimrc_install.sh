@@ -90,8 +90,6 @@ if [ `which git` ]; then
   if [ `which ctags` ]; then
     # ctagsを使えるようにする
     mklink `pwd`/ctags ~/.ctags
-    mklink `pwd`/git_tmp ~/.git_tmp
-    git config --global init.templatedir "~/.git_tmp"
   fi
 fi
 
