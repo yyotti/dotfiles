@@ -106,7 +106,7 @@ NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
       \ } " TODO OK
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'LeafCage/nebula.vim'
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
@@ -698,16 +698,55 @@ if neobundle#tap('vimshell')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'commands': [
-        \       {
-        \         'name': 'VimShell',
-        \         'complete': 'customlist,vimshell#complete',
-        \       },
-        \       'VimShellExecute',
-        \       'VimShellPop',
+        \     'unite_sources': [
+        \       'vimshell_external_history',
+        \       'vimshell_history',
+        \       'vimshell_zsh_complete',
         \     ],
         \     'mappings': [
-        \       '<Plug>(vimshell_switch)'
+        \       [
+        \         'n',
+        \         '<Plug>(vimshell_',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShell',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShellPop',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShellCreate',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShellCurrentDir',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimshell#helpers#vimshell_execute_complete',
+        \         'name': 'VimShellExecute',
+        \       },
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShellBufferDir',
+        \       },
+        \       'VimShellSendString',
+        \       {
+        \         'complete': 'customlist,vimshell#complete',
+        \         'name': 'VimShellTab',
+        \       },
+        \       {
+        \         'complete': 'buffer',
+        \         'name': 'VimShellSendBuffer',
+        \       },
+        \       'VimShellClose', {
+        \         'complete': 'customlist,vimshell#helpers#vimshell_execute_complete',
+        \         'name': 'VimShellInteractive',
+        \       },
         \     ],
         \   },
         \ })
