@@ -107,7 +107,7 @@ NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ } " TODO OK
-NeoBundleLazy 'LeafCage/nebula.vim'
+NeoBundleLazy 'LeafCage/nebula.vim' " TODO OK
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'kchmck/vim-coffee-script'
@@ -804,22 +804,34 @@ if neobundle#tap('nebula.vim')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'filetypes': [
-        \       'vim',
+        \     'commands': [
+        \       'NebulaPutLazy',
+        \       'NebulaPutFromClipboard',
+        \       'NebulaYankOptions',
+        \       'NebulaYankConfig',
+        \       'NebulaPutConfig',
+        \       'NebulaYankTap',
         \     ],
         \   },
         \ })
+  " call neobundle#config({
+  "       \   'autoload': {
+  "       \     'filetypes': [
+  "       \       'vim',
+  "       \     ],
+  "       \   },
+  "       \ })
   " }}}
 
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      nnoremap <silent> [nebula]l :<C-u>NebulaPutLazy<CR>
-      nnoremap <silent> [nebula]c :<C-u>NebulaPutConfig<CR>
-      nnoremap <silent> [nebula]y :<C-u>NebulaYankOptions<CR>
-      nnoremap <silent> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
-    endif
-  endfunction
+  " キーマッピング {{{
+  augroup keymap_nebula
+    autocmd!
+    autocmd FileType vim
+          \   nnoremap <silent> <buffer> [nebula]l :<C-u>NebulaPutLazy<CR>
+          \ | nnoremap <silent> <buffer> [nebula]c :<C-u>NebulaPutConfig<CR>
+          \ | nnoremap <silent> <buffer> [nebula]y :<C-u>NebulaYankOptions<CR>
+          \ | nnoremap <silent> <buffer> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
+  augroup END
   " }}}
 endif
 " }}}
