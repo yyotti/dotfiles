@@ -340,11 +340,11 @@ if neobundle#tap('neocomplete.vim')
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   augroup END
 
-  " ヘビーなオムニ補完を有効化
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  let g:neocomplete#sources#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+  " " ヘビーなオムニ補完を有効化
+  " if !exists('g:neocomplete#sources#omni#input_patterns')
+  "   let g:neocomplete#sources#omni#input_patterns = {}
+  " endif
+  " let g:neocomplete#sources#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
   " }}}
 
   " キーマッピング {{{
@@ -1163,7 +1163,7 @@ augroup END
 let g:php_sql_query = 1
 let g:php_baselib = 1
 let g:php_htmlInStrings = 1
-let g:php_noShortTags = 1
+" let g:php_noShortTags = 1
 let g:php_folding = 1
 
 " DBをMySQLにする（シンタックスハイライトがきく？）
@@ -1215,6 +1215,11 @@ if has('gui_running')
 endif
 
 " カーソル下の単語のヘルプを表示する
-nnoremap gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
-vnoremap gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+" ファイルタイプによって機能を変更する
+augroup keymap_help
+  autocmd!
+  autocmd FileType vim
+        \ | nnoremap <silent> <buffer> gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+        \ | vnoremap <silent> <buffer> gh :<C-u>help <C-r>=expand('<cword>')<CR><CR>
+augroup END
 " }}}
