@@ -70,6 +70,18 @@ mklink `pwd`/skk/SKK-JISYO.L ~/.skk/SKK-JISYO.L
 # バックアップディレクトリ等を作成する
 make_dir ~/.vim/.backup
 
+# vim-refのためにphpのマニュアルを展開する
+if [ ! -e ~/.vim/refs/php-chunked-xhtml ]; then
+  info "PHPマニュアルを展開します"
+  CD=`pwd`
+  PHP_MAN_TAR=`pwd`/refs/php_manual_ja.tar.gz
+  make_dir ~/.vim/refs
+  cd ~/.vim/refs/
+  tar xzf $PHP_MAN_TAR
+  cd $CD
+  info "PHPマニュアルを展開しました"
+fi
+
 if [ `which git` ]; then
   # gitのための設定を行う
   git config --global diff.algorithm "histogram"
