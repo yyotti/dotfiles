@@ -118,7 +118,9 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \     'osyo-manga/shabadou.vim',
       \   ],
       \ } " TODO OK
-NeoBundleLazy 'KazuakiM/vim-qfsigns' " TODO OK
+NeoBundleLazy 'KazuakiM/vim-qfsigns', {
+      \   'depends': ['vim-watchdogs'],
+      \ } " TODO OK
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['vim-watchdogs'],
       \ } " TODO OK
