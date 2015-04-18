@@ -117,7 +117,7 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \     'Shougo/vimproc',
       \     'osyo-manga/shabadou.vim',
       \   ],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'KazuakiM/vim-qfsigns', {
       \   'depends': ['osyo-manga/vim-watchdogs'],
       \ }
@@ -959,8 +959,19 @@ if neobundle#tap('vim-watchdogs')
   " config {{{
   call neobundle#config({
         \   'autoload': {
+        \     'commands': [
+        \       'WatchdogsRunSweep',
+        \       {
+        \         'complete': 'customlist,quickrun#complete',
+        \         'name': 'WatchdogsRun',
+        \       },
+        \       {
+        \         'complete': 'customlist,quickrun#complete',
+        \         'name': 'WatchdogsRunSilent',
+        \       },
+        \     ],
         \     'insert': 1,
-        \   }
+        \   },
         \ })
   " }}}
 
