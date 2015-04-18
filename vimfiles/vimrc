@@ -143,7 +143,7 @@ NeoBundleLazy 'tsukkee/unite-tag', {
 NeoBundleLazy 'osyo-manga/vim-anzu' " TODO OK
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'thinca/vim-ref'
 " }}}
 
