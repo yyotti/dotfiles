@@ -110,7 +110,7 @@ NeoBundleLazy 'Shougo/vimshell', {
 NeoBundleLazy 'LeafCage/nebula.vim' " TODO OK
 NeoBundleLazy 'derekwyatt/vim-scala' " TODO OK
 NeoBundleLazy 'groenewege/vim-less' " TODO OK
-NeoBundleLazy 'kchmck/vim-coffee-script'
+NeoBundleLazy 'kchmck/vim-coffee-script' " TODO OK
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \   'depends': [
       \     'thinca/vim-quickrun',
