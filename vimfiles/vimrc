@@ -120,8 +120,8 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \ } " TODO OK
 NeoBundleLazy 'KazuakiM/vim-qfsigns' " TODO OK
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
-      \   'depends': ['osyo-manga/vim-watchdogs'],
-      \ }
+      \   'depends': ['vim-watchdogs'],
+      \ } " TODO OK
 NeoBundleLazy 'tyru/restart.vim'
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends': [
@@ -1037,19 +1037,11 @@ if neobundle#tap('vim-qfstatusline')
   " config {{{
   call neobundle#config({
         \   'autoload': {
-        \     'on_source': ['vim-watchdogs'],
-        \   }
+        \     'commands': [
+        \       'QfstatuslineUpdate',
+        \     ],
+        \   },
         \ })
-  " }}}
-
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      " set statusline+=%#warningmsg#
-      " set statusline+=%{StatuslineUpdate()}
-      " set statusline+=%*
-    endif
-  endfunction
   " }}}
 
   " settings {{{
@@ -1062,6 +1054,7 @@ if neobundle#tap('vim-qfstatusline')
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 3
 
+  " TODO lightlineとの連携なので、lightlineが有効かどうかをチェックする必要がある
   let g:Qfstatusline#UpdateCmd = function('lightline#update')
   " }}}
 endif
