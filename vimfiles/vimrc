@@ -86,65 +86,65 @@ NeoBundle 'osyo-manga/vim-automatic', {
 " Lazy {{{
 NeoBundleLazy 'Shougo/unite.vim', {
       \   'depends': ['Shougo/vimproc'],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends': ['Shougo/unite.vim'],
-      \ } " TODO OK
+      \ }
 " ※Uniteから分離したらしい
 NeoBundleLazy 'Shougo/neomru.vim', {
       \   'depends': ['Shougo/unite.vim'],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
-      \ } " TODO OK
-NeoBundleLazy 'Shougo/neosnippet.vim' " TODO OK
+      \ }
+NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
       \   'depends': ['Shougo/neosnippet.vim'],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
-      \ } " TODO OK
-NeoBundleLazy 'LeafCage/nebula.vim' " TODO OK
-NeoBundleLazy 'derekwyatt/vim-scala' " TODO OK
-NeoBundleLazy 'groenewege/vim-less' " TODO OK
-NeoBundleLazy 'kchmck/vim-coffee-script' " TODO OK
+      \ }
+NeoBundleLazy 'LeafCage/nebula.vim'
+NeoBundleLazy 'derekwyatt/vim-scala'
+NeoBundleLazy 'groenewege/vim-less'
+NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \   'depends': [
       \     'thinca/vim-quickrun',
       \     'Shougo/vimproc',
       \     'osyo-manga/shabadou.vim',
       \   ],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'KazuakiM/vim-qfsigns', {
       \   'depends': ['vim-watchdogs'],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['vim-watchdogs'],
-      \ } " TODO OK
-NeoBundleLazy 'tyru/restart.vim' " TODO OK
+      \ }
+NeoBundleLazy 'tyru/restart.vim'
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends': [
       \     'ynkdir/vim-vimlparser',
       \     'osyo-manga/vim-watchdogs',
       \   ],
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends': ['Shougo/unite.vim']
-      \ } " TODO OK
+      \ }
 NeoBundleLazy 'tsukkee/unite-tag', {
       \   'depends': [
       \     'Shougo/unite.vim',
       \     'Shougo/neocomplete.vim',
       \   ]
-      \ } " TODO OK
-NeoBundleLazy 'osyo-manga/vim-anzu' " TODO OK
+      \ }
+NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
-      \ } " TODO OK
-NeoBundleLazy 'thinca/vim-ref' " TODO OK
+      \ }
+NeoBundleLazy 'thinca/vim-ref'
 " }}}
 
 " NeoBundle管理以外 {{{
