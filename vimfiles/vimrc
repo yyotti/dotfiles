@@ -108,7 +108,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ } " TODO OK
 NeoBundleLazy 'LeafCage/nebula.vim' " TODO OK
-NeoBundleLazy 'derekwyatt/vim-scala'
+NeoBundleLazy 'derekwyatt/vim-scala' " TODO OK
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
@@ -841,6 +841,9 @@ if neobundle#tap('vim-scala')
   " config {{{
   call neobundle#config({
         \   'autoload': {
+        \     'commands': [
+        \       'SortScalaImports',
+        \     ],
         \     'filetypes': [
         \       'sbt.scala',
         \       'scala',
