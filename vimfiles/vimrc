@@ -1344,6 +1344,17 @@ if neobundle#tap('vim-automatic')
         \       'buftype': 'help',
         \     },
         \   },
+        \   {
+        \     'match': {
+        \       'buftype': 'quickfix',
+        \     },
+        \   },
+        \   {
+        \     'match': {
+        \       'autocmds': ['FileType'],
+        \       'filetype': '\v^ref-.+',
+        \     },
+        \   },
         \ ]
   " }}}
 endif
