@@ -130,7 +130,7 @@ NeoBundleLazy 'syngan/vim-vimlint', {
       \     'ynkdir/vim-vimlparser',
       \     'osyo-manga/vim-watchdogs',
       \   ],
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends': ['Shougo/unite.vim']
       \ }
@@ -914,6 +914,12 @@ if neobundle#tap('vim-vimlint')
   " config {{{
   call neobundle#config({
         \   'autoload': {
+        \     'commands': [
+        \       {
+        \         'complete': 'customlist,vimlint#util#complete',
+        \         'name': 'VimLint',
+        \       },
+        \     ],
         \     'on_source': [
         \       'vim-watchdogs',
         \     ],
