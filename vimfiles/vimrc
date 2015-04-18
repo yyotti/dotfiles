@@ -133,7 +133,7 @@ NeoBundleLazy 'syngan/vim-vimlint', {
       \ } " TODO OK
 NeoBundleLazy 'ujihisa/unite-colorscheme', {
       \   'depends': ['Shougo/unite.vim']
-      \ }
+      \ } " TODO OK
 NeoBundleLazy 'tsukkee/unite-tag', {
       \   'depends': [
       \     'Shougo/unite.vim',
