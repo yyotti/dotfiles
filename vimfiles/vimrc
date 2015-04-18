@@ -1252,8 +1252,6 @@ if neobundle#tap('vim-gitgutter')
 
   " キーマッピング {{{
   nnoremap <silent> [git]h :<C-u>GitGutterLineHighlightsToggle<CR>
-  nnoremap <silent> [git]n :<C-u>GitGutterNextHunk<CR>
-  nnoremap <silent> [git]p :<C-u>GitGutterPrevHunk<CR>
   " }}}
 endif
 " }}}
