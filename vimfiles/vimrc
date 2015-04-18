@@ -124,7 +124,7 @@ NeoBundleLazy 'KazuakiM/vim-qfsigns', {
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['vim-watchdogs'],
       \ } " TODO OK
-NeoBundleLazy 'tyru/restart.vim'
+NeoBundleLazy 'tyru/restart.vim' " TODO OK
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends': [
       \     'ynkdir/vim-vimlparser',
@@ -1083,7 +1083,8 @@ if neobundle#tap('restart.vim')
         \       'RestartWithSession',
         \     ],
         \   },
-        \   'disabled': !has('gui_running')
+        \   'disabled': !has('gui_running'),
+        \   'augroup': 'restart',
         \ })
   " }}}
 
