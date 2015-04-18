@@ -109,7 +109,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ } " TODO OK
 NeoBundleLazy 'LeafCage/nebula.vim' " TODO OK
 NeoBundleLazy 'derekwyatt/vim-scala' " TODO OK
-NeoBundleLazy 'groenewege/vim-less'
+NeoBundleLazy 'groenewege/vim-less' " TODO OK
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \   'depends': [
