@@ -1127,15 +1127,16 @@ if neobundle#tap('lightline.vim')
         \     'left': [
         \       [ 'mode', 'eskk', ],
         \       [ 'filename', ],
-        \       [ 'fugitive', 'gitinfo', 'anzu', ],
+        \       [ 'fugitive', 'gitinfo', ],
         \     ],
         \     'right': [
         \       [ 'syntaxcheck', 'lineinfo', ],
-        \       [ 'percent', ],
         \       [ 'fileformat', 'fileencoding', 'filetype', ],
+        \       [ 'anzu', ],
         \     ],
         \   },
         \   'component': {
+        \     'lineinfo': '%l/%L(%p%%)',
         \     'fileformat': '%{FileInfoVisible() ? &fileformat : ""}',
         \     'filetype': '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
         \     'fileencoding': '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
