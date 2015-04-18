@@ -144,7 +144,7 @@ NeoBundleLazy 'osyo-manga/vim-anzu' " TODO OK
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ } " TODO OK
-NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'thinca/vim-ref' " TODO OK
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1402,18 +1402,6 @@ if neobundle#tap('vim-ref')
 
   " PHP
   let g:ref_phpmanual_path = $HOME."/.vim/refs/php-chunked-xhtml"
-  " }}}
-
-  " キーマッピング {{{
-  " augroup vim_ref
-  "   autocmd!
-  "   autocmd FileType php call s:vim_ref_keymap()
-  " augroup END
-  "
-  " function! s:vim_ref_keymap() abort
-  "   nnoremap <buffer> <silent> gh <Plug>(ref-keyword)
-  "   vnoremap <buffer> <silent> gh <Plug>(ref-keyword)
-  " endfunction
   " }}}
 endif
 " }}}
