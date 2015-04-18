@@ -81,6 +81,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'osyo-manga/vim-automatic', {
       \   'depends': ['osyo-manga/vim-gift'],
       \ }
+NeoBundle 'Lokaltog/vim-easymotion'
 " }}}
 
 " Lazy {{{
