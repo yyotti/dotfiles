@@ -140,7 +140,7 @@ NeoBundleLazy 'tsukkee/unite-tag', {
       \     'Shougo/neocomplete.vim',
       \   ]
       \ } " TODO OK
-NeoBundleLazy 'osyo-manga/vim-anzu'
+NeoBundleLazy 'osyo-manga/vim-anzu' " TODO OK
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
@@ -1303,7 +1303,7 @@ if neobundle#tap('vim-anzu')
         \       'AnzuUpdateSearchStatusOutput',
         \       'AnzuClearSearchStatus',
         \       'AnzuSignMatchLine',
-        \       'AnzuClearSignMatchLine'
+        \       'AnzuClearSignMatchLine',
         \     ],
         \   },
         \ })
