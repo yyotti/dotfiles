@@ -1443,8 +1443,10 @@ set number
 set ruler
 
 " タブや改行を表示
-set list
-set listchars=tab:»\ ,extends:<,trail:>
+if has('unix')
+  set list
+  set listchars=tab:≫\ ,extends:<,trail:>
+endif
 
 " 画面上でのタブ幅
 set tabstop=4
