@@ -1445,7 +1445,7 @@ set ruler
 " タブや改行を表示
 if has('unix')
   set list
-  set listchars=tab:≫\ ,extends:<,trail:>
+  set listchars=tab:»\ ,extends:<,trail:>
 endif
 
 " 画面上でのタブ幅
