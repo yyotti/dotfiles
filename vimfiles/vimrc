@@ -97,6 +97,8 @@ NeoBundleLazy 'Shougo/neomru.vim', {
       \ }
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
+      \   'disabled': !has('lua'),
+      \   'vim_version': '7.3.885',
       \ }
 NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
@@ -125,7 +127,10 @@ NeoBundleLazy 'KazuakiM/vim-qfsigns', {
 NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['vim-watchdogs'],
       \ }
-NeoBundleLazy 'tyru/restart.vim'
+NeoBundleLazy 'tyru/restart.vim', {
+      \
+      \   'disabled': !has('gui_running'),
+      \ }
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends': [
       \     'ynkdir/vim-vimlparser',
@@ -145,7 +150,9 @@ NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
-NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'thinca/vim-ref', {
+      \   'disabled': !executable('lynx'),
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -508,8 +515,6 @@ if neobundle#tap('neocomplete.vim')
         \       },
         \     ],
         \   },
-        \   'disabled': !has('lua'),
-        \   'vim_version': '7.3.885',
         \ })
   " }}}
 
@@ -1096,7 +1101,6 @@ if neobundle#tap('restart.vim')
         \       'RestartWithSession',
         \     ],
         \   },
-        \   'disabled': !has('gui_running'),
         \   'augroup': 'restart',
         \ })
   " }}}
@@ -1409,7 +1413,6 @@ if neobundle#tap('vim-ref')
         \       'RefHistory',
         \     ],
         \   },
-        \   'disabled': !executable('lynx'),
         \ })
   " }}}
 
