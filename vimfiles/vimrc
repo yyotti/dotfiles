@@ -854,11 +854,13 @@ if neobundle#tap('vim-scala')
   " }}}
 
   " settings {{{
-  " ftdetectが読み込まれないので、ここで読んでしまう
-  augroup vim_scala
-    autocmd!
-    source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
-  augroup END
+  if neobundle#is_installed('vim-scala')
+    " ftdetectが読み込まれないので、ここで読んでしまう
+    augroup vim_scala
+      autocmd!
+      source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
+    augroup END
+  endif
 
   " }}}
 endif
@@ -877,11 +879,13 @@ if neobundle#tap('vim-less')
   " }}}
 
   " settings {{{
-  " ftdetectが読み込まれないので、ここで読んでしまう
-  augroup vim_less
-    autocmd!
-    source ~/.vim/bundle/vim-less/ftdetect/less.vim
-  augroup END
+  if neobundle#is_installed('vim-less')
+    " ftdetectが読み込まれないので、ここで読んでしまう
+    augroup vim_less
+      autocmd!
+      source ~/.vim/bundle/vim-less/ftdetect/less.vim
+    augroup END
+  endif
 
   " }}}
 endif
@@ -900,11 +904,13 @@ if neobundle#tap('vim-coffee-script')
   " }}}
 
   " settings {{{
-  " ftdetectが読み込まれないので、ここで読んでしまう
-  augroup vim_less
-    autocmd!
-    source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
-  augroup END
+  if neobundle#is_installed('vim-coffee-script')
+    " ftdetectが読み込まれないので、ここで読んでしまう
+    augroup vim_less
+      autocmd!
+      source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
+    augroup END
+  endif
 
   " }}}
 endif
@@ -1432,7 +1438,11 @@ syntax enable
 if !has('gui_running')
   set t_Co=256
   set background=dark
-  colorscheme solarized
+  if neobundle#is_installed('vim-colors-solarized')
+    colorscheme solarized
+  else
+    colorscheme desert
+  endif
 endif
 
 
