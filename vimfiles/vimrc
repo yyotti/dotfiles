@@ -164,6 +164,14 @@ runtime macros/matchit.vim
 
 " }}}
 
+" プラグイン開発用 {{{
+NeoBundle 'vim-jp/vital.vim'
+NeoBundle 'YosukeTsutsui/unite-todolist', {
+      \   'depends': ['Shougo/unite.vim'],
+      \   'base': $HOME.'/git/',
+      \   'type': 'nosync',
+      \ }
+" }}}
 call neobundle#end()
 
 " 必須!!
