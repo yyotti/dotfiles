@@ -153,6 +153,9 @@ NeoBundleLazy 'kana/vim-operator-replace', {
 NeoBundleLazy 'thinca/vim-ref', {
       \   'disabled': !executable('lynx'),
       \ }
+NeoBundleLazy 'osyo-manga/unite-quickfix', {
+      \   'depends': [ 'Shougo/unite.vim' ]
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1422,6 +1425,26 @@ if neobundle#tap('vim-ref')
 
   " PHP
   let g:ref_phpmanual_path = $HOME."/.vim/refs/php-chunked-xhtml"
+  " }}}
+endif
+" }}}
+
+" unite-quickfix {{{
+if neobundle#tap('unite-quickfix')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'unite_sources': [
+        \       'location_list',
+        \       'q',
+        \       'quickfix',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " キーマッピング {{{
+  nnoremap <silent> <Leader>qf :Unite -no-quit -no-start-insert quickfix<CR>
   " }}}
 endif
 " }}}
