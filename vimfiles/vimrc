@@ -174,14 +174,18 @@ runtime macros/matchit.vim
 
 " }}}
 
-" プラグイン開発用 {{{
-NeoBundle 'vim-jp/vital.vim'
-NeoBundle 'YosukeTsutsui/unite-todolist', {
-      \   'depends': ['Shougo/unite.vim'],
-      \   'base': $HOME.'/git/',
-      \   'type': 'nosync',
-      \ }
+" プラグイン開発用のvimrcが存在するなら読み込む
+if filereadable($HOME.'/.vimrc_dev')
+  source $HOME/.vimrc_dev
+endif
+
+" 自作プラグイン {{{
+" 自宅PC（開発環境）以外ではgithubの公開版を使う
+if !neobundle#tap('unite-todolist')
+  " TODO unite-todolistを公開したら記述
+endif
 " }}}
+
 call neobundle#end()
 
 " 必須!!
