@@ -10,8 +10,10 @@ endif
 
 " 表示設定 {{{
 " カラーテーマ
-set background=light
-colorscheme solarized
+if neobundle#is_installed('vim-colors-solarized')
+  set background=light
+  colorscheme solarized
+endif
 
 " フォント
 if has('unix')
