@@ -104,9 +104,6 @@ NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
-NeoBundleLazy 'git@github.com:YosukeTsutsui/neosnippet-additional.git', {
-      \   'depends': ['Shougo/neosnippet.vim'],
-      \ }
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
@@ -181,9 +178,20 @@ endif
 
 " 自作プラグイン {{{
 " 自宅PC（開発環境）以外ではgithubの公開版を使う
-if !neobundle#tap('unite-todolist')
+" unite-todolist {{{
+if !neobundle#is_installed('unite-todolist')
   " TODO unite-todolistを公開したら記述
 endif
+" }}}
+
+" neosnippet-additional {{{
+if !neobundle#is_installed('neosnippet-additional')
+  NeoBundleLazy 'YosukeTsutsui/neosnippet-additional', {
+        \   'depends': ['Shougo/neosnippet.vim'],
+        \ }
+endif
+" }}}
+
 " }}}
 
 call neobundle#end()
@@ -669,11 +677,14 @@ if neobundle#tap('neosnippet-additional')
         \ })
   " }}}
 
-  " setting {{{
-  if !exists('g:neosnippet#snippets_directory')
-    let g:neosnippet#snippets_directory = []
-  endif
-  let g:neosnippet#snippets_directory += ['~/.vim/bundle/neosnippet-additional/snippets/']
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    " 開発版と公開版とでパスを分ける必要があるので、ここで設定する
+    if !exists('g:neosnippet#snippets_directory')
+      let g:neosnippet#snippets_directory = []
+    endif
+    let g:neosnippet#snippets_directory += [a:bundle.path . '/snippets/']
+  endfunction
   " }}}
 endif
 " }}}
