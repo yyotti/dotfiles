@@ -1615,4 +1615,17 @@ augroup keymap_help
         \ | nnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
         \ | vnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
 augroup END
+
+" backgroundの light/dark を切り替える
+" F5とかでやりたかったが、なぜか妙なキーシーケンスが入力されたので、諦めた
+nnoremap <expr> <C-S-b> ToggleBackground()
+function! ToggleBackground() abort
+  if &background == 'light'
+    set background=dark
+  else
+    set background=light
+  endif
+
+  " TODO lightlineの更新もしくは再描画処理を行いたい
+endfunction
 " }}}
