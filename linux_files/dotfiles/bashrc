@@ -19,7 +19,7 @@ shopt -u histappend # .bash_history追記モードは不要なのでOFFに
 PROMPT_COMMAND="share_history" # share_historyをプロンプトごとに自動実行
 
 # git settings
-if [ -E ~/.git-prompt.sh ]; then
+if [ -e ~/.git-prompt.sh ]; then
 	source ~/.git-prompt.sh
 fi
 source ~/.git-completion.bash
