@@ -186,7 +186,7 @@ endif
 
 " neosnippet-additional {{{
 if !neobundle#is_installed('neosnippet-additional')
-  NeoBundleLazy 'YosukeTsutsui/neosnippet-additional', {
+  NeoBundleLazy 'yyotti/neosnippet-additional', {
         \   'depends': ['Shougo/neosnippet.vim'],
         \ }
 endif
