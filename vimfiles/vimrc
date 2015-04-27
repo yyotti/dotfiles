@@ -1566,10 +1566,10 @@ let g:sql_type_default='mysql'
 
 " その他の設定 {{{
 " クリップボードを共有
-if has('unix')
-  set clipboard=unnamedplus
-else
+if has('windows')
   set clipboard=unnamed
+else
+  set clipboard=unnamedplus
 endif
 
 " □とか○の文字があってもカーソル位置がずれないようにする
