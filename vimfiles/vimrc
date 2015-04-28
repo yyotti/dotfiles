@@ -1652,15 +1652,17 @@ function! s:autoftp_init() abort
     return
   endif
 
-  " TODO 設定値は.autoftpを探してもってくる
+  " TODO 設定値は設定ファイルを探してもってくる
   let b:autoftp_host = 'ysk-tti.net'
   let b:autoftp_user = 'tsutsui'
   let b:autoftp_pass = '(PKyr9rcM)'
-  let b:autoftp_local_base = expand('~/autoftp')
+  let b:autoftp_local_base = expand('~/autoftp_local')
   let b:autoftp_remote_base = expand('/home/tsutsui/autoftp')
+  let b:autoftp_path_convert = function('s:autoftp_path_convert')
 
-  let b:file_path = s:autoftp_relpath(expand('%:p'), b:autoftp_local_base)
-  echomsg 'b:file_path = '.string(b:file_path)
+  let b:remote_path = b:autoftp_remote_base.s:autoftp_relpath(expand('%:p'), b:autoftp_local_base)
+  let b:remote_path = b:autoftp_path_convert(b:remote_path)
+  echomsg 'b:remote_path = '.string(b:remote_path)
 
   let b:autoftp_init = 1
 endfunction
@@ -1678,5 +1680,13 @@ function! s:autoftp_relpath(path, base) abort
   echomsg string('b = '.b)
 
   return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
+endfunction
+
+function! s:autoftp_path_convert(path) abort
+  if a:path =~# '^/home/tsutsui/autoftp/system'
+    return substitute(a:path, '/home/tsutsui/autoftp/system', '/home/tsutsui/autoftp/testsys', '')
+  else
+    return a:path
+  endif
 endfunction
 " }}}
