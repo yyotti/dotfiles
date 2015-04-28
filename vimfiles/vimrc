@@ -1649,8 +1649,8 @@ if executable('ncftpput')
     autocmd! BufWritePost *.php,*.tpl call s:autoftp_upload(0)
   augroup END
 
-  command! AutoftpUpload call s:autoftp_upload(1)
-  command! AutoftpToggle call s:autoftp_toggle_enable()
+  command! AutoFtpUpload call s:autoftp_upload(1)
+  command! AutoFtpToggle call s:autoftp_toggle_enable()
 endif
 
 function! s:autoftp_init() abort
@@ -1704,16 +1704,21 @@ function! s:autoftp_upload(force) abort
   endif
 
   let cmd = printf(
-        \   'ncftpput -u %s -p "%s" -E -m -t %d %s %s %s',
-        \   b:autoftp_user,
-        \   b:autoftp_pass,
+        \   'ncftpput -u %s -p %s -E -m -t %d -V %s %s %s',
+        \   shellescape(b:autoftp_user),
+        \   shellescape(b:autoftp_pass),
         \   b:autoftp_timeout,
         \   b:autoftp_host,
-        \   b:autoftp_remote_dir,
-        \   b:autoftp_local_path
+        \   shellescape(b:autoftp_remote_dir),
+        \   shellescape(b:autoftp_local_path)
         \ )
 
-  execute '!'.cmd
+  let res = system(cmd)
+  if !empty(res)
+    echohl WarningMsg
+    echo res
+    echohl None
+  endif
 endfunction
 
 function! s:autoftp_toggle_enable() abort
