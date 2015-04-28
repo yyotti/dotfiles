@@ -82,6 +82,8 @@ NeoBundle 'osyo-manga/vim-automatic', {
       \   'depends': ['osyo-manga/vim-gift'],
       \ }
 NeoBundle 'Lokaltog/vim-easymotion'
+" TODO バグがあるんだけどどうするか？forkする？
+NeoBundle 'LeafCage/vimhelpgenerator'
 " }}}
 
 " Lazy {{{
