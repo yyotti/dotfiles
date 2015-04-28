@@ -217,6 +217,8 @@ nnoremap [git] <Nop>
 nmap <Leader>g [git]
 nnoremap [nebula] <Nop>
 nmap <Leader>n [nebula]
+nnoremap [vimshell] <Nop>
+nmap <Leader>v [vimshell]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
@@ -784,6 +786,10 @@ if neobundle#tap('vimshell')
         \     ],
         \   },
         \ })
+  " }}}
+
+  " キーマッピング {{{
+  nnoremap <silent> [vimshell]p :<C-u>VimShellPop<CR>
   " }}}
 endif
 " }}}
@@ -1632,5 +1638,45 @@ function! ToggleBackground() abort
   endif
 
   " TODO lightlineの更新もしくは再描画処理を行いたい
+endfunction
+" }}}
+
+" autoftp {{{
+augroup autoftp
+  autocmd!
+  autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
+augroup END
+
+function! s:autoftp_init() abort
+  if get(b:, 'autoftp_init', 0)
+    return
+  endif
+
+  " TODO 設定値は.autoftpを探してもってくる
+  let b:autoftp_host = 'ysk-tti.net'
+  let b:autoftp_user = 'tsutsui'
+  let b:autoftp_pass = '(PKyr9rcM)'
+  let b:autoftp_local_base = expand('~/autoftp')
+  let b:autoftp_remote_base = expand('/home/tsutsui/autoftp')
+
+  let b:file_path = s:autoftp_relpath(expand('%:p'), b:autoftp_local_base)
+  echomsg 'b:file_path = '.string(b:file_path)
+
+  let b:autoftp_init = 1
+endfunction
+
+function! s:autoftp_relpath(path, base) abort
+  let p = expand(a:path)
+  if isdirectory(p) && p !~# '/$'
+    let p .= '/'
+  endif
+  echomsg string('p = '.p)
+  let b = expand(a:base)
+  if isdirectory(b) && b !~# '/$'
+    let b .= '/'
+  endif
+  echomsg string('b = '.b)
+
+  return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
 endfunction
 " }}}
