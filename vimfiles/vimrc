@@ -1642,10 +1642,13 @@ endfunction
 " }}}
 
 " autoftp {{{
-augroup autoftp
-  autocmd!
-  autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
-augroup END
+if executable('ncftpput')
+  augroup autoftp
+    autocmd!
+    autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
+    autocmd! BufWritePost *.php,*.tpl call s:autoftp_upload()
+  augroup END
+endif
 
 function! s:autoftp_init() abort
   if get(b:, 'autoftp_init', 0)
@@ -1656,13 +1659,17 @@ function! s:autoftp_init() abort
   let b:autoftp_host = 'ysk-tti.net'
   let b:autoftp_user = 'tsutsui'
   let b:autoftp_pass = '(PKyr9rcM)'
-  let b:autoftp_local_base = expand('~/autoftp_local')
-  let b:autoftp_remote_base = expand('/home/tsutsui/autoftp')
+  let b:autoftp_timeout = 5
+  let local_base = expand('~/autoftp_local')
+  let remote_base = expand('/home/tsutsui/autoftp')
   let b:autoftp_path_convert = function('s:autoftp_path_convert')
 
-  let b:remote_path = b:autoftp_remote_base.s:autoftp_relpath(expand('%:p'), b:autoftp_local_base)
-  let b:remote_path = b:autoftp_path_convert(b:remote_path)
-  echomsg 'b:remote_path = '.string(b:remote_path)
+  let relpath = s:autoftp_relpath(expand('%:p'), local_base)
+  let b:autoftp_remote_dir = fnamemodify(remote_base . relpath, ':h')
+  let b:autoftp_remote_dir = b:autoftp_path_convert(b:autoftp_remote_dir)
+  let b:autoftp_local_path = local_base.relpath
+
+  let b:autoftp_enable = 1
 
   let b:autoftp_init = 1
 endfunction
@@ -1672,12 +1679,10 @@ function! s:autoftp_relpath(path, base) abort
   if isdirectory(p) && p !~# '/$'
     let p .= '/'
   endif
-  echomsg string('p = '.p)
   let b = expand(a:base)
   if isdirectory(b) && b !~# '/$'
     let b .= '/'
   endif
-  echomsg string('b = '.b)
 
   return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
 endfunction
@@ -1688,5 +1693,23 @@ function! s:autoftp_path_convert(path) abort
   else
     return a:path
   endif
+endfunction
+
+function! s:autoftp_upload() abort
+  if !b:autoftp_enable
+    return
+  endif
+
+  let cmd = printf(
+        \   'ncftpput -u %s -p "%s" -E -m -t %d %s %s %s',
+        \   b:autoftp_user,
+        \   b:autoftp_pass,
+        \   b:autoftp_timeout,
+        \   b:autoftp_host,
+        \   b:autoftp_remote_dir,
+        \   b:autoftp_local_path
+        \ )
+
+  execute '!'.cmd
 endfunction
 " }}}
