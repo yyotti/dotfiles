@@ -1646,8 +1646,11 @@ if executable('ncftpput')
   augroup autoftp
     autocmd!
     autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
-    autocmd! BufWritePost *.php,*.tpl call s:autoftp_upload()
+    autocmd! BufWritePost *.php,*.tpl call s:autoftp_upload(0)
   augroup END
+
+  command! AutoftpUpload call s:autoftp_upload(1)
+  command! AutoftpToggle call s:autoftp_toggle_enable()
 endif
 
 function! s:autoftp_init() abort
@@ -1695,8 +1698,8 @@ function! s:autoftp_path_convert(path) abort
   endif
 endfunction
 
-function! s:autoftp_upload() abort
-  if !b:autoftp_enable
+function! s:autoftp_upload(force) abort
+  if !a:force && !b:autoftp_enable
     return
   endif
 
@@ -1711,5 +1714,9 @@ function! s:autoftp_upload() abort
         \ )
 
   execute '!'.cmd
+endfunction
+
+function! s:autoftp_toggle_enable() abort
+  let b:autoftp_enable = b:autoftp_enable ? 0 : 1
 endfunction
 " }}}
