@@ -1665,12 +1665,19 @@ function! s:autoftp_init() abort
   let b:autoftp_timeout = 5
   let local_base = expand('~/autoftp_local')
   let remote_base = expand('/home/tsutsui/autoftp')
-  let b:autoftp_path_convert = function('s:autoftp_path_convert')
+  let b:autoftp_path_map = {
+        \   '/home/tsutsui/autoftp/system': '/home/tsutsui/autoftp/testsys',
+        \ }
   let b:autoftp_passive = 0
 
   let relpath = s:autoftp_relpath(expand('%:p'), local_base)
   let b:autoftp_remote_dir = fnamemodify(remote_base . relpath, ':h')
-  let b:autoftp_remote_dir = b:autoftp_path_convert(b:autoftp_remote_dir)
+  for from in keys(b:autoftp_path_map)
+    if stridx(b:autoftp_remote_dir, from) == 0
+      let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp_path_map[from], '')
+      break
+    endif
+  endfor
   let b:autoftp_local_path = local_base.relpath
 
   let b:autoftp_enable = 1
@@ -1689,14 +1696,6 @@ function! s:autoftp_relpath(path, base) abort
   endif
 
   return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
-endfunction
-
-function! s:autoftp_path_convert(path) abort
-  if a:path =~# '^/home/tsutsui/autoftp/system'
-    return substitute(a:path, '/home/tsutsui/autoftp/system', '/home/tsutsui/autoftp/testsys', '')
-  else
-    return a:path
-  endif
 endfunction
 
 function! s:autoftp_upload(force) abort
