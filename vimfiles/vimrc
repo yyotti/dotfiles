@@ -1658,17 +1658,26 @@ function! s:autoftp_init() abort
     return
   endif
 
-  " TODO 設定値は設定ファイルを探してもってくる
-  let b:autoftp#config.host = 'ysk-tti.net'
-  let b:autoftp#config.user = 'tsutsui'
-  let b:autoftp#config.pass = '(PKyr9rcM)'
-  let b:autoftp#config.timeout = 5
-  let local_base = expand('~/autoftp_local')
-  let b:autoftp#config.remote_base = expand('/home/tsutsui/autoftp')
-  let b:autoftp#config.path_map = {
-        \   '/home/tsutsui/autoftp/system': '/home/tsutsui/autoftp/testsys',
-        \ }
-  let b:autoftp#config.passive = 0
+  let conf_file = findfile('.autoftp', fnamemodify(expand('%'), ':p:h') . ';**/')
+  if empty(conf_file)
+    let b:autoftp_init = 1
+    return
+  endif
+
+  let conf_file = fnamemodify(conf_file, ':p')
+  if !exists('b:autoftp_config')
+    " TODO なぜか読めない。autocmdのタイミングの問題か？
+    source conf_file
+  endif
+  if !exists('b:autoftp_config')
+    let b:autoftp_init = 1
+    return
+  endif
+
+  " TODO b:autoftp_config の中身をチェック
+  let b:autoftp#config = deepcopy(b:autoftp_config)
+
+  let local_base = fnamemodify(conf_file, ':p:h')
 
   let relpath = s:autoftp_relpath(expand('%:p'), local_base)
   let b:autoftp_remote_dir = fnamemodify(b:autoftp#config.remote_base . relpath, ':h')
@@ -1678,9 +1687,8 @@ function! s:autoftp_init() abort
       break
     endif
   endfor
-  let b:autoftp_local_path = local_base.relpath
 
-  let b:autoftp_enable = 1
+  let b:autoftp_local_path = local_base . relpath
 
   let b:autoftp_init = 1
 endfunction
@@ -1699,7 +1707,7 @@ function! s:autoftp_relpath(path, base) abort
 endfunction
 
 function! s:autoftp_upload(force) abort
-  if !a:force && !b:autoftp_enable
+  if !exists('b:autoftp#config') || !a:force && !b:autoftp#config.enable
     return
   endif
 
@@ -1726,6 +1734,13 @@ function! s:autoftp_upload(force) abort
 endfunction
 
 function! s:autoftp_toggle_enable() abort
-  let b:autoftp_enable = b:autoftp_enable ? 0 : 1
+  if !exists('b:autoftp#config')
+    echohl WarningMsg
+    echo 'autoftpが初期化されていません'
+    echohl None
+    return
+  endif
+
+  let b:autoftp#config.enable = !b:autoftp#config.enable
 endfunction
 " }}}
