@@ -1666,6 +1666,7 @@ function! s:autoftp_init() abort
   let local_base = expand('~/autoftp_local')
   let remote_base = expand('/home/tsutsui/autoftp')
   let b:autoftp_path_convert = function('s:autoftp_path_convert')
+  let b:autoftp_passive = 0
 
   let relpath = s:autoftp_relpath(expand('%:p'), local_base)
   let b:autoftp_remote_dir = fnamemodify(remote_base . relpath, ':h')
@@ -1703,15 +1704,19 @@ function! s:autoftp_upload(force) abort
     return
   endif
 
-  let cmd = printf(
-        \   'ncftpput -u %s -p %s -E -m -t %d -V %s %s %s',
-        \   shellescape(b:autoftp_user),
-        \   shellescape(b:autoftp_pass),
-        \   b:autoftp_timeout,
-        \   b:autoftp_host,
-        \   shellescape(b:autoftp_remote_dir),
-        \   shellescape(b:autoftp_local_path)
-        \ )
+  let cmd  = 'ncftpput'
+  let cmd .= ' -u '.shellescape(b:autoftp_user)
+  let cmd .= ' -p '.shellescape(b:autoftp_pass)
+  if !b:autoftp_passive
+    let cmd .= ' -E'
+  endif
+  let cmd .= ' -m -V'
+  if b:autoftp_timeout > 0
+    let cmd .= ' -t '.b:autoftp_timeout
+  endif
+  let cmd .= ' '.shellescape(b:autoftp_host)
+  let cmd .= ' '.shellescape(b:autoftp_remote_dir)
+  let cmd .= ' '.shellescape(b:autoftp_local_path)
 
   let res = system(cmd)
   if !empty(res)
