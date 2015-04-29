@@ -1659,22 +1659,22 @@ function! s:autoftp_init() abort
   endif
 
   " TODO 設定値は設定ファイルを探してもってくる
-  let b:autoftp_host = 'ysk-tti.net'
-  let b:autoftp_user = 'tsutsui'
-  let b:autoftp_pass = '(PKyr9rcM)'
-  let b:autoftp_timeout = 5
+  let b:autoftp#config.host = 'ysk-tti.net'
+  let b:autoftp#config.user = 'tsutsui'
+  let b:autoftp#config.pass = '(PKyr9rcM)'
+  let b:autoftp#config.timeout = 5
   let local_base = expand('~/autoftp_local')
-  let remote_base = expand('/home/tsutsui/autoftp')
-  let b:autoftp_path_map = {
+  let b:autoftp#config.remote_base = expand('/home/tsutsui/autoftp')
+  let b:autoftp#config.path_map = {
         \   '/home/tsutsui/autoftp/system': '/home/tsutsui/autoftp/testsys',
         \ }
-  let b:autoftp_passive = 0
+  let b:autoftp#config.passive = 0
 
   let relpath = s:autoftp_relpath(expand('%:p'), local_base)
-  let b:autoftp_remote_dir = fnamemodify(remote_base . relpath, ':h')
-  for from in keys(b:autoftp_path_map)
+  let b:autoftp_remote_dir = fnamemodify(b:autoftp#config.remote_base . relpath, ':h')
+  for from in keys(b:autoftp#config.path_map)
     if stridx(b:autoftp_remote_dir, from) == 0
-      let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp_path_map[from], '')
+      let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp#config.path_map[from], '')
       break
     endif
   endfor
@@ -1704,16 +1704,16 @@ function! s:autoftp_upload(force) abort
   endif
 
   let cmd  = 'ncftpput'
-  let cmd .= ' -u '.shellescape(b:autoftp_user)
-  let cmd .= ' -p '.shellescape(b:autoftp_pass)
-  if !b:autoftp_passive
+  let cmd .= ' -u '.shellescape(b:autoftp#config.user)
+  let cmd .= ' -p '.shellescape(b:autoftp#config.pass)
+  if !b:autoftp#config.passive
     let cmd .= ' -E'
   endif
   let cmd .= ' -m -V'
-  if b:autoftp_timeout > 0
-    let cmd .= ' -t '.b:autoftp_timeout
+  if b:autoftp#config.timeout > 0
+    let cmd .= ' -t '.b:autoftp#config.timeout
   endif
-  let cmd .= ' '.shellescape(b:autoftp_host)
+  let cmd .= ' '.shellescape(b:autoftp#config.host)
   let cmd .= ' '.shellescape(b:autoftp_remote_dir)
   let cmd .= ' '.shellescape(b:autoftp_local_path)
 
