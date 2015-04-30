@@ -207,6 +207,7 @@ NeoBundleCheck
 " }}}
 
 " 各プラグインの設定 {{{
+let g:mapleader = "\<Space>"
 
 " キーマッピングのためのprefix定義
 nnoremap [unite] <Nop>
