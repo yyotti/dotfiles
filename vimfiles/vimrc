@@ -1186,7 +1186,7 @@ if neobundle#tap('restart.vim')
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
-      command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages' | Restart
+      command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages' | Restart
     endif
   endfunction
   " }}}
