@@ -90,6 +90,10 @@ NeoBundle 'osyo-manga/vim-textobj-multitextobj', {
       \ }
 " TODO 後でLazyにしたい
 NeoBundle 'vim-jp/vital.vim'
+" TODO 後でLazyにしたいが、そのためには自作するほうがいいか？この程度ならLazyしなくてもいいかも？
+NeoBundle 'sudo.vim', {
+      \   'external_commands': 'sudo',
+      \ }
 " }}}
 
 " Lazy {{{
@@ -154,11 +158,12 @@ NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
-NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'thinca/vim-ref', {
+        \   'external_commands': 'lynx',
+        \ }
 NeoBundleLazy 'osyo-manga/unite-quickfix', {
       \   'depends': [ 'Shougo/unite.vim' ]
       \ }
-NeoBundleLazy 'sudo.vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -861,13 +866,6 @@ if neobundle#tap('nebula.vim')
         \     ],
         \   },
         \ })
-  " call neobundle#config({
-  "       \   'autoload': {
-  "       \     'filetypes': [
-  "       \       'vim',
-  "       \     ],
-  "       \   },
-  "       \ })
   " }}}
 
   " キーマッピング {{{
@@ -1480,7 +1478,6 @@ endif
 if neobundle#tap('vim-ref')
   " config {{{
   call neobundle#config({
-        \   'external_commands': 'lynx',
         \   'autoload': {
         \     'unite_sources': ['ref'],
         \     'mappings': [
@@ -1528,23 +1525,6 @@ if neobundle#tap('unite-quickfix')
   " キーマッピング {{{
   nnoremap <silent> <Leader>qf :Unite -no-quit -no-start-insert quickfix<CR>
   " }}}
-endif
-" }}}
-
-" sudo.vim {{{
-if neobundle#tap('sudo.vim')
-  " config {{{
-  call neobundle#config({
-        \   'external_commands': 'sudo',
-        \   'autoload': {
-        \     'commands': [
-        \       'SudoRead',
-        \       'SudoWrite',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
 endif
 " }}}
 
@@ -1723,7 +1703,7 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
   let s:Vital = vital#of('vital')
   let s:Json = s:Vital.import('Web.JSON')
 
-  let s:config_default = {
+  let s:autoftp_config_default = {
         \   'enable': 1,
         \ }
 
@@ -1824,7 +1804,7 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
     endif
 
     let b:autoftp_config = json
-    call extend(b:autoftp_config, s:config_default, 'keep')
+    call extend(b:autoftp_config, s:autoftp_config_default, 'keep')
 
     return 1
   endfunction
