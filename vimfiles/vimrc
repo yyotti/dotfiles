@@ -1210,6 +1210,14 @@ endif
 if neobundle#tap('lightline.vim')
   " settings {{{
   let g:lightline = {
+        \   'separator': {
+        \     'left': '⮀',
+        \     'right': '⮂',
+        \   },
+        \   'subseparator': {
+        \     'left': '⮁',
+        \     'right': '⮃',
+        \   },
         \   'colorscheme': 'solarized',
         \   'active': {
         \     'left': [
@@ -1258,7 +1266,7 @@ if neobundle#tap('lightline.vim')
   endfunction
 
   function! s:readonly() abort
-    return &filetype !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
+    return &filetype !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
   endfunction
 
   function! s:modified() abort
@@ -1287,7 +1295,7 @@ if neobundle#tap('lightline.vim')
   endfunction
 
   function! Fugitive() abort
-    return FugitiveVisible() ? "[".fugitive#head()."]" : ""
+    return FugitiveVisible() ? "⭠ ".fugitive#head() : ""
   endfunction
 
   function! GitinfoVisible() abort
@@ -1577,6 +1585,9 @@ highlight DiffAdd cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText cterm=bold ctermfg=10 ctermbg=21
+
+" TODO タブなど（listcharsの文字色）を指定
+" highlight SpecialKey term=bold cterm=bold ctermfg=11 ctermbg=0 guifg=Cyan
 
 " }}}
 
