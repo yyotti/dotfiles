@@ -1627,6 +1627,22 @@ let g:sql_type_default='mysql'
 " }}}
 " }}}
 
+" コマンドラインの設定 {{{
+" 先頭へ
+cnoremap <C-a> <Home>
+" 末尾へ
+cnoremap <C-e> <End>
+" 1文字戻る
+cnoremap <C-b> <Left>
+" 1文字進む
+cnoremap <C-f> <Right>
+" 1文字削除
+cnoremap <C-d> <Del>
+
+" 検索時のスラッシュ(/)を簡単に入力する
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+" }}}
+
 " その他の設定 {{{
 " クリップボードを共有
 if has('windows')
