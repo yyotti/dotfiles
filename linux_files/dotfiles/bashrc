@@ -3,7 +3,7 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 alias ll='ls -l'
-alias ggrep='git grep --no-index -I --line-number'
+alias gg='git grep --no-index -I --line-number'
 
 # ヒストリ
 export HISTCONTROL=ignoreboth # 重複は無視し、かつスペースで始まるコマンドも無視する
