@@ -82,14 +82,14 @@ NeoBundle 'osyo-manga/vim-automatic', {
       \   'depends': ['osyo-manga/vim-gift'],
       \ }
 NeoBundle 'Lokaltog/vim-easymotion'
-" TODO バグがあるんだけどどうするか？forkする？
-NeoBundle 'LeafCage/vimhelpgenerator'
 NeoBundle 'kana/vim-textobj-jabraces', {
       \   'depends': ['kana/vim-textobj-user'],
       \ }
 NeoBundle 'osyo-manga/vim-textobj-multitextobj', {
       \   'depends': ['kana/vim-textobj-user'],
       \ }
+" TODO 後でLazyにしたい
+NeoBundle 'vim-jp/vital.vim'
 " }}}
 
 " Lazy {{{
@@ -133,8 +133,7 @@ NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
       \   'depends': ['vim-watchdogs'],
       \ }
 NeoBundleLazy 'tyru/restart.vim', {
-      \
-      \   'disabled': !has('gui_running'),
+      \   'gui': 1,
       \ }
 NeoBundleLazy 'syngan/vim-vimlint', {
       \   'depends': [
@@ -181,6 +180,8 @@ runtime macros/matchit.vim
 
 " プラグイン開発用のvimrcが存在するなら読み込む
 if filereadable($HOME.'/.vimrc_dev')
+  " TODO バグがあるんだけどどうするか？forkする？
+  NeoBundle 'LeafCage/vimhelpgenerator'
   source $HOME/.vimrc_dev
 endif
 
@@ -1692,7 +1693,7 @@ endfunction
 " }}}
 
 " autoftp {{{
-if executable('ncftpput')
+if neobundle#tap('vital.vim') && executable('ncftpput')
   augroup autoftp
     autocmd!
     autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
@@ -1701,168 +1702,168 @@ if executable('ncftpput')
 
   command! AutoFtpUpload call s:autoftp_upload(1)
   command! AutoFtpToggle call s:autoftp_toggle_enable()
-endif
 
-let s:Vital = vital#of('vital')
-let s:Json = s:Vital.import('Web.JSON')
+  let s:Vital = vital#of('vital')
+  let s:Json = s:Vital.import('Web.JSON')
 
-let s:config_default = {
-      \   'enable': 1,
-      \ }
+  let s:config_default = {
+        \   'enable': 1,
+        \ }
 
-function! s:autoftp_init() abort
-  if get(b:, 'autoftp_init', 0)
-    return
-  endif
-
-  let conf_file = findfile('.autoftp.json', fnamemodify(expand('%'), ':p:h') . ';**/')
-  if empty(conf_file)
-    let b:autoftp_init = 1
-    return
-  endif
-
-  let conf_file = fnamemodify(conf_file, ':p')
-  if !s:load_config(conf_file)
-    let b:autoftp_init = 1
-    return
-  endif
-
-  let local_base = fnamemodify(conf_file, ':p:h')
-
-  let relpath = s:autoftp_relpath(expand('%:p'), local_base)
-  let b:autoftp_remote_dir = fnamemodify(b:autoftp_config.remote_base . relpath, ':h')
-  for from in keys(b:autoftp_config.path_map)
-    if stridx(b:autoftp_remote_dir, from) == 0
-      let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp_config.path_map[from], '')
-      break
+  function! s:autoftp_init() abort
+    if get(b:, 'autoftp_init', 0)
+      return
     endif
-  endfor
 
-  let b:autoftp_local_path = local_base . relpath
+    let conf_file = findfile('.autoftp.json', fnamemodify(expand('%'), ':p:h') . ';**/')
+    if empty(conf_file)
+      let b:autoftp_init = 1
+      return
+    endif
 
-  let b:autoftp_init = 1
-endfunction
+    let conf_file = fnamemodify(conf_file, ':p')
+    if !s:load_config(conf_file)
+      let b:autoftp_init = 1
+      return
+    endif
 
-function! s:autoftp_relpath(path, base) abort
-  let p = expand(a:path)
-  if isdirectory(p) && p !~# '/$'
-    let p .= '/'
-  endif
-  let b = expand(a:base)
-  if isdirectory(b) && b !~# '/$'
-    let b .= '/'
-  endif
+    let local_base = fnamemodify(conf_file, ':p:h')
 
-  return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
-endfunction
+    let relpath = s:autoftp_relpath(expand('%:p'), local_base)
+    let b:autoftp_remote_dir = fnamemodify(b:autoftp_config.remote_base . relpath, ':h')
+    for from in keys(b:autoftp_config.path_map)
+      if stridx(b:autoftp_remote_dir, from) == 0
+        let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp_config.path_map[from], '')
+        break
+      endif
+    endfor
 
-function! s:autoftp_upload(force) abort
-  if !exists('b:autoftp_config') || !a:force && !b:autoftp_config.enable
-    return
-  endif
+    let b:autoftp_local_path = local_base . relpath
 
-  let cmd  = 'ncftpput'
-  let cmd .= ' -u '.shellescape(b:autoftp_config.user)
-  let cmd .= ' -p '.shellescape(b:autoftp_config.pass)
-  if !b:autoftp_config.passive
-    let cmd .= ' -E'
-  endif
-  let cmd .= ' -m -V'
-  if b:autoftp_config.timeout > 0
-    let cmd .= ' -t '.b:autoftp_config.timeout
-  endif
-  let cmd .= ' '.shellescape(b:autoftp_config.host)
-  let cmd .= ' '.shellescape(b:autoftp_remote_dir)
-  let cmd .= ' '.shellescape(b:autoftp_local_path)
+    let b:autoftp_init = 1
+  endfunction
 
-  let res = system(cmd)
-  if !empty(res)
-    call s:err_msg(res)
-  endif
-endfunction
+  function! s:autoftp_relpath(path, base) abort
+    let p = expand(a:path)
+    if isdirectory(p) && p !~# '/$'
+      let p .= '/'
+    endif
+    let b = expand(a:base)
+    if isdirectory(b) && b !~# '/$'
+      let b .= '/'
+    endif
 
-function! s:autoftp_toggle_enable() abort
-  if !exists('b:autoftp_config')
-    call s:err_msg('autoftpが初期化されていません')
-    return
-  endif
+    return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
+  endfunction
 
-  let b:autoftp_config.enable = !b:autoftp_config.enable
-endfunction
+  function! s:autoftp_upload(force) abort
+    if !exists('b:autoftp_config') || !a:force && !b:autoftp_config.enable
+      return
+    endif
 
-function! s:load_config(file_path) abort
-  if !filereadable(a:file_path)
-    return 0
-  endif
+    let cmd  = 'ncftpput'
+    let cmd .= ' -u '.shellescape(b:autoftp_config.user)
+    let cmd .= ' -p '.shellescape(b:autoftp_config.pass)
+    if !b:autoftp_config.passive
+      let cmd .= ' -E'
+    endif
+    let cmd .= ' -m -V'
+    if b:autoftp_config.timeout > 0
+      let cmd .= ' -t '.b:autoftp_config.timeout
+    endif
+    let cmd .= ' '.shellescape(b:autoftp_config.host)
+    let cmd .= ' '.shellescape(b:autoftp_remote_dir)
+    let cmd .= ' '.shellescape(b:autoftp_local_path)
 
-  try
-    let json_string = join(readfile(a:file_path), " ")
-    let json = s:Json.decode(json_string)
-  catch
-    return 0
-  endtry
+    let res = system(cmd)
+    if !empty(res)
+      call s:err_msg(res)
+    endif
+  endfunction
 
-  if !s:check_config(json)
-    return 0
-  endif
+  function! s:autoftp_toggle_enable() abort
+    if !exists('b:autoftp_config')
+      call s:err_msg('autoftpが初期化されていません')
+      return
+    endif
 
-  let b:autoftp_config = json
-  call extend(b:autoftp_config, s:config_default, 'keep')
+    let b:autoftp_config.enable = !b:autoftp_config.enable
+  endfunction
 
-  return 1
-endfunction
-
-function! s:check_config(config) abort
-  if !has_key(a:config, 'host') || type(a:config.host) != 1 || empty(a:config.host)
-    call s:err_msg('.autoftp.josn error: hostは文字列で必ず指定してください')
-    return 0
-  endif
-
-  if !has_key(a:config, 'user') || type(a:config.user) != 1 || empty(a:config.user)
-    call s:err_msg('.autoftp.josn error: userは文字列で必ず指定してください')
-    return 0
-  endif
-
-  if !has_key(a:config, 'pass') || type(a:config.pass) != 1 || empty(a:config.pass)
-    call s:err_msg('.autoftp.josn error: passは文字列で必ず指定してください')
-    return 0
-  endif
-
-  if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
-    call s:err_msg('.autoftp.json error: timeoutは正数で指定してください')
-    return 0
-  endif
-
-  if has_key(a:config, 'path_map') && (type(a:config.timeout) != 4)
-    if type(a:config.path_map) != 4
-      call s:err_msg('.autoftp.json error: path_mapは辞書型で指定してください')
+  function! s:load_config(file_path) abort
+    if !filereadable(a:file_path)
       return 0
     endif
 
-    for key in keys(a:config.path_map)
-      if type(a:config.path_map[key]) != 1
-        call s:err_msg('.autoftp.json error: path_mapの値は文字列でなければなりません')
+    try
+      let json_string = join(readfile(a:file_path), " ")
+      let json = s:Json.decode(json_string)
+    catch
+      return 0
+    endtry
+
+    if !s:check_config(json)
+      return 0
+    endif
+
+    let b:autoftp_config = json
+    call extend(b:autoftp_config, s:config_default, 'keep')
+
+    return 1
+  endfunction
+
+  function! s:check_config(config) abort
+    if !has_key(a:config, 'host') || type(a:config.host) != 1 || empty(a:config.host)
+      call s:err_msg('.autoftp.josn error: hostは文字列で必ず指定してください')
+      return 0
+    endif
+
+    if !has_key(a:config, 'user') || type(a:config.user) != 1 || empty(a:config.user)
+      call s:err_msg('.autoftp.josn error: userは文字列で必ず指定してください')
+      return 0
+    endif
+
+    if !has_key(a:config, 'pass') || type(a:config.pass) != 1 || empty(a:config.pass)
+      call s:err_msg('.autoftp.josn error: passは文字列で必ず指定してください')
+      return 0
+    endif
+
+    if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
+      call s:err_msg('.autoftp.json error: timeoutは正数で指定してください')
+      return 0
+    endif
+
+    if has_key(a:config, 'path_map') && (type(a:config.timeout) != 4)
+      if type(a:config.path_map) != 4
+        call s:err_msg('.autoftp.json error: path_mapは辞書型で指定してください')
         return 0
       endif
-    endfor
-  endif
 
-  if has_key(a:config, 'passive') && type(a:config.passive) != 0
-    call s:err_msg('.autoftp.json error: passiveは真偽値で指定してください')
-    return 0
-  endif
+      for key in keys(a:config.path_map)
+        if type(a:config.path_map[key]) != 1
+          call s:err_msg('.autoftp.json error: path_mapの値は文字列でなければなりません')
+          return 0
+        endif
+      endfor
+    endif
 
-  if has_key(a:config, 'enable') && type(a:config.enable) != 0
-    call s:err_msg('.autoftp.json error: enableは真偽値で指定してください')
-    return 0
-  endif
+    if has_key(a:config, 'passive') && type(a:config.passive) != 0
+      call s:err_msg('.autoftp.json error: passiveは真偽値で指定してください')
+      return 0
+    endif
 
-  return 1
-endfunction
+    if has_key(a:config, 'enable') && type(a:config.enable) != 0
+      call s:err_msg('.autoftp.json error: enableは真偽値で指定してください')
+      return 0
+    endif
 
-function! s:err_msg(msg) abort
-  echohl WarningMsg
-  echo a:msg
-  echohl None
-endfunction
+    return 1
+  endfunction
+
+  function! s:err_msg(msg) abort
+    echohl WarningMsg
+    echo a:msg
+    echohl None
+  endfunction
+endif
 " }}}
