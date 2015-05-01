@@ -154,9 +154,7 @@ NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
-NeoBundleLazy 'thinca/vim-ref', {
-      \   'disabled': !executable('lynx'),
-      \ }
+NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'osyo-manga/unite-quickfix', {
       \   'depends': [ 'Shougo/unite.vim' ]
       \ }
@@ -1482,6 +1480,7 @@ endif
 if neobundle#tap('vim-ref')
   " config {{{
   call neobundle#config({
+        \   'external_commands': 'lynx',
         \   'autoload': {
         \     'unite_sources': ['ref'],
         \     'mappings': [
