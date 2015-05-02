@@ -1668,6 +1668,10 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 " 1文字削除
 cnoremap <C-d> <Del>
+" C-pを<Up>にすることで、単純な履歴ではなく先頭一致で履歴をたどってくれる
+cnoremap <C-p> <Up>
+" C-nも<Down>にする
+cnoremap <C-n> <Down>
 
 " 検索時のスラッシュ(/)を簡単に入力する
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
