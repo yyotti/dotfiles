@@ -1631,6 +1631,10 @@ endif
 
 " 行番号を表示
 set number
+" 相対行数を表示（一応、バージョンを確認しておく）
+if v:version >= 703
+  set relativenumber
+endif
 
 " ルーラーを表示
 set ruler
