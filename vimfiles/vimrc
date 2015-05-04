@@ -1575,14 +1575,6 @@ if neobundle#tap('vim-prettyprint')
   let g:prettyprint_string = []
   " }}}
 
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      echomsg string('prettyprint sourced')
-    endif
-  endfunction
-  " }}}
-
   " キーマッピング {{{
   nnoremap <silent> <C-p> :PP <C-r>=expand("<cWORD>")<CR><CR>
   " }}}
