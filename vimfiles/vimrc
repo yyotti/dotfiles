@@ -1435,7 +1435,13 @@ endif
 if neobundle#tap('vim-automatic')
   " settings {{{
   function! s:my_temporary_window_init(config, context) abort
-    nmap <silent> <buffer> q :q<CR>
+    nnoremap <silent> <buffer> q :q<CR>
+  endfunction
+
+  function! s:my_vimshell_window_init(config, context) abort
+    nmap <silent> <buffer> q <Plug>(vimshell_exit)
+    vmap <silent> <buffer> q <Plug>(vimshell_exit)
+    map <silent> <buffer> <C-g><C-g> <Plug>(vimshell_exit)
   endfunction
 
   let g:automatic_default_match_config = {
@@ -1464,6 +1470,15 @@ if neobundle#tap('vim-automatic')
         \   {
         \     'match': {
         \       'filepath': '\v^editvar://.+',
+        \     },
+        \   },
+        \   {
+        \     'match': {
+        \       'autocmds': ['FileType'],
+        \       'filetype': 'vimshell',
+        \     },
+        \     'set': {
+        \       'apply': function('s:my_vimshell_window_init'),
         \     },
         \   },
         \ ]
