@@ -162,11 +162,14 @@ NeoBundleLazy 'thinca/vim-ref', {
         \   'external_commands': 'lynx',
         \ }
 NeoBundleLazy 'osyo-manga/unite-quickfix', {
-      \   'depends': [ 'Shougo/unite.vim' ]
+      \   'depends': ['Shougo/unite.vim']
       \ }
 NeoBundleLazy 'thinca/vim-prettyprint'
 NeoBundleLazy 'thinca/vim-editvar', {
       \   'depends': ['Shougo/unite.vim'],
+      \ }
+NeoBundleLazy 'tek/vim-operator-assign', {
+      \   'depends': ['kana/vim-operator-user'],
       \ }
 " }}}
 
@@ -1610,6 +1613,28 @@ if neobundle#tap('vim-editvar')
         \     ],
         \   },
         \ })
+  " }}}
+endif
+" }}}
+
+" vim-operator-assign {{{
+if neobundle#tap('vim-operator-assign')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'mappings': [
+        \       [
+        \         'nx',
+        \         '<Plug>(operator-assign',
+        \       ],
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " キーマッピング {{{
+  nmap zx <Plug>(operator-assign)
+  vmap zx <Plug>(operator-assign)
   " }}}
 endif
 " }}}
