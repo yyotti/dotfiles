@@ -365,7 +365,7 @@ if neobundle#tap('unite.vim')
   " バッファ一覧を開く
   nnoremap <silent> [unite]b :Unite buffer<CR>
   " Unite-grep
-  nnoremap <silent> [unite]g :Unite grep -buffer-name=grep<CR>
+  nnoremap <silent> [unite]g :Unite grep -buffer-name=grep -no-quit<CR>
   nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
   " ブックマーク一覧
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
