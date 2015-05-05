@@ -853,7 +853,6 @@ if neobundle#tap('vim-unified-diff')
   "let unified_diff#iwhite_arguments = [
   "  \   '--ignore--all-space',
   "  \ ]
-  let unified_diff#iwhite_arguments = [] " スペースの変化も表示対象にする TODO できていないぽい
   " }}}
 endif
 
