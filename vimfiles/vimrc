@@ -1836,8 +1836,8 @@ augroup END
 
 " backgroundの light/dark を切り替える
 " F5とかでやりたかったが、なぜか妙なキーシーケンスが入力されたので、諦めた
-nnoremap <expr> <C-S-b> ToggleBackground()
-function! ToggleBackground() abort
+nmap <expr> <C-b> <SID>toggle_background()
+function! s:toggle_background() abort
   if &background == 'light'
     set background=dark
   else
