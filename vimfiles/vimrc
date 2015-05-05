@@ -370,7 +370,7 @@ if neobundle#tap('unite.vim')
   " ブックマーク一覧
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
   " バッファ内で行を検索
-  nnoremap <silent> [unite]l :<C-u>Unite line<CR>
+  nnoremap <silent> [unite]l :<C-u>Unite line -start-insert<CR>
   " }}}
 endif
 " }}}
