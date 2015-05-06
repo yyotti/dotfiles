@@ -2076,5 +2076,6 @@ endfunction
 nnoremap [mark]j ]`
 nnoremap [mark]k [`
 
+" TODO マークがついている行をハイライトしたい
 " TODO マーク一覧をUniteで見れるといいかも
 " }}}
