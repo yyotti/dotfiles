@@ -1802,6 +1802,23 @@ set nf=""
 " autodate.vimのフォーマットを指定
 let g:autodate_format = '%Y/%m/%d %H:%M:%S'
 
+" Git管理下のファイルを開いたら、.gitがあるディレクトリにカレントを移動する
+augroup git_dir
+  autocmd!
+  autocmd BufWinEnter * :call s:cd_git_root()
+augroup END
+function! s:cd_git_root() abort
+  let buf_path = fnamemodify(expand('%'), ':p')
+  if !isdirectory(buf_path)
+    let buf_path = fnamemodify(buf_path, ':h')
+  endif
+
+  let git_dir = finddir('.git', buf_path . ';**/')
+  if !empty(git_dir)
+    execute 'lcd ' . fnamemodify(git_dir, ':p:h:h')
+  endif
+endfunction
+
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
