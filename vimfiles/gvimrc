@@ -17,7 +17,7 @@ endif
 
 " フォント
 if has('unix')
-  set guifont=Ricty\ for\ Powerline,12
+  set guifont=Ricty\ for\ Powerline\ 11
   set linespace=1
 endif
 
