@@ -1872,7 +1872,8 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
       return
     endif
 
-    let conf_file = findfile('.autoftp.json', fnamemodify(expand('%'), ':p:h') . ';**/')
+    let conf_file_name = get(g:, 'autoftp_conf', '.autoftp.json')
+    let conf_file = findfile(conf_file_name, fnamemodify(expand('%'), ':p:h') . ';**/')
     if empty(conf_file)
       let b:autoftp_init = 1
       return
@@ -1986,31 +1987,31 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
     endif
 
     if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
-      call s:err_msg('.autoftp.json error: timeoutは正数で指定してください')
+      call s:err_msg('autoftp error: timeoutは正数で指定してください')
       return 0
     endif
 
     if has_key(a:config, 'path_map') && (type(a:config.timeout) != 4)
       if type(a:config.path_map) != 4
-        call s:err_msg('.autoftp.json error: path_mapは辞書型で指定してください')
+        call s:err_msg('autoftp error: path_mapは辞書型で指定してください')
         return 0
       endif
 
       for key in keys(a:config.path_map)
         if type(a:config.path_map[key]) != 1
-          call s:err_msg('.autoftp.json error: path_mapの値は文字列でなければなりません')
+          call s:err_msg('autoftp error: path_mapの値は文字列でなければなりません')
           return 0
         endif
       endfor
     endif
 
     if has_key(a:config, 'passive') && type(a:config.passive) != 0
-      call s:err_msg('.autoftp.json error: passiveは真偽値で指定してください')
+      call s:err_msg('autoftp error: passiveは真偽値で指定してください')
       return 0
     endif
 
     if has_key(a:config, 'enable') && type(a:config.enable) != 0
-      call s:err_msg('.autoftp.json error: enableは真偽値で指定してください')
+      call s:err_msg('autoftp error: enableは真偽値で指定してください')
       return 0
     endif
 
