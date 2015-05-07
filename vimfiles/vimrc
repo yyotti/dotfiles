@@ -1469,7 +1469,7 @@ endif
 if neobundle#tap('vim-automatic')
   " settings {{{
   function! s:my_temporary_window_init(config, context) abort
-    nnoremap <silent> <buffer> q :q<CR>
+    nnoremap <silent> <buffer> q :bd<CR>
   endfunction
 
   function! s:my_vimshell_window_init(config, context) abort
