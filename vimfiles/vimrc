@@ -182,6 +182,7 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \     'others': 'npm install',
       \   },
       \ }
+NeoBundleLazy 'smarty-syntax'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1727,6 +1728,20 @@ if neobundle#tap('tern_for_vim')
   " settings {{{
   let g:tern_show_argument_hints = 'on_move'
   let g:tern#command = ['nodejs', fnamemodify('~/.vim/bundle/', ':p') . '/' . neobundle#tapped.name . '/node_modules/tern/bin/tern', '--no-port-file']
+  " }}}
+endif
+" }}}
+
+" smarty-syntax {{{
+if neobundle#tap('smarty-syntax')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes': [
+        \       'smarty',
+        \     ],
+        \   },
+        \ })
   " }}}
 endif
 " }}}
