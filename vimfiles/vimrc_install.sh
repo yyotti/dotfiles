@@ -90,6 +90,10 @@ if [ `which git` ]; then
   if [ `which ctags` ]; then
     # ctagsを使えるようにする
     mklink `pwd`/ctags ~/.ctags
+
+    mklink `pwd`/git_template ~/.git_template
+    git config --global init.templatedir '~/.git_template'
+    git config --global alias.ctags '!.git/hooks/ctags'
   fi
 fi
 
