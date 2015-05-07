@@ -1977,6 +1977,21 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
+" 行末までコピー（Dで行末まで削除できるのに合わせる）
+nnoremap Y y$
+
+" x,s,cをヤンク目的で使うことはまずないので、捨てる
+nnoremap x "_x
+nnoremap s "_s
+nnoremap c "_c
+vnoremap x "_x
+vnoremap s "_s
+vnoremap c "_c
+xnoremap x "_x
+xnoremap s "_s
+xnoremap c "_c
+onoremap c "_c
+
 " vimrcを開く
 nnoremap <silent> ,ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
