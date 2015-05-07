@@ -172,7 +172,7 @@ NeoBundleLazy 'tek/vim-operator-assign', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
 NeoBundleLazy 'othree/html5.vim'
-NeoBundleLazy 'jiangmiao/simple-javascript-indenter'
+NeoBundleLazy 'jelera/vim-javascript-syntax'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1676,8 +1676,8 @@ if neobundle#tap('html5.vim')
 endif
 " }}}
 
-" simple-javascript-indenter {{{
-if neobundle#tap('simple-javascript-indenter')
+" vim-javascript-syntax {{{
+if neobundle#tap('vim-javascript-syntax')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
@@ -1688,8 +1688,20 @@ if neobundle#tap('simple-javascript-indenter')
         \   },
         \ })
   " }}}
+
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+      augroup vim_javascript_syntax
+        autocmd!
+        autocmd FileType javascript call JavaScriptFold()
+      augroup END
+    endif
+  endfunction
+  " }}}
 endif
 " }}}
+
 " }}}
 
 " 表示設定 {{{
