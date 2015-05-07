@@ -1772,6 +1772,14 @@ let g:php_folding = 1
 " DBをMySQLにする（シンタックスハイライトがきく？）
 let g:sql_type_default='mysql'
 " }}}
+
+" Smarty {{{
+augroup ftdetect_smarty
+  autocmd!
+  autocmd FileType smarty set filetype=smarty.html
+augroup END
+" }}}
+
 " }}}
 
 " コマンドラインの設定 {{{
