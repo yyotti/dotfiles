@@ -1917,8 +1917,8 @@ endfunction
 if neobundle#tap('vital.vim') && executable('ncftpput')
   augroup autoftp
     autocmd!
-    autocmd! BufWinEnter *.php,*.tpl call s:autoftp_init()
-    autocmd! BufWritePost *.php,*.tpl call s:autoftp_upload(0)
+    autocmd! BufWinEnter *.php,*.tpl,*.css,*.js call s:autoftp_init()
+    autocmd! BufWritePost *.php,*.tpl,*.css,*.js call s:autoftp_upload(0)
   augroup END
 
   command! AutoFtpUpload call s:autoftp_upload(1)
