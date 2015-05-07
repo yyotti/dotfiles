@@ -183,6 +183,7 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \   },
       \ }
 NeoBundleLazy 'smarty-syntax'
+NeoBundleLazy 't9md/vim-quickhl'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -245,6 +246,8 @@ nnoremap [nebula] <Nop>
 nmap <Leader>n [nebula]
 nnoremap [vimshell] <Nop>
 nmap <Leader>v [vimshell]
+nnoremap [quickhl] <Nop>
+nmap <Leader>h [quickhl]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
@@ -1746,6 +1749,56 @@ if neobundle#tap('smarty-syntax')
 endif
 " }}}
 
+" vim-quickhl {{{
+if neobundle#tap('vim-quickhl')
+  " config {{{
+  call neobundle#config({
+        \   'augroup': 'QuickhlManual',
+        \   'autoload': {
+        \     'mappings': [
+        \       [
+        \         'sxn',
+        \         '<Plug>(quickhl-',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'QuickhlManualUnlockWindow',
+        \       'QuickhlManualDelete',
+        \       'QuickhlTagToggle',
+        \       'QuickhlManualDisable',
+        \       'QuickhlTagDisable',
+        \       'QuickhlManualAdd',
+        \       'QuickhlManualColors',
+        \       'QuickhlManualReset',
+        \       'QuickhlManualLockToggle',
+        \       'QuickhlManualLock',
+        \       'QuickhlManualEnable',
+        \       'QuickhlManualList',
+        \       'QuickhlCwordEnable',
+        \       'QuickhlManualUnlock',
+        \       'QuickhlCwordDisable',
+        \       'QuickhlTagEnable',
+        \       'QuickhlManualLockWindowToggle',
+        \       'QuickhlManualLockWindow',
+        \       'QuickhlCwordToggle',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " キーマッピング {{{
+  nmap [quickhl]m <Plug>(quickhl-manual-this)
+  xmap [quickhl]m <Plug>(quickhl-manual-this)
+  nmap [quickhl]M <Plug>(quickhl-manual-reset)
+  xmap [quickhl]M <Plug>(quickhl-manual-reset)
+
+  nmap [quickhl]j <Plug>(quickhl-cword-toggle)
+  nmap [quickhl]] <Plug>(quickhl-tag-toggle)
+  " TODO ↓がよく分からない
+  " map H <Plug>(operator-quickhl-manual-this-motion)
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
