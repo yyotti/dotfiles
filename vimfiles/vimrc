@@ -171,6 +171,7 @@ NeoBundleLazy 'thinca/vim-editvar', {
 NeoBundleLazy 'tek/vim-operator-assign', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
+NeoBundleLazy 'othree/html5.vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -181,11 +182,6 @@ runtime macros/matchit.vim
 
 " -------- " -- scala-vim-snippets
 " -------- NeoBundle 'tommorris/scala-vim-snippets'
-
-" -- html5
-" オムニ補完で問題が起こるぽいのでいったん削除
-"   →直ったらしいので再度導入を検討する
-" NeoBundle 'taichouchou2/html5.vim'
 
 " }}}
 
@@ -1663,6 +1659,22 @@ if neobundle#tap('vim-operator-assign')
   " }}}
 endif
 " }}}
+
+" html5.vim {{{
+if neobundle#tap('html5.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes': [
+        \       'html',
+        \       'smarty',
+        \     ],
+        \   },
+        \ })
+  " }}}
+endif
+" }}}
+
 " }}}
 
 " 表示設定 {{{
