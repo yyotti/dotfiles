@@ -172,7 +172,7 @@ NeoBundleLazy 'tek/vim-operator-assign', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
 NeoBundleLazy 'othree/html5.vim'
-NeoBundleLazy 'jelera/vim-javascript-syntax'
+NeoBundleLazy 'othree/javascript-libraries-syntax.vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1676,8 +1676,8 @@ if neobundle#tap('html5.vim')
 endif
 " }}}
 
-" vim-javascript-syntax {{{
-if neobundle#tap('vim-javascript-syntax')
+" javascript-libraries-syntax.vim {{{
+if neobundle#tap('javascript-libraries-syntax.vim')
   " config {{{
   call neobundle#config({
         \   'autoload' : {
@@ -1687,17 +1687,6 @@ if neobundle#tap('vim-javascript-syntax')
         \     ],
         \   },
         \ })
-  " }}}
-
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      augroup vim_javascript_syntax
-        autocmd!
-        autocmd FileType javascript call JavaScriptFold()
-      augroup END
-    endif
-  endfunction
   " }}}
 endif
 " }}}
