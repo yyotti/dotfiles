@@ -1928,11 +1928,7 @@ cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 
 " その他の設定 {{{
 " クリップボードを共有
-if has('windows')
-  set clipboard=unnamed
-else
-  set clipboard=unnamedplus
-endif
+set clipboard=unnamed,unnamedplus
 
 " □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
