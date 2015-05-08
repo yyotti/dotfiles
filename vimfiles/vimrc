@@ -1980,10 +1980,6 @@ nnoremap c "_c
 vnoremap x "_x
 vnoremap s "_s
 vnoremap c "_c
-xnoremap x "_x
-xnoremap s "_s
-xnoremap c "_c
-onoremap c "_c
 
 " vimrcを開く
 nnoremap <silent> ,ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
