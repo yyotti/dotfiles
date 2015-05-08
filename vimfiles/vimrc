@@ -2000,14 +2000,8 @@ if has('gui_running')
   nnoremap <silent> ,rg :<C-u>source $MYGVIMRC<CR>
 endif
 
-" カーソル下の単語のヘルプを表示する
-" ファイルタイプによって機能を変更する
-augroup keymap_help
-  autocmd!
-  autocmd FileType vim
-        \ | nnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
-        \ | vnoremap <silent> <buffer> K :<C-u>help <C-r>=expand('<cword>')<CR><CR>
-augroup END
+" デフォルトでKはmanをひくようになっているので、変更
+set keywordprg=:help
 
 " backgroundの light/dark を切り替える
 " F5とかでやりたかったが、なぜか妙なキーシーケンスが入力されたので、諦めた
