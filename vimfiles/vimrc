@@ -1482,9 +1482,6 @@ if neobundle#tap('vim-automatic')
     map <silent> <buffer> <C-g><C-g> <Plug>(vimshell_exit)
   endfunction
 
-  let g:automatic_default_match_config = {
-        \   'is_open_other_window': 1,
-        \ }
   let g:automatic_default_set_config = {
         \   'apply': function('s:my_temporary_window_init'),
         \ }
