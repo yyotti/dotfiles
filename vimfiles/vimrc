@@ -2042,6 +2042,10 @@ endfunction
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
+" 危険なキーマッピングを無効に
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
 if !neobundle#is_sourced('vim-anzu')
   " anzuがロードされていなければ、<Esc><Esc>のマッピングをこっちにする
   nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
