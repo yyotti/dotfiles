@@ -2077,6 +2077,25 @@ nnoremap <Leader>l $
 nnoremap * *<C-o>
 nnoremap g* g*<C-o>
 
+" a>やi>を記号に置き換える
+" キーボード配列によらず使えるのもいい
+onoremap aa a>
+onoremap ar a]
+onoremap ad a"
+onoremap as a'
+onoremap ia i>
+onoremap ir i]
+onoremap id i"
+onoremap is i'
+vnoremap aa a>
+vnoremap ar a]
+vnoremap ad a"
+vnoremap as a'
+vnoremap ia i>
+vnoremap ir i]
+vnoremap id i"
+vnoremap is i'
+
 " x,s,cをヤンク目的で使うことはまずないので、捨てる
 " xはsubmodeで対応しているので、マッピングしない
 " nnoremap x "_x
