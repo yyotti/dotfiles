@@ -2066,6 +2066,10 @@ nnoremap Y y$
 nnoremap <Leader>h ^
 nnoremap <Leader>l $
 
+" アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
+nnoremap * *<C-o>
+nnoremap g* g*<C-o>
+
 " x,s,cをヤンク目的で使うことはまずないので、捨てる
 " xはsubmodeで対応しているので、マッピングしない
 " nnoremap x "_x
