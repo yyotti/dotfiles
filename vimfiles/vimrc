@@ -1833,7 +1833,7 @@ if neobundle#tap('colorizer')
   " }}}
 
   " settings {{{
-  augroup vimrc_olorizer
+  augroup vimrc_colorizer
     autocmd!
     autocmd FileType html,css :ColorHighlight
   augroup END
