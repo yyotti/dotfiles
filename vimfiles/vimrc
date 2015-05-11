@@ -184,6 +184,7 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \ }
 NeoBundleLazy 'smarty-syntax'
 NeoBundleLazy 't9md/vim-quickhl'
+NeoBundleLazy 'AndrewRadev/splitjoin.vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1793,6 +1794,29 @@ if neobundle#tap('vim-quickhl')
   nmap [quickhl]] <Plug>(quickhl-tag-toggle)
   " TODO ↓がよく分からない
   " map H <Plug>(operator-quickhl-manual-this-motion)
+  " }}}
+endif
+" }}}
+
+" splitjoin.vim {{{
+if neobundle#tap('splitjoin.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'mappings': [
+        \       [
+        \         'n',
+        \         '<Plug>Splitjoin',
+        \         'gJ',
+        \         'gS',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'SplitjoinSplit',
+        \       'SplitjoinJoin',
+        \     ],
+        \   },
+        \ })
   " }}}
 endif
 " }}}
