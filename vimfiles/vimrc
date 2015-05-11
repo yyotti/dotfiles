@@ -1594,7 +1594,7 @@ if neobundle#tap('unite-quickfix')
   " }}}
 
   " キーマッピング {{{
-  nnoremap <silent> <Leader>qf :Unite -no-quit -no-start-insert quickfix<CR>
+  nnoremap <silent> [unite]q :Unite -no-quit -no-start-insert quickfix<CR>
   " }}}
 endif
 " }}}
