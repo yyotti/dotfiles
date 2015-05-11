@@ -79,9 +79,6 @@ NeoBundle 'osyo-manga/vim-textobj-multiblock', {
 NeoBundle 'itchyny/lightline.vim'
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'osyo-manga/vim-automatic', {
-      \   'depends': ['osyo-manga/vim-gift'],
-      \ }
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'kana/vim-textobj-jabraces', {
       \   'disabled': 1,
@@ -604,7 +601,7 @@ if neobundle#tap('neocomplete.vim')
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
   " オムニ補完
-  augroup neocomplete
+  augroup vimrc_neocomplete
     autocmd!
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -730,7 +727,7 @@ endif
 " fugitive {{{
 if neobundle#tap('vim-fugitive')
   " settings {{{
-  augroup fugitive_cmd
+  augroup vimrc_fugitive
     autocmd!
     " Windowsだとコミット画面のfencがcp932になるので、強制的にutf-8にする
     " オプションで変更できたりするのかな？
@@ -829,6 +826,16 @@ if neobundle#tap('vimshell')
 
   " キーマッピング {{{
   nnoremap <silent> [vimshell]p :<C-u>VimShellPop<CR>
+
+  augroup vimrc_vimshell
+    autocmd!
+    autocmd FileType vimshell call <SID>mapping_vimshell_q()
+  augroup END
+  function! s:mapping_vimshell_q() abort
+    nmap <silent> <buffer> q <Plug>(vimshell_exit)
+    nmap <silent> <buffer> <C-g> <Plug>(vimshell_exit)
+    imap <silent> <buffer> <C-g><C-g> <Plug>(vimshell_exit)
+  endfunction
   " }}}
 endif
 " }}}
@@ -895,7 +902,7 @@ if neobundle#tap('nebula.vim')
   " }}}
 
   " キーマッピング {{{
-  augroup keymap_nebula
+  augroup vimrc_nebula
     autocmd!
     autocmd FileType vim
           \   nnoremap <silent> <buffer> [nebula]l :<C-u>NebulaPutLazy<CR>
@@ -926,7 +933,7 @@ if neobundle#tap('vim-scala')
   " settings {{{
   if neobundle#is_installed('vim-scala')
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vim_scala
+    augroup vimrc_vim_scala
       autocmd!
       source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
     augroup END
@@ -951,7 +958,7 @@ if neobundle#tap('vim-less')
   " settings {{{
   if neobundle#is_installed('vim-less')
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vim_less
+    augroup vimrc_vim_less
       autocmd!
       source ~/.vim/bundle/vim-less/ftdetect/less.vim
     augroup END
@@ -976,7 +983,7 @@ if neobundle#tap('vim-coffee-script')
   " settings {{{
   if neobundle#is_installed('vim-coffee-script')
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vim_less
+    augroup vimrc_vim_coffee_script
       autocmd!
       source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
     augroup END
@@ -1432,7 +1439,7 @@ if neobundle#tap('unite-tag')
   " }}}
 
   " キーマッピング {{{
-  augroup unite_tag
+  augroup vimrc_unite_tag
     autocmd!
     autocmd BufEnter *
           \   if empty(&buftype)
@@ -1473,7 +1480,8 @@ if neobundle#tap('vim-anzu')
   nmap N <Plug>(anzu-N)zz
   nmap * <Plug>(anzu-star)zz
   nmap # <Plug>(anzu-sharp)zz
-  augroup vim_anzu
+
+  augroup vimrc_vim_anzu
     autocmd!
     " 一定時間の入力なし、ウィンドウ移動、タブ移動のときにヒット数の表示を消す
     autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
@@ -1481,58 +1489,6 @@ if neobundle#tap('vim-anzu')
 
   " ESC連打でハイライトを消す
   nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
-  " }}}
-endif
-" }}}
-
-" vim-automatic {{{
-if neobundle#tap('vim-automatic')
-  " settings {{{
-  function! s:my_temporary_window_init(config, context) abort
-    nnoremap <buffer> q <C-w>c
-  endfunction
-
-  function! s:my_vimshell_window_init(config, context) abort
-    nmap <silent> <buffer> q <Plug>(vimshell_exit)
-    vmap <silent> <buffer> q <Plug>(vimshell_exit)
-    map <silent> <buffer> <C-g><C-g> <Plug>(vimshell_exit)
-  endfunction
-
-  let g:automatic_default_set_config = {
-        \   'apply': function('s:my_temporary_window_init'),
-        \ }
-  let g:automatic_config = [
-        \   {
-        \     'match': {
-        \       'buftype': 'help',
-        \     },
-        \   },
-        \   {
-        \     'match': {
-        \       'buftype': 'quickfix',
-        \     },
-        \   },
-        \   {
-        \     'match': {
-        \       'autocmds': ['FileType'],
-        \       'filetype': '\v^ref-.+',
-        \     },
-        \   },
-        \   {
-        \     'match': {
-        \       'filepath': '\v^editvar://.+',
-        \     },
-        \   },
-        \   {
-        \     'match': {
-        \       'autocmds': ['FileType'],
-        \       'filetype': 'vimshell',
-        \     },
-        \     'set': {
-        \       'apply': function('s:my_vimshell_window_init'),
-        \     },
-        \   },
-        \ ]
   " }}}
 endif
 " }}}
@@ -1582,12 +1538,25 @@ if neobundle#tap('vim-ref')
         \ })
   " }}}
 
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    if neobundle#is_sourced(a:bundle.name)
+    endif
+  endfunction
+  " }}}
   " settings {{{
   " ホームディレクトリは'~'だとダメっぽい
   let g:ref_cache_dir = $HOME.'/.vim/vim_ref_cache'
 
   " PHP
   let g:ref_phpmanual_path = $HOME."/.vim/refs/php-chunked-xhtml"
+  " }}}
+
+  " キーマッピング {{{
+  augroup vimrc_vim_ref
+    autocmd!
+    autocmd FileType * if &filetype =~# '\v^ref-.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
+  augroup END
   " }}}
 endif
 " }}}
@@ -1661,6 +1630,13 @@ if neobundle#tap('vim-editvar')
         \     ],
         \   },
         \ })
+  " }}}
+
+  " キーマッピング {{{
+  augroup vimrc_vim_editvar
+    autocmd!
+    autocmd BufWinEnter * if expand('<afile>') =~# '\v^editvar://.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
+  augroup END
   " }}}
 endif
 " }}}
@@ -1858,7 +1834,7 @@ if neobundle#tap('colorizer')
   " }}}
 
   " settings {{{
-  augroup Colorizer
+  augroup vimrc_olorizer
     autocmd!
     autocmd FileType html,css :ColorHighlight
   augroup END
@@ -1977,7 +1953,7 @@ set undodir=$HOME/.vim/.backup
 set hidden
 
 " 保存時に行末の空白を除去
-augroup del_end_ws
+augroup vimrc_del_end_ws
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
@@ -1998,7 +1974,7 @@ let g:sql_type_default='mysql'
 " }}}
 
 " Smarty {{{
-augroup ftdetect_smarty
+augroup vimrc_ftdetect_smarty
   autocmd!
   autocmd BufReadPost *.tpl set filetype=smarty.html
 augroup END
@@ -2043,7 +2019,7 @@ set nf=""
 let g:autodate_format = '%Y/%m/%d %H:%M:%S'
 
 " Git管理下のファイルを開いたら、.gitがあるディレクトリにカレントを移動する
-augroup git_dir
+augroup vimrc_git_dir
   autocmd!
   autocmd BufWinEnter * :call s:cd_git_root()
 augroup END
@@ -2139,6 +2115,16 @@ endif
 " デフォルトでKはmanをひくようになっているので、変更
 set keywordprg=:help
 
+" helpなどをqで閉じる
+augroup vimrc_mapping_q
+  autocmd!
+  autocmd BufWinEnter * if &buftype ==# 'help' | call <SID>mapping_q() | endif
+  autocmd BufWinEnter * if &buftype ==# 'quickfix' | call <SID>mapping_q() | endif
+augroup END
+function! s:mapping_q() abort
+  nnoremap <silent> <buffer> q :bdelete<CR>
+endfunction
+
 " backgroundの light/dark を切り替える
 " F5とかでやりたかったが、なぜか妙なキーシーケンスが入力されたので、諦めた
 nmap <expr> <C-b> <SID>toggle_background()
@@ -2153,7 +2139,7 @@ endfunction
 
 " autoftp {{{
 if neobundle#tap('vital.vim') && executable('ncftpput')
-  augroup autoftp
+  augroup vimrc_autoftp
     autocmd!
     autocmd! BufWinEnter *.php,*.tpl,*.css,*.js call s:autoftp_init()
     autocmd! BufWritePost *.php,*.tpl,*.css,*.js call s:autoftp_upload(0)
@@ -2330,7 +2316,7 @@ endif
 
 " マーク関係 {{{
 nnoremap [mark] <Nop>
-nmap m [mark]
+nmap <Leader>m [mark]
 
 " マーク番号を自動でふるための準備
 if !exists('g:mark_chars')
