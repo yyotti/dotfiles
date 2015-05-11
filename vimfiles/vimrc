@@ -256,7 +256,7 @@ nmap <Leader>n [nebula]
 nnoremap [vimshell] <Nop>
 nmap <Leader>v [vimshell]
 nnoremap [quickhl] <Nop>
-nmap <Leader>h [quickhl]
+nmap <Leader>q [quickhl]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
@@ -1996,17 +1996,8 @@ let g:sql_type_default='mysql'
 " Smarty {{{
 augroup ftdetect_smarty
   autocmd!
-  autocmd FileType smarty call s:set_smarty_html()
-  autocmd BufReadPost *.tpl call s:set_smarty_html2()
+  autocmd BufReadPost *.tpl set filetype=smarty.html
 augroup END
-function! s:set_smarty_html() abort
-  echomsg string('called set_smarty_html')
-  set filetype=smarty.html
-endfunction
-function! s:set_smarty_html2() abort
-  echomsg string('called set_smarty_html2')
-  set filetype=smarty.html
-endfunction
 " }}}
 
 " }}}
