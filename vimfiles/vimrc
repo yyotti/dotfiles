@@ -185,6 +185,7 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
 NeoBundleLazy 'smarty-syntax'
 NeoBundleLazy 't9md/vim-quickhl'
 NeoBundleLazy 'AndrewRadev/splitjoin.vim'
+NeoBundleLazy 'lilydjwg/colorizer'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1817,6 +1818,36 @@ if neobundle#tap('splitjoin.vim')
         \     ],
         \   },
         \ })
+  " }}}
+endif
+" }}}
+
+" colorizer {{{
+if neobundle#tap('colorizer')
+  " config {{{
+  call neobundle#config({
+        \   'augroup': 'Colorizer',
+        \   'autoload': {
+        \     'mappings': [
+        \       [
+        \         'n',
+        \         '<Plug>Colorizer',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'ColorToggle',
+        \       'ColorHighlight',
+        \       'ColorClear',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  augroup Colorizer
+    autocmd!
+    autocmd FileType html,css :ColorHighlight
+  augroup END
   " }}}
 endif
 " }}}
