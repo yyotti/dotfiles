@@ -94,6 +94,7 @@ NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'sudo.vim', {
       \   'external_commands': 'sudo',
       \ }
+NeoBundle 'kana/vim-submode'
 " }}}
 
 " Lazy {{{
@@ -1851,6 +1852,21 @@ if neobundle#tap('colorizer')
   " }}}
 endif
 " }}}
+
+" vim-submode {{{
+" settings {{{
+" x連打で消した履歴をまとめる
+function! s:submode_x() abort
+  undojoin
+  normal! "_x
+endfunction
+nnoremap <silent> <Plug>(submode-x) :<C-u>call <SID>submode_x()<CR>
+call submode#enter_with('submode_x', 'n', '', 'x', '"_x')
+call submode#map('submode_x', 'n', 'r', 'x', '<Plug>(submode-x)')
+" }}}
+
+" }}}
+
 " }}}
 
 " 表示設定 {{{
@@ -2038,10 +2054,11 @@ vnoremap k gk
 nnoremap Y y$
 
 " x,s,cをヤンク目的で使うことはまずないので、捨てる
-nnoremap x "_x
+" xはsubmodeで対応しているので、マッピングしない
+" nnoremap x "_x
 nnoremap s "_s
 nnoremap c "_c
-vnoremap x "_x
+" vnoremap x "_x
 vnoremap s "_s
 vnoremap c "_c
 
