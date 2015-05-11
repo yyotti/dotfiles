@@ -73,6 +73,7 @@ NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'osyo-manga/vim-textobj-multiblock', {
+      \   'disabled': 1,
       \   'depends': 'kana/vim-textobj-user',
       \ }
 NeoBundle 'itchyny/lightline.vim'
@@ -83,9 +84,11 @@ NeoBundle 'osyo-manga/vim-automatic', {
       \ }
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'kana/vim-textobj-jabraces', {
+      \   'disabled': 1,
       \   'depends': ['kana/vim-textobj-user'],
       \ }
 NeoBundle 'osyo-manga/vim-textobj-multitextobj', {
+      \   'disabled': 1,
       \   'depends': ['kana/vim-textobj-user'],
       \ }
 " TODO 後でLazyにしたい
