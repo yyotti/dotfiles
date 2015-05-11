@@ -2098,6 +2098,8 @@ nnoremap <Leader>l $
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zz
 nnoremap g* g*<C-o>zz
+nnoremap # #<C-o>zz
+nnoremap g# g#<C-o>zz
 
 " a>やi>を記号に置き換える
 " キーボード配列によらず使えるのもいい
