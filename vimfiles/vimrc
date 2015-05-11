@@ -1395,6 +1395,9 @@ if neobundle#tap('vim-gitgutter')
   let g:gitgutter_sign_modified = 'M'
   let g:gitgutter_sign_removed = 'D'
   let g:gitgutter_sign_modified_removed = 'MD'
+
+  " デフォルトのマッピングをOFFにする
+  let g:gitgutter_map_keys = 0
   " }}}
 
   " キーマッピング {{{
@@ -2058,6 +2061,10 @@ vnoremap gk k
 
 " 行末までコピー（Dで行末まで削除できるのに合わせる）
 nnoremap Y y$
+
+" 行頭、行末への移動
+nnoremap <Leader>h ^
+nnoremap <Leader>l $
 
 " x,s,cをヤンク目的で使うことはまずないので、捨てる
 " xはsubmodeで対応しているので、マッピングしない
