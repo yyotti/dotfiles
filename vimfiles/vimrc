@@ -2050,6 +2050,12 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
+" 実際の行で移動
+nnoremap gj j
+nnoremap gk k
+vnoremap gj j
+vnoremap gk k
+
 " 行末までコピー（Dで行末まで削除できるのに合わせる）
 nnoremap Y y$
 
