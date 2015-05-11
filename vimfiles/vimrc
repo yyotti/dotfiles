@@ -1897,8 +1897,17 @@ let g:sql_type_default='mysql'
 " Smarty {{{
 augroup ftdetect_smarty
   autocmd!
-  autocmd FileType smarty set filetype=smarty.html
+  autocmd FileType smarty call s:set_smarty_html()
+  autocmd BufReadPost *.tpl call s:set_smarty_html2()
 augroup END
+function! s:set_smarty_html() abort
+  echomsg string('called set_smarty_html')
+  set filetype=smarty.html
+endfunction
+function! s:set_smarty_html2() abort
+  echomsg string('called set_smarty_html2')
+  set filetype=smarty.html
+endfunction
 " }}}
 
 " }}}
