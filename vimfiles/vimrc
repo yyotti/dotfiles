@@ -189,6 +189,7 @@ NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'thinca/vim-textobj-between', {
       \   'depends': 'kana/vim-textobj-user',
       \ }
+NeoBundleLazy 'haya14busa/incsearch.vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1841,7 +1842,6 @@ if neobundle#tap('colorizer')
 endif
 " }}}
 
-
 " vim-textobj-between {{{
 if neobundle#tap('vim-textobj-between')
   " config {{{
@@ -1861,6 +1861,110 @@ if neobundle#tap('vim-textobj-between')
 endif
 " }}}
 
+" incsearch.vim {{{
+if neobundle#tap('incsearch.vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'mappings': [
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-N)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-N)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-#)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-*)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-#)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-forward)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-*)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-stay)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-g*)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-n)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-n)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl0)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-g#)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-backward)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(_incsearch-g*)'
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl-g#)',
+        \       ],
+        \       [
+        \         'sxno',
+        \         '<Plug>(incsearch-nohl2)',
+        \       ],
+        \     ],
+        \     'commands': [
+        \       'IncSearchNoreMap',
+        \       'IncSearchMap',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  " magicを標準にする
+  let g:incsearch#magic = '\v'
+  " }}}
+
+  " キーマッピング {{{
+  map / <Plug>(incsearch-forward)
+  map ? <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
+
+  if neobundle#tap('vim-anzu')
+    nmap n <Plug>(incsearch-nohl)<Plug>(anzu-n)
+    nmap N <Plug>(incsearch-nohl)<Plug>(anzu-N)
+  endif
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
