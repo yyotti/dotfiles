@@ -445,10 +445,7 @@ if neobundle#tap('vimfiler')
         \       'vimfiler_sort',
         \     ],
         \     'mappings': [
-        \       [
-        \         'n',
-        \         '<Plug>(vimfiler_',
-        \       ],
+        \       [ 'n', '<Plug>(vimfiler_' ],
         \     ],
         \     'commands': [
         \       {
@@ -533,10 +530,7 @@ if neobundle#tap('neocomplete.vim')
         \       'neocomplete',
         \     ],
         \     'mappings': [
-        \       [
-        \         'i',
-        \         '<Plug>(neocomplete_start_'
-        \       ],
+        \       [ 'i', '<Plug>(neocomplete_start_' ],
         \     ],
         \     'commands': [
         \       'NeoCompleteAutoCompletionLength',
@@ -648,10 +642,7 @@ if neobundle#tap('neosnippet.vim')
         \       'neosnippet_file',
         \     ],
         \     'mappings': [
-        \       [
-        \         'sxi',
-        \         '<Plug>(neosnippet_',
-        \       ],
+        \       [ 'sxi', '<Plug>(neosnippet_' ],
         \     ],
         \     'commands': [
         \       'NeoSnippetClearMarkers',
@@ -771,10 +762,7 @@ if neobundle#tap('vimshell')
         \       'vimshell_zsh_complete',
         \     ],
         \     'mappings': [
-        \       [
-        \         'n',
-        \         '<Plug>(vimshell_',
-        \       ],
+        \       [ 'n', '<Plug>(vimshell_' ],
         \     ],
         \     'commands': [
         \       {
@@ -1224,14 +1212,9 @@ if neobundle#tap('restart.vim')
         \ })
   " }}}
 
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages' | Restart
-    endif
-  endfunction
+  " settings {{{
+  command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages' | Restart
   " }}}
-
 endif
 " }}}
 
@@ -1458,10 +1441,7 @@ if neobundle#tap('vim-anzu')
         \   'autoload': {
         \     'unite_sources': ['anzu'],
         \     'mappings': [
-        \       [
-        \         'sxno',
-        \         '<Plug>(anzu-',
-        \       ],
+        \       [ 'sxno', '<Plug>(anzu-' ],
         \     ],
         \     'commands': [
         \       'AnzuUpdateSearchStatus',
@@ -1499,10 +1479,7 @@ if neobundle#tap('vim-operator-replace')
   call neobundle#config({
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'nx',
-        \         '<Plug>(operator-replace',
-        \       ],
+        \       [ 'nx', '<Plug>(operator-replace' ],
         \     ],
         \   },
         \ })
@@ -1521,11 +1498,7 @@ if neobundle#tap('vim-ref')
         \   'autoload': {
         \     'unite_sources': ['ref'],
         \     'mappings': [
-        \       [
-        \         'sxn',
-        \         '<Plug>(ref-keyword)',
-        \         'K',
-        \       ],
+        \       [ 'sxn', '<Plug>(ref-keyword)', 'K' ],
         \     ],
         \     'commands': [
         \       {
@@ -1538,12 +1511,6 @@ if neobundle#tap('vim-ref')
         \ })
   " }}}
 
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-    endif
-  endfunction
-  " }}}
   " settings {{{
   " ホームディレクトリは'~'だとダメっぽい
   let g:ref_cache_dir = $HOME.'/.vim/vim_ref_cache'
@@ -1647,10 +1614,7 @@ if neobundle#tap('vim-operator-assign')
   call neobundle#config({
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'nx',
-        \         '<Plug>(operator-assign',
-        \       ],
+        \       [ 'nx', '<Plug>(operator-assign' ],
         \     ],
         \   },
         \ })
@@ -1745,10 +1709,7 @@ if neobundle#tap('vim-quickhl')
         \   'augroup': 'QuickhlManual',
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'sxn',
-        \         '<Plug>(quickhl-',
-        \       ],
+        \       [ 'sxn', '<Plug>(quickhl-' ],
         \     ],
         \     'commands': [
         \       'QuickhlManualUnlockWindow',
@@ -1795,12 +1756,7 @@ if neobundle#tap('splitjoin.vim')
   call neobundle#config({
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'n',
-        \         '<Plug>Splitjoin',
-        \         'gJ',
-        \         'gS',
-        \       ],
+        \       [ 'n', '<Plug>Splitjoin', 'gJ', 'gS' ],
         \     ],
         \     'commands': [
         \       'SplitjoinSplit',
@@ -1819,10 +1775,7 @@ if neobundle#tap('colorizer')
         \   'augroup': 'Colorizer',
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'n',
-        \         '<Plug>Colorizer',
-        \       ],
+        \       [ 'n', '<Plug>Colorizer' ],
         \     ],
         \     'commands': [
         \       'ColorToggle',
@@ -1848,12 +1801,7 @@ if neobundle#tap('vim-textobj-between')
   call neobundle#config({
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'xo',
-        \         '<Plug>(textobj-between',
-        \         'af',
-        \         'if',
-        \       ],
+        \       [ 'xo', '<Plug>(textobj-between', 'af', 'if' ],
         \     ],
         \   },
         \ })
@@ -1867,78 +1815,24 @@ if neobundle#tap('incsearch.vim')
   call neobundle#config({
         \   'autoload': {
         \     'mappings': [
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-N)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-N)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-#)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-*)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-#)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-forward)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-*)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-stay)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-g*)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-n)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-n)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl0)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-g#)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-backward)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(_incsearch-g*)'
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl-g#)',
-        \       ],
-        \       [
-        \         'sxno',
-        \         '<Plug>(incsearch-nohl2)',
-        \       ],
+        \       [ 'sxno', '<Plug>(_incsearch-N)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-N)' ],
+        \       [ 'sxno', '<Plug>(_incsearch-#)' ],
+        \       [ 'sxno', '<Plug>(_incsearch-*)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-#)' ],
+        \       [ 'sxno', '<Plug>(incsearch-forward)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-*)' ],
+        \       [ 'sxno', '<Plug>(incsearch-stay)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-g*)' ],
+        \       [ 'sxno', '<Plug>(_incsearch-n)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-n)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl0)' ],
+        \       [ 'sxno', '<Plug>(_incsearch-g#)' ],
+        \       [ 'sxno', '<Plug>(incsearch-backward)' ],
+        \       [ 'sxno', '<Plug>(_incsearch-g*)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl-g#)' ],
+        \       [ 'sxno', '<Plug>(incsearch-nohl2)' ],
         \     ],
         \     'commands': [
         \       'IncSearchNoreMap',
