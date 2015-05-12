@@ -55,10 +55,6 @@ endif
 
 " Lazyしないプラグイン {{{
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-repeat', {
-      \   'depends': ['tpope/vim-surround'],
-      \ }
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
@@ -72,22 +68,10 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'osyo-manga/vim-textobj-multiblock', {
-      \   'disabled': 1,
-      \   'depends': 'kana/vim-textobj-user',
-      \ }
 NeoBundle 'itchyny/lightline.vim'
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'kana/vim-textobj-jabraces', {
-      \   'disabled': 1,
-      \   'depends': ['kana/vim-textobj-user'],
-      \ }
-NeoBundle 'osyo-manga/vim-textobj-multitextobj', {
-      \   'disabled': 1,
-      \   'depends': ['kana/vim-textobj-user'],
-      \ }
 " TODO 後でLazyにしたい
 NeoBundle 'vim-jp/vital.vim'
 " TODO 後でLazyにしたいが、そのためには自作するほうがいいか？この程度ならLazyしなくてもいいかも？
@@ -190,6 +174,9 @@ NeoBundleLazy 'thinca/vim-textobj-between', {
       \   'depends': 'kana/vim-textobj-user',
       \ }
 NeoBundleLazy 'haya14busa/incsearch.vim'
+NeoBundleLazy 'rhysd/vim-operator-surround', {
+      \   'depends': 'kana/vim-operator-user',
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1699,6 +1686,34 @@ if neobundle#tap('incsearch.vim')
   " }}}
 endif
 " }}}
+
+" vim-operator-surround {{{
+if neobundle#tap('vim-operator-surround')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'mappings': [
+        \       [ 'nx', '<Plug>(operator-surround' ],
+        \       [ 'n', '<Plug>(operator-surround-repeat)' ],
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " キーマッピング {{{
+  map <silent> ya <Plug>(operator-surround-append)
+  map <silent> yd <Plug>(operator-surround-delete)
+  map <silent> yc <Plug>(operator-surround-replace)
+
+  if neobundle#tap('vim-textobj-between')
+    nmap <silent> yaf <Plug>(operator-surround-append)<Plug>(textobj-between-a)
+    nmap <silent> ydf <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
+    nmap <silent> ycf <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
+  endif
+  " }}}
+endif
+" }}}
+
 " }}}
 
 " 表示設定 {{{
