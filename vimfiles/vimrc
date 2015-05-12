@@ -297,62 +297,20 @@ if neobundle#tap('unite.vim')
         \       'window_gui',
         \     ],
         \     'commands': [
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UniteLast',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithInput',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithCurrentDir',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UniteNext',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UniteClose',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithInputDirectory',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithProjectDir',
-        \       },
-        \       {
-        \         'complete': 'file',
-        \         'name': 'UniteBookmarkAdd',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UniteFirst',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithBufferDir',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'UniteWithCursorWord',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UniteResume',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#buffer_name',
-        \         'name': 'UnitePrevious',
-        \       },
-        \       {
-        \         'complete': 'customlist,unite#complete#source',
-        \         'name': 'Unite',
-        \       },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteLast' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithInput' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithCurrentDir' },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteNext' },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteClose' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithInputDirectory' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithProjectDir' },
+        \       { 'complete': 'file', 'name': 'UniteBookmarkAdd' },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteFirst' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithBufferDir' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithCursorWord' },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteResume' },
+        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UnitePrevious' },
+        \       { 'complete': 'customlist,unite#complete#source', 'name': 'Unite' },
         \     ],
         \   },
         \ })
@@ -402,15 +360,9 @@ if neobundle#tap('neomru.vim')
         \       'neomru',
         \     ],
         \     'commands': [
-        \       {
-        \         'complete': 'file',
-        \         'name': 'NeoMRUImportFile',
-        \       },
+        \       { 'complete': 'file', 'name': 'NeoMRUImportFile' },
         \       'NeoMRUSave',
-        \       {
-        \         'complete': 'file',
-        \         'name': 'NeoMRUImportDirectory',
-        \       },
+        \       { 'complete': 'file', 'name': 'NeoMRUImportDirectory' },
         \       'NeoMRUReload',
         \     ],
         \   },
@@ -448,58 +400,20 @@ if neobundle#tap('vimfiler')
         \       [ 'n', '<Plug>(vimfiler_' ],
         \     ],
         \     'commands': [
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerCurrentDir',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFiler',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerBufferDir',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerSimple',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerWrite',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerCreate',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerExplorer',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerEdit',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerDouble',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerSplit',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerSource',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerRead',
-        \       },
-        \       'VimFilerClose', {
-        \         'complete': 'customlist,vimfiler#complete',
-        \         'name': 'VimFilerTab',
-        \       },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerCurrentDir' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFiler' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerBufferDir' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSimple' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerWrite' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerCreate' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerExplorer' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerEdit' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerDouble' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSplit' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSource' },
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerRead' },
+        \       'VimFilerClose',
+        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerTab' },
         \     ],
         \   },
         \ })
@@ -534,37 +448,19 @@ if neobundle#tap('neocomplete.vim')
         \     ],
         \     'commands': [
         \       'NeoCompleteAutoCompletionLength',
-        \       {
-        \         'complete': 'buffer',
-        \         'name': 'NeoCompleteIncludeMakeCache',
-        \       },
+        \       { 'complete': 'buffer', 'name': 'NeoCompleteIncludeMakeCache' },
         \       'NeoCompleteClean',
         \       'NeoCompleteUnlock',
-        \       {
-        \         'complete': 'customlist,neocomplete#filetype_complete',
-        \         'name': 'NeoCompleteSyntaxMakeCache',
-        \       },
+        \       { 'complete': 'customlist,neocomplete#filetype_complete', 'name': 'NeoCompleteSyntaxMakeCache' },
         \       'NeoCompleteTagMakeCache',
         \       'NeoCompleteEnable',
-        \       {
-        \         'complete': 'customlist,neocomplete#filetype_complete',
-        \         'name': 'NeoCompleteDictionaryMakeCache',
-        \       },
-        \       {
-        \         'complete': 'buffer',
-        \         'name': 'NeoCompleteVimMakeCache',
-        \       },
+        \       { 'complete': 'customlist,neocomplete#filetype_complete', 'name': 'NeoCompleteDictionaryMakeCache' },
+        \       { 'complete': 'buffer', 'name': 'NeoCompleteVimMakeCache' },
         \       'NeoCompleteLock',
         \       'NeoCompleteDisable',
         \       'NeoCompleteToggle',
-        \       {
-        \         'complete': 'filetype',
-        \         'name': 'NeoCompleteSetFileType',
-        \       },
-        \       {
-        \         'complete': 'file',
-        \         'name': 'NeoCompleteBufferMakeCache',
-        \       },
+        \       { 'complete': 'filetype', 'name': 'NeoCompleteSetFileType' },
+        \       { 'complete': 'file', 'name': 'NeoCompleteBufferMakeCache' },
         \     ],
         \   },
         \ })
@@ -646,18 +542,9 @@ if neobundle#tap('neosnippet.vim')
         \     ],
         \     'commands': [
         \       'NeoSnippetClearMarkers',
-        \       {
-        \         'complete': 'file',
-        \         'name': 'NeoSnippetSource',
-        \       },
-        \       {
-        \         'complete': 'customlist,neosnippet#commands#_filetype_complete',
-        \         'name': 'NeoSnippetMakeCache',
-        \       },
-        \       {
-        \         'complete': 'customlist,neosnippet#commands#_edit_complete',
-        \         'name': 'NeoSnippetEdit',
-        \       },
+        \       { 'complete': 'file', 'name': 'NeoSnippetSource' },
+        \       { 'complete': 'customlist,neosnippet#commands#_filetype_complete', 'name': 'NeoSnippetMakeCache' },
+        \       { 'complete': 'customlist,neosnippet#commands#_edit_complete', 'name': 'NeoSnippetEdit' },
         \     ],
         \   },
         \ })
@@ -765,43 +652,17 @@ if neobundle#tap('vimshell')
         \       [ 'n', '<Plug>(vimshell_' ],
         \     ],
         \     'commands': [
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShell',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShellPop',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShellCreate',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShellCurrentDir',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimshell#helpers#vimshell_execute_complete',
-        \         'name': 'VimShellExecute',
-        \       },
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShellBufferDir',
-        \       },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShell' },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellPop' },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellCreate' },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellCurrentDir' },
+        \       { 'complete': 'customlist,vimshell#helpers#vimshell_execute_complete', 'name': 'VimShellExecute' },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellBufferDir' },
         \       'VimShellSendString',
-        \       {
-        \         'complete': 'customlist,vimshell#complete',
-        \         'name': 'VimShellTab',
-        \       },
-        \       {
-        \         'complete': 'buffer',
-        \         'name': 'VimShellSendBuffer',
-        \       },
-        \       'VimShellClose', {
-        \         'complete': 'customlist,vimshell#helpers#vimshell_execute_complete',
-        \         'name': 'VimShellInteractive',
-        \       },
+        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellTab' },
+        \       { 'complete': 'buffer', 'name': 'VimShellSendBuffer' },
+        \       'VimShellClose',
+        \       { 'complete': 'customlist,vimshell#helpers#vimshell_execute_complete', 'name': 'VimShellInteractive' },
         \     ],
         \   },
         \ })
@@ -987,10 +848,7 @@ if neobundle#tap('vim-vimlint')
   call neobundle#config({
         \   'autoload': {
         \     'commands': [
-        \       {
-        \         'complete': 'customlist,vimlint#util#complete',
-        \         'name': 'VimLint',
-        \       },
+        \       { 'complete': 'customlist,vimlint#util#complete', 'name': 'VimLint' },
         \     ],
         \     'on_source': [
         \       'vim-watchdogs',
@@ -1039,14 +897,8 @@ if neobundle#tap('vim-watchdogs')
         \   'autoload': {
         \     'commands': [
         \       'WatchdogsRunSweep',
-        \       {
-        \         'complete': 'customlist,quickrun#complete',
-        \         'name': 'WatchdogsRun',
-        \       },
-        \       {
-        \         'complete': 'customlist,quickrun#complete',
-        \         'name': 'WatchdogsRunSilent',
-        \       },
+        \       { 'complete': 'customlist,quickrun#complete', 'name': 'WatchdogsRun' },
+        \       { 'complete': 'customlist,quickrun#complete', 'name': 'WatchdogsRunSilent' },
         \     ],
         \     'insert': 1,
         \   },
@@ -1501,10 +1353,7 @@ if neobundle#tap('vim-ref')
         \       [ 'sxn', '<Plug>(ref-keyword)', 'K' ],
         \     ],
         \     'commands': [
-        \       {
-        \         'complete': 'customlist,ref#complete',
-        \         'name': 'Ref',
-        \       },
+        \       { 'complete': 'customlist,ref#complete', 'name': 'Ref' },
         \       'RefHistory',
         \     ],
         \   },
@@ -1554,14 +1403,8 @@ if neobundle#tap('vim-prettyprint')
   call neobundle#config({
         \   'autoload': {
         \     'commands': [
-        \       {
-        \         'complete': 'expression',
-        \         'name': 'PP',
-        \       },
-        \       {
-        \         'complete': 'expression',
-        \         'name': 'PrettyPrint',
-        \       },
+        \       { 'complete': 'expression', 'name': 'PP' },
+        \       { 'complete': 'expression', 'name': 'PrettyPrint' },
         \     ],
         \     'functions': [
         \       'PrettyPrint',
@@ -1590,10 +1433,7 @@ if neobundle#tap('vim-editvar')
         \   'autoload': {
         \     'unite_sources': ['variable'],
         \     'commands': [
-        \       {
-        \         'complete': 'var',
-        \         'name': 'Editvar',
-        \       },
+        \       { 'complete': 'var', 'name': 'Editvar' },
         \     ],
         \   },
         \ })
