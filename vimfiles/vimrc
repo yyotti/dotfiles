@@ -1640,14 +1640,14 @@ if neobundle#tap('vim-operator-surround')
   " }}}
 
   " キーマッピング {{{
-  map <silent> ya <Plug>(operator-surround-append)
-  map <silent> yd <Plug>(operator-surround-delete)
-  map <silent> yc <Plug>(operator-surround-replace)
+  map <silent> ra <Plug>(operator-surround-append)
+  map <silent> rd <Plug>(operator-surround-delete)
+  map <silent> rc <Plug>(operator-surround-replace)
 
   if neobundle#tap('vim-textobj-between')
-    nmap <silent> yaf <Plug>(operator-surround-append)<Plug>(textobj-between-a)
-    nmap <silent> ydf <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
-    nmap <silent> ycf <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
+    nmap <silent> raf <Plug>(operator-surround-append)<Plug>(textobj-between-a)
+    nmap <silent> rdf <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
+    nmap <silent> rcf <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
   endif
   " }}}
 endif
