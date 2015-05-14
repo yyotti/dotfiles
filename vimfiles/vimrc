@@ -53,8 +53,11 @@ if has('unix')
 endif
 " }}}
 
-" Lazyしないプラグイン {{{
+" colorscheme {{{
 NeoBundle 'altercation/vim-colors-solarized'
+" }}}
+
+" Lazyしないプラグイン {{{
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
