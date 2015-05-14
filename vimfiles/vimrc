@@ -57,6 +57,7 @@ endif
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'vim-scripts/twilight'
+NeoBundle 'jonathanfilip/vim-lucius'
 " }}}
 
 " Lazyしないプラグイン {{{
