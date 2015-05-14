@@ -1153,7 +1153,7 @@ if neobundle#tap('lightline.vim')
               \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
               \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
       else
-        let g:lightline.colorscheme = ''
+        let g:lightline.colorscheme = 'default'
       endif
       call lightline#init()
       call lightline#colorscheme()
