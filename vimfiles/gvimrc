@@ -13,8 +13,8 @@ endif
 if neobundle#is_sourced('vim-colors-solarized')
   set background=light
   colorscheme solarized
-elseif neobundle#is_sourced('vim-hybrid')
-  colorscheme hybrid
+else
+  colorscheme desert
 endif
 
 " フォント

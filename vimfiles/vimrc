@@ -1669,10 +1669,6 @@ if !has('gui_running')
   set background=dark
   if neobundle#is_sourced('vim-colors-solarized')
     colorscheme solarized
-  elseif neobundle#is_sourced('vim-hybrid')
-    colorscheme hybrid
-  elseif neobundle#is_sourced('twilight')
-    colorscheme twilight
   else
     colorscheme desert
   endif
