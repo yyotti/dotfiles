@@ -55,6 +55,7 @@ endif
 
 " colorscheme {{{
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'w0ng/vim-hybrid'
 " }}}
 
 " Lazyしないプラグイン {{{
@@ -1024,7 +1025,6 @@ if neobundle#tap('lightline.vim')
         \     'left': '⮁',
         \     'right': '⮃',
         \   },
-        \   'colorscheme': 'solarized',
         \   'active': {
         \     'left': [
         \       [ 'mode', 'eskk', ],
@@ -1147,9 +1147,6 @@ if neobundle#tap('lightline.vim')
     autocmd ColorScheme * call s:lightline_update()
   augroup END
   function! s:lightline_update()
-    if !exists('g:loaded_lightline')
-      return
-    endif
     try
       if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
         let g:lightline.colorscheme =
@@ -1673,8 +1670,10 @@ syntax enable
 if !has('gui_running')
   set t_Co=256
   set background=dark
-  if neobundle#is_installed('vim-colors-solarized')
+  if neobundle#is_sourced('vim-colors-solarized')
     colorscheme solarized
+  elseif neobundle#is_sourced('vim-hybrid')
+    colorscheme hybrid
   else
     colorscheme desert
   endif
