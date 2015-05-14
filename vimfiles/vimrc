@@ -56,6 +56,7 @@ endif
 " colorscheme {{{
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'vim-scripts/twilight'
 " }}}
 
 " Lazyしないプラグイン {{{
@@ -1670,6 +1671,8 @@ if !has('gui_running')
     colorscheme solarized
   elseif neobundle#is_sourced('vim-hybrid')
     colorscheme hybrid
+  elseif neobundle#is_sourced('twilight')
+    colorscheme twilight
   else
     colorscheme desert
   endif
