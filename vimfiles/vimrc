@@ -308,15 +308,6 @@ if neobundle#tap('unite.vim')
         \ })
   " }}}
 
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      " デフォルトアクションを書き換える
-      call unite#custom_default_action('directory', 'vimfiler')
-    endif
-  endfunction
-  " }}}
-
   " settings {{{
   " insertモードで起動する
   " let g:unite_enable_start_insert=1
@@ -324,6 +315,9 @@ if neobundle#tap('unite.vim')
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
+
+  " この時点でUniteがロードされる気がするので、Lazyの意味はないかもしれない
+  call unite#custom_default_action('directory', 'vimfiler')
   " }}}
 
   " キーマッピング {{{
