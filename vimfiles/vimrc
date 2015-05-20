@@ -1851,8 +1851,8 @@ vnoremap gk k
 nnoremap Y y$
 
 " 行頭、行末への移動
-nnoremap <Leader>h ^
-nnoremap <Leader>l $
+nnoremap <Space>h ^
+nnoremap <Space>l $
 
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zz
