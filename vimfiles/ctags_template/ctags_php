@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+PATH="$HOME/local/bin:/usr/local/bin:$PATH"
+cd "$(dirname "${BASH_SOURCE:-$0}")"; cd ../../
+trap "rm -f .git/tags.$$" EXIT
+ctags --tag-relative --recurse --sort=yes --append=no --langmap=PHP:+.inc.tpl --php-types=cfdv --exclude=testsys --exclude=*.js --exclude=.git -f .git/tags.$$
+mv .git/tags.$$ .git/tags
