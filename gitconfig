@@ -1,0 +1,15 @@
+[user]
+	email = yosuke.tsutsui@gmail.com
+	name = Y.Tsutsui
+[push]
+	default = simple
+[diff]
+	tool = vimdiff
+	algorithm = histogram
+[core]
+	editor = vim
+[alias]
+	ctags = !.git/hooks/ctags
+[init]
+	templatedir = ~/.git_template
+[http]
