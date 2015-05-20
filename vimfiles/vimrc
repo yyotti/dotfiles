@@ -1850,10 +1850,6 @@ vnoremap gk k
 " 行末までコピー（Dで行末まで削除できるのに合わせる）
 nnoremap Y y$
 
-" 行頭、行末への移動
-nnoremap <Space>h ^
-nnoremap <Space>l $
-
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zz
 nnoremap g* g*<C-o>zz
@@ -1922,6 +1918,12 @@ function! s:toggle_background() abort
     set background=light
   endif
 endfunction
+
+" splitしているときのウィンドウ移動
+nnoremap <Space>h <C-w>h
+nnoremap <Space>l <C-w>l
+nnoremap <Space>k <C-w>k
+nnoremap <Space>j <C-w>j
 " }}}
 
 " autoftp {{{
