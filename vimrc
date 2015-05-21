@@ -1667,6 +1667,7 @@ endif
 syntax enable
 
 if !has('gui_running')
+  set t_ut=
   set t_Co=256
   set background=dark
   if neobundle#is_sourced('vim-colors-solarized')
