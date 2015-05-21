@@ -1802,7 +1802,7 @@ endif
 
 " Ctrl+a,Ctrl+xでインクリメント、デクリメントするときに、先頭に
 " 0詰めされた 001 などを8進数ではなく普通の数字とみなす
-set nf=""
+set nf=
 
 " autodate.vimのフォーマットを指定
 let g:autodate_format = '%Y/%m/%d %H:%M:%S'
