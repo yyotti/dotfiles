@@ -1,3 +1,5 @@
+export TERM=xterm-256color
+
 # ~/にscalaディレクトリとplayディレクトリへのシンボリックリンクを作成すること
 alias rm='rm -i'
 alias mv='mv -i'
