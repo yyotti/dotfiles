@@ -1888,13 +1888,9 @@ vnoremap ir i]
 vnoremap id i"
 vnoremap is i'
 
-" x,s,cをヤンク目的で使うことはまずないので、捨てる
+" xをヤンク目的で使うことはまずないので、捨てる
 nnoremap x "_x
-nnoremap s "_s
-nnoremap c "_c
 vnoremap x "_x
-vnoremap s "_s
-vnoremap c "_c
 
 " vimrcを開く
 nnoremap <silent> ,ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
