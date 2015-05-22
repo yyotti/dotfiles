@@ -1,3 +1,3 @@
 DOTFILES_DIRS="$HOME/git/dotfiles"
-COPY_ALWAYS="refs/php_manual_ja.tar.gz"
+COPY_ALWAYS="vim/refs/php_manual_ja.tar.gz"
 EXCLUDES="README.md ctags_template"
