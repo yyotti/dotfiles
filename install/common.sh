@@ -52,7 +52,7 @@ get_os_distribution() {
     distri_name=""
   fi
 
-  return $distri_name
+  echo $distri_name
 }
 # }}}
 

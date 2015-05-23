@@ -62,21 +62,16 @@ fi
 # }}}
 
 # パッケージマネージャの決定 {{{
-__OS=get_os_distribution
+__OS=`get_os_distribution`
 if [ $__OS = 'redhat' ]; then
   # CentOS
-  PM="yum"
-  info "パッケージマネージャは ${PM} を使用します"
   . "$__SCRIPT_DIR/viminstall_centos.sh"
 elif [ $__OS = 'ubuntu' ]; then
   # Ubuntu/Linux Mint
-  PM="apt-get"
-  info "パッケージマネージャは ${PM} を使用します"
   . "$__SCRIPT_DIR/viminstall_ubuntu.sh"
 else
   # TODO cygwinどうするか？
-  error 'OSが不明です'
-  error '対応するパッケージマネージャが見つかりませんでした'
+  error 'OSが不明もしくは対応していないOSです'
   exit 1
 fi
 # }}}
