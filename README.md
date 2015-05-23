@@ -86,6 +86,8 @@ rcup -v
 
 インストールが完了したら、設定を反映するため`source ~/.bashrc`したりターミナルを再起動したりする。
 
+## TODO 続きを書く
+
 * * *
 <dl>
   <dt><a name="debian">※1</a></dt>
