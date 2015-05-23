@@ -5,7 +5,7 @@ Vimをソースからビルドするスクリプトもある。
 ## まずやること
 gitをインストールする。
 
-### パッケージマネージャでインストールする
+#### パッケージマネージャでインストールする
 yumやapt-getでインストールする。バージョンが古い可能性が高いが、楽です。
 
 | OS                       | コマンド                   |
@@ -13,7 +13,7 @@ yumやapt-getでインストールする。バージョンが古い可能性が�
 | Debian系([※1](#debian)) | `sudo apt-get install git` |
 | redhat系([※2](#redhat)) | `sudo yum install git`     |
 
-### ソースをビルドする
+#### ソースをビルドする
 新しいバージョンを使える。
 
 まずgccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽です。
@@ -47,7 +47,7 @@ make install ;# ~/opt なら sudo は不要なはず。必要に応じて sudo �
 ## rcmをインストールする
 ドットファイル管理ツール [rcm](https://github.com/thoughtbot/rcm) をインストールする。
 
-### Debian系([※1](#debian))
+#### Debian系([※1](#debian))
 apt-getでインストールする。
 
 ```sh
@@ -56,7 +56,7 @@ sudo apt-get update
 sudo apt-get install rcm
 ```
 
-### redhat系([※2](#redhat))
+#### redhat系([※2](#redhat))
 yumでインストールする。
 
 ```sh
