@@ -69,3 +69,5 @@ sudo yum install rcm
 <a name="debian">※1</a>:Linux Mint 17.1で確認
 
 <a name="redhat">※2</a>:CentOS6で確認
+
+vim:set wrap expandtab:
