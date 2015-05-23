@@ -74,4 +74,4 @@ sudo yum install rcm
   <dd>CentOS6で確認</dd>
 </dl>
 
-vim:set wrap expandtab:
+vim:set ts=8 sts=2 sw=2 tw=0 wrap expandtab:
