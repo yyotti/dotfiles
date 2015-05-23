@@ -185,6 +185,7 @@ NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
       \ }
 NeoBundleLazy 'thinca/vim-qfreplace'
+NeoBundleLazy 'kannokanno/previm'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1665,6 +1666,24 @@ if neobundle#tap('vim-qfreplace')
   " }}}
 endif
 " }}}
+
+" previm {{{
+if neobundle#tap('previm')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [ 'PrevimOpen' ],
+        \   },
+        \ })
+  " }}}
+
+  augroup vimrc_previm
+    autocmd!
+    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+  augroup END
+endif
+" }}}
+
 " }}}
 
 " 表示設定 {{{
