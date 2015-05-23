@@ -66,8 +66,12 @@ sudo yum install rcm
 ```
 
 * * *
-<a name="debian">※1</a>:Linux Mint 17.1で確認
+<dl>
+  <dt><a name="debian">※1</a></dt>
+  <dd>Linux Mint 17.1で確認</dd>
 
-<a name="redhat">※2</a>:CentOS6で確認
+  <dt><a name="redhat">※2</a></dt>
+  <dd>CentOS6で確認</dd>
+</dl>
 
 vim:set wrap expandtab:
