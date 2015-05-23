@@ -26,7 +26,6 @@ install_libs() {
   #   - libluajit-5.1-dev (+lua)
   #   - libperl-dev (+perl)
   #   - phthon-dev (+python)
-  #   - phthon3-dev (+python3)
   #   - ruby-dev (+ruby)
   #   - tcl-dev (+tcl)
   install_pkg \
@@ -38,10 +37,7 @@ install_libs() {
     liblua5.1-dev \
     luajit \
     libluajit-5.1-dev \
-    libperl-dev \
     python-dev \
-    python3-dev \
     ruby-dev \
-    tcl-dev
 }
 # }}}
