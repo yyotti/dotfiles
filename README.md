@@ -9,8 +9,8 @@ yumやapt-getでインストールする。バージョンが古い可能性が�
 
 | OS                       | コマンド                     |
 |:-------------------------|:-----------------------------|
-| Debian系([※1](#debian)) | ``sudo apt-get install git`` |
-| redhat系([※2](#redhat)) | ``sudo yum install git``     |
+| Debian系([※1](#debian)) | `sudo apt-get install git` |
+| redhat系([※2](#redhat)) | `sudo yum install git`     |
 
 ### ソースをビルドする
 新しいバージョンを使える。
@@ -19,8 +19,8 @@ yumやapt-getでインストールする。バージョンが古い可能性が�
 
 | OS                       | コマンド                                 |
 |:-------------------------|:-----------------------------------------|
-| Debian系([※1](#debian)) | ``sudo apt-get install build-essential`` |
-| redhat系([※2](#redhat)) | ``sudo yum install "Development Tools"`` |
+| Debian系([※1](#debian)) | `sudo apt-get install build-essential` |
+| redhat系([※2](#redhat)) | `sudo yum install "Development Tools"` |
 
 その後、以下のコマンドを叩く。
 
