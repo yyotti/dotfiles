@@ -4,6 +4,7 @@ Vimをソースからビルドするスクリプトもある。
 
 ## まずやること
 gitをインストールする。
+
 ### パッケージマネージャでインストールする
 yumやapt-getでインストールする。バージョンが古い可能性が高いが、楽です。
 
@@ -43,6 +44,28 @@ make
 make install ;# ~/opt なら sudo は不要なはず。必要に応じて sudo する。
 ```
 
-※1:<a name="debian">Ubuntu/Linux Mintで確認</a>
+## rcmをインストールする
+ドットファイル管理ツール [rcm](https://github.com/thoughtbot/rcm) をインストールする。
 
-※2:<a name="redhat">CentOS6で確認</a>
+### Debian系([※1](#debian))
+apt-getでインストールする。
+
+```sh
+sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+sudo apt-get update
+sudo apt-get install rcm
+```
+
+### redhat系([※2](#redhat))
+yumでインストールする。
+
+```sh
+cd /etc/yum.repos.d/
+sudo wget http://download.opensuse.org/repositories/utilities/CentOS_6/utilities.repo
+sudo yum install rcm
+```
+
+* * *
+<a name="debian">※1</a>:Linux Mint 17.1で確認
+
+<a name="redhat">※2</a>:CentOS6で確認
