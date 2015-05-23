@@ -13,40 +13,42 @@ install_pkg() {
 
 # ライブラリインストール関数定義 {{{
 install_libs() {
-  # TODO たぶん luajit はコンパイルしなければならない
-
-  # TODO 以下は apt-get の場合の名前
-  # Vimのビルドに必要
-  #   - build-essential
-  #   - gettext
-  #   - libncurses5-dev
-  # Gvimのビルドに必要
-  #   - xorg-dev
-  #   - libgtk2.0-dev
-  # その他、スクリプト言語
-  #   - liblua5.1-dev (+lua)
+  # TODO luajit はコンパイルしなければならない
   #   - luajit (+lua)
-  #   - libluajit-5.1-dev (+lua)
-  #   - libperl-dev (+perl)
-  #   - phthon-dev (+python)
-  #   - phthon3-dev (+python3)
-  #   - ruby-dev (+ruby)
-  #   - tcl-dev (+tcl)
 
-  # TODO
-  # install_pkg \
-  #   build-essential \
-  #   gettext \
-  #   libncurses5-dev \
-  #   xorg-dev \
-  #   libgtk2.0-dev \
-  #   liblua5.1-dev \
-  #   luajit \
-  #   libluajit-5.1-dev \
-  #   libperl-dev \
-  #   python-dev \
-  #   python3-dev \
-  #   ruby-dev \
-  #   tcl-dev
+  # Vimのビルドに必要
+  #   - "Development Tools"(Ubuntu の build-essential に相当)
+  #   - gettext
+  #   - ncurses-devel
+  # その他、スクリプト言語
+  #   - lua-devel (+lua)
+  #   - perl-devel (+perl)
+  #   - python-devel (+python)
+  #   - ruby-devel (+ruby)
+  #   - tcl-devel (+tcl)
+
+  root_exec yum -y groupinstall "Development Tools"
+  _res=$?
+  if [ $_res -ne 0 ]; then
+    error 'Development Tools をインストールできませんでした'
+    return $_res
+  fi
+
+  install_pkg \
+    gettext \
+    ncurses-devel \
+    lua-devel \
+    python-devel \
+    ruby-devel \
+  _res=$?
+  if [ $_res -ne 0 ]; then
+    return $_res
+  fi
+
+  # TODO ここでluajitをコンパイルする
+  # if [ $_res -ne 0 ]; then
+  #   error 'luajit をインストールできませんでした'
+  #   return $_res
+  # fi
 }
 # }}}
