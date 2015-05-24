@@ -1,8 +1,6 @@
 [user]
 	email = yosuke.tsutsui@gmail.com
 	name = Y.Tsutsui
-[push]
-	default = simple
 [diff]
 	tool = vimdiff
 	algorithm = histogram
