@@ -39,9 +39,9 @@ root権限がなかったり、デフォルトの場所(/usr/local)以外にイ�
 # unzip までは上と同じ
 cd git-master
 make configure
-./configure --prefix=~/opt ;# ここでインストール先を指定する
+./configure --prefix=$HOME/opt ;# ここでインストール先を指定する
 make
-make install ;# ~/opt なら sudo は不要なはず。必要に応じて sudo する。
+make install ;# $HOME/opt なら sudo は不要なはず。必要に応じて sudo する。
 ```
 
 ## rcmをインストールする
