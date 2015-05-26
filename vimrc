@@ -1677,10 +1677,12 @@ if neobundle#tap('previm')
         \ })
   " }}}
 
+  " settings {{{
   augroup vimrc_previm
     autocmd!
     autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
   augroup END
+  " }}}
 endif
 " }}}
 
