@@ -14,7 +14,17 @@ export AUTOFEATURE=true
 # キーバインドをviモードに
 bindkey -v
 
-# TODO エイリアスを設定
+# エイリアス
+alias ls='ls --color=auto'
+alias ll='ls -lF'
+alias la='ls -A'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias -g G='| grep'
+alias -g L='| less'
+alias tsp='tmux new-session \; split-window -h -d'
+alias tvsp='tmux new-session \; split-window -d'
 
 # cd履歴をスタックに追加する
 setopt auto_pushd
