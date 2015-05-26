@@ -100,7 +100,7 @@ precmd() {
       #      #print -Pn "\e]0;[%n@%m %~] [%l]\a"
       #      print -Pn "\e]0;[%n@%m %~]\a"
       #      ;;
-    esac
+  esac
 }
 
 # vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
