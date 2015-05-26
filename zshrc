@@ -69,14 +69,12 @@ _rprompt="%F{green}[%~]%f"
 _sprompt="%F{yellow}%r is correct? [Yes, No, Abort, Edit]:%f"
 if [ ${UID} -eq 0 ]; then
   # rootになったら太字にしてアンダーラインをひく
-  _prompt="%B%U${_prompt}%u%b# "
+  _prompt="%B%U${_prompt}%u%b"
   _prompt2="%B%U${_prompt2}%u%b"
   _rprompt="%B%U${_rprompt}%u%b"
   _sprompt="%B%U${_sprompt}%u%b"
-else
-  _prompt="${_prompt}$ "
 fi
-PROMPT=$_prompt
+PROMPT="$_prompt%# "
 PROMPT2=$_prompt2
 RPROMPT=$_rprompt
 SPROMPT=$_sprompt
