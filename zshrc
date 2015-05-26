@@ -84,7 +84,8 @@ if [ ${UID} -eq 0 ]; then
   _rprompt="%B%U${_rprompt}%u%b"
   _sprompt="%B%U${_sprompt}%u%b"
 fi
-PROMPT="$_prompt%# "
+PROMPT="$_prompt
+%# "
 PROMPT2=$_prompt2
 RPROMPT=$_rprompt
 SPROMPT=$_sprompt
