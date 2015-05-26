@@ -185,7 +185,9 @@ NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
       \ }
 NeoBundleLazy 'thinca/vim-qfreplace'
-NeoBundleLazy 'kannokanno/previm'
+NeoBundleLazy 'kannokanno/previm', {
+      \   'depends': 'tyru/open-browser.vim',
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
