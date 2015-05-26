@@ -73,22 +73,180 @@ export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # プロンプト
-_prompt="%F{cyan}[%n@%m %D{%m/%d %T}]%f"
+_prompt="%F{cyan}[%n@%m:%F{green}%~%f %D{%m/%d %T}]%f"
 _prompt2="%F{cyan}%_> %f"
-_rprompt="%F{green}[%~]%f"
 _sprompt="%F{yellow}%r is correct? [Yes, No, Abort, Edit]:%f"
 if [ ${UID} -eq 0 ]; then
   # rootになったら太字にしてアンダーラインをひく
   _prompt="%B%U${_prompt}%u%b"
   _prompt2="%B%U${_prompt2}%u%b"
-  _rprompt="%B%U${_rprompt}%u%b"
   _sprompt="%B%U${_sprompt}%u%b"
 fi
 PROMPT="$_prompt
 %# "
 PROMPT2=$_prompt2
-RPROMPT=$_rprompt
 SPROMPT=$_sprompt
+
+# プロンプトにGitの情報を表示する
+autoload -Uz vcs_info
+autoload -Uz add-zsh-hook
+autoload -Uz is-at-least
+autoload -Uz colors
+
+# 以下の3つのメッセージをエクスポートする
+#   $vcs_info_msg_0_: 通常メッセージ用(緑)
+#   $vcs_info_msg_1_: 警告メッセージ用(黄)
+#   $vcs_info_msg_2_: エラーメッセージ用(赤)
+zstyle ':vcs_info:*' max-exports 3
+
+zstyle ':vcs_info:*' enable git svn hg bzr
+# 標準のフォーマット(git 以外で使用)
+# misc(%m)は通常は空文字列に置き換えられる
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b]' '%m' '<!%a>'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+zstyle ':vcs_info:bzr:*' use-simple true
+
+if is-at-least 4.3.10; then
+  # git用のフォーマット
+  # gitのときはステージしているかどうかを表示
+  zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
+  zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+  zstyle ':vcs_info:git:*' check-for-changes true
+  zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
+  zstyle ':vcs_info:git:*' unstagedstr "-" # %uで表示する文字列
+fi
+
+# hooks設定
+if is-at-least 4.3.11; then
+  # gitのときはフック関数を設定する
+
+  # formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+  # のメッセージを設定する直前のフック関数
+  # 今回の設定の場合はformatの時は2つ、actionformatsの時は3つメッセージがあるので
+  # 各関数が最大3回呼び出される
+  zstyle ':vcs_info:git+set-message:*' hooks git-hook-begin git-untracked git-push-status git-nomerge-branch git-stash-count
+
+  # フックの最初の関数
+  # gitの作業コピーのあるディレクトリのみフック関数を呼び出すようにする
+  # (.gitディレクトリ内にいるときは呼び出さない)
+  # .gitディレクトリ内では git status --porcelain などがエラーになるため
+  +vi-git-hook-begin() {
+    if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
+      # 0以外を返すとそれ以降のフック関数は呼び出されない
+      return 1
+    fi
+
+    return 0
+  }
+
+  # untrackedファイル表示
+  #
+  # untrackedファイルがある場合はunstaged(%u)に?を表示
+  +vi-git-untracked() {
+    # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+      return 0
+    fi
+
+    if command git status --porcelain 2> /dev/null | awk '{print $1}' | command grep -F '??' > /dev/null 2>&1 ; then
+      # unstaged(%u)に追加
+      hook_com[unstaged]+='?'
+    fi
+  }
+
+  # pushしていないコミットの件数表示
+  #
+  # リモートリポジトリにpushしていないコミットの件数を pN という形式でmisc(%m)に表示する
+  +vi-git-push-status() {
+    # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+      return 0
+    fi
+
+    if [[ "${hook_com[branch]}" != "master" ]]; then
+      # masterブランチでなければ何もしない
+      return 0
+    fi
+
+    # pushしていないコミット数を取得
+    local ahead
+    ahead=$(command git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ "$ahead" -gt 0 ]]; then
+      # misc(%m)に追加
+      hook_com[misc]+="(p${ahead})"
+    fi
+  }
+
+  # マージしていない件数表示
+  #
+  # master以外のブランチにいる場合に、現在のブランチ上でまだmasterにマージしていないコミットの
+  # 件数を(mN)という形式でmisc(%m)に表示
+  +vi-git-nomerge-branch() {
+    # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+      return 0
+    fi
+
+    if [[ "${hook_com[branch]}" == "master" ]]; then
+      # masterブランチの場合は何もしない
+      return 0
+    fi
+
+    local nomerged
+    nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ "$nomerged" -gt 0 ]]; then
+      # misc(%m)に追加
+      hook_com[misc]+="(m${nomerged})"
+    fi
+  }
+
+  # stash件数表示
+  #
+  # stashしている場合は:SNという形式でmisc(%m)に表示
+  +vi-git-stash-count()
+  {
+    # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+      return 0
+    fi
+
+    local stash
+    stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ "${stash}" -gt 0 ]]; then
+      # misc(%m)に追加
+      hook_com[misc]+=":S${stash}"
+    fi
+  }
+fi
+
+_update_vcs_info_msg()
+{
+  local -a messages
+  local prompt
+
+  LANG=en_US.UTF-8 vcs_info
+
+  if [[ -z ${vcs_info_msg_0_} ]]; then
+    # vcs_infoで何も取得していない場合はプロンプトを表示しない
+    prompt=""
+  else
+    # vcs_infoで情報を取得した場合
+    # $vcs_info_msg_0_, $vcs_info_msg_1_, $vcs_info_msg_2_ をそれぞれ緑、黄、赤で表示する
+    [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
+    [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
+    [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
+
+    # 間にスペースを入れて連結する
+    prompt="${(j: :)messages}"
+  fi
+
+  RPROMPT="$prompt"
+}
+add-zsh-hook precmd _update_vcs_info_msg
 
 # タイトルにカレントディレクトリを表示
 precmd() {
