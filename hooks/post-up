@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -e $HOME/.vim/refs/php_manual_ja.tar.gz ]; then
+	if [ -e $HOME/.vim/refs/php-chunked-xhtml ]; then
+		rm -fR $HOME/.vim/refs/php-chunked-xhtml
+	fi
+
+	cd $HOME/.vim/refs
+	tar xzf php_manual_ja.tar.gz
+	rm -f php_manual_ja.tar.gz
+fi
