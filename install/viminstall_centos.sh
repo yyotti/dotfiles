@@ -46,7 +46,6 @@ install_libs() {
 
   # luajit はコンパイルしなければならない
   #   - luajit (+lua)
-
   if [ `which git` ]; then
     git clone http://luajit.org/git/luajit-2.0.git /tmp/luajit
     _res=$?
@@ -58,7 +57,16 @@ install_libs() {
     _current=`pwd`
     cd /tmp/luajit
 
-    make PREFIX="$__LUAJIT_PREFIX"
+    if [ "x$__LUAJIT_PREFIX" = "x" ]; then
+      __LUAJIT_PREFIX='/usr/local'
+    fi
+
+    make clean
+    if [ $__CPU_CORE_NUM -lt 2 ]; then
+      make PREFIX="$__LUAJIT_PREFIX"
+    else
+      make PREFIX="$__LUAJIT_PREFIX" -j $__CPU_CORE_NUM
+    fi
     _res=$?
     if [ $_res -ne 0 ]; then
       error 'luajit を make できませんでした'
@@ -66,9 +74,9 @@ install_libs() {
     fi
 
     if [ -w "$__LUAJIT_PREFIX" ]; then
-      make install
+      make install PREFIX="$__LUAJIT_PREFIX"
     else
-      root_exec make install
+      root_exec make install PREFIX="$__LUAJIT_PREFIX"
     fi
     _res=$?
     if [ $_res -ne 0 ]; then
