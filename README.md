@@ -164,9 +164,8 @@ cd /path/to/unix_settings
 ./install/viminstall.sh
 ```
 
-## TODO 続きを書く
-
 * * *
+
 <dl>
   <dt><a name="debian">※1</a></dt>
   <dd>Linux Mint 17.1 (32bit)で確認</dd>
