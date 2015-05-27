@@ -107,6 +107,59 @@ rcup -v
 
 インストールが完了したら、設定を反映するため`source ~/.zshrc`したりターミナルを再起動したりする。`source`する場合、zshenvも忘れずに。
 
+## tmuxをインストール
+
+#### パッケージマネージャでインストールする
+バージョンが古い可能性が高いが、楽。
+
+| OS                       | コマンド                    |
+|:-------------------------|:----------------------------|
+| Debian系([※1](#debian)) | `sudo apt-get install tmux` |
+| redhat系([※2](#redhat)) | リポジトリにない            |
+
+#### ソースをビルドする
+新しいバージョンを使える。yumの場合はこっちしか方法がない。
+
+libevent2.xが必要なので、まずそっちをインストールする。
+
+| OS                       | コマンド                            |
+|:-------------------------|:------------------------------------|
+| Debian系([※1](#debian)) | `sudo apt-get install libevent-dev` |
+| redhat系([※2](#redhat)) | リポジトリにない                    |
+
+yumの場合、もしくはapt-getでインストールすることができない場合、ソースからビルドする。
+```sh
+cd /tmp
+wget https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
+tar xzf libevent-2.0.22-stable.tar.gz
+cd libevent-2.0.22-stable
+./configure
+make -j 2
+sudo make install
+```
+デフォルト以外の場所にインストールしたい場合は、`./configure`のときにインストール先を指定するオプションを加える。
+
+libeventのインストールがうまくいったら、続いてtmuxをビルドする。
+```sh
+cd /tmp
+wget http://downloads.sourceforge.net/tmux/tmux-2.0.tar.gz
+tar xzf tmux-2.0.tar.gz
+cd tmux-2.0
+./configure
+make -j 2
+sudo make install
+```
+こちらも同じく、デフォルト以外の場所にインストールしたい場合は、`./configure`のときにインストール先を指定するオプションを加える。
+
+libeventをソースからビルドした場合、tmux起動時に下記のようなエラーが出るかもしれない。(CentOS6では出た)
+```
+tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open shared object file: No such file or directory
+```
+そのときは、下記のコマンドを実行する。
+```sh
+sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5
+```
+
 ## TODO 続きを書く
 
 * * *
