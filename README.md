@@ -158,6 +158,7 @@ sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5
 ```
 
 ## Vimをビルド＆インストールする
+(TODO インストールスクリプトはやめることにしたので、具体的なコマンドを書く)
 このリポジトリ内のインストールスクリプトを実行する。
 ```sh
 cd /path/to/unix_settings
