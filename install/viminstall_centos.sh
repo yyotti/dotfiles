@@ -3,6 +3,8 @@
 
 # 環境ごとの設定 {{{
 __VIM_ENABLE_GUI=no
+
+__LUAJIT_PREFIX="$HOME/opt"
 # }}}
 
 # パッケージインストール関数定義 {{{
@@ -13,9 +15,6 @@ install_pkg() {
 
 # ライブラリインストール関数定義 {{{
 install_libs() {
-  # TODO luajit はコンパイルしなければならない
-  #   - luajit (+lua)
-
   # Vimのビルドに必要
   #   - "Development Tools"(Ubuntu の build-essential に相当)
   #   - gettext
@@ -39,16 +38,45 @@ install_libs() {
     ncurses-devel \
     lua-devel \
     python-devel \
-    ruby-devel \
+    ruby-devel
   _res=$?
   if [ $_res -ne 0 ]; then
     return $_res
   fi
 
-  # TODO ここでluajitをコンパイルする
-  # if [ $_res -ne 0 ]; then
-  #   error 'luajit をインストールできませんでした'
-  #   return $_res
-  # fi
+  # luajit はコンパイルしなければならない
+  #   - luajit (+lua)
+
+  if [ `which git` ]; then
+    git clone http://luajit.org/git/luajit-2.0.git /tmp/luajit
+    _res=$?
+    if [ $_res -ne 0 ]; then
+      error 'luajit を clone できませんでした'
+      return $_res
+    fi
+
+    _current=`pwd`
+    cd /tmp/luajit
+
+    make PREFIX="$__LUAJIT_PREFIX"
+    _res=$?
+    if [ $_res -ne 0 ]; then
+      error 'luajit を make できませんでした'
+      return $_res
+    fi
+
+    if [ -w "$__LUAJIT_PREFIX" ]; then
+      make install
+    else
+      root_exec make install
+    fi
+    _res=$?
+    if [ $_res -ne 0 ]; then
+      error 'luajit をインストールできませんでした'
+      return $_res
+    fi
+
+    cd $_current
+  fi
 }
 # }}}
