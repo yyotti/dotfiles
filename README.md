@@ -157,6 +157,13 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5
 ```
 
+## Vimをビルド＆インストールする
+このリポジトリ内のインストールスクリプトを実行する。
+```sh
+cd /path/to/unix_settings
+./install/viminstall.sh
+```
+
 ## TODO 続きを書く
 
 * * *
