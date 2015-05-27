@@ -28,6 +28,8 @@ alias tvsp='tmux new-session \; split-window -d'
 
 # cd履歴をスタックに追加する
 setopt auto_pushd
+# 重複したディレクトリは記録しない
+setopt pushd_ignore_dups
 # 入力したコマンドが存在せず、かつその名前のディレクトリがあるなら、cdする
 setopt auto_cd
 # プロンプト定義内で変数置換やコマンド置換を扱う
