@@ -112,10 +112,10 @@ rcup -v
 * * *
 <dl>
   <dt><a name="debian">※1</a></dt>
-  <dd>Linux Mint 17.1で確認</dd>
+  <dd>Linux Mint 17.1 (32bit)で確認</dd>
 
   <dt><a name="redhat">※2</a></dt>
-  <dd>CentOS6で確認</dd>
+  <dd>CentOS6 (64bit)で確認</dd>
 
   <dt><a name="warn1">※注意1</a></dt>
   <dd>初回実行時に普通に`rcup -v`だけやると、~/.dotfiles/rcrcみたいなファイルが勝手に作られてしまううえに、それへのシンボリックリンクが~/.rcrcとして作られる。面倒。</dd>
