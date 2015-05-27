@@ -1859,6 +1859,10 @@ function! s:cd_git_root() abort
   endif
 endfunction
 
+if executable('git')
+  " git grepを使う
+  set grepprg=git\ grep\ --no-index\ --exclude-standard\ -I\ --line-number
+endif
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
