@@ -3,8 +3,6 @@
 
 # 環境ごとの設定 {{{
 __VIM_ENABLE_GUI=no
-
-__LUAJIT_PREFIX="$HOME/opt"
 # }}}
 
 # パッケージインストール関数定義 {{{
@@ -57,15 +55,11 @@ install_libs() {
     _current=`pwd`
     cd /tmp/luajit
 
-    if [ "x$__LUAJIT_PREFIX" = "x" ]; then
-      __LUAJIT_PREFIX='/usr/local'
-    fi
-
     make clean
     if [ $__CPU_CORE_NUM -lt 2 ]; then
-      make PREFIX="$__LUAJIT_PREFIX"
+      make
     else
-      make PREFIX="$__LUAJIT_PREFIX" -j $__CPU_CORE_NUM
+      make -j $__CPU_CORE_NUM
     fi
     _res=$?
     if [ $_res -ne 0 ]; then
@@ -73,11 +67,7 @@ install_libs() {
       return $_res
     fi
 
-    if [ -w "$__LUAJIT_PREFIX" ]; then
-      make install PREFIX="$__LUAJIT_PREFIX"
-    else
-      root_exec make install PREFIX="$__LUAJIT_PREFIX"
-    fi
+    root_exec make install
     _res=$?
     if [ $_res -ne 0 ]; then
       error 'luajit をインストールできませんでした'
