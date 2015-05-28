@@ -169,6 +169,7 @@ rm -f src/auto/config.cache
   --prefix="$__VIM_PREFIX" \
   --exec-prefix="$__VIM_EXEC_PREFIX" \
   --with-features=huge \
+  --disable-selinux \
   --enable-gui="$__VIM_ENABLE_GUI" \
   --enable-multibyte \
   --enable-pythoninterp \
@@ -176,8 +177,6 @@ rm -f src/auto/config.cache
   --enable-luainterp \
   --with-lua-prefix=/usr \
   --with-luajit \
-  --enable-gpm \
-  --enable-cscope \
   --enable-fontset \
   --enable-fail-if-missing
 if [ $? -ne 0 ]; then
