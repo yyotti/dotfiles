@@ -27,13 +27,13 @@ __PATCH_HASH='4b5bd3b04e84'
 # Vim のインストール先
 # - デフォルトでは /usr/local になる。
 # - 実行ファイル以外のファイルが __VIM_PREFIX/share などにインストールされる。
-__VIM_PREFIX="$HOME/opt"
+# __VIM_PREFIX="$HOME/opt"
 
 # Vim + 関連コマンドのインストール先
 # - デフォルトでは __VIM_PREFIX の値が使われる。
 # - コマンド郡が $__VIM_EXEC_PREFIX/bin にインストールされる。
 # - __VIM_PREFIX もデフォルトなら、 /usr/local/bin にインストールされる。
-__VIM_EXEC_PREFIX="$HOME"
+# __VIM_EXEC_PREFIX="$HOME"
 
 # GVim もコンパイルするか
 # - 下記のいずれかに設定する
