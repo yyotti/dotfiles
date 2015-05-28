@@ -21,7 +21,15 @@ chsh -s /usr/bin/zsh
 
 変更後にログインしなおしてzshになっていることを確認。
 
-## gitをインストールする。
+## ビルドツールをインストール
+gccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽。
+
+| OS                       | コマンド                                    |
+|:-------------------------|:--------------------------------------------|
+| Debian系([※1](#debian)) | `sudo apt-get install build-essential`      |
+| redhat系([※2](#redhat)) | `sudo yum groupinstall "Development Tools"` |
+
+## gitをインストール
 
 #### パッケージマネージャでインストールする
 バージョンが古い可能性が高いが、楽。
@@ -34,12 +42,27 @@ chsh -s /usr/bin/zsh
 #### ソースをビルドする
 新しいバージョンを使える。
 
-まずgccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽です。
+まず、必要なライブラリをインストールする。
 
-| OS                       | コマンド                               |
-|:-------------------------|:---------------------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install build-essential` |
-| redhat系([※2](#redhat)) | `sudo yum install "Development Tools"` |
+#### Debian系([※1](#debian))
+apt-getでインストールする。
+
+```sh
+# TODO
+```
+
+#### redhat系([※2](#redhat))
+yumでインストールする。
+
+```sh
+sudo yum install \
+  curl-devel \
+  expat-devel \
+  gettext-devel \
+  openssl-devel \
+  zlib-devel \
+  perl-ExtUtils-MakeMaker
+```
 
 その後、以下のコマンドを叩く。
 
@@ -48,19 +71,10 @@ cd /tmp
 wget https://github.com/git/git/archive/master.zip
 unzip master.zip
 cd git-master
-make
-sudo make install
+make prefix=/usr/local
+sudo make prefix=/usr/local install
 ```
-
-root権限がなかったり、デフォルトの場所(/usr/local)以外にインストールしたい場合は以下のようにする。(INSTALL に書いてあった)
-```sh
-# unzip までは上と同じ
-cd git-master
-make configure
-./configure --prefix=$HOME/opt ;# ここでインストール先を指定する
-make
-make install ;# $HOME/opt なら sudo は不要なはず。必要に応じて sudo する。
-```
+デフォルトでは/usrにインストールされる（？）ようだったが、何となく嫌だったので/usr/localへ。
 
 ## rcmをインストールする
 ドットファイル管理ツール [rcm](https://github.com/thoughtbot/rcm) をインストールする。デフォルトのリポジトリには無いので、リポジトリの追加が必要になる。
@@ -117,14 +131,16 @@ rcup -v
 #### ソースをビルドする
 新しいバージョンを使える。yumの場合はこっちしか方法がない。
 
-libevent2.xが必要なので、まずそっちをインストールする。
+libevent2.xが必要なので、まずそっちをビルドする。
 
-| OS                       | コマンド                            |
-|:-------------------------|:------------------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install libevent-dev` |
-| redhat系([※2](#redhat)) | リポジトリにない                    |
+cursesが必要なのでインストール。
+| OS                       | コマンド                                |
+|:-------------------------|:----------------------------------------|
+| Debian系([※1](#debian)) | `sudo apt-get install libncurses5-dev` |
+| redhat系([※2](#redhat)) | `sudo yum install ncurses-devel`        |
 
-yumの場合、もしくはapt-getでインストールすることができない場合、ソースからビルドする。
+その後、
+
 ```sh
 cd /tmp
 wget https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
