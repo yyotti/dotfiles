@@ -139,8 +139,6 @@ fi
 # }}}
 
 # ビルドに必要なライブラリやruby等をインストールする {{{
-# TODO 不要なものは入れたくないので、+rubyとかが必要か検討
-#      luajitはパッケージが無いので、ダウンロード＆コンパイルしなければならない
 info '必要なライブラリをインストールします'
 install_libs
 if [ $? -ne 0 ]; then
@@ -150,9 +148,6 @@ fi
 # }}}
 
 # configureする {{{
-# TODO インストール先は $HOME/bin でいいが、/usr/local/shareなどのことを考えると $HOME/local や $HOME/opt のほうがいいか？
-#      それなら git もそうするが・・・
-#      ただ、$HOME/local とかにすると、パスを通す必要があるかもしれない。インストール先と実体が分かれるオプションを探したい。
 info 'configure を実行します'
 if [ "x$__VIM_PREFIX" = "x" ]; then
   __VIM_PREFIX=/usr/local
