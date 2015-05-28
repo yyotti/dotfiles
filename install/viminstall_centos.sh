@@ -23,7 +23,7 @@ install_libs() {
   #   - lua-devel (+lua)
   #   - perl-devel (+perl)
   #   - python-devel (+python)
-  #   - ruby-devel (+ruby)
+  #   - ruby, ruby-devel (+ruby)
   #   - tcl-devel (+tcl)
 
   root_exec yum -y groupinstall "Development Tools"
@@ -38,6 +38,7 @@ install_libs() {
     ncurses-devel \
     lua-devel \
     python-devel \
+    ruby \
     ruby-devel
   _res=$?
   if [ $_res -ne 0 ]; then
