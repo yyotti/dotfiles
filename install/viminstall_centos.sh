@@ -75,6 +75,14 @@ install_libs() {
       return $_res
     fi
 
+    root_exec echo "/usr/local/lib/" > /etc/ld.so.conf.d/luajit.conf
+    root_exec ldconfig
+    _res=$?
+    if [ $_res -ne 0 ]; then
+      error 'ldconfig でエラーが発生しました'
+      return $_res
+    fi
+
     cd $_current
   fi
 }
