@@ -38,6 +38,6 @@ install_libs() {
     luajit \
     libluajit-5.1-dev \
     python-dev \
-    ruby-dev \
+    ruby-dev
 }
 # }}}
