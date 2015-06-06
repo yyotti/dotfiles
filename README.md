@@ -134,6 +134,7 @@ rcup -v
 libevent2.xが必要なので、まずそっちをビルドする。
 
 cursesが必要なのでインストール。
+
 | OS                       | コマンド                                |
 |:-------------------------|:----------------------------------------|
 | Debian系([※1](#debian)) | `sudo apt-get install libncurses5-dev` |
