@@ -338,6 +338,8 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
   " バッファ内で行を検索
   nnoremap <silent> [unite]l :<C-u>Unite line -start-insert<CR>
+  " quickfix
+  nnoremap <silent> [unite]q :<C-u>Unite quickfix -no-quit<CR>
   " }}}
 endif
 " }}}
