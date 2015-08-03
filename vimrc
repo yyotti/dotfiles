@@ -188,6 +188,7 @@ NeoBundleLazy 'thinca/vim-qfreplace'
 NeoBundleLazy 'kannokanno/previm', {
       \   'depends': 'tyru/open-browser.vim',
       \ }
+NeoBundleLazy 'gre/play2vim'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -769,6 +770,9 @@ if neobundle#tap('vim-scala')
         \     'filetypes': [
         \       'sbt.scala',
         \       'scala',
+        \     ],
+        \     'on_source': [
+        \       'play2vim',
         \     ],
         \   },
         \ })
@@ -1690,6 +1694,31 @@ if neobundle#tap('previm')
 endif
 " }}}
 
+" play2vim {{{
+if neobundle#tap('play2vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'play2-conf',
+        \       'html',
+        \       'play2-routes',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  if neobundle#is_installed('play2vim')
+    " ftdetectが読み込まれないので、ここで読んでしまう
+    augroup vimrc_play2vim
+      autocmd!
+      source ~/.vim/bundle/play2vim/ftdetect/play2.vim
+    augroup END
+  endif
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
