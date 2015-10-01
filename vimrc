@@ -62,6 +62,7 @@ NeoBundle 'morhetz/gruvbox'
 " }}}
 
 " Lazyしないプラグイン {{{
+NeoBundle 'Shougo/unite.vim'
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
@@ -88,9 +89,6 @@ NeoBundle 'sudo.vim', {
 " }}}
 
 " Lazy {{{
-NeoBundleLazy 'Shougo/unite.vim', {
-      \   'depends': ['Shougo/vimproc'],
-      \ }
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends': ['Shougo/unite.vim'],
       \ }
@@ -324,8 +322,7 @@ if neobundle#tap('unite.vim')
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
 
-  " この時点でUniteがロードされる気がするので、Lazyの意味はないかもしれない
-  call unite#custom_default_action('directory', 'vimfiler')
+  call unite#custom#default_action('directory', 'vimfiler')
   " }}}
 
   " キーマッピング {{{
