@@ -11,7 +11,7 @@ export KCODE=u
 # autotestでfeatureを動かす
 export AUTOFEATURE=true
 
-export JAVA_HOME=$HOME/opt/jdk/jdk1.8.0_45
+#export JAVA_HOME=$HOME/opt/jdk/jdk1.8.0_45
 
 # キーバインドをviモードに
 bindkey -v
