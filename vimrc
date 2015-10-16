@@ -1716,6 +1716,42 @@ if neobundle#tap('play2vim')
   " }}}
 endif
 " }}}
+
+" vim-easymotion {{{
+if neobundle#tap('vim-easymotion')
+  " settings {{{
+  let g:EasyMotion_do_mapping = 0
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_smartofline = 0
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  " }}}
+
+  " キーマッピング {{{
+  " fとtのマッピングを置換する
+  nmap f <Plug>(easymotion-fl)
+  omap f <Plug>(easymotion-fl)
+  nmap t <Plug>(easymotion-tl)
+  omap t <Plug>(easymotion-tl)
+  nmap F <Plug>(easymotion-Fl)
+  omap F <Plug>(easymotion-Fl)
+  nmap T <Plug>(easymotion-Tl)
+  omap T <Plug>(easymotion-Tl)
+  " ;と,を置換
+  nmap ; <Plug>(easymotion-next)
+  nmap , <Plug>(easymotion-prev)
+
+  " 検索系
+  nmap g/ <Plug>(easymotion-sn)
+  xmap g/ <Plug>(easymotion-sn)
+  omap g/ <Plug>(easymotion-tn)
+
+  " 行移動
+  map <Leader><Leader>j <Plug>(easymotion-j)
+  map <Leader><Leader>k <Plug>(easymotion-k)
+  " }}}
+endif
+" }}}
 " }}}
 
 " 表示設定 {{{
