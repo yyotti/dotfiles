@@ -1626,8 +1626,8 @@ if neobundle#tap('incsearch.vim')
   map g/ <Plug>(incsearch-stay)
 
   if neobundle#tap('vim-anzu')
-    nmap n <Plug>(incsearch-nohl)<Plug>(anzu-n)
-    nmap N <Plug>(incsearch-nohl)<Plug>(anzu-N)
+    nmap n <Plug>(incsearch-nohl)<Plug>(anzu-n)zz
+    nmap N <Plug>(incsearch-nohl)<Plug>(anzu-N)zz
   endif
   " }}}
 endif
