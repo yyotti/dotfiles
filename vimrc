@@ -1934,6 +1934,11 @@ endif
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
+" 危険ではないが、間違えると戸惑うので無効に
+nnoremap q: <Nop>
+nnoremap q/ <Nop>
+nnoremap q? <Nop>
+
 if !neobundle#is_sourced('vim-anzu')
   " anzuがロードされていなければ、<Esc><Esc>のマッピングをこっちにする
   nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
