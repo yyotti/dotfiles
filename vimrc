@@ -1185,8 +1185,8 @@ if neobundle#tap('vim-gitgutter')
   nnoremap <silent> [git]h :<C-u>GitGutterLineHighlightsToggle<CR>
 
   " gitgutterのデフォルトマッピングを無効にしているので、必要なものを追加する
-  nmap [c <Plug>GitGutterPrevHunk
-  nmap ]c <Plug>GitGutterNextHunk
+  nmap [c <Plug>GitGutterPrevHunkzz
+  nmap ]c <Plug>GitGutterNextHunkzz
   " }}}
 endif
 " }}}
