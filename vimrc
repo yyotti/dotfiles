@@ -187,6 +187,7 @@ NeoBundleLazy 'kannokanno/previm', {
       \   'depends': 'tyru/open-browser.vim',
       \ }
 NeoBundleLazy 'gre/play2vim'
+NeoBundleLazy 'itchyny/vim-haskell-indent'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1752,6 +1753,32 @@ if neobundle#tap('vim-easymotion')
   " }}}
 endif
 " }}}
+
+" vim-haskell-indent {{{
+if neobundle#tap('vim-haskell-indent')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'haskell',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  if neobundle#is_installed('vim-haskell-indent')
+    " ftdetectが読み込まれないので、ここで読んでしまう
+    augroup vimrc_vim_haskell_indent
+      autocmd!
+      source ~/.vim/bundle/vim-haskell-indent/indent/haskell.vim
+    augroup END
+  endif
+
+  " }}}
+endif
+" }}}
+
 " }}}
 
 " 表示設定 {{{
@@ -1865,6 +1892,13 @@ let g:sql_type_default='mysql'
 augroup vimrc_ftdetect_smarty
   autocmd!
   autocmd BufReadPost *.tpl set filetype=smarty.html
+augroup END
+" }}}
+
+" Haskell {{{
+augroup vimrc_ftdetect_haskell
+  autocmd!
+  autocmd FileType haskell setlocal expandtab shiftwidth=2
 augroup END
 " }}}
 
