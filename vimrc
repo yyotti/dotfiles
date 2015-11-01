@@ -188,6 +188,10 @@ NeoBundleLazy 'kannokanno/previm', {
       \ }
 NeoBundleLazy 'gre/play2vim'
 NeoBundleLazy 'itchyny/vim-haskell-indent'
+NeoBundleLazy 'eagletmt/ghcmod-vim', {
+      \   'depends': ['Shougo/vimproc'],
+      \   'external_commands': 'ghc-mod',
+      \ }
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -1775,6 +1779,32 @@ if neobundle#tap('vim-haskell-indent')
     augroup END
   endif
 
+  " }}}
+endif
+" }}}
+
+" ghcmod-vim {{{
+if neobundle#tap('ghcmod-vim')
+  " config {{{
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes': [
+        \       'haskell',
+        \     ],
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  let g:ghcmod_ghc_options = ['-idir1', '-idir2']
+  " }}}
+
+  " キーマッピング {{{
+  augroup vimrc_ghcmod_vim
+    autocmd!
+    autocmd FileType haskell nnoremap <buffer> <Leader>tt :GhcModType<CR>
+    autocmd FileType haskell nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
+  augroup END
   " }}}
 endif
 " }}}
