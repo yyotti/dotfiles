@@ -1864,10 +1864,10 @@ set cursorline
 
 " vimdiffの色設定
 " TODO 調整の余地あり
-highlight DiffAdd cterm=bold ctermfg=10 ctermbg=22
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-highlight DiffText cterm=bold ctermfg=10 ctermbg=21
+" highlight DiffAdd cterm=bold ctermfg=10 ctermbg=22
+" highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+" highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+" highlight DiffText cterm=bold ctermfg=10 ctermbg=21
 
 " TODO タブなど（listcharsの文字色）を指定
 " highlight SpecialKey term=bold cterm=bold ctermfg=11 ctermbg=0 guifg=Cyan
