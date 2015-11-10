@@ -920,11 +920,18 @@ if neobundle#tap('vim-watchdogs')
 
   " 書き込み後にシンタックスチェックを行う
   let g:watchdogs_check_BufWritePost_enable = 1
+  " Haskellのチェックは無効にする
+  let g:watchdogs_check_BufWritePost_enables = {
+        \ "haskell": 0,
+        \ }
 
   " 一定時間以上キー入力がなかった場合にシンタックスチェックを行う
   " バッファに書き込み後、1度だけ行われる
   let g:watchdogs_check_CursorHold_enable = 1
-
+  " Haskellのチェックは無効にする
+  let g:watchdogs_check_CursorHold_enables = {
+        \ "haskell": 0,
+        \ }
   " }}}
 endif
 " }}}
@@ -1928,7 +1935,7 @@ augroup END
 " Haskell {{{
 augroup vimrc_ftdetect_haskell
   autocmd!
-  autocmd FileType haskell setlocal expandtab shiftwidth=2
+  autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
 augroup END
 " }}}
 
