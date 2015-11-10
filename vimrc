@@ -2091,7 +2091,7 @@ nnoremap <Space>k <C-w>k
 nnoremap <Space>j <C-w>j
 
 " バッファ削除
-nnoremap <Space>d :<C-u>bdelete<CR>
+nnoremap <silent> <Space>d :<C-u>bdelete<CR>
 " バッファのみにする
 nnoremap <Space>o <C-w><C-o>
 " }}}
