@@ -321,7 +321,7 @@ if neobundle#tap('unite.vim')
 
   " settings {{{
   " insertモードで起動する
-  " let g:unite_enable_start_insert=1
+  let g:unite_enable_start_insert=1
   " yank/deleteの履歴を有効にする
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
@@ -1923,12 +1923,17 @@ let g:php_htmlInStrings = 1
 
 " DBをMySQLにする（シンタックスハイライトがきく？）
 let g:sql_type_default='mysql'
+augroup vimrc_ftdetect_php
+  autocmd!
+  autocmd FileType php setlocal expandtab shiftwidth=4 softtabstop=4
+augroup END
 " }}}
 
 " Smarty {{{
 augroup vimrc_ftdetect_smarty
   autocmd!
   autocmd BufReadPost *.tpl set filetype=smarty.html
+  autocmd FileType smarty.html setlocal expandtab shiftwidth=4 softtabstop=4
 augroup END
 " }}}
 
