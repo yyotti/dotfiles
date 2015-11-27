@@ -174,6 +174,16 @@ tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open share
 sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5
 ```
 
+## xselをインストールする
+tmuxからLinuxのクリップボードにコピーするためにxselと連携する。
+
+| OS                       | コマンド                                |
+|:-------------------------|:----------------------------------------|
+| Debian系([※1](#debian)) | `sudo apt-get install xsel` |
+| redhat系 | `sudo yum install xsel`        |
+
+redhat系は試してないのでパッケージ名が違うかも。
+
 ## Vimをビルド＆インストールする
 このリポジトリ内のインストールスクリプトを実行する。
 ```sh
