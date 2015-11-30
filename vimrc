@@ -2071,6 +2071,9 @@ if has('gui_running')
   nnoremap <silent> ,rg :<C-u>source $MYGVIMRC<CR>
 endif
 
+" tmux.confを開く
+nnoremap <silent> ,et :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
+
 " デフォルトでKはmanをひくようになっているので、変更
 set keywordprg=:help
 
