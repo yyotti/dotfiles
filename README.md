@@ -198,6 +198,13 @@ tmuxやzshが格好良くなるPowerlineを入れる
 pip install --user powerline-status
 ```
 
+### 設定ディレクトリへのシンボリックリンクを作る
+環境によって`~/.local/lib/pythonXXX/site-packages/powerline/bindings/tmux/powerline.conf`のXXXの部分が違ってくるので、それを吸収するためにシンボリックリンクで対応する。
+
+```sh
+ln -s ~/.local/lib/python2.7 ~/.local/lib/python
+```
+
 ## Vimをビルド＆インストールする
 このリポジトリ内のインストールスクリプトを実行する。
 ```sh
