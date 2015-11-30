@@ -5,6 +5,7 @@ export TERM=xterm-256color
 # パスの場所が存在しない可能性があるなら、末尾に(N-/)をつける
 path=(
   ~/bin(N-/)
+  ~/.local/bin(N-/)
   $path
 )
 
