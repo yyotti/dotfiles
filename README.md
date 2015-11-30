@@ -191,18 +191,14 @@ tmuxやzshが格好良くなるPowerlineを入れる
 | OS                       | コマンド                                |
 |:-------------------------|:----------------------------------------|
 | Debian系([※1](#debian)) | `sudo apt-get install python pip` |
-| redhat系 | `sudo yum install python python-pip`       |
+| redhat系([※2](#redhat)) | `sudo yum install python python-pip`       |
+
+Python2.7以上でないとダメなので、それよりバージョンが低い場合は手動でビルドしなければならない。
+その場合は[ここ](http://qiita.com/a_yasui/items/5f453297855791ed648d)を参照。(TODO 後でちゃんと書く)
 
 ### pipでPowerlineをインストール
 ```sh
 pip install --user powerline-status
-```
-
-### 設定ディレクトリへのシンボリックリンクを作る
-環境によって`~/.local/lib/pythonXXX/site-packages/powerline/bindings/tmux/powerline.conf`のXXXの部分が違ってくるので、それを吸収するためにシンボリックリンクで対応する。
-
-```sh
-ln -s ~/.local/lib/python2.7 ~/.local/lib/python
 ```
 
 ## Vimをビルド＆インストールする
