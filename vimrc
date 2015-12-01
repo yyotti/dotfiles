@@ -1749,12 +1749,6 @@ endif
 " }}}
 
 " 表示設定 {{{
-" ↓これはswitchでutf-8にしておけば回避できそうなので、しばらく放置
-" if has('unix')
-"   " Linuxで文字化けするので、Linuxならtermencodingをutf-8にする（kaoriya vimrcではcp932になる？）
-"   set termencoding=utf-8
-"   set encoding=utf-8
-" endif
 
 " シンタックスハイライト
 syntax enable
