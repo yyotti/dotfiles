@@ -8,5 +8,62 @@
 			"hard": " ⮂",
 			"soft": " ⮃"
 		}
+	},
+	"segment_data": {
+		"branch": {
+			"before": "⭠ "
+		},
+		"cwd": {
+			"args": {
+				"ellipsis": "⋯"
+			}
+		},
+
+		"line_current_symbol": {
+			"contents": "⭡ "
+		},
+
+		"time": {
+			"before": ""
+		},
+
+		"powerline.segments.common.net.network_load": {
+			"args": {
+				"recv_format": "⬇ {value:>8}",
+				"sent_format": "⬆ {value:>8}"
+			}
+		},
+		"powerline.segments.common.net.hostname": {
+			"before": "⭤ "
+		},
+		"powerline.segments.common.sys.uptime": {
+			"before": "⇑  "
+		},
+		"powerline.segments.common.mail.email_imap_alert": {
+			"before": "✉ "
+		},
+		"powerline.segments.common.wthr.weather": {
+			"args": {
+				"icons": {
+					"day":           "〇",
+					"blustery":      "⚑",
+					"rainy":         "☔",
+					"cloudy":        "☁",
+					"snowy":         "❅",
+					"stormy":        "☈",
+					"foggy":         "≡",
+					"sunny":         "☼",
+					"night":         "☾",
+					"windy":         "☴",
+					"not_available": "�",
+					"unknown":       "⚠"
+				}
+			}
+		},
+		"powerline.segments.common.time.fuzzy_time": {
+			"args": {
+				"unicode_text": true
+			}
+		}
 	}
 }
