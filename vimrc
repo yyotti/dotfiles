@@ -1053,8 +1053,21 @@ if neobundle#tap('lightline.vim')
         \       [ 'anzu', ],
         \     ],
         \   },
+        \   'inactive': {
+        \     'left': [
+        \       [ 'inactivemode', ],
+        \       [ 'filename', ],
+        \       [ 'fugitive', 'gitinfo', ],
+        \     ],
+        \     'right': [
+        \       [ 'syntaxcheck', 'lineinfo', ],
+        \       [ 'fileformat', 'fileencoding', 'filetype', ],
+        \       [ 'anzu', ],
+        \     ],
+        \   },
         \   'component': {
-        \     'lineinfo': '%l/%L(%p%%)',
+        \     'inactivemode': '%{"INACTIVE"}',
+        \     'lineinfo': '⭡ %3l:%-2v (%p%%)',
         \     'fileformat': '%{FileInfoVisible() ? &fileformat : ""}',
         \     'filetype': '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
         \     'fileencoding': '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
@@ -1084,7 +1097,10 @@ if neobundle#tap('lightline.vim')
         \   },
         \ }
   function! Mode() abort
-    return winwidth(0) > 60 ? lightline#mode() : ''
+    return &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ &ft == 'vimshell' ? 'VimShell' :
+          \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
   function! s:readonly() abort
@@ -1098,7 +1114,7 @@ if neobundle#tap('lightline.vim')
   function! Filename() abort
     return (!empty(s:readonly()) ? s:readonly().' ' : '').
           \ (&filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
-          \  &filetype ==? 'unite' ? unite#get_status_string() :
+          \  &filetype ==? 'unite' ? substitute(unite#get_status_string(), ' | ', '', '') :
           \  &filetype ==? 'vimshell' ? substitute(b:vimshell.current_dir, expand('~'), '~', '') :
           \  !empty(expand('%')) ? expand('%') : '[No Name]').
           \ (!empty(s:modified()) ? ' '.s:modified() : '')
@@ -1113,7 +1129,7 @@ if neobundle#tap('lightline.vim')
   endfunction
 
   function! FugitiveVisible() abort
-    return exists('*fugitive#head') && !empty(fugitive#head())
+    return &ft != 'vimfiler' && exists('*fugitive#head') && !empty(fugitive#head())
   endfunction
 
   function! Fugitive() abort
@@ -1146,7 +1162,7 @@ if neobundle#tap('lightline.vim')
   endfunction
 
   function! FileInfoVisible() abort
-    return winwidth(0) > 70
+    return &ft != 'unite' && &ft != 'vimfiler' && winwidth(0) > 70
   endfunction
 
   function! AnzuVisible() abort
@@ -1177,6 +1193,11 @@ if neobundle#tap('lightline.vim')
     catch
     endtry
   endfunction
+
+  " Uniteたちがステータスラインを強制的に書き換えるのを抑制
+  let g:unite_force_overwrite_statusline = 0
+  let g:vimfiler_force_overwrite_statusline = 0
+  let g:vimshell_force_overwrite_statusline = 0
   " }}}
 endif
 " }}}
