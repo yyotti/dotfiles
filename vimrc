@@ -82,7 +82,6 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'Lokaltog/vim-easymotion'
 " TODO 後でLazyにしたい
 NeoBundle 'vim-jp/vital.vim'
-" TODO 後でLazyにしたいが、そのためには自作するほうがいいか？この程度ならLazyしなくてもいいかも？
 NeoBundle 'sudo.vim', {
       \   'external_commands': 'sudo',
       \ }
@@ -162,17 +161,7 @@ NeoBundleLazy 'tek/vim-operator-assign', {
       \ }
 NeoBundleLazy 'othree/html5.vim'
 NeoBundleLazy 'othree/javascript-libraries-syntax.vim'
-NeoBundleLazy 'marijnh/tern_for_vim', {
-      \   'external_commands': [
-      \     'npm',
-      \     'nodejs',
-      \   ],
-      \   'build': {
-      \     'others': 'npm install',
-      \   },
-      \ }
 NeoBundleLazy 'smarty-syntax'
-NeoBundleLazy 't9md/vim-quickhl'
 NeoBundleLazy 'AndrewRadev/splitjoin.vim'
 NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'thinca/vim-textobj-between', {
@@ -254,8 +243,6 @@ nnoremap [nebula] <Nop>
 nmap <Leader>n [nebula]
 nnoremap [vimshell] <Nop>
 nmap <Leader>v [vimshell]
-nnoremap [quickhl] <Nop>
-nmap <Leader>q [quickhl]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
@@ -1463,37 +1450,6 @@ if neobundle#tap('javascript-libraries-syntax.vim')
 endif
 " }}}
 
-" tern_for_vim {{{
-if neobundle#tap('tern_for_vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       'TernDocBrowse',
-        \       'TernType',
-        \       'TernRename',
-        \       'TernDefPreview',
-        \       'TernDoc',
-        \       'TernDef',
-        \       'TernDefTab',
-        \       'TernDefSplit',
-        \       'TernRefs',
-        \     ],
-        \     'filetypes': [
-        \       'html',
-        \       'javascript',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " settings {{{
-  let g:tern_show_argument_hints = 'on_move'
-  let g:tern#command = ['nodejs', fnamemodify('~/.vim/bundle/', ':p') . '/' . neobundle#tapped.name . '/node_modules/tern/bin/tern', '--no-port-file']
-  " }}}
-endif
-" }}}
-
 " smarty-syntax {{{
 if neobundle#tap('smarty-syntax')
   " config {{{
@@ -1504,54 +1460,6 @@ if neobundle#tap('smarty-syntax')
         \     ],
         \   },
         \ })
-  " }}}
-endif
-" }}}
-
-" vim-quickhl {{{
-if neobundle#tap('vim-quickhl')
-  " config {{{
-  call neobundle#config({
-        \   'augroup': 'QuickhlManual',
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'sxn', '<Plug>(quickhl-' ],
-        \     ],
-        \     'commands': [
-        \       'QuickhlManualUnlockWindow',
-        \       'QuickhlManualDelete',
-        \       'QuickhlTagToggle',
-        \       'QuickhlManualDisable',
-        \       'QuickhlTagDisable',
-        \       'QuickhlManualAdd',
-        \       'QuickhlManualColors',
-        \       'QuickhlManualReset',
-        \       'QuickhlManualLockToggle',
-        \       'QuickhlManualLock',
-        \       'QuickhlManualEnable',
-        \       'QuickhlManualList',
-        \       'QuickhlCwordEnable',
-        \       'QuickhlManualUnlock',
-        \       'QuickhlCwordDisable',
-        \       'QuickhlTagEnable',
-        \       'QuickhlManualLockWindowToggle',
-        \       'QuickhlManualLockWindow',
-        \       'QuickhlCwordToggle',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " キーマッピング {{{
-  nmap [quickhl]m <Plug>(quickhl-manual-this)
-  xmap [quickhl]m <Plug>(quickhl-manual-this)
-  nmap [quickhl]M <Plug>(quickhl-manual-reset)
-  xmap [quickhl]M <Plug>(quickhl-manual-reset)
-
-  nmap [quickhl]j <Plug>(quickhl-cword-toggle)
-  nmap [quickhl]] <Plug>(quickhl-tag-toggle)
-  " TODO ↓がよく分からない
-  " map H <Plug>(operator-quickhl-manual-this-motion)
   " }}}
 endif
 " }}}
