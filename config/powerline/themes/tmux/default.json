@@ -1,0 +1,39 @@
+{
+	"dividers": {
+		"right": {
+			"hard": "  "
+		}
+	},
+	"segments": {
+		"right": [
+			{
+				"function": "powerline.segments.common.sys.uptime",
+				"priority": 50,
+				"args": {
+					"days_format": "{days:d}日",
+					"hours_format": "{hours:d}時間",
+					"minutes_format": "{minutes:d}分",
+					"seconds_format": ""
+				}
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"args": {
+					"format": "%Y年%-m月%-d日(%a)",
+					"istime": true
+				}
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"name": "time",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				}
+			},
+			{
+				"function": "powerline.segments.common.net.hostname"
+			}
+		]
+	}
+}
