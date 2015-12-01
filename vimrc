@@ -560,7 +560,7 @@ if neobundle#tap('neosnippet.vim')
 
   " For snippet_complete marker.
   if has('conceal')
-    set conceallevel=2 concealcursor=i
+    set conceallevel=2
   endif
   " }}}
 endif
