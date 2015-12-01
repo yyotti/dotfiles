@@ -2130,7 +2130,7 @@ nnoremap <Space>j <C-w>j
 " バッファ削除
 nnoremap <silent> <Space>d :<C-u>bdelete<CR>
 " バッファのみにする
-nnoremap <Space>o <C-w><C-o>
+nnoremap <silent> <Space>o :<C-u>only<CR>
 " }}}
 
 " autoftp {{{
