@@ -1,7 +1,12 @@
 {
 	"dividers": {
+		"left": {
+			"hard": "⮀ ",
+			"soft": "⮁ "
+		},
 		"right": {
-			"hard": "  "
+			"hard": " ⮂",
+			"soft": " ⮃"
 		}
 	}
 }
