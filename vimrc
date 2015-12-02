@@ -219,16 +219,6 @@ endif
 
 " }}}
 
-call neobundle#end()
-
-" 必須!!
-filetype plugin indent on
-
-" インストールチェック
-NeoBundleCheck
-
-" }}}
-
 " 各プラグインの設定 {{{
 let g:mapleader = "\<Space>"
 
@@ -306,6 +296,12 @@ if neobundle#tap('unite.vim')
         \ })
   " }}}
 
+  " on_source {{{
+  function! neobundle#tapped.hooks.on_source(bundle) abort
+    call unite#custom#default_action('directory', 'vimfiler')
+  endfunction
+  " }}}
+
   " settings {{{
   " insertモードで起動する
   let g:unite_enable_start_insert=1
@@ -313,8 +309,6 @@ if neobundle#tap('unite.vim')
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
-
-  call unite#custom#default_action('directory', 'vimfiler')
   " }}}
 
   " キーマッピング {{{
@@ -1745,6 +1739,16 @@ if neobundle#tap('ghcmod-vim')
   " }}}
 endif
 " }}}
+
+" }}}
+
+call neobundle#end()
+
+" 必須!!
+filetype plugin indent on
+
+" インストールチェック
+NeoBundleCheck
 
 " }}}
 
