@@ -13,6 +13,10 @@
 				}
 			},
 			{
+				"function": "powerline.segments.common.net.network_load",
+				"priority": 30
+			},
+			{
 				"function": "powerline.segments.common.time.date",
 				"args": {
 					"format": "%Y年%-m月%-d日(%a)",
