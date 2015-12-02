@@ -214,6 +214,15 @@ pip install --user --editable={repo_root}/powerline
 
 これで設定ファイルのパスは`{repo_root}/powerline/powerline/bindings/tmux/powerline.conf`とすればよいので、環境依存がなくなり複数の環境で使いまわせる。
 
+### psutilモジュールをインストール
+powerlineでCPU使用率を表示するのに必要な`psutil`モジュールをインストールする。無くても表示されないだけなので環境次第でどうするか選択する。
+
+```sh
+pip install --user psutil
+```
+
+powerlineを`--user`で入れたので何となく付けてる。
+
 ## Vimをビルド＆インストールする
 このリポジトリ内のインストールスクリプトを実行する。
 ```sh
