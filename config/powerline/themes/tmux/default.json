@@ -14,7 +14,10 @@
 			},
 			{
 				"function": "powerline.segments.common.sys.cpu_load_percent",
-				"priority": 30
+				"priority": 30,
+				"args": {
+					"format": "CPU {0:3.1f}%"
+				}
 			},
 			{
 				"function": "powerline.segments.common.net.network_load",
