@@ -196,10 +196,23 @@ tmuxやzshが格好良くなるPowerlineを入れる
 Python2.7以上でないとダメなので、それよりバージョンが低い場合は手動でビルドしなければならない。
 その場合は[ここ](http://qiita.com/a_yasui/items/5f453297855791ed648d)を参照。(TODO 後でちゃんと書く)
 
-### pipでPowerlineをインストール
+[公式ドキュメント](https://powerline.readthedocs.org/en/latest/installation.html#generic-requirements)にはPython2.6以上と書かれているが、yumでインストールしてPython2.6だったときにエラーが発生していたので、おそらくPython2.7以上なんだと思う。
+
+### pipでPowerlineをインストール(一番楽な方法)
 ```sh
 pip install --user powerline-status
 ```
+
+この方法だと一発でインストールできて簡単だが、`$HOME/.local/lib/pythonXXX ...`にインストールされてパスにPythonのバージョンが入る。そうなると、`.tmux.conf`に記述する設定ファイルのパスが環境に依存してしまうことになり面倒なので、下記の方法で回避したほうがいいかも。
+
+### powerlineをGitからcloneしてインストール(環境ごとの違いを無くせる方法)
+```sh
+cd {repo_root} # {repo_root}はcloneするディレクトリ
+git clone https://github.com/powerline/powerline.git
+pip install --user --editable={repo_root}/powerline
+```
+
+これで設定ファイルのパスは`{repo_root}/powerline/powerline/bindings/tmux/powerline.conf`とすればよいので、環境依存がなくなり複数の環境で使いまわせる。
 
 ## Vimをビルド＆インストールする
 このリポジトリ内のインストールスクリプトを実行する。
