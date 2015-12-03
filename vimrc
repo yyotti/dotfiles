@@ -114,18 +114,20 @@ NeoBundle 'syngan/vim-vimlint', {
       \     'osyo-manga/vim-watchdogs',
       \   ],
       \ }
-" }}}
-
-" Lazy {{{
-NeoBundleLazy 'Shougo/neocomplete.vim', {
+NeoBundle 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
       \   'disabled': !has('lua'),
       \   'vim_version': '7.3.885',
       \ }
-NeoBundleLazy 'Shougo/neosnippet.vim'
-NeoBundleLazy 'Shougo/neosnippet-snippets', {
+NeoBundle 'Shougo/neosnippet.vim', {
+      \   'depends': ['Shougo/neocomplete.vim'],
+      \ }
+NeoBundle 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
+" }}}
+
+" Lazy {{{
 NeoBundleLazy 'Shougo/vimshell', {
       \   'depends': ['Shougo/vimproc'],
       \ }
@@ -182,26 +184,22 @@ runtime macros/matchit.vim
 
 " }}}
 
+" 自作プラグイン {{{
+
 " プラグイン開発用のvimrcが存在するなら読み込む
 if filereadable($HOME.'/.vimrc_dev')
   " TODO バグがあるんだけどどうするか？forkする？
   NeoBundle 'LeafCage/vimhelpgenerator'
   source $HOME/.vimrc_dev
-endif
-
-" 自作プラグイン {{{
+else
 " 自宅PC（開発環境）以外ではgithubの公開版を使う
-" unite-todolist {{{
-if !neobundle#is_installed('unite-todolist')
-  " TODO unite-todolistを公開したら記述
-endif
-" }}}
 
-" neosnippet-additional {{{
-if !neobundle#is_installed('neosnippet-additional')
-  NeoBundleLazy 'yyotti/neosnippet-additional', {
-        \   'depends': ['Shougo/neosnippet.vim'],
-        \ }
+" TODO unite-todolistを公開したら記述
+
+NeoBundle 'yyotti/neosnippet-additional', {
+      \   'depends': ['Shougo/neosnippet.vim'],
+      \ }
+
 endif
 " }}}
 
@@ -291,37 +289,6 @@ endif
 
 " neocomplete {{{
 if neobundle#tap('neocomplete.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'insert': 1,
-        \     'unite_sources': [
-        \       'file_include',
-        \       'neocomplete',
-        \     ],
-        \     'mappings': [
-        \       [ 'i', '<Plug>(neocomplete_start_' ],
-        \     ],
-        \     'commands': [
-        \       'NeoCompleteAutoCompletionLength',
-        \       { 'complete': 'buffer', 'name': 'NeoCompleteIncludeMakeCache' },
-        \       'NeoCompleteClean',
-        \       'NeoCompleteUnlock',
-        \       { 'complete': 'customlist,neocomplete#filetype_complete', 'name': 'NeoCompleteSyntaxMakeCache' },
-        \       'NeoCompleteTagMakeCache',
-        \       'NeoCompleteEnable',
-        \       { 'complete': 'customlist,neocomplete#filetype_complete', 'name': 'NeoCompleteDictionaryMakeCache' },
-        \       { 'complete': 'buffer', 'name': 'NeoCompleteVimMakeCache' },
-        \       'NeoCompleteLock',
-        \       'NeoCompleteDisable',
-        \       'NeoCompleteToggle',
-        \       { 'complete': 'filetype', 'name': 'NeoCompleteSetFileType' },
-        \       { 'complete': 'file', 'name': 'NeoCompleteBufferMakeCache' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   " AutoComplPopを無効化する（入れてないから不要なはず）
   let g:acp_enableAtStartup = 0
@@ -373,9 +340,10 @@ if neobundle#tap('neocomplete.vim')
     return neocomplete#close_popup() . "\<CR>"
   endfunction
   " TABで補完
-  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  " inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   " <C-h>や<BS>でポップアップをクローズして1文字消す
-  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  " <C-h>の場合は入力を戻さずに、<BS>の場合は入力を戻して消すようにしておく
+  inoremap <expr><C-h> neocomplete#close_popup()."\<C-h>"
   inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
   inoremap <expr><C-y> neocomplete#close_popup()
   inoremap <expr><C-e> neocomplete#cancel_popup()
@@ -385,27 +353,6 @@ endif
 
 " neosnippet.vim {{{
 if neobundle#tap('neosnippet.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['neocomplete.vim'],
-        \     'unite_sources': [
-        \       'neosnippet',
-        \       'neosnippet_file',
-        \     ],
-        \     'mappings': [
-        \       [ 'sxi', '<Plug>(neosnippet_' ],
-        \     ],
-        \     'commands': [
-        \       'NeoSnippetClearMarkers',
-        \       { 'complete': 'file', 'name': 'NeoSnippetSource' },
-        \       { 'complete': 'customlist,neosnippet#commands#_filetype_complete', 'name': 'NeoSnippetMakeCache' },
-        \       { 'complete': 'customlist,neosnippet#commands#_edit_complete', 'name': 'NeoSnippetEdit' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " キーマッピング {{{
   " プラグインキーマッピング
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -413,8 +360,8 @@ if neobundle#tap('neosnippet.vim')
   xmap <C-k> <Plug>(neosnippet_expand_target)
 
   " Tabでも補完する
-  imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  " imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+  " smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
   " For snippet_complete marker.
   if has('conceal')
@@ -424,28 +371,8 @@ if neobundle#tap('neosnippet.vim')
 endif
 " }}}
 
-" neosnippet-snippets {{{
-if neobundle#tap('neosnippet-snippets')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['neosnippet.vim'],
-        \   },
-        \ })
-  " }}}
-endif
-" }}}
-
 " neosnippet-additional {{{
 if neobundle#tap('neosnippet-additional')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'on_source': ['neosnippet.vim'],
-        \   },
-        \ })
-  " }}}
-
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     " 開発版と公開版とでパスを分ける必要があるので、ここで設定する
