@@ -95,6 +95,25 @@ NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'sudo.vim', {
       \   'external_commands': 'sudo',
       \ }
+NeoBundle 'osyo-manga/vim-watchdogs', {
+      \   'depends': [
+      \     'thinca/vim-quickrun',
+      \     'Shougo/vimproc',
+      \     'osyo-manga/shabadou.vim',
+      \   ],
+      \ }
+NeoBundle 'KazuakiM/vim-qfsigns', {
+      \   'depends': ['vim-watchdogs'],
+      \ }
+NeoBundle 'KazuakiM/vim-qfstatusline', {
+      \   'depends': ['vim-watchdogs'],
+      \ }
+NeoBundle 'syngan/vim-vimlint', {
+      \   'depends': [
+      \     'ynkdir/vim-vimlparser',
+      \     'osyo-manga/vim-watchdogs',
+      \   ],
+      \ }
 " }}}
 
 " Lazy {{{
@@ -114,27 +133,8 @@ NeoBundleLazy 'LeafCage/nebula.vim'
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'kchmck/vim-coffee-script'
-NeoBundleLazy 'osyo-manga/vim-watchdogs', {
-      \   'depends': [
-      \     'thinca/vim-quickrun',
-      \     'Shougo/vimproc',
-      \     'osyo-manga/shabadou.vim',
-      \   ],
-      \ }
-NeoBundleLazy 'KazuakiM/vim-qfsigns', {
-      \   'depends': ['vim-watchdogs'],
-      \ }
-NeoBundleLazy 'KazuakiM/vim-qfstatusline', {
-      \   'depends': ['vim-watchdogs'],
-      \ }
 NeoBundleLazy 'tyru/restart.vim', {
       \   'gui': 1,
-      \ }
-NeoBundleLazy 'syngan/vim-vimlint', {
-      \   'depends': [
-      \     'ynkdir/vim-vimlparser',
-      \     'osyo-manga/vim-watchdogs',
-      \   ],
       \ }
 NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
@@ -701,62 +701,8 @@ if neobundle#tap('vim-coffee-script')
 endif
 " }}}
 
-" vim-vimlint {{{
-if neobundle#tap('vim-vimlint')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       { 'complete': 'customlist,vimlint#util#complete', 'name': 'VimLint' },
-        \     ],
-        \     'on_source': [
-        \       'vim-watchdogs',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      function! s:get_plugin_dir(plugin_name) abort
-        return substitute(fnamemodify(globpath(&rtp, 'autoload/'.a:plugin_name.'.vim'), ':h:h'), '\\', '/', 'g')
-      endfunction
-
-      if !exists('g:quickrun_config')
-        let g:quickrun_config = {}
-      endif
-      if !has_key(g:quickrun_config, 'vim/watchdogs_checker')
-        let g:quickrun_config['vim/watchdogs_checker'] = {}
-      endif
-      let g:quickrun_config['vim/watchdogs_checker']['type'] = 'watchdogs_checker/vimlint'
-      if !has_key(g:quickrun_config, 'watchdogs_checker/vimlint')
-        let g:quickrun_config['watchdogs_checker/vimlint'] = {}
-      endif
-      let g:quickrun_config['watchdogs_checker/vimlint']['exec'] = '%C -X -N -u NONE -i NONE -V1 -e -s -c "set rtp+='.s:get_plugin_dir('vimlparser').','.s:get_plugin_dir('vimlint').'" -c "call vimlint#vimlint(''%s'', %{ exists(''g:vimlint#config'') ? string(g:vimlint#config) : g:watchdogs#vimlint_empty_config })" -c "qall!"'
-      call watchdogs#setup(g:quickrun_config)
-    endif
-  endfunction
-  " }}}
-
-endif
-" }}}
-
 " vim-watchdogs {{{
 if neobundle#tap('vim-watchdogs')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       'WatchdogsRunSweep',
-        \       { 'complete': 'customlist,quickrun#complete', 'name': 'WatchdogsRun' },
-        \       { 'complete': 'customlist,quickrun#complete', 'name': 'WatchdogsRunSilent' },
-        \     ],
-        \     'insert': 1,
-        \   },
-        \ })
-  " }}}
-
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
@@ -796,18 +742,6 @@ endif
 
 " vim-qfsigns {{{
 if neobundle#tap('vim-qfsigns')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       'QfsignsClear',
-        \       'QfsignsJunmp',
-        \       'QfsignsUpdate',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   if !exists('g:quickrun_config')
     let g:quickrun_config = {}
@@ -825,16 +759,6 @@ endif
 
 " vim-qfstatusline {{{
 if neobundle#tap('vim-qfstatusline')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       'QfstatuslineUpdate',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   if !exists('g:quickrun_config')
     let g:quickrun_config = {}
@@ -845,7 +769,7 @@ if neobundle#tap('vim-qfstatusline')
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 3
 
-  if neobundle#is_sourced('lightline.vim')
+  if neobundle#tap('lightline.vim')
     let g:Qfstatusline#UpdateCmd = function('lightline#update')
   else
     " これだとステータスラインに何も出ないが、無いよりマシ
