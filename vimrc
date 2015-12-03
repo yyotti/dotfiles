@@ -1600,6 +1600,10 @@ nnoremap <Space>j <C-w>j
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 " バッファのみにする
 nnoremap <silent> <Leader>o :<C-u>only<CR>
+
+" TODO Diffモードのときのみ有効にしたい
+nnoremap <silent> <Leader>ig :<C-u>diffget<CR>
+nnoremap <silent> <Leader>ip :<C-u>diffput<CR>
 " }}}
 
 " autoftp {{{
