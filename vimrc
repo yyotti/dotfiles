@@ -1613,6 +1613,48 @@ nnoremap <silent> <Space>o :<C-u>only<CR>
 
 " autoftp {{{
 if neobundle#tap('vital.vim') && executable('ncftpput')
+  " .autoftp.json
+  " {
+  "     "enable": 1,
+  "     "host": "",
+  "     "user": "",
+  "     "pass": "",
+  "     "timeout": 10,
+  "     "passive": 1,
+  "     "remote_base": "/path/to/base",
+  "     "path_map": {
+  "         "/path/to/local": "/path/to/remote"
+  "     }
+  " }
+  "
+  " ### パスの作られ方と変換方法 ###
+  " (前提)
+  "   ディレクトリ構成が下記のようになっているとする。
+  "     /local/path/to/project_root
+  "       ├ users/
+  "       │    ├ edit/
+  "       │    │    └ index.html
+  "       │    └ index.html
+  "       ├ .autoftp.json
+  "       └ index.html
+  "
+  "     /remote/root
+  "       ├ members/
+  "       │    ├ edit/
+  "       │    │    └ index.html
+  "       │    └ index.html
+  "       └ index.html
+  "
+  " この場合、.autoftp.json に下記のように記述する。
+  " {
+  "     "enable": 1,
+  "     ... このあたりは省略 ...
+  "     "remote_base": "/remote/root",
+  "     "path_map": {
+  "         "/local/path/to/project_root/users": "/remote/root/members"
+  "     }
+  " }
+
   augroup vimrc_autoftp
     autocmd!
     autocmd! BufWinEnter *.php,*.tpl,*.css,*.js call s:autoftp_init()
