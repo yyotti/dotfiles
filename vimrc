@@ -146,7 +146,6 @@ NeoBundleLazy 'kana/vim-operator-replace', {
 NeoBundleLazy 'thinca/vim-ref', {
         \   'external_commands': 'lynx',
         \ }
-NeoBundleLazy 'thinca/vim-prettyprint'
 NeoBundleLazy 'tek/vim-operator-assign', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
@@ -995,35 +994,6 @@ endif
 if neobundle#tap('unite-quickfix')
   " キーマッピング {{{
   nnoremap <silent> [unite]q :Unite -no-quit -no-start-insert quickfix<CR>
-  " }}}
-endif
-" }}}
-
-" vim-prettyprint {{{
-if neobundle#tap('vim-prettyprint')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [
-        \       { 'complete': 'expression', 'name': 'PP' },
-        \       { 'complete': 'expression', 'name': 'PrettyPrint' },
-        \     ],
-        \     'functions': [
-        \       'PrettyPrint',
-        \       'PP',
-        \     ],
-        \     'on_source': ['vim-editvar'],
-        \   },
-        \ })
-  " }}}
-
-  " settings {{{
-  let g:prettyprint_show_expression = 1
-  let g:prettyprint_string = []
-  " }}}
-
-  " キーマッピング {{{
-  nnoremap <silent> <C-p> :PP <C-r>=expand("<cWORD>")<CR><CR>
   " }}}
 endif
 " }}}
