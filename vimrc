@@ -240,7 +240,7 @@ if neobundle#tap('unite.vim')
   " キーマッピング {{{
   " ※ここで定義しているのは、Uniteが標準でもっているsourceのみ
   " バッファ一覧を開く
-  nnoremap <silent> [unite]b :Unite buffer<CR>
+  nnoremap <silent> [unite]b :Unite buffer file_mru<CR>
   " Unite-grep
   nnoremap <silent> [unite]g :Unite grep -buffer-name=grep -no-quit<CR>
   nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
