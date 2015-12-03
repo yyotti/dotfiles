@@ -140,9 +140,7 @@ NeoBundleLazy 'LeafCage/nebula.vim'
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'kchmck/vim-coffee-script'
-NeoBundleLazy 'tyru/restart.vim', {
-      \   'gui': 1,
-      \ }
+NeoBundleLazy 'tyru/restart.vim'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
