@@ -86,7 +86,8 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-let g:powerline_enable = 0
+" TODO 後で消すこと
+let g:powerline_enable = 0 && !has('gui_running')
 NeoBundle 'itchyny/lightline.vim', {
       \   'disabled': g:powerline_enable && has('python') && executable('powerline-daemon'),
       \ }
