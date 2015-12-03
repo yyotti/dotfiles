@@ -1597,9 +1597,9 @@ nnoremap <Space>k <C-w>k
 nnoremap <Space>j <C-w>j
 
 " バッファ削除
-nnoremap <silent> <Space>d :<C-u>bdelete<CR>
+nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 " バッファのみにする
-nnoremap <silent> <Space>o :<C-u>only<CR>
+nnoremap <silent> <Leader>o :<C-u>only<CR>
 " }}}
 
 " autoftp {{{
