@@ -125,6 +125,8 @@ NeoBundle 'Shougo/neosnippet.vim', {
 NeoBundle 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
+NeoBundle 'osyo-manga/vim-anzu'
+NeoBundle 'haya14busa/incsearch.vim'
 " }}}
 
 " Lazy {{{
@@ -138,7 +140,6 @@ NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'tyru/restart.vim', {
       \   'gui': 1,
       \ }
-NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
@@ -157,7 +158,6 @@ NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'thinca/vim-textobj-between', {
       \   'depends': 'kana/vim-textobj-user',
       \ }
-NeoBundleLazy 'haya14busa/incsearch.vim'
 NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
       \ }
@@ -921,25 +921,6 @@ endif
 
 " vim-anzu {{{
 if neobundle#tap('vim-anzu')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': ['anzu'],
-        \     'mappings': [
-        \       [ 'sxno', '<Plug>(anzu-' ],
-        \     ],
-        \     'commands': [
-        \       'AnzuUpdateSearchStatus',
-        \       'AnzuClearSearchCache',
-        \       'AnzuUpdateSearchStatusOutput',
-        \       'AnzuClearSearchStatus',
-        \       'AnzuSignMatchLine',
-        \       'AnzuClearSignMatchLine',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " キーマッピング {{{
   nmap n <Plug>(anzu-n)zz
   nmap N <Plug>(anzu-N)zz
@@ -1171,46 +1152,15 @@ endif
 
 " incsearch.vim {{{
 if neobundle#tap('incsearch.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'sxno', '<Plug>(_incsearch-N)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-N)' ],
-        \       [ 'sxno', '<Plug>(_incsearch-#)' ],
-        \       [ 'sxno', '<Plug>(_incsearch-*)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-#)' ],
-        \       [ 'sxno', '<Plug>(incsearch-forward)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-*)' ],
-        \       [ 'sxno', '<Plug>(incsearch-stay)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-g*)' ],
-        \       [ 'sxno', '<Plug>(_incsearch-n)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-n)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl0)' ],
-        \       [ 'sxno', '<Plug>(_incsearch-g#)' ],
-        \       [ 'sxno', '<Plug>(incsearch-backward)' ],
-        \       [ 'sxno', '<Plug>(_incsearch-g*)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl-g#)' ],
-        \       [ 'sxno', '<Plug>(incsearch-nohl2)' ],
-        \     ],
-        \     'commands': [
-        \       'IncSearchNoreMap',
-        \       'IncSearchMap',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   " magicを標準にする
   let g:incsearch#magic = '\v'
   " }}}
 
   " キーマッピング {{{
-  map / <Plug>(incsearch-forward)
-  map ? <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
+  nmap / <Plug>(incsearch-forward)
+  nmap ? <Plug>(incsearch-backward)
+  nmap g/ <Plug>(incsearch-stay)
 
   if neobundle#tap('vim-anzu')
     nmap n <Plug>(incsearch-nohl)<Plug>(anzu-n)zz
