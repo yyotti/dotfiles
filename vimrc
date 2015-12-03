@@ -203,8 +203,6 @@ NeoBundle 'yyotti/neosnippet-additional', {
 endif
 " }}}
 
-" }}}
-
 " 各プラグインの設定 {{{
 let g:mapleader = "\<Space>"
 
