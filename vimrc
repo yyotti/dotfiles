@@ -1828,5 +1828,10 @@ if g:powerline_enable && has('python') && executable('powerline-daemon')
   python from powerline.vim import setup as powerline_setup
   python powerline_setup()
   python del powerline_setup
+
+  " Uniteたちがステータスラインを強制的に書き換えるのを抑制
+  let g:unite_force_overwrite_statusline = 0
+  let g:vimfiler_force_overwrite_statusline = 0
+  let g:vimshell_force_overwrite_statusline = 0
 endif
 " }}}
