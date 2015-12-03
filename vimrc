@@ -177,29 +177,19 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
 runtime macros/matchit.vim
 " }}}
 
-" 試験的に導入するプラグイン {{{
-
-" -------- " -- scala-vim-snippets
-" -------- NeoBundle 'tommorris/scala-vim-snippets'
-
-" }}}
-
 " 自作プラグイン {{{
 
 " プラグイン開発用のvimrcが存在するなら読み込む
 if filereadable($HOME.'/.vimrc_dev')
-  " TODO バグがあるんだけどどうするか？forkする？
-  NeoBundle 'LeafCage/vimhelpgenerator'
   source $HOME/.vimrc_dev
 else
-" 自宅PC（開発環境）以外ではgithubの公開版を使う
+  " 自宅PC（開発環境）以外ではgithubの公開版を使う
 
-" TODO unite-todolistを公開したら記述
+  " TODO unite-todolistを公開したら記述
 
-NeoBundle 'yyotti/neosnippet-additional', {
-      \   'depends': ['Shougo/neosnippet.vim'],
-      \ }
-
+  NeoBundle 'yyotti/neosnippet-additional', {
+        \   'depends': ['Shougo/neosnippet.vim'],
+        \ }
 endif
 " }}}
 
