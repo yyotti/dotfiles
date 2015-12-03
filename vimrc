@@ -86,8 +86,9 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
+let g:powerline_enable = 0
 NeoBundle 'itchyny/lightline.vim', {
-      \   'disabled': has('python') && executable('powerline-daemon'),
+      \   'disabled': g:powerline_enable && has('python') && executable('powerline-daemon'),
       \ }
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
@@ -1833,7 +1834,7 @@ endif
 " }}}
 
 " powerline {{{
-if has('python') && executable('powerline-daemon')
+if g:powerline_enable && has('python') && executable('powerline-daemon')
   set rtp+=~/git/powerline/powerline/bindings/vim
 
   python from powerline.vim import setup as powerline_setup
