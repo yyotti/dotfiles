@@ -298,7 +298,9 @@ if neobundle#tap('unite.vim')
 
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
-    call unite#custom#default_action('directory', 'vimfiler')
+    if neobundle#is_sourced(a:bundle.name)
+      call unite#custom#default_action('directory', 'vimfiler')
+    endif
   endfunction
   " }}}
 
