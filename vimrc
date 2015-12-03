@@ -63,6 +63,16 @@ NeoBundle 'morhetz/gruvbox'
 
 " Lazyしないプラグイン {{{
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimfiler', {
+      \   'depends': ['Shougo/unite.vim'],
+      \ }
+" ※Uniteから分離したらしい
+NeoBundle 'Shougo/neomru.vim', {
+      \   'depends': ['Shougo/unite.vim'],
+      \ }
+NeoBundle 'osyo-manga/unite-quickfix', {
+      \   'depends': ['Shougo/unite.vim']
+      \ }
 " ※fugitiveも遅延ロードしたかったが、autocmdを多用しているので無理らしい
 NeoBundle 'tpope/vim-fugitive'
 " ※fugitiveとvim-merginalが遅延ロードできないので、ついでにこいつも遅延ロードしない
@@ -88,13 +98,6 @@ NeoBundle 'sudo.vim', {
 " }}}
 
 " Lazy {{{
-NeoBundleLazy 'Shougo/vimfiler', {
-      \   'depends': ['Shougo/unite.vim'],
-      \ }
-" ※Uniteから分離したらしい
-NeoBundleLazy 'Shougo/neomru.vim', {
-      \   'depends': ['Shougo/unite.vim'],
-      \ }
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \   'depends': ['Shougo/vimproc'],
       \   'disabled': !has('lua'),
@@ -133,15 +136,6 @@ NeoBundleLazy 'syngan/vim-vimlint', {
       \     'osyo-manga/vim-watchdogs',
       \   ],
       \ }
-NeoBundleLazy 'ujihisa/unite-colorscheme', {
-      \   'depends': ['Shougo/unite.vim']
-      \ }
-NeoBundleLazy 'tsukkee/unite-tag', {
-      \   'depends': [
-      \     'Shougo/unite.vim',
-      \     'Shougo/neocomplete.vim',
-      \   ]
-      \ }
 NeoBundleLazy 'osyo-manga/vim-anzu'
 NeoBundleLazy 'kana/vim-operator-replace', {
       \   'depends': ['kana/vim-operator-user'],
@@ -149,13 +143,7 @@ NeoBundleLazy 'kana/vim-operator-replace', {
 NeoBundleLazy 'thinca/vim-ref', {
         \   'external_commands': 'lynx',
         \ }
-NeoBundleLazy 'osyo-manga/unite-quickfix', {
-      \   'depends': ['Shougo/unite.vim']
-      \ }
 NeoBundleLazy 'thinca/vim-prettyprint'
-NeoBundleLazy 'thinca/vim-editvar', {
-      \   'depends': ['Shougo/unite.vim'],
-      \ }
 NeoBundleLazy 'tek/vim-operator-assign', {
       \   'depends': ['kana/vim-operator-user'],
       \ }
@@ -236,66 +224,6 @@ nmap <Leader>v [vimshell]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': [
-        \       'action',
-        \       'alias',
-        \       'bookmark',
-        \       'buffer',
-        \       'change',
-        \       'command',
-        \       'directory',
-        \       'file',
-        \       'file_list',
-        \       'file_point',
-        \       'find',
-        \       'function',
-        \       'grep',
-        \       'history_input',
-        \       'history_unite',
-        \       'history_yank',
-        \       'interactive',
-        \       'jump',
-        \       'jump_point',
-        \       'launcher',
-        \       'line',
-        \       'mapping',
-        \       'menu',
-        \       'output',
-        \       'process',
-        \       'rec',
-        \       'register',
-        \       'resume',
-        \       'runtimepath',
-        \       'script',
-        \       'source',
-        \       'tab',
-        \       'vimgrep',
-        \       'window',
-        \       'window_gui',
-        \     ],
-        \     'commands': [
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteLast' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithInput' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithCurrentDir' },
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteNext' },
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteClose' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithInputDirectory' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithProjectDir' },
-        \       { 'complete': 'file', 'name': 'UniteBookmarkAdd' },
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteFirst' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithBufferDir' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'UniteWithCursorWord' },
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UniteResume' },
-        \       { 'complete': 'customlist,unite#complete#buffer_name', 'name': 'UnitePrevious' },
-        \       { 'complete': 'customlist,unite#complete#source', 'name': 'Unite' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " on_source {{{
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
@@ -332,24 +260,6 @@ endif
 
 " neomru {{{
 if neobundle#tap('neomru.vim')
-  " config {{{
-  call neobundle#config({
-        \   'augroup': 'neomru',
-        \   'autoload': {
-        \     'unite_sources': [
-        \       'mru',
-        \       'neomru',
-        \     ],
-        \     'commands': [
-        \       { 'complete': 'file', 'name': 'NeoMRUImportFile' },
-        \       'NeoMRUSave',
-        \       { 'complete': 'file', 'name': 'NeoMRUImportDirectory' },
-        \       'NeoMRUReload',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   " 表示フォーマットを指定。空にすると表示スピードが上がるらしい。
   " あまり効果があるようには感じないが、悪さもしないので設定しておく。
@@ -365,41 +275,6 @@ endif
 
 " vimfiler {{{
 if neobundle#tap('vimfiler')
-  " config {{{
-  call neobundle#config({
-        \   'augroup': 'vimfiler',
-        \   'autoload': {
-        \     'unite_sources': [
-        \       'vimfiler_drive',
-        \       'vimfiler_execute',
-        \       'vimfiler_history',
-        \       'vimfiler_mask',
-        \       'vimfiler_popd',
-        \       'vimfiler_sort',
-        \     ],
-        \     'mappings': [
-        \       [ 'n', '<Plug>(vimfiler_' ],
-        \     ],
-        \     'commands': [
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerCurrentDir' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFiler' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerBufferDir' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSimple' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerWrite' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerCreate' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerExplorer' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerEdit' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerDouble' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSplit' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerSource' },
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerRead' },
-        \       'VimFilerClose',
-        \       { 'complete': 'customlist,vimfiler#complete', 'name': 'VimFilerTab' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " settings {{{
   " デフォルトのファイラをvimfilerに置き換える
   let g:vimfiler_as_default_explorer = 1
@@ -1000,18 +875,6 @@ if neobundle#tap('restart.vim')
 endif
 " }}}
 
-" Unite-colorscheme {{{
-if neobundle#tap('unite-colorscheme')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': ['colorscheme'],
-        \   }
-        \ })
-  " }}}
-endif
-" }}}
-
 " lightline.vim {{{
 if neobundle#tap('lightline.vim')
   " settings {{{
@@ -1207,34 +1070,6 @@ if neobundle#tap('vim-gitgutter')
 endif
 " }}}
 
-" unite-tag {{{
-if neobundle#tap('unite-tag')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': ['tag'],
-        \   },
-        \ })
-  " }}}
-
-  " settings {{{
-  let g:unite_source_tag_max_fname_length = 100
-  let g:unite_source_tag_max_name_length = 15
-  " }}}
-
-  " キーマッピング {{{
-  augroup vimrc_unite_tag
-    autocmd!
-    autocmd BufEnter *
-          \   if empty(&buftype)
-          \|    nnoremap <silent> <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag<CR>
-          \|    nnoremap <silent> <buffer> <C-t> :<C-u>Unite jump<CR>
-          \|  endif
-  augroup END
-  " }}}
-endif
-" }}}
-
 " vim-anzu {{{
 if neobundle#tap('vim-anzu')
   " config {{{
@@ -1328,18 +1163,6 @@ endif
 
 " unite-quickfix {{{
 if neobundle#tap('unite-quickfix')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': [
-        \       'location_list',
-        \       'q',
-        \       'quickfix',
-        \     ],
-        \   },
-        \ })
-  " }}}
-
   " キーマッピング {{{
   nnoremap <silent> [unite]q :Unite -no-quit -no-start-insert quickfix<CR>
   " }}}
@@ -1371,28 +1194,6 @@ if neobundle#tap('vim-prettyprint')
 
   " キーマッピング {{{
   nnoremap <silent> <C-p> :PP <C-r>=expand("<cWORD>")<CR><CR>
-  " }}}
-endif
-" }}}
-
-" vim-editvar {{{
-if neobundle#tap('vim-editvar')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': ['variable'],
-        \     'commands': [
-        \       { 'complete': 'var', 'name': 'Editvar' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " キーマッピング {{{
-  augroup vimrc_vim_editvar
-    autocmd!
-    autocmd BufWinEnter * if expand('<afile>') =~# '\v^editvar://.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
-  augroup END
   " }}}
 endif
 " }}}
