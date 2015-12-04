@@ -10,6 +10,7 @@
 		"modified_indicator":       { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": [] },
 		"paste_indicator":          { "fg": "solarized:base3", "bg": "solarized:orange", "attrs": ["bold"] },
 		"readonly_indicator":       { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": [] },
+		"branch":                   { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
 		"branch_dirty":             { "fg": "solarized:yellow", "bg": "solarized:base01", "attrs": [] },
 		"branch:divider":           { "fg": "solarized:base1", "bg": "solarized:base01", "attrs": [] },
 		"file_name":                { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] },
