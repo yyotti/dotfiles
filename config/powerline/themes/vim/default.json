@@ -87,10 +87,6 @@
 				"priority": 60
 			},
 			{
-				"function": "csv_col_current",
-				"priority": 30
-			},
-			{
 				"type": "string",
 				"name": "line_current_symbol"
 			},
