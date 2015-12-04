@@ -33,8 +33,7 @@
 			},
 			{
 				"function": "modified_indicator",
-				"before": " ",
-				"draw_soft_divider": false
+				"before": " "
 			},
 			{
 				"function": "branch",
