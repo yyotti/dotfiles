@@ -47,11 +47,6 @@
 				"draw_soft_divider": false
 			},
 			{
-				"exclude_modes": ["nc"],
-				"function": "powerline.segments.vim.plugin.syntastic.syntastic",
-				"priority": 50
-			},
-			{
 				"type": "string",
 				"highlight_groups": ["background"],
 				"draw_soft_divider": false,
@@ -60,6 +55,11 @@
 			}
 		],
 		"right": [
+			{
+				"exclude_modes": ["nc"],
+				"function": "powerline.segments.vim.plugin.syntastic.syntastic",
+				"priority": 70
+			},
 			{
 				"function": "file_format",
 				"draw_soft_divider": false,
