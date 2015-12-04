@@ -9,7 +9,7 @@
 		"visual_range":             { "fg": "solarized:green", "bg": "solarized:base3", "attrs": ["bold"] },
 		"modified_indicator":       { "fg": "solarized:yellow", "bg": "solarized:base01", "attrs": ["bold"] },
 		"paste_indicator":          { "fg": "solarized:base3", "bg": "solarized:orange", "attrs": ["bold"] },
-		"readonly_indicator":       { "fg": "solarized:red", "bg": "solarized:base01", "attrs": [] },
+		"readonly_indicator":       { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": [] },
 		"branch_dirty":             { "fg": "solarized:yellow", "bg": "solarized:base01", "attrs": [] },
 		"branch:divider":           { "fg": "solarized:base1", "bg": "solarized:base01", "attrs": [] },
 		"file_name":                { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] },

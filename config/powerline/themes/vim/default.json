@@ -13,7 +13,10 @@
 			{
 				"function": "readonly_indicator",
 				"draw_soft_divider": false,
-				"after": " "
+				"after": " ",
+				"args": {
+					"text": "⭤"
+				}
 			},
 			{
 				"function": "file_scheme",
