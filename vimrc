@@ -156,9 +156,6 @@ NeoBundleLazy 'othree/javascript-libraries-syntax.vim'
 NeoBundleLazy 'smarty-syntax'
 NeoBundleLazy 'AndrewRadev/splitjoin.vim'
 NeoBundleLazy 'lilydjwg/colorizer'
-NeoBundleLazy 'thinca/vim-textobj-between', {
-      \   'depends': 'kana/vim-textobj-user',
-      \ }
 NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
       \ }
@@ -1098,20 +1095,6 @@ if neobundle#tap('colorizer')
 endif
 " }}}
 
-" vim-textobj-between {{{
-if neobundle#tap('vim-textobj-between')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'xo', '<Plug>(textobj-between', 'af', 'if' ],
-        \     ],
-        \   },
-        \ })
-  " }}}
-endif
-" }}}
-
 " incsearch.vim {{{
 if neobundle#tap('incsearch.vim')
   " settings {{{
@@ -1149,12 +1132,6 @@ if neobundle#tap('vim-operator-surround')
   map <silent> ra <Plug>(operator-surround-append)
   map <silent> rd <Plug>(operator-surround-delete)
   map <silent> rc <Plug>(operator-surround-replace)
-
-  if neobundle#tap('vim-textobj-between')
-    nmap <silent> raf <Plug>(operator-surround-append)<Plug>(textobj-between-a)
-    nmap <silent> rdf <Plug>(operator-surround-delete)<Plug>(textobj-between-a)
-    nmap <silent> rcf <Plug>(operator-surround-replace)<Plug>(textobj-between-a)
-  endif
   " }}}
 endif
 " }}}
