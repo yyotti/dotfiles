@@ -114,7 +114,10 @@
 				"before": " (",
 				"after": "%)",
 				"width": 4,
-				"align": "r"
+				"align": "r",
+				"args": {
+					"gradient": false
+				}
 			}
 		]
 	}
