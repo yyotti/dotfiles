@@ -1520,19 +1520,17 @@ nnoremap x "_x
 vnoremap x "_x
 
 " vimrcを開く
-nnoremap <silent> ,ev :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
+nnoremap <silent> <Leader>;v :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
-nnoremap <silent> ,rv :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>;r :<C-u>source $MYVIMRC<CR>
 
 if has('gui_running')
   " gvimrcを開く
-  nnoremap <silent> ,eg :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
-  " gvimrcをリロード
-  nnoremap <silent> ,rg :<C-u>source $MYGVIMRC<CR>
+  nnoremap <silent> <Leader>;g :<C-u>edit <C-r>=resolve(expand($MYGVIMRC))<CR><CR>
 endif
 
 " tmux.confを開く
-nnoremap <silent> ,et :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
+nnoremap <silent> <Leader>;t :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
 
 " デフォルトでKはmanをひくようになっているので、変更
 set keywordprg=:help
