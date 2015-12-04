@@ -1402,6 +1402,18 @@ augroup vimrc_del_end_ws
   autocmd BufWritePre * :%s/\s\+$//ge
 augroup END
 
+" シンボリックリンクはリンク先で開く
+command! OpenSymlinkTarget call s:open_symlink_target()
+function! s:open_symlink_target() abort
+  let fpath = resolve(expand('%:p'))
+  let bufname = bufname('%')
+  let pos = getpos('.')
+
+  enew
+  exec 'bwipeout ' . bufname
+  exec 'edit ' . fpath
+  call setpos('.', pos)
+endfunction
 " }}}
 
 " ファイルタイプ設定 {{{
