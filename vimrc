@@ -133,6 +133,7 @@ NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'haya14busa/vim-migemo', {
       \   'disabled': !has('migemo'),
       \ }
+NeoBundle 'haya14busa/incsearch.vim'
 " }}}
 
 " Lazy {{{
@@ -1093,6 +1094,21 @@ if neobundle#tap('colorizer')
     autocmd!
     autocmd FileType html,css :ColorHighlight
   augroup END
+  " }}}
+endif
+" }}}
+
+" incsearch.vim {{{
+if neobundle#tap('incsearch.vim')
+  " settings {{{
+  " very magicを標準にする
+  let g:incsearch#magic = '\v'
+  " }}}
+
+  " キーマッピング {{{
+  nmap / <Plug>(incsearch-forward)
+  nmap ? <Plug>(incsearch-backward)
+  nmap g/ <Plug>(incsearch-stay)
   " }}}
 endif
 " }}}
