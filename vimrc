@@ -93,7 +93,7 @@ NeoBundle 'itchyny/lightline.vim', {
       \ }
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'easymotion/vim-easymotion'
 " TODO 後でLazyにしたい
 NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'sudo.vim', {
