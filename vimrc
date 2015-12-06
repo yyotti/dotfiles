@@ -1441,9 +1441,6 @@ cnoremap <C-d> <Del>
 cnoremap <C-p> <Up>
 " C-nも<Down>にする
 cnoremap <C-n> <Down>
-
-" 検索時のスラッシュ(/)を簡単に入力する
-cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 " }}}
 
 " その他の設定 {{{
