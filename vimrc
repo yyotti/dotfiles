@@ -131,9 +131,11 @@ NeoBundle 'Shougo/neosnippet-snippets', {
       \ }
 NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'haya14busa/vim-migemo', {
-      \   'disabled': !has('migemo'),
+      \   'disabled': 1,
       \ }
-NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'haya14busa/incsearch.vim', {
+      \   'disabled': 1,
+      \ }
 " }}}
 
 " Lazy {{{
