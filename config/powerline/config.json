@@ -1,5 +1,8 @@
 {
 	"common": {
+		"paths":[
+			"~/.config/powerline"
+		],
 		"log_file": "/tmp/powerline.log"
 	},
 	"ext": {
