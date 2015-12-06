@@ -80,7 +80,7 @@ export CLICOLOR=true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # プロンプト
-_prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%m/%d %T}]%f"
+_prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%Y/%m/%d %T}]%f"
 _prompt2="%F{cyan}%_> %f"
 _sprompt="%F{yellow}%r is correct? [Yes, No, Abort, Edit]:%f"
 if [ ${UID} -eq 0 ]; then
