@@ -5,8 +5,8 @@
 				"function": "powerline.segments.common.mail.email_imap_alert",
 				"priority": 30,
 				"args": {
-					"username": "",
-					"password": "",
+					"username": "yosuke.tsutsui",
+					"password": "(PKyr9rcM)",
 					"server": "imap.gmail.com",
 					"port": 993,
 					"use_ssl": true
@@ -18,6 +18,15 @@
 				"args": {
 					"format": "CPU {0:3.1f}%"
 				}
+			},
+			{
+				"function": "ext.tmux.segments.ps.used_memory_percent",
+				"priority": 50,
+				"before": "  ",
+				"args": {
+					"format": "MEM {0:.1f}%"
+				},
+				"draw_soft_divider": false
 			},
 			{
 				"function": "powerline.segments.common.net.network_load",

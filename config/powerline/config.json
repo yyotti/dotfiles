@@ -1,0 +1,9 @@
+{
+	"common": {
+		"term_truecolor": false,
+		"log_file": "/tmp/powerline.log",
+		"paths": [
+			"~/.config/powerline"
+		]
+	}
+}
