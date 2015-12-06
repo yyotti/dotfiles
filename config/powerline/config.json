@@ -7,8 +7,8 @@
 	},
 	"ext": {
 		"vim": {
-			"colorscheme": "solarized",
-			"theme": "default",
+			"colorscheme": "custom",
+			"theme": "custom",
 			"local_themes": {
 				"__tabline__": "tabline",
 
