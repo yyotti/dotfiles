@@ -1306,6 +1306,8 @@ if !has('gui_running')
   endif
 endif
 
+" INSERTモード時などに --INSERT-- などを表示させない
+set noshowmode
 
 " 行番号を表示
 set number
