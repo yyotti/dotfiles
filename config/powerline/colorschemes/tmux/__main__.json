@@ -1,6 +1,8 @@
 {
 	"groups": {
 		"used_memory_percent": "cpu_load_percent",
-		"used_memory_percent_gradient": "cpu_load_percent_gradient"
+		"used_memory_percent_gradient": "cpu_load_percent_gradient",
+		"used_memory": "cpu_load_percent",
+		"total_memory": "cpu_load_percent"
 	}
 }

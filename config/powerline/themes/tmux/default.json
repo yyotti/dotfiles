@@ -20,9 +20,21 @@
 				}
 			},
 			{
+				"function": "ext.tmux.segments.ps.used_memory",
+				"priority": 50
+			},
+			{
+				"function": "ext.tmux.segments.ps.total_memory",
+				"priority": 50,
+				"before": "/",
+				"after": " MB",
+				"draw_soft_divider": false
+			},
+			{
 				"function": "ext.tmux.segments.ps.used_memory_percent",
 				"priority": 50,
-				"before": "  ",
+				"before": " (",
+				"after": ")",
 				"args": {
 					"format": "MEM {0:.1f}%"
 				},
