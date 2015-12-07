@@ -107,10 +107,7 @@
 				"before": " (",
 				"after": "%)",
 				"width": 4,
-				"align": "r",
-				"args": {
-					"gradient": false
-				}
+				"align": "r"
 			},
 			{
 				"exclude_modes": ["nc"],
