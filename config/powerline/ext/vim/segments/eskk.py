@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# vim:se fenc=utf8 noet:
+# vim:se fenc=utf8 noet ts=8 sw=8 sts=8:
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
 try:
