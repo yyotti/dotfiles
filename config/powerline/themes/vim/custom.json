@@ -56,11 +56,6 @@
 		],
 		"right": [
 			{
-				"exclude_modes": ["nc"],
-				"function": "powerline.segments.vim.plugin.syntastic.syntastic",
-				"priority": 70
-			},
-			{
 				"function": "file_format",
 				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
@@ -105,6 +100,11 @@
 				"args": {
 					"gradient": false
 				}
+			},
+			{
+				"exclude_modes": ["nc"],
+				"function": "ext.vim.segments.watchdogs.watchdogs",
+				"priority": 70
 			}
 		]
 	}
