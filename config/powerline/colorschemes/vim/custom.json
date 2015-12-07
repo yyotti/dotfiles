@@ -36,7 +36,6 @@
 		},
 		"i": {
 			"groups": {
-				"background": "mode",
 				"mode": { "fg": "solarized:base3", "bg": "solarized:green", "attrs": [] }
 			}
 		},
