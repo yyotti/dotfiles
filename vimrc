@@ -86,9 +86,9 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-let g:powerline_enable = 0 && !has('gui_running')
+" TODO そのうちGVimにも適用する
 NeoBundle 'itchyny/lightline.vim', {
-      \   'disabled': g:powerline_enable && has('python') && executable('powerline-daemon'),
+      \   'disabled': has('python') && executable('powerline-daemon') && !has('gui_running'),
       \ }
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
@@ -227,6 +227,8 @@ if neobundle#tap('unite.vim')
   let g:unite_source_history_yank_enable=1
   " ファイル履歴のMAX
   let g:unite_source_file_mru_limit=200
+  " ステータスラインを強制的に書き換えるのを抑止する
+  let g:unite_force_overwrite_statusline = 0
   " }}}
 
   " キーマッピング {{{
@@ -266,6 +268,8 @@ if neobundle#tap('vimfiler')
   " settings {{{
   " デフォルトのファイラをvimfilerに置き換える
   let g:vimfiler_as_default_explorer = 1
+  " ステータスラインを強制的に書き換えるのを抑止する
+  let g:vimfiler_force_overwrite_statusline = 0
   " }}}
 
   " キーマッピング {{{
@@ -444,6 +448,8 @@ if neobundle#tap('vimshell')
   " settings {{{
   let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
   let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
+  " ステータスラインを強制的に書き換えるのを抑止する
+  let g:vimshell_force_overwrite_statusline = 0
   " }}}
 
   " キーマッピング {{{
@@ -716,8 +722,9 @@ if neobundle#tap('restart.vim')
 endif
 " }}}
 
-" lightline.vim {{{
+" lightline.vim/powerline {{{
 if neobundle#tap('lightline.vim')
+  " lightline.vim {{{
   " settings {{{
   let g:lightline = {
         \   'separator': {
@@ -880,11 +887,18 @@ if neobundle#tap('lightline.vim')
     catch
     endtry
   endfunction
+  " }}}
+  " }}}
+else
+  " powerline {{{
+  set rtp+=~/git/powerline/powerline/bindings/vim
 
-  " Uniteたちがステータスラインを強制的に書き換えるのを抑制
-  let g:unite_force_overwrite_statusline = 0
-  let g:vimfiler_force_overwrite_statusline = 0
-  let g:vimshell_force_overwrite_statusline = 0
+  python from powerline.vim import setup as powerline_setup
+  python powerline_setup()
+  python del powerline_setup
+
+  " powerline再起動のコマンド
+  nnoremap <Leader>pr :<C-u>python powerline.reload()<CR>
   " }}}
 endif
 " }}}
@@ -1823,23 +1837,5 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
     echo a:msg
     echohl None
   endfunction
-endif
-" }}}
-
-" powerline {{{
-if g:powerline_enable && has('python') && executable('powerline-daemon')
-  set rtp+=~/git/powerline/powerline/bindings/vim
-
-  python from powerline.vim import setup as powerline_setup
-  python powerline_setup()
-  python del powerline_setup
-
-  " Uniteたちがステータスラインを強制的に書き換えるのを抑制
-  let g:unite_force_overwrite_statusline = 0
-  let g:vimfiler_force_overwrite_statusline = 0
-  let g:vimshell_force_overwrite_statusline = 0
-
-  " powerline再起動のコマンド
-  nnoremap <Leader>pr :<C-u>python powerline.reload()<CR>
 endif
 " }}}
