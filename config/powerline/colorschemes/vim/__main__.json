@@ -1,6 +1,7 @@
 {
 	"groups": {
 		"watchdogs": "information:additional",
-		"eskk": "mode"
+		"eskk": "mode",
+		"gitgutter_hunks": "branch"
 	}
 }

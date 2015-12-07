@@ -45,9 +45,13 @@
 				"draw_soft_divider": false
 			},
 			{
-				"function": "file_vcs_status",
-				"before": " ",
-				"draw_soft_divider": false
+				"function": "ext.vim.segments.gitgutter.hunks",
+				"priority": 30,
+				"before": " [",
+				"after": "]",
+				"args": {
+					"sign_subsep": ":"
+				}
 			},
 			{
 				"type": "string",
