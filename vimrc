@@ -894,7 +894,7 @@ else
   set rtp+=~/git/powerline/powerline/bindings/vim
 
   " powerline再起動のコマンド
-  nnoremap <Leader>pr :<C-u>python powerline.reload()<CR>
+  nnoremap <silent> <Leader>pr :<C-u>python powerline.reload()<CR>
   " }}}
 endif
 " }}}
