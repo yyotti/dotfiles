@@ -9,11 +9,9 @@ except ImportError:
 
 import re
 
-from powerline.theme import requires_segment_info
 from powerline.bindings.vim import (vim_func_exists, vim_global_exists, vim_get_func, vim_getvar)
 
-@requires_segment_info
-def hunks(pl, segment_info, sign_added='A', sign_modified='M', sign_deleted='D', sign_sep=' ', sign_subsep=' '):
+def hunks(pl, sign_added='A', sign_modified='M', sign_deleted='D', sign_sep=' ', sign_subsep=' '):
 	if not vim_func_exists('GitGutterGetHunkSummary'):
 		return []
 
