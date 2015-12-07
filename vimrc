@@ -893,10 +893,6 @@ else
   " powerline {{{
   set rtp+=~/git/powerline/powerline/bindings/vim
 
-  python from powerline.vim import setup as powerline_setup
-  python powerline_setup()
-  python del powerline_setup
-
   " powerline再起動のコマンド
   nnoremap <Leader>pr :<C-u>python powerline.reload()<CR>
   " }}}
