@@ -1836,5 +1836,8 @@ if g:powerline_enable && has('python') && executable('powerline-daemon')
   let g:unite_force_overwrite_statusline = 0
   let g:vimfiler_force_overwrite_statusline = 0
   let g:vimshell_force_overwrite_statusline = 0
+
+  " powerline再起動のコマンド
+  nnoremap <Leader>pr :<C-u>python powerline.reload()<CR>
 endif
 " }}}
