@@ -5,8 +5,8 @@
 				"function": "powerline.segments.common.mail.email_imap_alert",
 				"priority": 30,
 				"args": {
-					"username": "yosuke.tsutsui",
-					"password": "(PKyr9rcM)",
+					"username": "",
+					"password": "",
 					"server": "imap.gmail.com",
 					"port": 993,
 					"use_ssl": true
