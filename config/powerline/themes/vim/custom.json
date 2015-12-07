@@ -6,6 +6,9 @@
 				"exclude_modes": ["nc"]
 			},
 			{
+				"function": "ext.vim.segments.eskk.eskk_status"
+			},
+			{
 				"function": "paste_indicator",
 				"exclude_modes": ["nc"],
 				"priority": 10

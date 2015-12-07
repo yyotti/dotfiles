@@ -1,5 +1,6 @@
 {
 	"groups": {
-		"watchdogs": "information:additional"
+		"watchdogs": "information:additional",
+		"eskk": "mode"
 	}
 }

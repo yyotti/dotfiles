@@ -807,14 +807,6 @@ if neobundle#tap('lightline.vim')
           \ (!empty(s:modified()) ? ' '.s:modified() : '')
   endfunction
 
-  function! EskkVisible() abort
-    return exists('*eskk#statusline') && !empty(eskk#statusline())
-  endfunction
-
-  function! Eskk() abort
-    return EskkVisible() ? matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ''
-  endfunction
-
   function! FugitiveVisible() abort
     return &ft != 'vimfiler' && exists('*fugitive#head') && !empty(fugitive#head())
   endfunction
@@ -1829,4 +1821,14 @@ if g:powerline_enable && has('python') && executable('powerline-daemon')
   let g:vimfiler_force_overwrite_statusline = 0
   let g:vimshell_force_overwrite_statusline = 0
 endif
+" }}}
+
+" ステータスラインのための関数 {{{
+function! EskkVisible() abort
+  return exists('*eskk#statusline') && !empty(eskk#statusline())
+endfunction
+
+function! Eskk() abort
+  return EskkVisible() ? matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ''
+endfunction
 " }}}
