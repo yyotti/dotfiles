@@ -86,7 +86,10 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'itchyny/lightline.vim'
+let g:powerline_enable = 0 && !has('gui_running')
+NeoBundle 'itchyny/lightline.vim', {
+      \   'disabled': g:powerline_enable && has('python') && executable('powerline-daemon'),
+      \ }
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'easymotion/vim-easymotion'
@@ -1810,5 +1813,20 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
     echo a:msg
     echohl None
   endfunction
+endif
+" }}}
+
+" powerline {{{
+if g:powerline_enable && has('python') && executable('powerline-daemon')
+  set rtp+=~/git/powerline/powerline/bindings/vim
+
+  python from powerline.vim import setup as powerline_setup
+  python powerline_setup()
+  python del powerline_setup
+
+  " Uniteたちがステータスラインを強制的に書き換えるのを抑制
+  let g:unite_force_overwrite_statusline = 0
+  let g:vimfiler_force_overwrite_statusline = 0
+  let g:vimshell_force_overwrite_statusline = 0
 endif
 " }}}
