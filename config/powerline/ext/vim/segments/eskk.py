@@ -7,16 +7,26 @@ try:
 except ImportError:
 	vim = object()
 
-from powerline.bindings.vim import vim_get_func
+import re
+
+from powerline.bindings.vim import (vim_func_exists, vim_get_func)
 
 def eskk_status(pl):
 	'''Show eskk status
 	Highlight groups used ``eskk``
 	'''
 
-	str = vim_get_func('Eskk')()
+	if not vim_func_exists('eskk#statusline'):
+		return []
 
-	return [] if str == u'' else [{
-		'contents': str,
+	str = vim_get_func('eskk#statusline')()
+
+	mode_str_regex = re.compile(r'^\[eskk:(.+)\]$')
+	m = re.search(mode_str_regex, str)
+	if not m:
+		return []
+
+	return [{
+		'contents': m.group(1),
 		'highlight_groups': ['eskk']
 		}]
