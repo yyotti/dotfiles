@@ -2,6 +2,7 @@
 	"groups": {
 		"watchdogs": "information:additional",
 		"eskk": "mode",
-		"gitgutter_hunks": "branch"
+		"gitgutter_hunks": "branch",
+		"anzu_search_status": "background"
 	}
 }

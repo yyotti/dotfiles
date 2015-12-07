@@ -63,8 +63,12 @@
 		],
 		"right": [
 			{
-				"function": "file_format",
+				"function": "ext.vim.segments.anzu.search_status",
 				"draw_soft_divider": false,
+				"priority": 10
+			},
+			{
+				"function": "file_format",
 				"exclude_modes": ["nc"],
 				"priority": 60
 			},
