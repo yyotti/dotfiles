@@ -9,7 +9,8 @@
 					"password": "",
 					"server": "imap.gmail.com",
 					"port": 993,
-					"use_ssl": true
+					"use_ssl": true,
+					"interval": 30
 				}
 			},
 			{
