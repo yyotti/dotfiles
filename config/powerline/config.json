@@ -1,9 +1,14 @@
 {
 	"common": {
-		"term_truecolor": false,
-		"log_file": "/tmp/powerline.log",
-		"paths": [
+		"paths":[
 			"~/.config/powerline"
-		]
+		],
+		"log_file": "/tmp/powerline.log"
+	},
+	"ext": {
+		"vim": {
+			"colorscheme": "custom",
+			"theme": "custom"
+		}
 	}
 }
