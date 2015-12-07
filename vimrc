@@ -1273,6 +1273,14 @@ if neobundle#tap('ghcmod-vim')
 endif
 " }}}
 
+" unite-googletodo {{{
+if neobundle#tap('unite-googletodo')
+  " キーマッピング {{{
+  nnoremap [unite]t :<C-u>Unite googletodo<CR>
+  " }}}
+endif
+" }}}
+
 " }}}
 
 call neobundle#end()
