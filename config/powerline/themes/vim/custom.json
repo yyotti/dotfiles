@@ -6,7 +6,8 @@
 				"exclude_modes": ["nc"]
 			},
 			{
-				"function": "ext.vim.segments.eskk.eskk_status"
+				"function": "ext.vim.segments.eskk.eskk_status",
+				"exclude_modes": ["nc"]
 			},
 			{
 				"function": "paste_indicator",
@@ -46,6 +47,7 @@
 			},
 			{
 				"function": "ext.vim.segments.gitgutter.hunks",
+				"exclude_modes": ["nc"],
 				"priority": 30,
 				"before": " [",
 				"after": "]",
@@ -64,6 +66,7 @@
 		"right": [
 			{
 				"function": "ext.vim.segments.anzu.search_status",
+				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
 				"priority": 10
 			},
@@ -110,8 +113,8 @@
 				"align": "r"
 			},
 			{
-				"exclude_modes": ["nc"],
 				"function": "ext.vim.segments.watchdogs.watchdogs",
+				"exclude_modes": ["nc"],
 				"priority": 70
 			}
 		]
