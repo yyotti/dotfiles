@@ -1447,6 +1447,14 @@ augroup vimrc_ftdetect_haskell
 augroup END
 " }}}
 
+" python {{{
+" pythonを扱うのはpowerlineの設定くらいだと思うので
+augroup vimrc_ftdetect_python
+  autocmd!
+  autocmd FileType python setlocal noexpandtab shiftwidth=8 softtabstop=8 tabstop=8
+augroup END
+
+" }}}
 " }}}
 
 " コマンドラインの設定 {{{
