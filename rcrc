@@ -1,3 +1,3 @@
 DOTFILES_DIRS="$HOME/git/unix_settings"
 COPY_ALWAYS="vim/refs/php_manual_ja.tar.gz"
-EXCLUDES="README.md ctags_template install config/powerline/mail_config.template.json"
+EXCLUDES="README.md ctags_template install *template.json"
