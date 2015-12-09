@@ -1627,20 +1627,19 @@ nnoremap <silent> <Leader>ip :<C-u>diffput<CR>
 " }}}
 
 " autoftp {{{
-if neobundle#tap('vital.vim') && executable('ncftpput')
+if neobundle#tap('vital.vim') && executable('scp')
   " .autoftp.json
   " {
   "     "enable": 1,
   "     "host": "",
   "     "user": "",
-  "     "pass": "",
   "     "timeout": 10,
-  "     "passive": 1,
   "     "remote_base": "/path/to/base",
   "     "path_map": {
   "         "/path/to/local": "/path/to/remote"
   "     }
   " }
+  " ### path_mapに指定するのは相対パスでもよい。 ###
   "
   " ### パスの作られ方と変換方法 ###
   " (前提)
@@ -1666,9 +1665,10 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
   "     ... このあたりは省略 ...
   "     "remote_base": "/remote/root",
   "     "path_map": {
-  "         "/local/path/to/project_root/users": "/remote/root/members"
+  "         "users": "members"
   "     }
   " }
+  " remote_baseを空にした場合、sshのホームディレクトリからの相対パスにされる。
 
   augroup vimrc_autoftp
     autocmd!
@@ -1685,6 +1685,10 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
   let s:autoftp_config_default = {
         \   'enable': 1,
         \ }
+
+  function! s:add_last_slash(path) abort
+    return !empty(a:path) && a:path !~# '/$' ? a:path.'/' : a:path
+  endfunction
 
   function! s:autoftp_init() abort
     if get(b:, 'autoftp_init', 0)
@@ -1704,16 +1708,18 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
       return
     endif
 
-    let local_base = fnamemodify(conf_file, ':p:h')
+    let local_base = s:add_last_slash(fnamemodify(conf_file, ':p:h'))
 
     let relpath = s:autoftp_relpath(expand('%:p'), local_base)
-    let b:autoftp_remote_dir = fnamemodify(b:autoftp_config.remote_base . relpath, ':h')
+    let b:autoftp_remote_dir = fnamemodify(relpath, ':h')
     for from in keys(b:autoftp_config.path_map)
-      if stridx(b:autoftp_remote_dir, from) == 0
-        let b:autoftp_remote_dir = substitute(b:autoftp_remote_dir, from, b:autoftp_config.path_map[from], '')
+      let remote = s:add_last_slash(b:autoftp_remote_dir)
+      if stridx(remote, from) == 0
+        let b:autoftp_remote_dir = s:add_last_slash(substitute(remote, from, b:autoftp_config.path_map[from], ''))
         break
       endif
     endfor
+    let b:autoftp_remote_dir = s:add_last_slash(b:autoftp_config.remote_base) . b:autoftp_remote_dir
 
     let b:autoftp_local_path = local_base . relpath
 
@@ -1722,15 +1728,9 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
 
   function! s:autoftp_relpath(path, base) abort
     let p = expand(a:path)
-    if isdirectory(p) && p !~# '/$'
-      let p .= '/'
-    endif
-    let b = expand(a:base)
-    if isdirectory(b) && b !~# '/$'
-      let b .= '/'
-    endif
+    let b = s:add_last_slash(expand(a:base))
 
-    return stridx(p, b) == 0 ? p[strlen(b) - 1:] : p
+    return stridx(p, b) == 0 ? p[strlen(b):] : p
   endfunction
 
   function! s:autoftp_upload(force) abort
@@ -1738,19 +1738,29 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
       return
     endif
 
-    let cmd  = 'ncftpput'
-    let cmd .= ' -u '.shellescape(b:autoftp_config.user)
-    let cmd .= ' -p '.shellescape(b:autoftp_config.pass)
-    if !b:autoftp_config.passive
-      let cmd .= ' -E'
+    let remote = shellescape(b:autoftp_config.user) . '@' . shellescape(b:autoftp_config.host)
+
+    " ディレクトリが存在しなければ作る
+    let cmd  = 'ssh'
+    let cmd .= ' '
+    let cmd .= remote
+    let cmd .= ' '
+    let cmd .= '"mkdir -p ' . shellescape(b:autoftp_remote_dir) . '"'
+
+    let res = system(cmd)
+    if !empty(res)
+      call s:err_msg(res)
     endif
-    let cmd .= ' -m -V'
+
+    " ファイルコピー
+    let cmd  = 'scp'
     if b:autoftp_config.timeout > 0
-      let cmd .= ' -t '.b:autoftp_config.timeout
+      let cmd .= ' -o "ConnectTimeout ' . b:autoftp_config.timeout . '"'
     endif
-    let cmd .= ' '.shellescape(b:autoftp_config.host)
-    let cmd .= ' '.shellescape(b:autoftp_remote_dir)
-    let cmd .= ' '.shellescape(b:autoftp_local_path)
+    let cmd .= ' '
+    let cmd .= shellescape(b:autoftp_local_path)
+    let cmd .= ' '
+    let cmd .= remote . ':' . shellescape(b:autoftp_remote_dir)
 
     let res = system(cmd)
     if !empty(res)
@@ -1800,11 +1810,6 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
       return 0
     endif
 
-    if !has_key(a:config, 'pass') || type(a:config.pass) != 1 || empty(a:config.pass)
-      call s:err_msg('.autoftp.josn error: passは文字列で必ず指定してください')
-      return 0
-    endif
-
     if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
       call s:err_msg('autoftp error: timeoutは正数で指定してください')
       return 0
@@ -1822,11 +1827,6 @@ if neobundle#tap('vital.vim') && executable('ncftpput')
           return 0
         endif
       endfor
-    endif
-
-    if has_key(a:config, 'passive') && type(a:config.passive) != 0
-      call s:err_msg('autoftp error: passiveは真偽値で指定してください')
-      return 0
     endif
 
     if has_key(a:config, 'enable') && type(a:config.enable) != 0
