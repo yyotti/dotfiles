@@ -1626,9 +1626,9 @@ nnoremap <silent> <Leader>ig :<C-u>diffget<CR>
 nnoremap <silent> <Leader>ip :<C-u>diffput<CR>
 " }}}
 
-" autoftp {{{
+" autoscp {{{
 if neobundle#tap('vital.vim') && executable('scp')
-  " .autoftp.json
+  " .autoscp.json
   " {
   "     "enable": 1,
   "     "host": "",
@@ -1649,7 +1649,7 @@ if neobundle#tap('vital.vim') && executable('scp')
   "       │    ├ edit/
   "       │    │    └ index.html
   "       │    └ index.html
-  "       ├ .autoftp.json
+  "       ├ .autoscp.json
   "       └ index.html
   "
   "     /remote/root
@@ -1659,7 +1659,7 @@ if neobundle#tap('vital.vim') && executable('scp')
   "       │    └ index.html
   "       └ index.html
   "
-  " この場合、.autoftp.json に下記のように記述する。
+  " この場合、.autoscp.json に下記のように記述する。
   " {
   "     "enable": 1,
   "     ... このあたりは省略 ...
@@ -1670,19 +1670,19 @@ if neobundle#tap('vital.vim') && executable('scp')
   " }
   " remote_baseを空にした場合、sshのホームディレクトリからの相対パスにされる。
 
-  augroup vimrc_autoftp
+  augroup vimrc_autoscp
     autocmd!
-    autocmd! BufWinEnter *.php,*.tpl,*.css,*.js call s:autoftp_init()
-    autocmd! BufWritePost *.php,*.tpl,*.css,*.js call s:autoftp_upload(0)
+    autocmd! BufWinEnter *.php,*.tpl,*.css,*.js call s:autoscp_init()
+    autocmd! BufWritePost *.php,*.tpl,*.css,*.js call s:autoscp_upload(0)
   augroup END
 
-  command! AutoFtpUpload call s:autoftp_upload(1)
-  command! AutoFtpToggle call s:autoftp_toggle_enable()
+  command! AutoScpUpload call s:autoscp_upload(1)
+  command! AutoScpToggle call s:autoscp_toggle_enable()
 
   let s:Vital = vital#of('vital')
   let s:Json = s:Vital.import('Web.JSON')
 
-  let s:autoftp_config_default = {
+  let s:autoscp_config_default = {
         \   'enable': 1,
         \ }
 
@@ -1690,62 +1690,62 @@ if neobundle#tap('vital.vim') && executable('scp')
     return !empty(a:path) && a:path !~# '/$' ? a:path.'/' : a:path
   endfunction
 
-  function! s:autoftp_init() abort
-    if get(b:, 'autoftp_init', 0)
+  function! s:autoscp_init() abort
+    if get(b:, 'autoscp_init', 0)
       return
     endif
 
-    let conf_file_name = get(g:, 'autoftp_conf_name', '.autoftp.json')
+    let conf_file_name = get(g:, 'autoscp_conf_name', '.autoscp.json')
     let conf_file = findfile(conf_file_name, fnamemodify(expand('%'), ':p:h') . ';**/')
     if empty(conf_file)
-      let b:autoftp_init = 1
+      let b:autoscp_init = 1
       return
     endif
 
     let conf_file = fnamemodify(conf_file, ':p')
     if !s:load_config(conf_file)
-      let b:autoftp_init = 1
+      let b:autoscp_init = 1
       return
     endif
 
     let local_base = s:add_last_slash(fnamemodify(conf_file, ':p:h'))
 
-    let relpath = s:autoftp_relpath(expand('%:p'), local_base)
-    let b:autoftp_remote_dir = fnamemodify(relpath, ':h')
-    for from in keys(b:autoftp_config.path_map)
-      let remote = s:add_last_slash(b:autoftp_remote_dir)
+    let relpath = s:autoscp_relpath(expand('%:p'), local_base)
+    let b:autoscp_remote_dir = fnamemodify(relpath, ':h')
+    for from in keys(b:autoscp_config.path_map)
+      let remote = s:add_last_slash(b:autoscp_remote_dir)
       if stridx(remote, from) == 0
-        let b:autoftp_remote_dir = s:add_last_slash(substitute(remote, from, b:autoftp_config.path_map[from], ''))
+        let b:autoscp_remote_dir = s:add_last_slash(substitute(remote, from, b:autoscp_config.path_map[from], ''))
         break
       endif
     endfor
-    let b:autoftp_remote_dir = s:add_last_slash(b:autoftp_config.remote_base) . b:autoftp_remote_dir
+    let b:autoscp_remote_dir = s:add_last_slash(b:autoscp_config.remote_base) . b:autoscp_remote_dir
 
-    let b:autoftp_local_path = local_base . relpath
+    let b:autoscp_local_path = local_base . relpath
 
-    let b:autoftp_init = 1
+    let b:autoscp_init = 1
   endfunction
 
-  function! s:autoftp_relpath(path, base) abort
+  function! s:autoscp_relpath(path, base) abort
     let p = expand(a:path)
     let b = s:add_last_slash(expand(a:base))
 
     return stridx(p, b) == 0 ? p[strlen(b):] : p
   endfunction
 
-  function! s:autoftp_upload(force) abort
-    if !exists('b:autoftp_config') || !a:force && !b:autoftp_config.enable
+  function! s:autoscp_upload(force) abort
+    if !exists('b:autoscp_config') || !a:force && !b:autoscp_config.enable
       return
     endif
 
-    let remote = shellescape(b:autoftp_config.user) . '@' . shellescape(b:autoftp_config.host)
+    let remote = shellescape(b:autoscp_config.user) . '@' . shellescape(b:autoscp_config.host)
 
     " ディレクトリが存在しなければ作る
     let cmd  = 'ssh'
     let cmd .= ' '
     let cmd .= remote
     let cmd .= ' '
-    let cmd .= '"mkdir -p ' . shellescape(b:autoftp_remote_dir) . '"'
+    let cmd .= '"mkdir -p ' . shellescape(b:autoscp_remote_dir) . '"'
 
     let res = system(cmd)
     if !empty(res)
@@ -1754,13 +1754,13 @@ if neobundle#tap('vital.vim') && executable('scp')
 
     " ファイルコピー
     let cmd  = 'scp'
-    if b:autoftp_config.timeout > 0
-      let cmd .= ' -o "ConnectTimeout ' . b:autoftp_config.timeout . '"'
+    if b:autoscp_config.timeout > 0
+      let cmd .= ' -o "ConnectTimeout ' . b:autoscp_config.timeout . '"'
     endif
     let cmd .= ' '
-    let cmd .= shellescape(b:autoftp_local_path)
+    let cmd .= shellescape(b:autoscp_local_path)
     let cmd .= ' '
-    let cmd .= remote . ':' . shellescape(b:autoftp_remote_dir)
+    let cmd .= remote . ':' . shellescape(b:autoscp_remote_dir)
 
     let res = system(cmd)
     if !empty(res)
@@ -1768,13 +1768,13 @@ if neobundle#tap('vital.vim') && executable('scp')
     endif
   endfunction
 
-  function! s:autoftp_toggle_enable() abort
-    if !exists('b:autoftp_config')
-      call s:err_msg('autoftpが初期化されていません')
+  function! s:autoscp_toggle_enable() abort
+    if !exists('b:autoscp_config')
+      call s:err_msg('autoscpが初期化されていません')
       return
     endif
 
-    let b:autoftp_config.enable = !b:autoftp_config.enable
+    let b:autoscp_config.enable = !b:autoscp_config.enable
   endfunction
 
   function! s:load_config(file_path) abort
@@ -1793,44 +1793,44 @@ if neobundle#tap('vital.vim') && executable('scp')
       return 0
     endif
 
-    let b:autoftp_config = json
-    call extend(b:autoftp_config, s:autoftp_config_default, 'keep')
+    let b:autoscp_config = json
+    call extend(b:autoscp_config, s:autoscp_config_default, 'keep')
 
     return 1
   endfunction
 
   function! s:check_config(config) abort
     if !has_key(a:config, 'host') || type(a:config.host) != 1 || empty(a:config.host)
-      call s:err_msg('.autoftp.josn error: hostは文字列で必ず指定してください')
+      call s:err_msg('.autoscp.josn error: hostは文字列で必ず指定してください')
       return 0
     endif
 
     if !has_key(a:config, 'user') || type(a:config.user) != 1 || empty(a:config.user)
-      call s:err_msg('.autoftp.josn error: userは文字列で必ず指定してください')
+      call s:err_msg('.autoscp.josn error: userは文字列で必ず指定してください')
       return 0
     endif
 
     if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
-      call s:err_msg('autoftp error: timeoutは正数で指定してください')
+      call s:err_msg('autoscp error: timeoutは正数で指定してください')
       return 0
     endif
 
     if has_key(a:config, 'path_map') && (type(a:config.timeout) != 4)
       if type(a:config.path_map) != 4
-        call s:err_msg('autoftp error: path_mapは辞書型で指定してください')
+        call s:err_msg('autoscp error: path_mapは辞書型で指定してください')
         return 0
       endif
 
       for key in keys(a:config.path_map)
         if type(a:config.path_map[key]) != 1
-          call s:err_msg('autoftp error: path_mapの値は文字列でなければなりません')
+          call s:err_msg('autoscp error: path_mapの値は文字列でなければなりません')
           return 0
         endif
       endfor
     endif
 
     if has_key(a:config, 'enable') && type(a:config.enable) != 0
-      call s:err_msg('autoftp error: enableは真偽値で指定してください')
+      call s:err_msg('autoscp error: enableは真偽値で指定してください')
       return 0
     endif
 
