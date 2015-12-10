@@ -918,8 +918,8 @@ if neobundle#tap('vim-gitgutter')
   nnoremap <silent> [git]h :<C-u>GitGutterLineHighlightsToggle<CR>
 
   " gitgutterのデフォルトマッピングを無効にしているので、必要なものを追加する
-  nmap [c <Plug>GitGutterPrevHunkzzzv
-  nmap ]c <Plug>GitGutterNextHunkzzzv
+  nmap [c <Plug>GitGutterPrevHunkzvzz
+  nmap ]c <Plug>GitGutterNextHunkzvzz
   " }}}
 endif
 " }}}
@@ -935,10 +935,10 @@ if neobundle#tap('vim-anzu')
   " }}}
 
   " キーマッピング {{{
-  nmap n <Plug>(anzu-n)zzzv
-  nmap N <Plug>(anzu-N)zzzv
-  nmap * <Plug>(anzu-star)zzzv
-  nmap # <Plug>(anzu-sharp)zzzv
+  nmap n <Plug>(anzu-n)zvzz
+  nmap N <Plug>(anzu-N)zvzz
+  nmap * <Plug>(anzu-star)zvzz
+  nmap # <Plug>(anzu-sharp)zvzz
 
   " ESC連打でハイライトを消す
   nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
@@ -1559,10 +1559,10 @@ vnoremap gk k
 nnoremap Y y$
 
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
-nnoremap * *<C-o>zzzv
-nnoremap g* g*<C-o>zzzv
-nnoremap # #<C-o>zzzv
-nnoremap g# g#<C-o>zzzv
+nnoremap * *<C-o>zvzz
+nnoremap g* g*<C-o>zvzz
+nnoremap # #<C-o>zvzz
+nnoremap g# g#<C-o>zvzz
 
 " a>やi>を記号に置き換える
 " キーボード配列によらず使えるのもいい
