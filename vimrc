@@ -1314,7 +1314,7 @@ if neobundle#tap('unite-googletodo')
   " }}}
 
   " キーマッピング {{{
-  nnoremap [unite]t :<C-u>Unite googletodo<CR>
+  nnoremap [unite]t :<C-u>Unite googletodo -no-start-insert<CR>
   " }}}
 endif
 " }}}
