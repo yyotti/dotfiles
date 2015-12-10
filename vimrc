@@ -1436,7 +1436,7 @@ endfunction
 " ファイルタイプ設定 {{{
 
 " PHP {{{
-" let g:php_folding = 1
+let g:php_folding = 1
 
 " DBをMySQLにする（シンタックスハイライトがきく？）
 let g:sql_type_default='mysql'
