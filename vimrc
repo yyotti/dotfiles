@@ -1298,6 +1298,19 @@ endif
 
 " unite-googletodo {{{
 if neobundle#tap('unite-googletodo')
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source': 'unite.vim'
+        \   },
+        \ })
+  " }}}
+
+  " settings {{{
+  " 完了後にすぐクリアする
+  let g:unite#googletodo#clear_on_complete = 1
+  " }}}
+
   " キーマッピング {{{
   nnoremap [unite]t :<C-u>Unite googletodo<CR>
   " }}}
