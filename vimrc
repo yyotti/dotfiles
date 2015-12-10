@@ -472,6 +472,8 @@ endif
 " eskk {{{
 if neobundle#tap('eskk.vim')
   " settings {{{
+  let g:eskk#marker_henkan = '>'
+  let g:eskk#marker_henkan_select = '@'
   let g:eskk#directory = '~/.skk'
   if has('gui_running')
     set imdisable
