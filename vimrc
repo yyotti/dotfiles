@@ -1686,6 +1686,9 @@ if neobundle#tap('vital.vim') && executable('scp')
 
   let s:autoscp_config_default = {
         \   'enable': 1,
+        \   'timeout': -1,
+        \   'remote_base': '',
+        \   'path_map': {}
         \ }
 
   function! s:add_last_slash(path) abort
