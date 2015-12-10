@@ -1438,8 +1438,6 @@ endfunction
 " PHP {{{
 let g:php_folding = 1
 
-" DBをMySQLにする（シンタックスハイライトがきく？）
-let g:sql_type_default='mysql'
 augroup vimrc_ftdetect_php
   autocmd!
   autocmd FileType php setlocal expandtab shiftwidth=4 softtabstop=4
