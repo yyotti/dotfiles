@@ -1436,8 +1436,6 @@ endfunction
 " ファイルタイプ設定 {{{
 
 " PHP {{{
-let g:php_folding = 1
-
 augroup vimrc_ftdetect_php
   autocmd!
   autocmd FileType php setlocal expandtab shiftwidth=4 softtabstop=4
