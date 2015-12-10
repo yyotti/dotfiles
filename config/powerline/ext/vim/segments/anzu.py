@@ -16,7 +16,7 @@ def search_status(pl):
 		return []
 
 	status = vim_get_func('anzu#search_status')()
-	if status == '':
+	if status == u'':
 		return []
 
 	return [] if len(status) == 0 else [{
