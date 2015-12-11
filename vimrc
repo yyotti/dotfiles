@@ -476,6 +476,12 @@ if neobundle#tap('eskk.vim')
     let g:eskk#marker_henkan = '>'
     let g:eskk#marker_henkan_select = '@'
   endif
+  if executable('google-ime-skk')
+    let g:eskk#server = {
+          \   'host': 'localhost',
+          \   'port': 55100,
+          \ }
+  endif
   let g:eskk#directory = '~/.skk'
   if has('gui_running')
     set imdisable
