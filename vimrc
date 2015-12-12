@@ -906,6 +906,12 @@ else
 
   " powerline再起動のコマンド
   nnoremap <silent> <Leader>pr :<C-u>python powerline.reload()<CR>
+
+  " リアルタイムにカラースキームを書き換えるための細工
+  augroup vimrc_powerline_colorscheme
+    autocmd!
+    autocmd ColorScheme * :python if 'powerline' in globals(): powerline.reload()
+  augroup END
   " }}}
 endif
 " }}}
