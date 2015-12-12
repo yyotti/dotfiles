@@ -88,7 +88,7 @@ NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
 " TODO そのうちGVimにも適用する
 NeoBundle 'itchyny/lightline.vim', {
-      \   'disabled': has('python') && executable('powerline-daemon') && !has('gui_running'),
+      \   'disabled': has('python') && executable('powerline-daemon'),
       \ }
 " ※Git関係は遅延ロードしない方向で統一しておく
 NeoBundle 'airblade/vim-gitgutter'
