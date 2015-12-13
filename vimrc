@@ -978,6 +978,8 @@ if neobundle#tap('vim-anzu')
   " ESC連打でハイライトを消す
   nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
