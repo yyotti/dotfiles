@@ -1139,6 +1139,8 @@ if neobundle#tap('vim-operator-surround')
   map <silent> rd <Plug>(operator-surround-delete)
   map <silent> rc <Plug>(operator-surround-replace)
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
