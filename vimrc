@@ -80,7 +80,6 @@ NeoBundle 'idanarye/vim-merginal', {
 NeoBundle 'tyru/eskk.vim'
 NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'tomtom/tcomment_vim'
-" TODO そのうちGVimにも適用する
 NeoBundle 'itchyny/lightline.vim', {
       \   'disabled': has('python') && executable('powerline-daemon'),
       \ }
