@@ -1094,6 +1094,8 @@ if neobundle#tap('smarty-syntax')
         \   },
         \ })
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
