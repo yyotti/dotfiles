@@ -213,26 +213,24 @@ nmap <Leader>v [vimshell]
 " Unite {{{
 if neobundle#tap('unite.vim')
   " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
-    if neobundle#is_sourced(a:bundle.name)
-      call unite#custom#default_action('directory', 'vimfiler')
-      " insertモードで起動する
-      call unite#custom#profile('default', 'context', {
-            \   'start_insert': 1
-            \ })
-    endif
-  endfunction
-  " }}}
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    call unite#custom#default_action('directory', 'vimfiler')
+    " insertモードで起動する
+    call unite#custom#profile('default', 'context', {
+          \   'start_insert': 1
+          \ })
 
-  " settings {{{
-  " ステータスラインを強制的に書き換えるのを抑止する
-  let g:unite_force_overwrite_statusline = 0
+    " ステータスラインを強制的に書き換えるのを抑止する
+    let g:unite_force_overwrite_statusline = 0
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
   " ※ここで定義しているのは、Uniteが標準でもっているsourceのみ
   " バッファ一覧を開く
-  nnoremap <silent> [unite]b :Unite buffer file_mru<CR>
+  nnoremap <silent> [unite]b :Unite buffer<CR>
   " Unite-grep
   nnoremap <silent> [unite]g :Unite grep -buffer-name=grep -no-quit<CR>
   nnoremap <silent> [unite]r :<C-u>UniteResume grep<CR>
@@ -243,6 +241,8 @@ if neobundle#tap('unite.vim')
   " quickfix
   nnoremap <silent> [unite]q :<C-u>Unite quickfix -no-quit<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -255,7 +255,9 @@ if neobundle#tap('neomru.vim')
 
   " キーマッピング {{{
   " 最近使ったファイル
-  nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer<CR>
+  nnoremap <silent> [unite]u :<C-u>Unite file_mru<CR>
+  " Uniteのバッファ一覧の表示を塗り替える
+  nnoremap <silent> [unite]b :Unite buffer file_mru<CR>
   " }}}
 endif
 " }}}
