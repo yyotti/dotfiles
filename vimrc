@@ -554,16 +554,14 @@ if neobundle#tap('vim-scala')
         \ })
   " }}}
 
-  " settings {{{
-  if neobundle#is_installed('vim-scala')
+  " on_source {{{
+  function! neobundle#hooks.on_source(bundle) abort
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vimrc_vim_scala
-      autocmd!
-      source ~/.vim/bundle/vim-scala/ftdetect/scala.vim
-    augroup END
-  endif
-
+    execute 'source ' . a:bundle.path . '/ftdetect/scala.vim'
+  endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
