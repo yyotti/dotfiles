@@ -1020,12 +1020,15 @@ if neobundle#tap('vim-ref')
         \ })
   " }}}
 
-  " settings {{{
-  " ホームディレクトリは'~'だとダメっぽい
-  let g:ref_cache_dir = $HOME.'/.vim/vim_ref_cache'
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    let g:ref_cache_dir = $HOME . '/.vim/vim_ref_cache'
 
-  " PHP
-  let g:ref_phpmanual_path = $HOME.'/.vim/refs/php-chunked-xhtml'
+    " PHP
+    let g:ref_phpmanual_path = $HOME . '/.vim/refs/php-chunked-xhtml'
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -1034,6 +1037,8 @@ if neobundle#tap('vim-ref')
     autocmd FileType * if &filetype =~# '\v^ref-.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
   augroup END
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
