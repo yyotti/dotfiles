@@ -1171,15 +1171,14 @@ if neobundle#tap('play2vim')
         \ })
   " }}}
 
-  " settings {{{
-  if neobundle#is_installed('play2vim')
+  " on_source {{{
+  function! neobundle#hooks.on_source(bundle) abort
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vimrc_play2vim
-      autocmd!
-      source ~/.vim/bundle/play2vim/ftdetect/play2.vim
-    augroup END
-  endif
+    execute 'source ' . a:bundle.path . '/ftdetect/play2.vim'
+  endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
