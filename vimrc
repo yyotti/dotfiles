@@ -129,9 +129,6 @@ NeoBundle 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
 NeoBundle 'osyo-manga/vim-anzu'
-NeoBundle 'haya14busa/incsearch.vim', {
-      \   'disabled': 1,
-      \ }
 " }}}
 
 " Lazy {{{
@@ -1121,21 +1118,6 @@ if neobundle#tap('colorizer')
   " }}}
 
   call neobundle#untap()
-endif
-" }}}
-
-" incsearch.vim {{{
-if neobundle#tap('incsearch.vim')
-  " settings {{{
-  " very magicを標準にする
-  let g:incsearch#magic = '\v'
-  " }}}
-
-  " キーマッピング {{{
-  nmap / <Plug>(incsearch-forward)
-  nmap ? <Plug>(incsearch-backward)
-  nmap g/ <Plug>(incsearch-stay)
-  " }}}
 endif
 " }}}
 
