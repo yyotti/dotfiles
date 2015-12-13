@@ -358,7 +358,7 @@ if neobundle#tap('neosnippet.vim')
   function! neobundle#hooks.on_source(bundle) abort
     " For snippet_complete marker.
     if has('conceal')
-      set conceallevel=2 concealcursor=niv
+      set conceallevel=2
     endif
   endfunction
   " @vimlint(EVL103, 0, a:bundle)
