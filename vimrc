@@ -1152,14 +1152,6 @@ if neobundle#tap('previm')
         \   },
         \ })
   " }}}
-
-  " settings {{{
-  augroup vimrc_previm
-    autocmd!
-    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-    autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal wrap
-  augroup END
-  " }}}
 endif
 " }}}
 
@@ -1442,7 +1434,14 @@ augroup vimrc_ftdetect_python
   autocmd!
   autocmd FileType python setlocal noexpandtab shiftwidth=8 softtabstop=8 tabstop=8
 augroup END
+" }}}
 
+" markdown {{{
+augroup vimrc_previm
+  autocmd!
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal wrap
+augroup END
 " }}}
 " }}}
 
