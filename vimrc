@@ -270,13 +270,19 @@ endif
 
 " vimfiler {{{
 if neobundle#tap('vimfiler')
-  " settings {{{
-  " デフォルトのファイラをvimfilerに置き換える
-  let g:vimfiler_as_default_explorer = 1
-  " セーフモードをデフォルトでOFF
-  let g:vimfiler_safe_mode_by_default = 0
-  " ステータスラインを強制的に書き換えるのを抑止する
-  let g:vimfiler_force_overwrite_statusline = 0
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " デフォルトのファイラをvimfilerに置き換える
+    let g:vimfiler_as_default_explorer = 1
+    " セーフモードをデフォルトでOFF
+    call vimfiler#custom#profile('default', 'context', {
+          \   'safe': 0,
+          \ })
+    " ステータスラインを強制的に書き換えるのを抑止する
+    let g:vimfiler_force_overwrite_statusline = 0
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -285,6 +291,8 @@ if neobundle#tap('vimfiler')
   " 現在開いているバッファをIDE風に開く
   nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
