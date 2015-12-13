@@ -152,7 +152,6 @@ NeoBundleLazy 'thinca/vim-ref', {
 NeoBundleLazy 'othree/html5.vim'
 NeoBundleLazy 'othree/javascript-libraries-syntax.vim'
 NeoBundleLazy 'smarty-syntax'
-NeoBundleLazy 'AndrewRadev/splitjoin.vim'
 NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
@@ -1096,24 +1095,6 @@ if neobundle#tap('smarty-syntax')
   " }}}
 
   call neobundle#untap()
-endif
-" }}}
-
-" splitjoin.vim {{{
-if neobundle#tap('splitjoin.vim')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'n', '<Plug>Splitjoin', 'gJ', 'gS' ],
-        \     ],
-        \     'commands': [
-        \       'SplitjoinSplit',
-        \       'SplitjoinJoin',
-        \     ],
-        \   },
-        \ })
-  " }}}
 endif
 " }}}
 
