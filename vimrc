@@ -600,16 +600,14 @@ if neobundle#tap('vim-coffee-script')
         \ })
   " }}}
 
-  " settings {{{
-  if neobundle#is_installed('vim-coffee-script')
+  " on_source {{{
+  function! neobundle#hooks.on_source(bundle) abort
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vimrc_vim_coffee_script
-      autocmd!
-      source ~/.vim/bundle/vim-coffee-script/ftdetect/coffee.vim
-    augroup END
-  endif
-
+    execute 'source ' . a:bundle.path . '/ftdetect/coffee.vim'
+  endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
