@@ -268,6 +268,8 @@ if neobundle#tap('vimfiler')
   " settings {{{
   " デフォルトのファイラをvimfilerに置き換える
   let g:vimfiler_as_default_explorer = 1
+  " セーフモードをデフォルトでOFF
+  let g:vimfiler_safe_mode_by_default = 0
   " ステータスラインを強制的に書き換えるのを抑止する
   let g:vimfiler_force_overwrite_statusline = 0
   " }}}
