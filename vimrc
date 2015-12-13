@@ -298,44 +298,40 @@ endif
 
 " neocomplete {{{
 if neobundle#tap('neocomplete.vim')
-  " settings {{{
-  " AutoComplPopを無効化する（入れてないから不要なはず）
-  let g:acp_enableAtStartup = 0
-  " neocompleteを有効化
-  let g:neocomplete#enable_at_startup = 1
-  " スマートケース
-  let g:neocomplete#enable_smart_case = 1
-  " 最小の入力数
-  let g:neocomplete#sources#syntax#min_keyword_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " neocompleteを有効化
+    let g:neocomplete#enable_at_startup = 1
+    " スマートケース
+    let g:neocomplete#enable_smart_case = 1
+    " 最小の入力数
+    let g:neocomplete#min_keyword_length = 3
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-  " 辞書定義
-  let g:neocomplete#sources#dictionary#dictionaries = {
-        \   'default': '',
-        \   'vimshell': $HOME.'/.vimshell_hist',
-        \   'scheme': $HOME.'/.gosh_completions'
-        \ }
+    " 辞書定義
+    let g:neocomplete#sources#dictionary#dictionaries = {
+          \   'default': '',
+          \   'vimshell': $HOME.'/.vimshell_hist',
+          \   'scheme': $HOME.'/.gosh_completions'
+          \ }
 
-  " キーワード定義
-  if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    " キーワード定義
+    if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns._ = '\h\w*'
 
-  " オムニ補完
-  augroup vimrc_neocomplete
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-
-  " " ヘビーなオムニ補完を有効化
-  " if !exists('g:neocomplete#sources#omni#input_patterns')
-  "   let g:neocomplete#sources#omni#input_patterns = {}
-  " endif
-  " let g:neocomplete#sources#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    " オムニ補完
+    augroup vimrc_neocomplete
+      autocmd!
+      autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+      autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+      " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+      autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    augroup END
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -348,8 +344,6 @@ if neobundle#tap('neocomplete.vim')
   function! s:my_cr_function()
     return neocomplete#close_popup() . "\<CR>"
   endfunction
-  " TABで補完
-  " inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   " <C-h>や<BS>でポップアップをクローズして1文字消す
   " <C-h>の場合は入力を戻さずに、<BS>の場合は入力を戻して消すようにしておく
   inoremap <expr><C-h> neocomplete#close_popup()."\<C-h>"
@@ -357,6 +351,8 @@ if neobundle#tap('neocomplete.vim')
   inoremap <expr><C-y> neocomplete#close_popup()
   inoremap <expr><C-e> neocomplete#cancel_popup()
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
