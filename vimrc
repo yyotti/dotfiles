@@ -1122,6 +1122,8 @@ if neobundle#tap('colorizer')
     autocmd FileType html,css :ColorHighlight
   augroup END
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
