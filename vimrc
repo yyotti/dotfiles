@@ -249,9 +249,6 @@ endif
 " neomru {{{
 if neobundle#tap('neomru.vim')
   " settings {{{
-  " 表示フォーマットを指定。空にすると表示スピードが上がるらしい。
-  " あまり効果があるようには感じないが、悪さもしないので設定しておく。
-  let g:unite_source_file_mru_filename_format = ''
   " 履歴のMAX
   let g:neomru#file_mru_limit = 200
   " }}}
