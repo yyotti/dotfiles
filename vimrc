@@ -1078,6 +1078,8 @@ if neobundle#tap('javascript-libraries-syntax.vim')
         \   },
         \ })
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
