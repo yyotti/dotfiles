@@ -248,9 +248,13 @@ endif
 
 " neomru {{{
 if neobundle#tap('neomru.vim')
-  " settings {{{
-  " 履歴のMAX
-  let g:neomru#file_mru_limit = 200
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " 履歴のMAX
+    let g:neomru#file_mru_limit = 200
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -259,6 +263,8 @@ if neobundle#tap('neomru.vim')
   " Uniteのバッファ一覧の表示を塗り替える
   nnoremap <silent> [unite]b :Unite buffer file_mru<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
