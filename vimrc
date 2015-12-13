@@ -615,7 +615,7 @@ endif
 if neobundle#tap('vim-watchdogs')
   " on_source {{{
   " @vimlint(EVL103, 1, a:bundle)
-  function! neobundle#hooks.on_source(bundle) abort
+  function! neobundle#hooks.on_post_source(bundle) abort
     if !exists('g:quickrun_config')
       let g:quickrun_config = {}
     endif
@@ -652,18 +652,32 @@ endif
 
 " vim-qfsigns {{{
 if neobundle#tap('vim-qfsigns')
-  " settings {{{
-  if !exists('g:quickrun_config')
-    let g:quickrun_config = {}
-  endif
-  if !has_key(g:quickrun_config, 'watchdogs_checker/_')
-    let g:quickrun_config['watchdogs_checker/_'] = {}
-  endif
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/enable_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/priority_exit'] = 3
-
-  let g:qfsigns#AutoJump = 1
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source': ['vim-watchdogs'],
+        \   },
+        \ })
   " }}}
+
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    if !exists('g:quickrun_config')
+      let g:quickrun_config = {}
+    endif
+    if !has_key(g:quickrun_config, 'watchdogs_checker/_')
+      let g:quickrun_config['watchdogs_checker/_'] = {}
+    endif
+    let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/enable_exit'] = 1
+    let g:quickrun_config['watchdogs_checker/_']['hook/qfsigns_update/priority_exit'] = 3
+
+    let g:qfsigns#AutoJump = 1
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
+  " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
