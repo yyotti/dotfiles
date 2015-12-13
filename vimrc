@@ -1184,12 +1184,16 @@ endif
 
 " vim-easymotion {{{
 if neobundle#tap('vim-easymotion')
-  " settings {{{
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-  let g:EasyMotion_use_migemo = 1
-  let g:EasyMotion_startofline = 0
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    let g:EasyMotion_smartcase = 1
+    let g:EasyMotion_enter_jump_first = 1
+    let g:EasyMotion_space_jump_first = 1
+    let g:EasyMotion_use_migemo = 1
+    let g:EasyMotion_startofline = 0
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -1216,6 +1220,8 @@ if neobundle#tap('vim-easymotion')
   map 's <Plug>(easymotion-sn)
 
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
