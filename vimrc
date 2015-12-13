@@ -1498,10 +1498,6 @@ if executable('git')
   " git grepを使う
   set grepprg=git\ grep\ --no-index\ --exclude-standard\ -I\ --line-number
 endif
-
-if has('migemo')
-  set migemo
-endif
 " }}}
 
 " プラグイン非依存のキーマッピング {{{
