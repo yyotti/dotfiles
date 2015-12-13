@@ -363,6 +363,7 @@ if neobundle#tap('neosnippet.vim')
   endfunction
   " @vimlint(EVL103, 0, a:bundle)
   " }}}
+
   " キーマッピング {{{
   " プラグインキーマッピング
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -370,6 +371,8 @@ if neobundle#tap('neosnippet.vim')
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-l> <Plug>(neosnippet_jump)
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -384,6 +387,8 @@ if neobundle#tap('neosnippet-additional')
     let g:neosnippet#snippets_directory += [a:bundle.path . '/snippets/']
   endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -404,6 +409,8 @@ if neobundle#tap('vim-fugitive')
   " git-diff
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -413,6 +420,8 @@ if neobundle#tap('agit.vim')
   nnoremap <silent> [git]a :<C-u>Agit<CR>
   nnoremap <silent> [git]f :<C-u>AgitFile<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
@@ -421,42 +430,50 @@ if neobundle#tap('vim-merginal')
   " キーマッピング {{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
 " eskk {{{
 if neobundle#tap('eskk.vim')
-  " settings {{{
-  if !has('gui_running')
-    let g:eskk#marker_henkan = '>'
-    let g:eskk#marker_henkan_select = '@'
-  endif
-  if executable('google-ime-skk')
-    let g:eskk#server = {
-          \   'host': 'localhost',
-          \   'port': 55100,
-          \ }
-  endif
-  let g:eskk#directory = '~/.skk'
-  if has('gui_running')
-    set imdisable
-  endif
-  if has('vim_starting')
-    if neobundle#tap('neocomplete.vim')
-      let g:eskk#enable_completion=1
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    if !has('gui_running')
+      let g:eskk#marker_henkan = '>'
+      let g:eskk#marker_henkan_select = '@'
     endif
-    let g:eskk#dictionary = {
-          \   'path': '~/.skk/skk-jisyo.user',
-          \   'sorted': 0,
-          \   'encoding': 'utf-8',
-          \ }
-    let g:eskk#large_dictionary = {
-          \   'path': '~/.skk/SKK-JISYO.L',
-          \   'sorted': 1,
-          \   'encoding': 'euc-jp',
-          \ }
-  endif
+    if executable('google-ime-skk')
+      let g:eskk#server = {
+            \   'host': 'localhost',
+            \   'port': 55100,
+            \ }
+    endif
+    let g:eskk#directory = '~/.skk'
+    if has('gui_running')
+      set imdisable
+    endif
+    if has('vim_starting')
+      if neobundle#tap('neocomplete.vim')
+        let g:eskk#enable_completion=1
+      endif
+      let g:eskk#dictionary = {
+            \   'path': '~/.skk/skk-jisyo.user',
+            \   'sorted': 0,
+            \   'encoding': 'utf-8',
+            \ }
+      let g:eskk#large_dictionary = {
+            \   'path': '~/.skk/SKK-JISYO.L',
+            \   'sorted': 1,
+            \   'encoding': 'euc-jp',
+            \ }
+    endif
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
