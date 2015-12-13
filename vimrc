@@ -998,6 +998,8 @@ if neobundle#tap('vim-operator-replace')
   " キーマッピング {{{
   map R <Plug>(operator-replace)
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
