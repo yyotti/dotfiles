@@ -479,18 +479,26 @@ endif
 
 " vim-unified-diff {{{
 if neobundle#tap('vim-unified-diff')
-  " settings {{{
-  set diffexpr=unified_diff#diffexpr()
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " settings {{{
+    set diffexpr=unified_diff#diffexpr()
 
-  " configure with the flllowings (default values are shown below)
-  "let unified_diff#executable = 'git'
-  "let unified_diff#arguments = [
-  "  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
-  "  \ ]
-  "let unified_diff#iwhite_arguments = [
-  "  \   '--ignore--all-space',
-  "  \ ]
+    " configure with the flllowings (default values are shown below)
+    "let unified_diff#executable = 'git'
+    "let unified_diff#arguments = [
+    "  \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+    "  \ ]
+    "let unified_diff#iwhite_arguments = [
+    "  \   '--ignore--all-space',
+    "  \ ]
+    " }}}
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
+
+  call neobundle#untap()
 endif
 
 " }}}
