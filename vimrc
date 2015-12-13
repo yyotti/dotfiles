@@ -100,10 +100,11 @@ NeoBundle 'osyo-manga/vim-watchdogs', {
       \   ],
       \ }
 NeoBundle 'KazuakiM/vim-qfsigns', {
-      \   'depends': ['vim-watchdogs'],
+      \   'depends': ['osyo-manga/vim-watchdogs'],
       \ }
 NeoBundle 'KazuakiM/vim-qfstatusline', {
-      \   'depends': ['vim-watchdogs'],
+      \   'depends': ['osyo-manga/vim-watchdogs'],
+      \   'disabled': has('python') && executable('powerline-daemon'),
       \ }
 NeoBundle 'syngan/vim-vimlint', {
       \   'depends': [
