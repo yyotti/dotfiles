@@ -1061,6 +1061,8 @@ if neobundle#tap('html5.vim')
         \   },
         \ })
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
