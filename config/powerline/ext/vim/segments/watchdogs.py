@@ -15,7 +15,7 @@ def watchdogs(pl, err_format='ERR: ⭡ {first_line} ({num})'):
 	'''Show whether watchdogs has found any errors
 	:param str err_format:
 		Format string for errors.
-	Highlight groups used ``watchdogs:error`` or ``error``.
+	Highlight groups used ``watchdogs``.
 	'''
 
 	bufnr = int(vim_get_func('bufnr')(''))
@@ -23,5 +23,5 @@ def watchdogs(pl, err_format='ERR: ⭡ {first_line} ({num})'):
 
 	return [] if len(errors) == 0 else [{
 		'contents': err_format.format(first_line=errors[0]['lnum'], num=len(errors)),
-		'highlight_groups': ['watchdogs:error', 'error']
+		'highlight_groups': ['watchdogs']
 		}]

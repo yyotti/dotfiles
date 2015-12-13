@@ -1,6 +1,6 @@
 {
 	"groups": {
-		"watchdogs": "information:additional",
+		"watchdogs": "error",
 		"eskk": "mode",
 		"gitgutter_hunks": "branch",
 		"anzu_search_status": "background"

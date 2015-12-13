@@ -21,7 +21,7 @@
 		"line_current":             { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": [] },
 		"line_current_symbol":      { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": [] },
 		"virtcol_current":          "line_current",
-		"error":                    { "fg": "solarized:base03", "bg": "solarized:red", "attrs": ["bold"] },
+		"error":                    { "fg": "solarized:base3", "bg": "solarized:red", "attrs": ["bold"] },
 		"warning":                  { "fg": "solarized:base03", "bg": "solarized:base2", "attrs": ["bold"] }
 	},
 	"mode_translations": {
