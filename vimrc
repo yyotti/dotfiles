@@ -724,7 +724,6 @@ if neobundle#tap('restart.vim')
         \   'autoload': {
         \     'commands': [
         \       'Restart',
-        \       'RestartWithSession',
         \     ],
         \   },
         \   'augroup': 'restart',
@@ -734,6 +733,8 @@ if neobundle#tap('restart.vim')
   " settings {{{
   command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages' | Restart
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
