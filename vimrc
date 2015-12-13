@@ -149,9 +149,6 @@ NeoBundleLazy 'kana/vim-operator-replace', {
 NeoBundleLazy 'thinca/vim-ref', {
         \   'external_commands': 'lynx',
         \ }
-NeoBundleLazy 'tek/vim-operator-assign', {
-      \   'depends': ['kana/vim-operator-user'],
-      \ }
 NeoBundleLazy 'othree/html5.vim'
 NeoBundleLazy 'othree/javascript-libraries-syntax.vim'
 NeoBundleLazy 'smarty-syntax'
@@ -1049,25 +1046,6 @@ if neobundle#tap('unite-quickfix')
   " }}}
 
   call neobundle#untap()
-endif
-" }}}
-
-" vim-operator-assign {{{
-if neobundle#tap('vim-operator-assign')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'nx', '<Plug>(operator-assign' ],
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " キーマッピング {{{
-  nmap zx <Plug>(operator-assign)
-  vmap zx <Plug>(operator-assign)
-  " }}}
 endif
 " }}}
 
