@@ -129,9 +129,6 @@ NeoBundle 'Shougo/neosnippet-snippets', {
       \   'depends': ['Shougo/neosnippet.vim'],
       \ }
 NeoBundle 'osyo-manga/vim-anzu'
-NeoBundle 'haya14busa/vim-migemo', {
-      \   'disabled': 1,
-      \ }
 NeoBundle 'haya14busa/incsearch.vim', {
       \   'disabled': 1,
       \ }
