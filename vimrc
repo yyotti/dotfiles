@@ -741,116 +741,123 @@ endif
 " lightline.vim/powerline {{{
 if neobundle#tap('lightline.vim')
   " lightline.vim {{{
-  " settings {{{
-  let g:lightline = {
-        \   'separator': {
-        \     'left': '⮀',
-        \     'right': '⮂',
-        \   },
-        \   'subseparator': {
-        \     'left': '⮁',
-        \     'right': '⮃',
-        \   },
-        \   'active': {
-        \     'left': [
-        \       [ 'mode', 'eskk', ],
-        \       [ 'filename', ],
-        \       [ 'fugitive', 'gitinfo', ],
-        \     ],
-        \     'right': [
-        \       [ 'syntaxcheck', 'lineinfo', ],
-        \       [ 'fileformat', 'fileencoding', 'filetype', ],
-        \       [ 'anzu', ],
-        \     ],
-        \   },
-        \   'inactive': {
-        \     'left': [
-        \       [ 'inactivemode', ],
-        \       [ 'filename', ],
-        \       [ 'fugitive', 'gitinfo', ],
-        \     ],
-        \     'right': [
-        \       [ 'syntaxcheck', 'lineinfo', ],
-        \       [ 'fileformat', 'fileencoding', 'filetype', ],
-        \       [ 'anzu', ],
-        \     ],
-        \   },
-        \   'component': {
-        \     'inactivemode': '%{"INACTIVE"}',
-        \     'lineinfo': '⭡ %3l:%-2v (%p%%)',
-        \     'fileformat': '%{FileInfoVisible() ? &fileformat : ""}',
-        \     'filetype': '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
-        \     'fileencoding': '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
-        \   },
-        \   'component_function': {
-        \     'mode': 'Mode',
-        \     'eskk': 'Eskk',
-        \     'fugitive': 'Fugitive',
-        \     'gitinfo': 'Gitinfo',
-        \     'filename': 'Filename',
-        \     'anzu': 'Anzu',
-        \   },
-        \   'component_expand': {
-        \     'syntaxcheck': 'qfstatusline#Update',
-        \   },
-        \   'component_visible_condition': {
-        \     'eskk': 'EskkVisible()',
-        \     'fugitive': 'FugitiveVisible()',
-        \     'fileformat': 'FileInfoVisible()',
-        \     'filetype': 'FileInfoVisible()',
-        \     'fileencoding': 'FileInfoVisible()',
-        \     'gitinfo': 'GitinfoVisible()',
-        \     'anzu': 'AnzuVisible()',
-        \   },
-        \   'component_type': {
-        \     'syntaxcheck': 'error',
-        \   },
-        \ }
-  function! Mode() abort
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    let g:lightline = {
+          \   'separator': {
+          \     'left': '⮀',
+          \     'right': '⮂',
+          \   },
+          \   'subseparator': {
+          \     'left': '⮁',
+          \     'right': '⮃',
+          \   },
+          \   'active': {
+          \     'left': [
+          \       [ 'mode', 'eskk', ],
+          \       [ 'filename', ],
+          \       [ 'fugitive', 'gitinfo', ],
+          \     ],
+          \     'right': [
+          \       [ 'syntaxcheck', 'lineinfo', ],
+          \       [ 'fileformat', 'fileencoding', 'filetype', ],
+          \       [ 'anzu', ],
+          \     ],
+          \   },
+          \   'inactive': {
+          \     'left': [
+          \       [ 'inactivemode', ],
+          \       [ 'filename', ],
+          \       [ 'fugitive', 'gitinfo', ],
+          \     ],
+          \     'right': [
+          \       [ 'syntaxcheck', 'lineinfo', ],
+          \       [ 'fileformat', 'fileencoding', 'filetype', ],
+          \       [ 'anzu', ],
+          \     ],
+          \   },
+          \   'component': {
+          \     'inactivemode': '%{"INACTIVE"}',
+          \     'lineinfo': '⭡ %3l:%-2v (%p%%)',
+          \     'fileformat': '%{FileInfoVisible() ? &fileformat : ""}',
+          \     'filetype': '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
+          \     'fileencoding': '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
+          \   },
+          \   'component_function': {
+          \     'mode': 'Mode',
+          \     'eskk': 'Eskk',
+          \     'fugitive': 'Fugitive',
+          \     'gitinfo': 'Gitinfo',
+          \     'filename': 'Filename',
+          \     'anzu': 'Anzu',
+          \   },
+          \   'component_expand': {
+          \     'syntaxcheck': 'qfstatusline#Update',
+          \   },
+          \   'component_visible_condition': {
+          \     'eskk': 'EskkVisible()',
+          \     'fugitive': 'FugitiveVisible()',
+          \     'fileformat': 'FileInfoVisible()',
+          \     'filetype': 'FileInfoVisible()',
+          \     'fileencoding': 'FileInfoVisible()',
+          \     'gitinfo': 'GitinfoVisible()',
+          \     'anzu': 'AnzuVisible()',
+          \   },
+          \   'component_type': {
+          \     'syntaxcheck': 'error',
+          \   },
+          \ }
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
+  " }}}
+
+  " lightline functions {{{
+  function! Mode() abort " {{{
     return &ft == 'unite' ? 'Unite' :
           \ &ft == 'vimfiler' ? 'VimFiler' :
           \ &ft == 'vimshell' ? 'VimShell' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
-  endfunction
+  endfunction " }}}
 
-  function! s:readonly() abort
+  function! s:readonly() abort " {{{
     return &filetype !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
-  endfunction
+  endfunction " }}}
 
-  function! s:modified() abort
+  function! s:modified() abort " {{{
     return &filetype =~# 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-  endfunction
+  endfunction " }}}
 
-  function! Filename() abort
+  function! Filename() abort " {{{
     return (!empty(s:readonly()) ? s:readonly().' ' : '').
           \ (&filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
           \  &filetype ==? 'unite' ? substitute(unite#get_status_string(), ' | ', '', '') :
           \  &filetype ==? 'vimshell' ? substitute(b:vimshell.current_dir, expand('~'), '~', '') :
           \  !empty(expand('%')) ? expand('%') : '[No Name]').
           \ (!empty(s:modified()) ? ' '.s:modified() : '')
-  endfunction
+  endfunction " }}}
 
-  function! EskkVisible() abort
+  function! EskkVisible() abort " {{{
     return exists('*eskk#statusline') && !empty(eskk#statusline())
-  endfunction
+  endfunction " }}}
 
-  function! Eskk() abort
+  function! Eskk() abort " {{{
     return EskkVisible() ? matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ''
-  endfunction
+  endfunction " }}}
 
-  function! FugitiveVisible() abort
+  function! FugitiveVisible() abort " {{{
     return &ft != 'vimfiler' && exists('*fugitive#head') && !empty(fugitive#head())
-  endfunction
+  endfunction " }}}
 
-  function! Fugitive() abort
+  function! Fugitive() abort " {{{
     return FugitiveVisible() ? '⭠ '.fugitive#head() : ''
-  endfunction
+  endfunction " }}}
 
-  function! GitinfoVisible() abort
+  function! GitinfoVisible() abort " {{{
     return exists('*GitGutterGetHunkSummary') && get(g:, 'gitgutter_enabled', 0) && winwidth(0) > 90
-  endfunction
+  endfunction " }}}
 
-  function! Gitinfo() abort
+  function! Gitinfo() abort " {{{
     if !GitinfoVisible()
       return ''
     endif
@@ -869,26 +876,28 @@ if neobundle#tap('lightline.vim')
     endfor
 
     return join(ret, ' ')
-  endfunction
+  endfunction " }}}
 
-  function! FileInfoVisible() abort
+  function! FileInfoVisible() abort " {{{
     return &ft != 'unite' && &ft != 'vimfiler' && winwidth(0) > 70
-  endfunction
+  endfunction " }}}
 
-  function! AnzuVisible() abort
+  function! AnzuVisible() abort " {{{
     return exists('*anzu#search_status') && !empty(anzu#search_status()) && winwidth(0) > 70
-  endfunction
+  endfunction " }}}
 
-  function! Anzu() abort
+  function! Anzu() abort " {{{
     return anzu#search_status()
-  endfunction
+  endfunction " }}}
+  " }}}
 
   " リアルタイムにカラースキームを書き換えるための細工（helpからコピー）
   augroup LightLineColorscheme
     autocmd!
     autocmd ColorScheme * call s:lightline_update()
   augroup END
-  function! s:lightline_update()
+
+  function! s:lightline_update() " {{{
     try
       if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
         let g:lightline.colorscheme =
@@ -902,9 +911,10 @@ if neobundle#tap('lightline.vim')
       call lightline#update()
     catch
     endtry
-  endfunction
+  endfunction " }}}
   " }}}
-  " }}}
+
+  call neobundle#untap()
 else
   " powerline {{{
   set rtp+=~/git/powerline/powerline/bindings/vim
