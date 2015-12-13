@@ -933,14 +933,18 @@ endif
 
 " vim-gitgutter {{{
 if neobundle#tap('vim-gitgutter')
-  " settings {{{
-  let g:gitgutter_sign_added = 'A'
-  let g:gitgutter_sign_modified = 'M'
-  let g:gitgutter_sign_removed = 'D'
-  let g:gitgutter_sign_modified_removed = 'MD'
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    let g:gitgutter_sign_added = 'A'
+    let g:gitgutter_sign_modified = 'M'
+    let g:gitgutter_sign_removed = 'D'
+    let g:gitgutter_sign_modified_removed = 'MD'
 
-  " デフォルトのマッピングをOFFにする
-  let g:gitgutter_map_keys = 0
+    " デフォルトのマッピングをOFFにする
+    let g:gitgutter_map_keys = 0
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
@@ -950,6 +954,8 @@ if neobundle#tap('vim-gitgutter')
   nmap [c <Plug>GitGutterPrevHunkzvzz
   nmap ]c <Plug>GitGutterNextHunkzvzz
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
