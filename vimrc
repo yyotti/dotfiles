@@ -1260,10 +1260,6 @@ if neobundle#tap('ghcmod-vim')
         \ })
   " }}}
 
-  " settings {{{
-  let g:ghcmod_ghc_options = ['-idir1', '-idir2']
-  " }}}
-
   " キーマッピング {{{
   augroup vimrc_ghcmod_vim
     autocmd!
@@ -1271,6 +1267,8 @@ if neobundle#tap('ghcmod-vim')
     autocmd FileType haskell nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
   augroup END
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
