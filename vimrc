@@ -577,16 +577,14 @@ if neobundle#tap('vim-less')
         \ })
   " }}}
 
-  " settings {{{
-  if neobundle#is_installed('vim-less')
+  " on_source {{{
+  function! neobundle#hooks.on_source(bundle) abort
     " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vimrc_vim_less
-      autocmd!
-      source ~/.vim/bundle/vim-less/ftdetect/less.vim
-    augroup END
-  endif
-
+    execute 'source ' . a:bundle.path . '/ftdetect/less.vim'
+  endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
