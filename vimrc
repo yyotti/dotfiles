@@ -138,9 +138,6 @@ NeoBundle 'haya14busa/incsearch.vim', {
 " }}}
 
 " Lazy {{{
-NeoBundleLazy 'Shougo/vimshell', {
-      \   'depends': ['Shougo/vimproc'],
-      \ }
 NeoBundleLazy 'LeafCage/nebula.vim'
 NeoBundleLazy 'derekwyatt/vim-scala'
 NeoBundleLazy 'groenewege/vim-less'
@@ -207,8 +204,6 @@ nnoremap [git] <Nop>
 nmap <Leader>g [git]
 nnoremap [nebula] <Nop>
 nmap <Leader>n [nebula]
-nnoremap [vimshell] <Nop>
-nmap <Leader>v [vimshell]
 
 " Unite {{{
 if neobundle#tap('unite.vim')
@@ -425,59 +420,6 @@ endif
 if neobundle#tap('vim-merginal')
   " キーマッピング {{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
-  " }}}
-endif
-" }}}
-
-" vimshell {{{
-if neobundle#tap('vimshell')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'unite_sources': [
-        \       'vimshell_external_history',
-        \       'vimshell_history',
-        \       'vimshell_zsh_complete',
-        \     ],
-        \     'mappings': [
-        \       [ 'n', '<Plug>(vimshell_' ],
-        \     ],
-        \     'commands': [
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShell' },
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellPop' },
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellCreate' },
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellCurrentDir' },
-        \       { 'complete': 'customlist,vimshell#helpers#vimshell_execute_complete', 'name': 'VimShellExecute' },
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellBufferDir' },
-        \       'VimShellSendString',
-        \       { 'complete': 'customlist,vimshell#complete', 'name': 'VimShellTab' },
-        \       { 'complete': 'buffer', 'name': 'VimShellSendBuffer' },
-        \       'VimShellClose',
-        \       { 'complete': 'customlist,vimshell#helpers#vimshell_execute_complete', 'name': 'VimShellInteractive' },
-        \     ],
-        \   },
-        \ })
-  " }}}
-
-  " settings {{{
-  let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
-  let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
-  " ステータスラインを強制的に書き換えるのを抑止する
-  let g:vimshell_force_overwrite_statusline = 0
-  " }}}
-
-  " キーマッピング {{{
-  nnoremap <silent> [vimshell]p :<C-u>VimShellPop<CR>
-
-  augroup vimrc_vimshell
-    autocmd!
-    autocmd FileType vimshell call <SID>mapping_vimshell_q()
-  augroup END
-  function! s:mapping_vimshell_q() abort
-    nmap <silent> <buffer> q <Plug>(vimshell_exit)
-    nmap <silent> <buffer> <C-g> <Plug>(vimshell_exit)
-    imap <silent> <buffer> <C-g><C-g> <Plug>(vimshell_exit)
-  endfunction
   " }}}
 endif
 " }}}
