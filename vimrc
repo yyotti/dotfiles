@@ -1047,6 +1047,8 @@ if neobundle#tap('unite-quickfix')
   " キーマッピング {{{
   nnoremap <silent> [unite]q :Unite -no-quit -no-start-insert quickfix<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
