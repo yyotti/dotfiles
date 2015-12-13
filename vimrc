@@ -1152,6 +1152,8 @@ if neobundle#tap('previm')
         \   },
         \ })
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
