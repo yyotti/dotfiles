@@ -358,21 +358,22 @@ endif
 
 " neosnippet.vim {{{
 if neobundle#tap('neosnippet.vim')
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=niv
+    endif
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
+  " }}}
   " キーマッピング {{{
   " プラグインキーマッピング
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   imap <C-l> <Plug>(neosnippet_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-l> <Plug>(neosnippet_jump)
-
-  " Tabでも補完する
-  " imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-  " smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2
-  endif
   " }}}
 endif
 " }}}
@@ -380,7 +381,7 @@ endif
 " neosnippet-additional {{{
 if neobundle#tap('neosnippet-additional')
   " on_source {{{
-  function! neobundle#tapped.hooks.on_source(bundle) abort
+  function! neobundle#hooks.on_source(bundle) abort
     " 開発版と公開版とでパスを分ける必要があるので、ここで設定する
     if !exists('g:neosnippet#snippets_directory')
       let g:neosnippet#snippets_directory = []
