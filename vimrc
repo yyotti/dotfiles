@@ -1237,16 +1237,14 @@ if neobundle#tap('vim-haskell-indent')
         \ })
   " }}}
 
-  " settings {{{
-  if neobundle#is_installed('vim-haskell-indent')
-    " ftdetectが読み込まれないので、ここで読んでしまう
-    augroup vimrc_vim_haskell_indent
-      autocmd!
-      source ~/.vim/bundle/vim-haskell-indent/indent/haskell.vim
-    augroup END
-  endif
-
+  " on_source {{{
+  function! neobundle#hooks.on_source(bundle) abort
+    " indentが読み込まれないので、ここで読んでしまう
+    execute 'source ' . a:bundle.path . '/indent/haskell.vim'
+  endfunction
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
