@@ -416,6 +416,7 @@ endif
 if neobundle#tap('agit.vim')
   " キーマッピング {{{
   nnoremap <silent> [git]a :<C-u>Agit<CR>
+  nnoremap <silent> [git]f :<C-u>AgitFile<CR>
   " }}}
 endif
 " }}}
