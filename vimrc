@@ -530,6 +530,8 @@ if neobundle#tap('nebula.vim')
           \ | nnoremap <silent> <buffer> [nebula]p :<C-u>NebulaPutFromClipboard<CR>
   augroup END
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
