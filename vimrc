@@ -1282,14 +1282,20 @@ if neobundle#tap('unite-googletodo')
         \ })
   " }}}
 
-  " settings {{{
-  " 完了後にすぐクリアする
-  let g:unite#googletodo#clear_on_complete = 1
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    " 完了後にすぐクリアする
+    let g:unite#googletodo#clear_on_complete = 1
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
   " }}}
 
   " キーマッピング {{{
   nnoremap <silent> [unite]t :<C-u>Unite googletodo -no-start-insert<CR>
   " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
