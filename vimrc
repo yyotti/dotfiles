@@ -150,7 +150,6 @@ NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'rhysd/vim-operator-surround', {
       \   'depends': 'kana/vim-operator-user',
       \ }
-NeoBundleLazy 'thinca/vim-qfreplace'
 NeoBundleLazy 'kannokanno/previm', {
       \   'depends': 'tyru/open-browser.vim',
       \ }
@@ -1144,18 +1143,6 @@ if neobundle#tap('vim-operator-surround')
 endif
 " }}}
 
-" vim-qfreplace {{{
-if neobundle#tap('vim-qfreplace')
-  " config {{{
-  call neobundle#config({
-        \   'autoload': {
-        \     'commands': [ 'Qfreplace' ],
-        \   },
-        \ })
-  " }}}
-endif
-" }}}
-
 " previm {{{
 if neobundle#tap('previm')
   " config {{{
@@ -1594,7 +1581,6 @@ augroup vimrc_mapping_q
   autocmd!
   autocmd BufWinEnter * if &buftype ==# 'help' | call <SID>mapping_q() | endif
   autocmd BufWinEnter * if &buftype ==# 'quickfix' | call <SID>mapping_q() | endif
-  autocmd FileType qfreplace call <SID>mapping_q()
 augroup END
 function! s:mapping_q() abort
   nnoremap <silent> <buffer> q :bdelete<CR>
