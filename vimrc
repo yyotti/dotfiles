@@ -683,23 +683,37 @@ endif
 
 " vim-qfstatusline {{{
 if neobundle#tap('vim-qfstatusline')
-  " settings {{{
-  if !exists('g:quickrun_config')
-    let g:quickrun_config = {}
-  endif
-  if !has_key(g:quickrun_config, 'watchdogs_checker/_')
-    let g:quickrun_config['watchdogs_checker/_'] = {}
-  endif
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 3
-
-  if neobundle#tap('lightline.vim')
-    let g:Qfstatusline#UpdateCmd = function('lightline#update')
-  else
-    " これだとステータスラインに何も出ないが、無いよりマシ
-    let g:Qfstatusline#UpdateCmd = function('qfstatusline#Update')
-  endif
+  " config {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source': ['vim-watchdogs'],
+        \   },
+        \ })
   " }}}
+
+  " on_source {{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort
+    if !exists('g:quickrun_config')
+      let g:quickrun_config = {}
+    endif
+    if !has_key(g:quickrun_config, 'watchdogs_checker/_')
+      let g:quickrun_config['watchdogs_checker/_'] = {}
+    endif
+    let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
+    let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 3
+
+    if neobundle#is_sourced('lightline.vim')
+      let g:Qfstatusline#UpdateCmd = function('lightline#update')
+    else
+      " これだとステータスラインに何も出ないが、無いよりマシ
+      let g:Qfstatusline#UpdateCmd = function('qfstatusline#Update')
+    endif
+  endfunction
+  " @vimlint(EVL103, 0, a:bundle)
+  " }}}
+
+  call neobundle#untap()
 endif
 " }}}
 
