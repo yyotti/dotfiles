@@ -216,17 +216,15 @@ if neobundle#tap('unite.vim')
   function! neobundle#tapped.hooks.on_source(bundle) abort
     if neobundle#is_sourced(a:bundle.name)
       call unite#custom#default_action('directory', 'vimfiler')
+      " insertモードで起動する
+      call unite#custom#profile('default', 'context', {
+            \   'start_insert': 1
+            \ })
     endif
   endfunction
   " }}}
 
   " settings {{{
-  " insertモードで起動する
-  let g:unite_enable_start_insert=1
-  " yank/deleteの履歴を有効にする
-  let g:unite_source_history_yank_enable=1
-  " ファイル履歴のMAX
-  let g:unite_source_file_mru_limit=200
   " ステータスラインを強制的に書き換えるのを抑止する
   let g:unite_force_overwrite_statusline = 0
   " }}}
@@ -254,6 +252,8 @@ if neobundle#tap('neomru.vim')
   " 表示フォーマットを指定。空にすると表示スピードが上がるらしい。
   " あまり効果があるようには感じないが、悪さもしないので設定しておく。
   let g:unite_source_file_mru_filename_format = ''
+  " 履歴のMAX
+  let g:neomru#file_mru_limit = 200
   " }}}
 
   " キーマッピング {{{
