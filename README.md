@@ -1,6 +1,9 @@
 # Linux環境構築メモ
 Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （内容を[Wiki](https://github.com/yyotti/unix_settings/wiki)に移行中）
 
+## ログインシェルをzshに変更する
+[Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/change_shell)
+
 ## ビルドツールをインストール
 gccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽。
 
