@@ -1,5 +1,5 @@
 # Linux環境構築メモ
-Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （内容を[Wiki](wiki)に移行中）
+Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （内容を[Wiki](https://github.com/yyotti/unix_settings/wiki)に移行中）
 
 ## ビルドツールをインストール
 gccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽。
