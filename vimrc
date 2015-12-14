@@ -1380,8 +1380,16 @@ set hidden
 " 保存時に行末の空白を除去
 augroup vimrc_del_end_ws
   autocmd!
-  autocmd BufWritePre * :%s/\s\+$//ge
+  autocmd BufWritePre * call s:del_last_whitespaces()
 augroup END
+
+function! s:del_last_whitespaces() abort
+  if exists('b:not_del_last_whitespaces')
+    return
+  endif
+
+  :%s/\s\+$//ge
+endfunction
 
 " シンボリックリンクはリンク先で開く
 command! OpenSymlinkTarget call s:open_symlink_target()
@@ -1434,6 +1442,7 @@ augroup vimrc_previm
   autocmd!
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal wrap
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} let b:not_del_last_whitespaces = 1
 augroup END
 " }}}
 " }}}
