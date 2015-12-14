@@ -1,26 +1,6 @@
 # Linux環境構築メモ
 Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （内容を[Wiki](wiki)に移行中）
 
-## ログインシェルをzshに変更する
-Linux MintもCentOSも、デフォルトだとbashなので、パッケージマネージャでzshをインストールする。
-
-| OS                       | コマンド                   |
-|:-------------------------|:---------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install zsh` |
-| redhat系([※2](#redhat)) | `sudo yum install zsh`     |
-
-インストールできたら、ログインシェルを変更する。zshのパスは環境により異なるようなので、
-```sh
-cat /etc/shells
-```
-で確認して
-```sh
-chsh -s /usr/bin/zsh
-```
-とかする。
-
-変更後にログインしなおしてzshになっていることを確認。
-
 ## ビルドツールをインストール
 gccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽。
 
