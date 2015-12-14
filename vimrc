@@ -959,7 +959,7 @@ if neobundle#tap('vim-anzu')
   nmap # <Plug>(anzu-sharp)zvzz
 
   " ESC連打でハイライトを消す
-  nnoremap <silent> <Esc><Esc> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
+  nnoremap <silent> <C-h> :nohlsearch<CR>:AnzuClearSearchStatus<CR><Esc>
   " }}}
 
   call neobundle#untap()
@@ -1500,8 +1500,8 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 if !neobundle#is_sourced('vim-anzu')
-  " anzuがロードされていなければ、<Esc><Esc>のマッピングをこっちにする
-  nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR><Esc>
+  " anzuがロードされていなければ、<C-h>のマッピングをこっちにする
+  nnoremap <silent> <C-h> :<C-u>nohlsearch<CR><Esc>
 endif
 
 " 表示行で移動
