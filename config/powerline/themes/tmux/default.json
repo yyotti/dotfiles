@@ -12,8 +12,7 @@
 				"args": {
 					"server": "imap.gmail.com",
 					"port": 993,
-					"use_ssl": true,
-					"interval": 30
+					"use_ssl": true
 				}
 			},
 			{
