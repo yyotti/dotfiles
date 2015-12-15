@@ -5,103 +5,13 @@ Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （�
 [Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/change_shell)
 
 ## ビルドツールをインストール
-gccなどのビルドツールを導入。Ubuntuとかの build-essential を使うのが楽。
-
-| OS                       | コマンド                                    |
-|:-------------------------|:--------------------------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install build-essential`      |
-| redhat系([※2](#redhat)) | `sudo yum groupinstall "Development Tools"` |
+[Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/install_build_tools)
 
 ## gitをインストール
-
-### パッケージマネージャでインストールする
-バージョンが古い可能性が高いが、楽。
-
-| OS                       | コマンド                   |
-|:-------------------------|:---------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install git` |
-| redhat系([※2](#redhat)) | `sudo yum install git`     |
-
-### ソースをビルドする
-新しいバージョンを使える。
-
-まず、必要なライブラリをインストールする。
-
-#### Debian系([※1](#debian))
-apt-getでインストールする。
-
-```sh
-# TODO
-```
-
-#### redhat系([※2](#redhat))
-yumでインストールする。
-
-```sh
-sudo yum install \
-  curl-devel \
-  expat-devel \
-  gettext-devel \
-  openssl-devel \
-  zlib-devel \
-  perl-ExtUtils-MakeMaker
-```
-
-その後、以下のコマンドを叩く。
-
-```sh
-cd /tmp
-wget https://github.com/git/git/archive/master.zip
-unzip master.zip
-cd git-master
-make prefix=/usr/local
-sudo make prefix=/usr/local install
-```
-デフォルトでは/usrにインストールされる（？）ようだったが、何となく嫌だったので/usr/localへ。
-
-## rcmをインストールする
-ドットファイル管理ツール [rcm](https://github.com/thoughtbot/rcm) をインストールする。デフォルトのリポジトリには無いので、リポジトリの追加が必要になる。
-
-### Debian系([※1](#debian))
-apt-getでインストールする。
-
-```sh
-sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-sudo apt-get update
-sudo apt-get install rcm
-```
-
-### redhat系([※2](#redhat))
-yumでインストールする。
-
-```sh
-cd /etc/yum.repos.d/
-sudo wget http://download.opensuse.org/repositories/utilities/CentOS_6/utilities.repo
-sudo yum install rcm
-```
+[Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/install_git)
 
 ## ドットファイルをインストールする
-正確にはドットファイルのシンボリックリンクを作る。
-
-まず、このリポジトリをcloneする。
-```sh
-mkdir -p ~/git
-cd ~/git
-git clone git@github.com:yyotti/unix_settings.git
-```
-rcupの初回実行時は、~/.rcrcがないはずなので設定ファイルを指定したうえで実行する([※注意1](#warn1)を参照)。
-```sh
-env RCRC=$HOME/git/unix_settings/rcrc rcup -v ;# $HOME/git/… ではなく ~/git/… だとうまく実行できなかった気がする
-```
-`-v`をつけると、どのファイルをどうしたか表示されて何となく安心する。
-
-2回目以降の実行は
-```sh
-rcup -v
-```
-だけでOK。([※注意2](#warn2)を参照)
-
-インストールが完了したら、設定を反映するため`source ~/.zshrc`したりターミナルを再起動したりする。`source`する場合、zshenvも忘れずに。
+[Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/install_dotfiles)
 
 ## tmuxをインストール
 
