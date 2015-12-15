@@ -14,70 +14,7 @@ Linux(主にLinux Mint/CentOS)で自分の環境を作るためのメモ。 （�
 [Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/install_dotfiles)
 
 ## tmuxをインストール
-
-### パッケージマネージャでインストールする
-バージョンが古い可能性が高いが、楽。
-
-| OS                       | コマンド                    |
-|:-------------------------|:----------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install tmux` |
-| redhat系([※2](#redhat)) | リポジトリにない            |
-
-### ソースをビルドする
-新しいバージョンを使える。yumの場合はこっちしか方法がない。
-
-libevent2.xが必要なので、まずそっちをビルドする。
-
-cursesが必要なのでインストール。
-
-| OS                       | コマンド                                |
-|:-------------------------|:----------------------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install libncurses5-dev` |
-| redhat系([※2](#redhat)) | `sudo yum install ncurses-devel`        |
-
-その後、
-
-```sh
-cd /tmp
-wget https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz
-tar xzf libevent-2.0.22-stable.tar.gz
-cd libevent-2.0.22-stable
-./configure
-make -j 2
-sudo make install
-```
-デフォルト以外の場所にインストールしたい場合は、`./configure`のときにインストール先を指定するオプションを加える。
-
-libeventのインストールがうまくいったら、続いてtmuxをビルドする。
-```sh
-cd /tmp
-wget http://downloads.sourceforge.net/tmux/tmux-2.0.tar.gz
-tar xzf tmux-2.0.tar.gz
-cd tmux-2.0
-./configure
-make -j 2
-sudo make install
-```
-こちらも同じく、デフォルト以外の場所にインストールしたい場合は、`./configure`のときにインストール先を指定するオプションを加える。
-
-libeventをソースからビルドした場合、tmux起動時に下記のようなエラーが出るかもしれない。(CentOS6では出た)
-```
-tmux: error while loading shared libraries: libevent-2.0.so.5: cannot open shared object file: No such file or directory
-```
-そのときは、下記のコマンドを実行する。
-```sh
-sudo ln -s /usr/local/lib/libevent-2.0.so.5 /usr/lib64/libevent-2.0.so.5
-```
-
-### xselをインストールする
-tmuxからLinuxのクリップボードにコピーするためにxselと連携する。
-
-| OS                       | コマンド                                |
-|:-------------------------|:----------------------------------------|
-| Debian系([※1](#debian)) | `sudo apt-get install xsel` |
-| redhat系 | `sudo yum install xsel`        |
-
-redhat系は試してないのでパッケージ名が違うかも。
+[Wikiに移行済](https://github.com/yyotti/unix_settings/wiki/install_tmux)
 
 ## Powerlineをインストールする
 tmuxやvimが格好良くなるPowerlineを入れる
