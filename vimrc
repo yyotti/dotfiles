@@ -35,7 +35,7 @@ if has('unix')
   " Linuxで必要になるなら有効にする
   " インストール後、自動的にビルドされる
   " ※has('unix')してるくせにその他の環境まで書いてあるのはご愛嬌
-  NeoBundle 'Shougo/vimproc', {
+  NeoBundle 'Shougo/vimproc.vim', {
         \   'build': {
         \     'windows': 'tools\\update-dll-mingw',
         \     'cygwin': 'make -f make_cygwin.mak',
@@ -94,7 +94,7 @@ NeoBundle 'sudo.vim', {
 NeoBundle 'osyo-manga/vim-watchdogs', {
       \   'depends': [
       \     'thinca/vim-quickrun',
-      \     'Shougo/vimproc',
+      \     'Shougo/vimproc.vim',
       \     'osyo-manga/shabadou.vim',
       \   ],
       \ }
@@ -112,7 +112,7 @@ NeoBundle 'syngan/vim-vimlint', {
       \   ],
       \ }
 NeoBundle 'Shougo/neocomplete.vim', {
-      \   'depends': ['Shougo/vimproc'],
+      \   'depends': ['Shougo/vimproc.vim'],
       \   'disabled': !has('lua'),
       \   'vim_version': '7.3.885',
       \ }
@@ -150,7 +150,7 @@ NeoBundleLazy 'kannokanno/previm', {
 NeoBundleLazy 'gre/play2vim'
 NeoBundleLazy 'itchyny/vim-haskell-indent'
 NeoBundleLazy 'eagletmt/ghcmod-vim', {
-      \   'depends': ['Shougo/vimproc'],
+      \   'depends': ['Shougo/vimproc.vim'],
       \   'external_commands': 'ghc-mod',
       \ }
 " }}}
