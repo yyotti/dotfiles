@@ -908,8 +908,26 @@ else
   " リアルタイムにカラースキームを書き換えるための細工
   augroup vimrc_powerline_colorscheme
     autocmd!
-    autocmd ColorScheme * :python if 'powerline' in globals(): powerline.reload()
+    autocmd ColorScheme * call s:change_powerline_colorscheme()
   augroup END
+
+  function! s:change_powerline_colorscheme() abort
+    let postfix = ''
+    if &background == 'light'
+      let postfix = 'light'
+    endif
+
+    " powerlineのcolorscheme設定を書き換えてやる
+    let g:powerline_config_overrides = {
+        \   'ext': {
+        \     'vim': {
+        \       'colorscheme': 'custom' . postfix,
+        \     },
+        \   },
+        \ }
+
+    python if 'powerline' in globals(): powerline.reload()
+  endfunction
   " }}}
 endif
 " }}}
