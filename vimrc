@@ -906,6 +906,7 @@ else
   nnoremap <silent> <Leader>pr :<C-u>python powerline.reload()<CR>
 
   " リアルタイムにカラースキームを書き換えるための細工
+  " TODO できれば、この制御はPowerline側でやりたい
   augroup vimrc_powerline_colorscheme
     autocmd!
     autocmd ColorScheme * call s:change_powerline_colorscheme()
