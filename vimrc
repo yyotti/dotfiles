@@ -877,7 +877,7 @@ if neobundle#tap('lightline.vim')
   " リアルタイムにカラースキームを書き換えるための細工（helpからコピー）
   augroup LightLineColorscheme
     autocmd!
-    autocmd ColorScheme * call s:lightline_update()
+    autocmd ColorScheme * call <SID>lightline_update()
   augroup END
 
   function! s:lightline_update() " {{{
@@ -909,7 +909,7 @@ else
   " TODO できれば、この制御はPowerline側でやりたい
   augroup vimrc_powerline_colorscheme
     autocmd!
-    autocmd ColorScheme * call s:change_powerline_colorscheme()
+    autocmd ColorScheme * call <SID>change_powerline_colorscheme()
   augroup END
 
   function! s:change_powerline_colorscheme() abort
@@ -1399,7 +1399,7 @@ set hidden
 " 保存時に行末の空白を除去
 augroup vimrc_del_end_ws
   autocmd!
-  autocmd BufWritePre * call s:del_last_whitespaces()
+  autocmd BufWritePre * call <SID>del_last_whitespaces()
 augroup END
 
 function! s:del_last_whitespaces() abort
@@ -1411,7 +1411,7 @@ function! s:del_last_whitespaces() abort
 endfunction
 
 " シンボリックリンクはリンク先で開く
-command! OpenSymlinkTarget call s:open_symlink_target()
+command! OpenSymlinkTarget call <SID>open_symlink_target()
 function! s:open_symlink_target() abort
   let fpath = resolve(expand('%:p'))
   let bufname = bufname('%')
@@ -1502,7 +1502,7 @@ let g:autodate_format = '%Y/%m/%d %H:%M:%S'
 " Git管理下のファイルを開いたら、.gitがあるディレクトリにカレントを移動する
 augroup vimrc_git_dir
   autocmd!
-  autocmd BufWinEnter * :call s:cd_git_root()
+  autocmd BufWinEnter * :call <SID>cd_git_root()
 augroup END
 function! s:cd_git_root() abort
   let buf_path = fnamemodify(expand('%'), ':p')
