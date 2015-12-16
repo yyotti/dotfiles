@@ -1410,7 +1410,7 @@ function! s:del_last_whitespaces() abort
   :%s/\s\+$//ge
 endfunction
 
-" シンボリックリンクはリンク先で開く
+" シンボリックリンクをリンク先で開く
 command! OpenSymlinkTarget call <SID>open_symlink_target()
 function! s:open_symlink_target() abort
   let fpath = resolve(expand('%:p'))
