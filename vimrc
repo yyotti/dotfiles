@@ -1481,6 +1481,24 @@ cnoremap <C-d> <Del>
 cnoremap <C-p> <Up>
 " C-nも<Down>にする
 cnoremap <C-n> <Down>
+
+" C-oで単語境界をトグルする(検索時のみ)
+cnoremap <C-o> <C-\>e<SID>toggle_word_border()<CR>
+function! s:toggle_word_border() abort
+  let cmdline = getcmdline()
+  if getcmdtype() != '/' && getcmdtype() != '?'
+    return cmdline
+  endif
+
+  if cmdline !~# '^\\<.*\\>$'
+    let cmdline = '\<' . cmdline . '\>'
+  else
+    echomsg cmdline
+    let cmdline = cmdline[2:len(cmdline) - 3]
+  endif
+
+  return cmdline
+endfunction
 " }}}
 
 " その他の設定 {{{
