@@ -1457,7 +1457,7 @@ augroup END
 " }}}
 
 " markdown {{{
-augroup vimrc_previm
+augroup vimrc_markdown
   autocmd!
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal wrap
