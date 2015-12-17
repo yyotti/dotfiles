@@ -8,7 +8,10 @@
 	"ext": {
 		"vim": {
 			"colorscheme": "custom",
-			"theme": "custom"
+			"theme": "custom",
+			"local_themes": {
+				"help": "help"
+			}
 		}
 	}
 }
