@@ -50,7 +50,7 @@
 			{
 				"function": "ext.vim.segments.gitgutter.hunks",
 				"exclude_modes": ["nc"],
-				"priority": 30,
+				"priority": 50,
 				"before": " [",
 				"after": "]",
 				"args": {
@@ -86,30 +86,33 @@
 			},
 			{
 				"type": "string",
-				"name": "line_current_symbol"
+				"name": "line_current_symbol",
+				"priority": 20
 			},
 			{
 				"function": "line_current",
 				"draw_soft_divider": false,
+				"priority": 20,
+				"before": "[",
 				"width": 3,
+				"align": "r"
+			},
+			{
+				"function": "line_count",
+				"draw_soft_divider": false,
+				"priority": 20,
+				"before": "/",
+				"after": "]",
+				"width": 4,
 				"align": "r"
 			},
 			{
 				"function": "virtcol_current",
 				"draw_soft_divider": false,
-				"priority": 20,
+				"priority": 70,
 				"before": ":",
 				"width": 3,
 				"align": "l"
-			},
-			{
-				"function": "line_percent",
-				"draw_soft_divider": false,
-				"priority": 50,
-				"before": " (",
-				"after": "%)",
-				"width": 4,
-				"align": "r"
 			},
 			{
 				"function": "ext.vim.segments.watchdogs.watchdogs",
