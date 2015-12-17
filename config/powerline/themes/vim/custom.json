@@ -44,7 +44,6 @@
 			},
 			{
 				"function": "branch",
-				"exclude_modes": ["nc"],
 				"priority": 30,
 				"draw_soft_divider": false
 			},
