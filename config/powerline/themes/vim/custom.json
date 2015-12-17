@@ -74,17 +74,14 @@
 			},
 			{
 				"function": "file_format",
-				"exclude_modes": ["nc"],
 				"priority": 60
 			},
 			{
 				"function": "file_encoding",
-				"exclude_modes": ["nc"],
 				"priority": 60
 			},
 			{
 				"function": "file_type",
-				"exclude_modes": ["nc"],
 				"priority": 60
 			},
 			{
