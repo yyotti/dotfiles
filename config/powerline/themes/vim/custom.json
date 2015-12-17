@@ -33,7 +33,10 @@
 			},
 			{
 				"function": "file_name",
-				"draw_soft_divider": false
+				"draw_soft_divider": false,
+				"args": {
+					"display_no_file": true
+				}
 			},
 			{
 				"function": "modified_indicator",
