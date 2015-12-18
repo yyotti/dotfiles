@@ -8,7 +8,11 @@
 	"ext": {
 		"vim": {
 			"colorscheme": "custom",
-			"theme": "custom"
+			"theme": "custom",
+
+			"local_themes": {
+				"ext.matchers.vim.plugin.unite.unite": "plugin_unite"
+			}
 		}
 	}
 }

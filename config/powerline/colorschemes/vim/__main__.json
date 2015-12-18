@@ -3,6 +3,7 @@
 		"watchdogs": "error",
 		"eskk": "mode",
 		"gitgutter_hunks": "branch",
-		"anzu_search_status": "background"
+		"anzu_search_status": "background",
+		"unite:status_string": "file_name"
 	}
 }
