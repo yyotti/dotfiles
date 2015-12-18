@@ -1632,10 +1632,17 @@ function! s:toggle_background() abort
 endfunction
 
 " splitしているときのウィンドウ移動
-nnoremap <Space>h <C-w>h
-nnoremap <Space>l <C-w>l
-nnoremap <Space>k <C-w>k
-nnoremap <Space>j <C-w>j
+nnoremap <Leader>h <C-w>h
+nnoremap <Leader>l <C-w>l
+nnoremap <Leader>k <C-w>k
+nnoremap <Leader>j <C-w>j
+" ウィンドウを入れ替える
+nnoremap <Leader>x <C-w>x
+" ウィンドウの位置を組替える
+nnoremap <Leader>K <C-w>K
+nnoremap <Leader>J <C-w>J
+nnoremap <Leader>H <C-w>H
+nnoremap <Leader>L <C-w>L
 
 " バッファ削除
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
