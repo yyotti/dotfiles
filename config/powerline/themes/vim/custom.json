@@ -27,7 +27,7 @@
 			},
 			{
 				"function": "file_directory",
-				"priority": 40,
+				"priority": 60,
 				"exclude_modes": ["nc"],
 				"draw_soft_divider": false
 			},
@@ -70,21 +70,21 @@
 				"function": "ext.segments.vim.plugin.anzu.search_status",
 				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
-				"priority": 10
+				"priority": 60
 			},
 			{
 				"function": "file_format",
 				"exclude_modes": ["nc"],
-				"priority": 60
+				"priority": 50
 			},
 			{
 				"function": "file_encoding",
 				"exclude_modes": ["nc"],
-				"priority": 60
+				"priority": 50
 			},
 			{
 				"function": "file_type",
-				"priority": 60
+				"priority": 50
 			},
 			{
 				"type": "string",
