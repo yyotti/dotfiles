@@ -6,7 +6,7 @@
 				"exclude_modes": ["nc"]
 			},
 			{
-				"function": "ext.segments.vim.eskk.eskk_status",
+				"function": "ext.segments.vim.plugin.eskk.eskk_status",
 				"exclude_modes": ["nc"]
 			},
 			{
