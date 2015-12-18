@@ -7,8 +7,6 @@ from powerline.bindings.vim import vim_get_func
 @window_cached
 def status_string(pl):
 	status_string = vim_get_func('vimfiler#get_status_string')()
-	# if len(status_string) > 0:
-	# 	status_string = status_string.split(" |")[0]
 
 	return [{
 		'contents': status_string,
