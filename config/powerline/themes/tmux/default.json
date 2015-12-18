@@ -1,13 +1,13 @@
 {
 	"segment_data": {
-		"ext.common.mail.email_imap_alert": {
+		"ext.segments.common.mail.email_imap_alert": {
 			"before": "✉ "
 		}
 	},
 	"segments": {
 		"right": [
 			{
-				"function": "ext.common.mail.email_imap_alert",
+				"function": "ext.segments.common.mail.email_imap_alert",
 				"priority": 30,
 				"args": {
 					"server": "imap.gmail.com",
@@ -23,18 +23,18 @@
 				}
 			},
 			{
-				"function": "ext.tmux.segments.ps.used_memory",
+				"function": "ext.segments.tmux.ps.used_memory",
 				"priority": 50
 			},
 			{
-				"function": "ext.tmux.segments.ps.total_memory",
+				"function": "ext.segments.tmux.ps.total_memory",
 				"priority": 50,
 				"before": "/",
 				"after": " MB",
 				"draw_soft_divider": false
 			},
 			{
-				"function": "ext.tmux.segments.ps.used_memory_percent",
+				"function": "ext.segments.tmux.ps.used_memory_percent",
 				"priority": 50,
 				"before": " (",
 				"after": ")",
