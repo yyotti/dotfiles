@@ -2,8 +2,7 @@
 	"segments": {
 		"left": [
 			{
-				"function": "mode",
-				"exclude_modes": ["nc"]
+				"function": "ext.segments.vim.mode"
 			},
 			{
 				"function": "ext.segments.vim.plugin.eskk.eskk_status",
