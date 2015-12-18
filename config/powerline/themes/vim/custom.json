@@ -95,27 +95,21 @@
 				"function": "line_current",
 				"draw_soft_divider": false,
 				"priority": 20,
-				"before": "[",
-				"width": 3,
-				"align": "r"
+				"before": "["
 			},
 			{
 				"function": "line_count",
 				"draw_soft_divider": false,
 				"priority": 20,
 				"before": "/",
-				"after": "]",
-				"width": 4,
-				"align": "r"
+				"after": "]"
 			},
 			{
 				"function": "virtcol_current",
 				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
 				"priority": 70,
-				"before": ":",
-				"width": 3,
-				"align": "l"
+				"before": ":"
 			},
 			{
 				"function": "ext.segments.vim.plugin.watchdogs.watchdogs",
