@@ -67,7 +67,7 @@
 		],
 		"right": [
 			{
-				"function": "ext.segments.vim.anzu.search_status",
+				"function": "ext.segments.vim.plugin.anzu.search_status",
 				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
 				"priority": 10
