@@ -2,11 +2,6 @@
 # vim:se fenc=utf8 noet ts=8 sw=8 sts=8:
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
-try:
-	import vim
-except ImportError:
-	vim = object()
-
 import re
 
 from powerline.bindings.vim import (vim_func_exists, vim_global_exists, vim_get_func, vim_getvar)

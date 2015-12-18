@@ -48,7 +48,7 @@
 				"draw_soft_divider": false
 			},
 			{
-				"function": "ext.segments.vim.gitgutter.hunks",
+				"function": "ext.segments.vim.plugin.gitgutter.hunks",
 				"exclude_modes": ["nc"],
 				"priority": 50,
 				"before": " [",
