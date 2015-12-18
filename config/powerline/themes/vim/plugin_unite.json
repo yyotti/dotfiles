@@ -29,15 +29,12 @@
 			},
 			{
 				"function": "line_current",
-				"draw_soft_divider": false,
-				"align": "r"
+				"draw_soft_divider": false
 			},
 			{
 				"function": "line_count",
 				"draw_soft_divider": false,
-				"before": "/",
-				"width": 4,
-				"align": "r"
+				"before": "/"
 			}
 		]
 	}
