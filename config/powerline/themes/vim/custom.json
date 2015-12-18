@@ -6,7 +6,7 @@
 				"exclude_modes": ["nc"]
 			},
 			{
-				"function": "ext.vim.segments.eskk.eskk_status",
+				"function": "ext.segments.vim.eskk.eskk_status",
 				"exclude_modes": ["nc"]
 			},
 			{
@@ -48,7 +48,7 @@
 				"draw_soft_divider": false
 			},
 			{
-				"function": "ext.vim.segments.gitgutter.hunks",
+				"function": "ext.segments.vim.gitgutter.hunks",
 				"exclude_modes": ["nc"],
 				"priority": 50,
 				"before": " [",
@@ -67,7 +67,7 @@
 		],
 		"right": [
 			{
-				"function": "ext.vim.segments.anzu.search_status",
+				"function": "ext.segments.vim.anzu.search_status",
 				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
 				"priority": 10
@@ -115,7 +115,7 @@
 				"align": "l"
 			},
 			{
-				"function": "ext.vim.segments.watchdogs.watchdogs",
+				"function": "ext.segments.vim.watchdogs.watchdogs",
 				"exclude_modes": ["nc"],
 				"priority": 70
 			}
