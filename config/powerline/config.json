@@ -11,7 +11,8 @@
 			"theme": "custom",
 
 			"local_themes": {
-				"ext.matchers.vim.plugin.unite.unite": "plugin_unite"
+				"ext.matchers.vim.plugin.unite.unite": "plugin_unite",
+				"ext.matchers.vim.plugin.vimfiler.vimfiler": "plugin_vimfiler"
 			}
 		}
 	}
