@@ -6,6 +6,8 @@
 		"anzu_search_status": "background",
 		"unite:status_string": "file_name",
 		"vimfiler:status_string": "file_directory",
-		"fugitive:repos_dir": "file_directory"
+		"fugitive:repos_dir": "file_directory",
+		"fugitive:revision": "branch",
+		"fugitive:file_directory": "file_directory"
 	}
 }
