@@ -110,6 +110,7 @@
 			},
 			{
 				"function": "virtcol_current",
+				"exclude_modes": ["nc"],
 				"draw_soft_divider": false,
 				"priority": 70,
 				"before": ":",
