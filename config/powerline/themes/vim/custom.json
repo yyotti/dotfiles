@@ -115,7 +115,7 @@
 				"align": "l"
 			},
 			{
-				"function": "ext.segments.vim.watchdogs.watchdogs",
+				"function": "ext.segments.vim.plugin.watchdogs.watchdogs",
 				"exclude_modes": ["nc"],
 				"priority": 70
 			}

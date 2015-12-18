@@ -2,11 +2,6 @@
 # vim:se fenc=utf8 noet ts=8 sw=8 sts=8:
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
-try:
-	import vim
-except ImportError:
-	vim = object()
-
 from powerline.segments.vim import window_cached
 from powerline.bindings.vim import vim_get_func
 
