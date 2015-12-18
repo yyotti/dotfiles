@@ -28,6 +28,7 @@
 			{
 				"function": "file_directory",
 				"priority": 40,
+				"exclude_modes": ["nc"],
 				"draw_soft_divider": false
 			},
 			{
@@ -73,10 +74,12 @@
 			},
 			{
 				"function": "file_format",
+				"exclude_modes": ["nc"],
 				"priority": 60
 			},
 			{
 				"function": "file_encoding",
+				"exclude_modes": ["nc"],
 				"priority": 60
 			},
 			{
