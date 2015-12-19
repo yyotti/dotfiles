@@ -79,6 +79,13 @@ export CLICOLOR=true
 # 補完候補に色
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+# gitリポジトリのrootディレクトリにcdできるプラグインをロードする
+if [ -e $HOME/git/cd-gitroot ]; then
+  fpath=($HOME/git/cd-gitroot(N-/) $fpath)
+  autoload -Uz cd-gitroot
+  alias cdr='cd-gitroot'
+fi
+
 # プロンプト
 _prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%Y/%m/%d %T}]%f"
 _prompt2="%F{cyan}%_> %f"
