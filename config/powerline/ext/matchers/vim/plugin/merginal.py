@@ -5,8 +5,6 @@ import os
 
 from powerline.bindings.vim import (vim_getbufoption, buffer_name)
 
-def branch(matcher_info):
-	return os.path.basename(buffer_name(matcher_info)) == 'Merginal:Branches'
-
-def log(matcher_info):
-	return os.path.basename(buffer_name(matcher_info)) == 'Merginal:HistoryLog'
+def merginal(matcher_info):
+	name = os.path.basename(buffer_name(matcher_info))
+	return len(name) > 8 and name[0:9]  == 'Merginal:'
