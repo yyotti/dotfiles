@@ -15,7 +15,8 @@
 				"ext.matchers.vim.plugin.vimfiler.vimfiler": "plugin_vimfiler",
 				"ext.matchers.vim.plugin.fugitive.gitcommit": "plugin_fugitive-gitcommit",
 				"ext.matchers.vim.plugin.fugitive.revision": "plugin_fugitive-revision",
-				"ext.matchers.vim.plugin.merginal.branch": "plugin_merginal-branch"
+				"ext.matchers.vim.plugin.merginal.branch": "plugin_merginal-branch",
+				"ext.matchers.vim.plugin.merginal.log": "plugin_merginal-log"
 			}
 		}
 	}

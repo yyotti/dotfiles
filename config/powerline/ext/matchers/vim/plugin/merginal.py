@@ -7,3 +7,6 @@ from powerline.bindings.vim import (vim_getbufoption, buffer_name)
 
 def branch(matcher_info):
 	return os.path.basename(buffer_name(matcher_info)) == 'Merginal:Branches'
+
+def log(matcher_info):
+	return os.path.basename(buffer_name(matcher_info)) == 'Merginal:HistoryLog'
