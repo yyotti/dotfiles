@@ -6,7 +6,3 @@
 	algorithm = histogram
 [core]
 	editor = vim
-[alias]
-	ctags = !.git/hooks/ctags
-[init]
-	templatedir = ~/.git_template
