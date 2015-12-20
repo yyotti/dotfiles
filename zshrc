@@ -39,6 +39,13 @@ setopt prompt_subst
 # バックグラウンドジョブの状態変化を即時報告する
 setopt notify
 
+# gitリポジトリのrootディレクトリにcdできるプラグインをロードする
+if [ -e $HOME/git/cd-gitroot ]; then
+  fpath=($HOME/git/cd-gitroot(N-/) $fpath)
+  autoload -Uz cd-gitroot
+  alias cdr='cd-gitroot'
+fi
+
 # 補完
 autoload -U compinit; compinit
 setopt auto_list # 補完候補を一覧で表示する
@@ -78,13 +85,6 @@ export ZSH_COLORS=$LS_COLORS
 export CLICOLOR=true
 # 補完候補に色
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-# gitリポジトリのrootディレクトリにcdできるプラグインをロードする
-if [ -e $HOME/git/cd-gitroot ]; then
-  fpath=($HOME/git/cd-gitroot(N-/) $fpath)
-  autoload -Uz cd-gitroot
-  alias cdr='cd-gitroot'
-fi
 
 # プロンプト
 _prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%Y/%m/%d %T}]%f"
