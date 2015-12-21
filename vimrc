@@ -153,6 +153,7 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
       \   'depends': ['Shougo/vimproc.vim'],
       \   'external_commands': 'ghc-mod',
       \ }
+NeoBundleLazy 'cespare/vim-toml'
 " }}}
 
 " NeoBundle管理以外 {{{
@@ -621,6 +622,16 @@ if neobundle#tap('vim-watchdogs')
     " Haskellのチェックは無効にする
     let g:watchdogs_check_CursorHold_enables = {
           \ "haskell": 0,
+          \ }
+
+    " TOMLのシンタックスチェック設定
+    let g:quickrun_config['toml/watchdogs_checker'] = {
+          \   'type': executable('tomlv') ? 'watchdogs_checker/toml' : '',
+          \ }
+    let g:quickrun_config['watchdogs_checker/toml'] = {
+          \   'command': 'tomlv',
+          \   'exec': '%c %s:p',
+          \   'quickfix/errorformat': "Error in '%f': Near line %l %m",
           \ }
 
     " 設定を追加してやる
@@ -1312,6 +1323,22 @@ if neobundle#tap('unite-googletodo')
 endif
 " }}}
 
+" vim-toml {{{
+if neobundle#tap('vim-toml')
+    " config {{{
+    call neobundle#config({
+                \   'autoload' : {
+                \     'filetypes': [
+                \       'toml',
+                \     ],
+                \   },
+                \ })
+    " }}}
+
+    call neobundle#untap()
+endif
+
+" }}}
 " }}}
 
 call neobundle#end()
