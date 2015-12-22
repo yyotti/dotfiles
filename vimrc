@@ -358,8 +358,8 @@ if neobundle#tap('neocomplete.vim')
     inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
 
     " キーワード補完
-    inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-    inoremap <expr> ' pumvisible() ? "\<C-y>" : "'"
+    " inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+    " inoremap <expr> ' pumvisible() ? "\<C-y>" : "'"
 
     inoremap <silent> <expr> <C-x><C-f> neocomplete#smart_manual_complete('file')
 
