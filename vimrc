@@ -346,31 +346,31 @@ if neobundle#tap('neocomplete.vim')
 
     " マッピング {{{
     " TODO 問題ないならこれをプラグイン非依存のキーマップに移動する
-    inoremap <expr> <C-f> pumvisible() ? '\<PageDown>' : '\<Right>'
-    inoremap <expr> <C-b> pumvisible() ? '\<PageUp>' : '\<Left>'
+    inoremap <expr> <C-f> pumvisible() ? "\<PageDown>" : "\<Right>"
+    inoremap <expr> <C-b> pumvisible() ? "\<PageUp>" : "\<Left>"
 
     " <C-h>や<BS>でポップアップをクローズして1文字消す
     " <C-h>の場合は入力を戻さずに、<BS>の場合は入力を戻して消すようにしておく
-    inoremap <expr> <C-h> neocomplete#close_popup() . '\<C-h>'
-    inoremap <expr> <BS> neocomplete#smart_close_popup() . '\<C-h>'
+    inoremap <expr> <C-h> neocomplete#close_popup() . "\<C-h>"
+    inoremap <expr> <BS> neocomplete#smart_close_popup() . "\<C-h>"
 
     " neocomplete. TODO 何をしているのかな？
-    inoremap <expr> <C-n> pumvisible() ? '\<C-n>' : '\<C-x>\<C-u>\<C-p>\<Down>'
+    inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
 
     " キーワード補完
-    inoremap <expr> <C-p> pumvisible() ? '\<C-p>' : '\<C-p>\<C-n>'
-    inoremap <expr> ' pumvisible() ? '\<C-y>' : "'"
+    inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+    inoremap <expr> ' pumvisible() ? "\<C-y>" : "'"
 
     inoremap <silent> <expr> <C-x><C-f> neocomplete#smart_manual_complete('file')
 
     " <CR>でポップアップをクローズしてインデントを保存
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
-      return neocomplete#smart_close_popup() . '\<CR>'
+      return neocomplete#smart_close_popup() . "\<CR>"
     endfunction
 
     " TODO これは何だろう？
-    let g:neocomplete#fallback_mappings = [ '\<C-x>\<C-o>', '\<C-x>\<C-n>' ]
+    let g:neocomplete#fallback_mappings = [ "\<C-x>\<C-o>", "\<C-x>\<C-n>" ]
     " }}}
 
   endfunction
