@@ -1,0 +1,26 @@
+[[plugins]]
+repository = 'Shougo/vimproc.vim'
+  [plugins.build]
+  windows = 'tools\\update-all-mingw'
+  cygwin = 'make -f make_cygwin.mak'
+  mac = 'make -f make_mak.mak'
+  linux = 'make'
+  unix = 'gmake'
+
+# colorschemeはLazyできないようなのでこっち
+[[plugins]]
+repository = 'altercation/vim-colors-solarized'
+
+# 環境次第では無効化される
+[[plugins]]
+repository = 'itchyny/lightline.vim'
+disabled = 'PowerlineEnabled()'
+
+[[plugins]]
+repository = 'tpope/vim-fugitive'
+
+[[plugins]]
+repository = 'idanarye/vim-merginal'
+depends = 'tpope/vim-fugitive'
+
+# vim: fenc=utf-8 ts=8 sw=0 sts=2 expandtab:

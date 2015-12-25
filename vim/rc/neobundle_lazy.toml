@@ -1,0 +1,174 @@
+[[plugins]]
+repository = 'Shougo/neocomplete.vim'
+depends = 'Shougo/vimproc.vim'
+vim_version = '7.3.885'
+on_i = 1
+disabled = '!has("lua")'
+
+[[plugins]]
+repository = 'Shougo/neosnippet.vim'
+depends = [ 'Shougo/neocomplete.vim', 'Shougo/neosnippet-snippets' ]
+on_i = 1
+on_ft = 'snippet'
+on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
+
+[[plugins]]
+repository = 'Shougo/unite.vim'
+depends = 'Shougo/neomru.vim'
+  [plugins.on_cmd]
+  name = 'Unite'
+  complete = 'customlist,unite#complete_source'
+
+[[plugins]]
+repository = 'Shougo/vimfiler.vim'
+depends = 'Shougo/unite.vim'
+on_map = '<Plug>'
+on_path = '.*'
+  [plugins.on_cmd]
+  name = 'VimFiler'
+  complete = 'customlist,vimfiler#complete'
+
+[[plugins]]
+repository = 'tyru/eskk.vim'
+on_map = [ [ 'i', '<Plug>' ], [ 'c', '<Plug>' ] ]
+
+[[plugins]]
+repository = 'osyo-manga/unite-quickfix'
+depends = 'Shougo/unite.vim'
+
+[[plugins]]
+repository = 'thinca/vim-quickrun'
+on_map = '<Plug>'
+
+[[plugins]]
+repository = 'thinca/vim-ref'
+external_commands = 'lynx'
+on_map = [ 'sxn', '<Plug>(ref-keyword)', 'K' ]
+
+[[plugins]]
+repository = 'osyo-manga/vim-watchdogs'
+depends = [ 'thinca/vim-quickrun', 'Shougo/vimproc.vim', 'osyo-manga/shabadou.vim' ]
+on_cmd = 'WatchdogsRun'
+on_i = 1
+
+[[plugins]]
+repository = 'KazuakiM/vim-qfsigns'
+depends = 'osyo-manga/vim-watchdogs'
+on_source = 'vim-watchdogs'
+
+[[plugins]]
+repository = 'KazuakiM/vim-qfstatusline'
+depends = 'osyo-manga/vim-watchdogs'
+on_source = 'vim-watchdogs'
+disabled = 'PowerlineEnabled()'
+
+[[plugins]]
+repository = 'syngan/vim-vimlint'
+depends = [ 'ynkdir/vim-vimlparser', 'osyo-manga/vim-watchdogs' ]
+on_ft = 'vim'
+
+[[plugins]]
+repository = 'tomtom/tcomment_vim'
+on_path = '.*'
+
+[[plugins]]
+repository = 'vim-jp/vital.vim'
+on_cmd = 'Vitalize'
+
+[[plugins]]
+repository = 'easymotion/vim-easymotion'
+on_map = '<Plug>(easymotion-'
+
+[[plugins]]
+repository = 'osyo-manga/vim-anzu'
+on_map = '<Plug>'
+on_func = 'anzu#'
+
+[[plugins]]
+repository = 'tyru/restart.vim'
+gui = 1
+on_cmd = 'Restart'
+
+[[plugins]]
+repository = 'kana/vim-operator-replace'
+depends = 'kana/vim-operator-user'
+on_map = [ [ 'nx', '<Plug>(operator-replace)' ] ]
+
+[[plugins]]
+repository = 'rhysd/vim-operator-surround'
+depends = 'kana/vim-operator-user'
+on_map = [ [ 'nx', '<Plug>(operator-surround' ] ]
+
+# TODO こいつをうまくロードする方法を考える
+[[plugins]]
+repository = 'lambdalisue/vim-unified-diff'
+on_path = '.*'
+on_i = 1
+
+[[plugins]]
+repository = 'lilydjwg/colorizer'
+on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
+on_ft = [ 'smarty', 'html', 'css', 'php' ]
+
+[[plugins]]
+repository = 'kannokanno/previm'
+depends = 'tyru/open-browser.vim'
+on_cmd = 'PrevimOpen'
+
+[[plugins]]
+repository = 'smarty-syntax'
+on_ft = 'smarty'
+
+[[plugins]]
+repository = 'derekwyatt/vim-scala'
+on_ft = [ 'scala', 'sbt' ]
+
+[[plugins]]
+repository = 'groenewege/vim-less'
+on_ft = 'less'
+
+[[plugins]]
+repository = 'kchmck/vim-coffee-script'
+on_ft = 'coffee'
+
+[[plugins]]
+repository = 'gre/play2vim'
+on_ft = [ 'play2-conf', 'play2-routes' ]
+
+[[plugins]]
+repository = 'itchyny/vim-haskell-indent'
+on_ft = 'haskell'
+
+[[plugins]]
+repository = 'eagletmt/ghcmod-vim'
+depends = 'Shougo/vimproc.vim'
+external_commands = 'ghc-mod'
+on_ft = 'haskell'
+
+[[plugins]]
+repository = 'benjifisher/matchit.zip'
+on_map = [
+  [ 'nxo', '%', 'g%' ],
+]
+
+[[plugins]]
+repository = 'sudo.vim'
+on_path = 'sudo:.*'
+
+[[plugins]]
+repository = 'cohama/agit.vim'
+depends = 'tpope/vim-fugitive'
+on_cmd = [ 'Agit', 'AgitFile' ]
+
+[[plugins]]
+repository = 'airblade/vim-gitgutter'
+on_path = '.*'
+
+[[plugins]]
+repository = 'yyotti/neosnippet-additional'
+depends = 'Shougo/neosnippet.vim'
+on_source = 'neosnippet.vim'
+
+# TODO unite-todolistを公開したら記述
+
+# vim: fenc=utf-8 ts=8 sw=0 sts=2 expandtab:

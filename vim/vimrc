@@ -1,0 +1,133 @@
+scriptencoding utf-8
+
+"--------------------------------------------------------------------------------
+" Initialize:
+"
+
+if &compatible
+  set nocompatible
+endif
+
+function! s:source_rc(path) abort
+  execute 'source' fnameescape(RcDir() . '/' . a:path)
+endfunction
+
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:rc_path = resolve(expand('~/.vim/rc'))
+
+function! IsWindows() abort
+  return s:is_windows
+endfunction
+
+function! PowerlineEnabled() abort
+  return has("python") && executable("powerline-daemon")
+endfunction
+
+function! RcDir() abort
+  return s:rc_path
+endfunction
+
+call s:source_rc('init.vim')
+
+" 必須
+call neobundle#begin(expand('$CACHE/neobundle'))
+
+" NeoBundle
+if neobundle#load_cache(expand('<sfile>'), RcDir() . '/neobundle.toml', RcDir() . '/neobundle_lazy.toml')
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  " プラグイン設定をロードする
+  " TODO サーバ用と家PC用とで分ける
+  call neobundle#load_toml(RcDir() . '/neobundle.toml', { 'install_process_timeout': 30 })
+  call neobundle#load_toml(RcDir() . '/neobundle_lazy.toml', { 'install_process_timeout': 30, 'lazy': 1 })
+
+  " 開発用設定をロードする
+  for s:file in glob('~/.*_dev.vim', 0, 1)
+    execute 'source' fnameescape(expand(s:file))
+    unlet s:file
+  endfor
+
+  NeoBundleSaveCache
+endif
+
+" プラグインごとの設定
+call s:source_rc('plugins.vim')
+
+call neobundle#end()
+
+" 必須
+filetype plugin indent on
+
+" syntax colorを有効にする
+syntax enable
+
+" インストールチェック
+if !has('vim_starting')
+  NeoBundleCheck
+endif
+
+"--------------------------------------------------------------------------------
+" Encoding:
+"
+call s:source_rc('encoding.vim')
+
+"--------------------------------------------------------------------------------
+" Search:
+"
+call s:source_rc('search.vim')
+
+"--------------------------------------------------------------------------------
+" Edit:
+"
+call s:source_rc('edit.vim')
+
+"--------------------------------------------------------------------------------
+" View:
+"
+call s:source_rc('view.vim')
+
+"--------------------------------------------------------------------------------
+" FileType:
+"
+call s:source_rc('filetype.vim')
+
+"--------------------------------------------------------------------------------
+" Mappings:
+"
+call s:source_rc('mappings.vim')
+
+"--------------------------------------------------------------------------------
+" GUI:
+"
+if has('gui_running')
+  call s:source_rc('gui.vim')
+endif
+
+"--------------------------------------------------------------------------------
+" Colorscheme:
+"
+call s:source_rc('colorscheme.vim')
+
+"--------------------------------------------------------------------------------
+" Powerline:
+"
+call s:source_rc('powerline.vim')
+
+"--------------------------------------------------------------------------------
+" Others:
+"
+" TODO そのうちプラグインにする
+call s:source_rc('autoscp.vim')
+
+" 問題がない限り、やったほうがいいらしい
+set secure
+
+"--------------------------------------------------------------------------------
+" Local Settings:
+"
+if filereadable(expand('~/.vimrc_local'))
+  execute 'source' expand('~/.vimrc_local')
+endif
+
+" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
