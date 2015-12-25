@@ -37,9 +37,11 @@ if neobundle#tap('unite.vim') " {{{
   " ブックマーク一覧
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
   " バッファ内で行を検索
-  nnoremap <silent> [unite]l :<C-u>Unite line -start-insert<CR>
+  nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " grep
-  nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()` -auto-preview -no-empty -resume<CR>
+  nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep -no-start-insert -auto-preview -no-empty<CR>
+  " grep用のresume
+  nnoremap <silent> [unite]r :<C-u>UniteResume -buffer-name=grep -no-start-insert -auto-preview -no-empty grep<CR>
   " }}}
 
   " ステータスラインを強制的に書き換えるのを抑止する
