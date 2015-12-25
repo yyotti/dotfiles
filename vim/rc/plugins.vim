@@ -539,4 +539,20 @@ if neobundle#tap('unite-googletodo') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-toml') " {{{
+  if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+  endif
+  let g:quickrun_config['toml/watchdogs_checker'] = {
+        \     "type": executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
+        \ }
+  let g:quickrun_config['watchdogs_checker/tomlv'] = {
+        \   'command': 'tomlv',
+        \   "exec" : '%c %s:p',
+        \   'quickfix/errorformat': "Error in '%f': Near line %l %m",
+        \ }
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:

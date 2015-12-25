@@ -169,6 +169,10 @@ repository = 'yyotti/neosnippet-additional'
 depends = 'Shougo/neosnippet.vim'
 on_source = 'neosnippet.vim'
 
+[[plugins]]
+repository = 'cespare/vim-toml'
+on_ft = 'toml'
+
 # TODO unite-todolistを公開したら記述
 
 # vim: fenc=utf-8 ts=8 sw=0 sts=2 expandtab:
