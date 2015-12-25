@@ -122,12 +122,6 @@ if neobundle#tap('vim-watchdogs') " {{{
         \ "haskell": 0,
         \ }
 
-  " @vimlint(EVL103, 1, a:bundle)
-  function! neobundle#hooks.on_source(bundle) abort " {{{
-    call watchdogs#setup(g:quickrun_config)
-  endfunction " }}}
-  " @vimlint(EVL103, 0, a:bundle)
-
   call neobundle#untap()
 endif " }}}
 
@@ -158,41 +152,6 @@ if neobundle#tap('vim-qfstatusline') " {{{
   endif
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
   let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 3
-
-  call neobundle#untap()
-endif " }}}
-
-if neobundle#tap('vim-vimlint') " {{{
-  let s:vimlint = neobundle#tapped
-
-  " vimlparserのパスを検索
-  let s:vimlint_plugin_dir = s:vimlint.path
-  let s:vimlparser_plugin_dir = ''
-  for s:dep in s:vimlint.depends
-    if s:dep.name ==# 'vim-vimlparser'
-      let s:vimlparser_plugin_dir = s:dep.path
-      unlet s:dep
-      break
-    endif
-
-    unlet s:dep
-  endfor
-
-  if !exists('g:quickrun_config')
-    let g:quickrun_config = {}
-  endif
-  let g:quickrun_config['vim/watchdogs_checker'] = {
-        \     "type": "watchdogs_checker/vimlint"
-        \ }
-  let g:quickrun_config['watchdogs_checker/vimlint'] = {
-        \   'command': 'vim',
-        \   "exec" : '%C -X -N -u NONE -i NONE -V1 -e -s -c "set rtp+=' . s:vimlparser_plugin_dir . ',' . s:vimlint_plugin_dir . '" -c "call vimlint#vimlint(''%s'', %{ exists(''g:vimlint#config'') ? string(g:vimlint#config) : g:watchdogs#vimlint_empty_config })" -c "qall!"',
-        \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
-        \ }
-
-  unlet s:vimlparser_plugin_dir
-  unlet s:vimlint_plugin_dir
-  unlet s:vimlint
 
   call neobundle#untap()
 endif " }}}

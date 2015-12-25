@@ -65,7 +65,7 @@ disabled = 'PowerlineEnabled()'
 [[plugins]]
 repository = 'syngan/vim-vimlint'
 depends = [ 'ynkdir/vim-vimlparser', 'osyo-manga/vim-watchdogs' ]
-on_ft = 'vim'
+on_source = 'vim-watchdogs'
 
 [[plugins]]
 repository = 'tomtom/tcomment_vim'
