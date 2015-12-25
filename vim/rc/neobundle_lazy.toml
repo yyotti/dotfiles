@@ -129,7 +129,7 @@ on_ft = 'less'
 
 [[plugins]]
 repository = 'kchmck/vim-coffee-script'
-on_ft = 'coffee'
+on_ft = [ 'coffee', 'markdown' ]
 
 [[plugins]]
 repository = 'gre/play2vim'
