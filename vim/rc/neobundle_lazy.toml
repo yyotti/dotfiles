@@ -87,7 +87,7 @@ on_func = 'anzu#'
 [[plugins]]
 repository = 'tyru/restart.vim'
 gui = 1
-on_cmd = 'Restart'
+on_cmd = [ 'Restart', 'RestartWithSession' ]
 
 [[plugins]]
 repository = 'kana/vim-operator-replace'
