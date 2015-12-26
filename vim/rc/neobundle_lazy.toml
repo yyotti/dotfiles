@@ -43,7 +43,7 @@ on_map = '<Plug>'
 [[plugins]]
 repository = 'thinca/vim-ref'
 external_commands = 'lynx'
-on_map = [ 'sxn', '<Plug>(ref-keyword)', 'K' ]
+on_map = [ [ 'nx', '<Plug>(ref-keyword)', 'K' ] ]
 
 [[plugins]]
 repository = 'osyo-manga/vim-watchdogs'
