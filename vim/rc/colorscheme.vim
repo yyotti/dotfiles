@@ -15,7 +15,6 @@ function! s:exists_colorscheme(name) abort " {{{
 
   for c in color_files
     let f = fnamemodify(c, ":t:r")
-    echomsg string(f)
     if f ==# a:name
       return 1
     endif

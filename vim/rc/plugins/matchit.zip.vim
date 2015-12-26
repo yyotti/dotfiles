@@ -7,7 +7,6 @@ scriptencoding utf-8
 runtime macros/matchit.vim
 
 function! s:set_match_words() abort " {{{
-  echomsg string('yobareta')
   let words = [ '(:)', '{:}', '[:]', '（:）', '「:」' ]
   if exists('b:match_words')
     for w in words

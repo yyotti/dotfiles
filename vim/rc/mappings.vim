@@ -103,7 +103,6 @@ function! s:toggle_word_border() abort
   if cmdline !~# '^\\<.*\\>$'
     let cmdline = '\<' . cmdline . '\>'
   else
-    echomsg cmdline
     let cmdline = cmdline[2:len(cmdline) - 3]
   endif
 
