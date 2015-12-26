@@ -17,9 +17,6 @@ repository = 'itchyny/lightline.vim'
 disabled = 'PowerlineEnabled()'
 
 [[plugins]]
-repository = 'tpope/vim-fugitive'
-
-[[plugins]]
 repository = 'idanarye/vim-merginal'
 depends = 'tpope/vim-fugitive'
 

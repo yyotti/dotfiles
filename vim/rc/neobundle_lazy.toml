@@ -180,6 +180,17 @@ on_path = '.*'
 [[plugins]]
 repository = 'Shougo/unite-outline'
 
+[[plugins]]
+repository = 'tpope/vim-fugitive'
+on_path = '.*'
+on_cmd = [
+  'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush', 'Gfetch', 'Ggrep',
+  'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit', 'Gpedit', 'Gread', 'Gwrite',
+  'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff', 'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
+  'Merginal', 'MerginalToggle', 'MerginalClose', # FIXME vim-merginalのコマンドまで入っているのが気持ち悪い
+]
+augroup = 'fugitive'
+
 # TODO unite-todolistを公開したら記述
 
 # vim: fenc=utf-8 ts=8 sw=0 sts=2 expandtab:
