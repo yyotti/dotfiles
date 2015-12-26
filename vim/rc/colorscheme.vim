@@ -10,7 +10,21 @@ else
   set background=light
 endif
 
-if neobundle#is_sourced('vim-colors-solarized')
+function! s:exists_colorscheme(name) abort " {{{
+  let color_files = split(globpath(&runtimepath, 'colors/*.vim'), '\n')
+
+  for c in color_files
+    let f = fnamemodify(c, ":t:r")
+    echomsg string(f)
+    if f ==# a:name
+      return 1
+    endif
+  endfor
+
+  return 0
+endfunction " }}}
+
+if s:exists_colorscheme('solarized')
   colorscheme solarized
 else
   colorscheme desert
