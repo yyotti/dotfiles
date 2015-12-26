@@ -94,6 +94,8 @@ if neobundle#tap('vim-ref') " {{{
   autocmd VimrcAutocmd FileType * if &filetype =~# '\v^ref-.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
   " }}}
 
+  let neobundle#hooks.on_source = s:fpath('vim-ref.vim')
+
   call neobundle#untap()
 endif " }}}
 
