@@ -157,6 +157,14 @@ if neobundle#tap('vim-qfstatusline') " {{{
 endif " }}}
 
 if neobundle#tap('vim-easymotion') " {{{
+  " 設定 {{{
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  let g:EasyMotion_use_migemo = 1
+  let g:EasyMotion_startofline = 0
+  " }}}
+
   " マッピング {{{
   " easymotionのプレフィックスは基本的に'とする
   map ' <Plug>(easymotion-prefix)
@@ -180,8 +188,6 @@ if neobundle#tap('vim-easymotion') " {{{
   " これがあるとw/e系がほとんど不要になってしまうが。
   map 's <Plug>(easymotion-sn)
   " }}}
-
-  let neobundle#hooks.on_source = s:fpath('vim-easymotion.vim')
 
   call neobundle#untap()
 endif " }}}
