@@ -52,7 +52,7 @@ set foldenable
 " 折り畳みはマーカーとする
 set foldmethod=marker
 " 折り畳みの表示
-set foldcolumn=1
+set foldcolumn=2
 set fillchars=vert:\|
 set commentstring=%s
 

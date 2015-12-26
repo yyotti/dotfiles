@@ -521,4 +521,10 @@ if neobundle#tap('vim-toml') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('foldCC.vim') " {{{
+  let g:foldCCtext_enable_autofdc_adjuster = 1
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
