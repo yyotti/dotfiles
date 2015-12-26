@@ -527,4 +527,9 @@ if neobundle#tap('foldCC.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('unite-outline') " {{{
+  nnoremap <silent> [unite]o :<C-u>Unite outline -no-start-insert -resume<CR>
+
+  call neobundle#untap()
+endif " }}}
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
