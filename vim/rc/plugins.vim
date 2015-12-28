@@ -110,14 +110,17 @@ if neobundle#tap('vim-watchdogs') " {{{
   let g:quickrun_config['watchdogs_checker/_']['outputter/quickfix/open_cmd'] = ''
 
   " tomlv
-  let g:quickrun_config['toml/watchdogs_checker'] = {
-        \     "type": executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
-        \ }
-  let g:quickrun_config['watchdogs_checker/tomlv'] = {
-        \   'command': 'tomlv',
-        \   "exec" : '%c %s:p',
-        \   'quickfix/errorformat': "Error in '%f': Near line %l %m",
-        \ }
+  if !has_key(g:quickrun_config, 'toml/watchdogs_checker')
+    let g:quickrun_config['toml/watchdogs_checker'] = {}
+  endif
+  let g:quickrun_config['toml/watchdogs_checker']['type'] = executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
+
+  if !has_key(g:quickrun_config, 'watchdogs_checker/tomlv')
+    let g:quickrun_config['watchdogs_checker/tomlv'] = {}
+  endif
+  let g:quickrun_config['watchdogs_checker/tomlv']['command'] = 'tomlv'
+  let g:quickrun_config['watchdogs_checker/tomlv']['exec'] = '%c %s:p'
+  let g:quickrun_config['watchdogs_checker/tomlv']['quickfix/errorformat'] = "Error in '%f': Near line %l %m"
 
   " 書き込み後にシンタックスチェックを行う
   let g:watchdogs_check_BufWritePost_enable = 1
