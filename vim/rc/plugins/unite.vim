@@ -12,8 +12,28 @@ call unite#custom#profile('default', 'context', {
       \   'start_insert': 1,
       \ })
 
-" TODO grepのための設定を記述する
-" hwだったりagだったりの他にggrepも追加
+" grepに使うコマンドを指定。
+" 優先順位は hw > pt > ag > git > grep  (ptは日本語を扱えるということで)
+" ただ、hwは不安定らしく同じ条件で検索しても結果が異なる。
+" if executable('hw')
+"   " https://github.com/tkengo/highway
+"   let g:unite_source_grep_command = 'hw'
+"   let g:unite_source_grep_default_opts = '--no-group --no-color -n -a -i'
+"   let g:unite_source_grep_recursive_opt = ''
+if executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor -i'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ag')
+  " TODO オプションは改めて見直す必要がある
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = "-i --vimgrep --nocolor --nogroup --hidden --ignore '.hg' --ignore '.svn' --ignore '.git' --ignore '.bzr'"
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('git')
+  let g:unite_source_grep_command = 'git'
+  let g:unite_source_grep_default_opts = '--no-index --no-color --exclude-standard -I --line-number -i'
+  let g:unite_source_grep_recursive_opt = ''
+endif
 
 " unite-menu {{{
 let g:unite_source_menu_menus = {}

@@ -62,13 +62,7 @@ if exists('*FoldCCtext')
 endif
 
 " grepの設定
-if executable('git')
-  " gitがあるならgit grepを使う
-  set grepprg=git\ grep\ --no-index\ --exclude-standard\ -I\ --line-number
-else
-  " gitがないならgrepを使う
-  set grepprg=grep\ -inH
-endif
+set grepprg=grep\ -inH
 
 " ファイル名に使う文字から=を外す
 set isfname-==
