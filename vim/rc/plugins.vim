@@ -109,6 +109,16 @@ if neobundle#tap('vim-watchdogs') " {{{
   let g:quickrun_config['watchdogs_checker/_']['runner/vimproc/updatetime'] = 20
   let g:quickrun_config['watchdogs_checker/_']['outputter/quickfix/open_cmd'] = ''
 
+  " tomlv
+  let g:quickrun_config['toml/watchdogs_checker'] = {
+        \     "type": executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
+        \ }
+  let g:quickrun_config['watchdogs_checker/tomlv'] = {
+        \   'command': 'tomlv',
+        \   "exec" : '%c %s:p',
+        \   'quickfix/errorformat': "Error in '%f': Near line %l %m",
+        \ }
+
   " 書き込み後にシンタックスチェックを行う
   let g:watchdogs_check_BufWritePost_enable = 1
   " Haskellのチェックは無効にする
@@ -501,22 +511,6 @@ if neobundle#tap('unite-googletodo') " {{{
   " @vimlint(EVL103, 0, a:bundle)
 
   nnoremap <silent> [unite]t :<C-u>Unite googletodo -no-start-insert<CR>
-
-  call neobundle#untap()
-endif " }}}
-
-if neobundle#tap('vim-toml') " {{{
-  if !exists('g:quickrun_config')
-    let g:quickrun_config = {}
-  endif
-  let g:quickrun_config['toml/watchdogs_checker'] = {
-        \     "type": executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
-        \ }
-  let g:quickrun_config['watchdogs_checker/tomlv'] = {
-        \   'command': 'tomlv',
-        \   "exec" : '%c %s:p',
-        \   'quickfix/errorformat': "Error in '%f': Near line %l %m",
-        \ }
 
   call neobundle#untap()
 endif " }}}
