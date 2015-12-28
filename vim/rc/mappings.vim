@@ -173,19 +173,11 @@ nnoremap <Leader>L <C-w>L
 " バッファのみにする
 nnoremap <silent> <Leader>o :<C-u>only<CR>
 " バッファ削除
-nnoremap <silent> <Leader>d :<C-u>call <SID>smart_close()<CR>
+nnoremap <silent> <Leader>d :<C-u>call <SID>delete_buffer(0)<CR>
 " バッファ削除(強制)
-nnoremap <silent> <Leader>D :<C-u>call <SID>custom_buffer_delete(1)<CR>
+nnoremap <silent> <Leader>D :<C-u>call <SID>delete_buffer(1)<CR>
 
-function! s:smart_close() abort " {{{
-  if winnr('$') != 1
-    close
-  else
-    call s:alternate_buffer()
-  endif
-endfunction }}}
-
-function! s:custom_buffer_delete(force) abort " {{{
+function! s:delete_buffer(force) abort " {{{
   let current = bufnr('%')
 
   call s:alternate_buffer()
