@@ -526,4 +526,11 @@ if neobundle#tap('unite-outline') " {{{
 
   call neobundle#untap()
 endif " }}}
+
+if neobundle#tap('junkfile.vim') " {{{
+  nnoremap <silent> [unite]j :<C-u>Unite junkfile/new junkfile<CR>
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
