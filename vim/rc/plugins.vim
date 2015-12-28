@@ -269,7 +269,7 @@ if neobundle#tap('ghcmod-vim') " {{{
 endif " }}}
 
 if neobundle#tap('matchit.zip') " {{{
-  let neobundle#hooks.on_source = s:fpath('matchit.zip.vim')
+  let neobundle#hooks.on_post_source = s:fpath('matchit.zip.vim')
 
   call neobundle#untap()
 endif " }}}
