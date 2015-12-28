@@ -7,6 +7,7 @@ scriptencoding utf-8
 " snipMate互換
 " g:snippets_dirを設定するとそこから読んでくれる
 let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#enable_complete_done = 1
 " }}}
 
 " マッピング {{{
