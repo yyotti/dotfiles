@@ -172,10 +172,10 @@ nnoremap <Leader>L <C-w>L
 " バッファ操作 {{{
 " バッファのみにする
 nnoremap <silent> <Leader>o :<C-u>only<CR>
-" バッファ削除
+" バッファ削除(ウィンドウを残す)
 nnoremap <silent> <Leader>d :<C-u>call <SID>delete_buffer(0)<CR>
-" バッファ削除(強制)
-nnoremap <silent> <Leader>D :<C-u>call <SID>delete_buffer(1)<CR>
+" バッファ削除(ノーマル)
+nnoremap <silent> <Leader>D :<C-u>bdelete<CR>
 
 function! s:delete_buffer(force) abort " {{{
   let current = bufnr('%')
