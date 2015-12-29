@@ -492,7 +492,7 @@ if neobundle#tap('neosnippet-additional') " {{{
       let g:neosnippet#snippets_directory = ''
     endif
 
-    let snippets_dir = expand(a:bundle.path . 'snippets/')
+    let snippets_dir = expand(a:bundle.path . '/snippets/')
     let dirs = split(g:neosnippet#snippets_directory, ',')
     for dir in dirs
       if dir ==# snippets_dir
