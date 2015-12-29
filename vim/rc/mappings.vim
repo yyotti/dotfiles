@@ -172,55 +172,10 @@ nnoremap <Leader>L <C-w>L
 " バッファ操作 {{{
 " バッファのみにする
 nnoremap <silent> <Leader>o :<C-u>only<CR>
-" バッファ削除(ウィンドウを残す)
-nnoremap <silent> <Leader>d :<C-u>call <SID>delete_buffer(0)<CR>
-" バッファ削除(ノーマル)
-nnoremap <silent> <Leader>D :<C-u>bdelete<CR>
-
-function! s:delete_buffer(force) abort " {{{
-  let current = bufnr('%')
-
-  call s:alternate_buffer()
-
-  if a:force
-    silent! execute 'bdelete! ' . current
-  else
-    silent! execute 'bdelete ' . current
-  endif
-endfunction " }}}
-
-function! s:alternate_buffer() abort " {{{
-  let listed_buffer_len = len(filter(range(1, bufnr('$')), 's:buflisted(v:val) && getbufvar(v:val, "&filetype") !=# "unite"'))
-  if listed_buffer_len <= 1
-    enew
-    return
-  endif
-
-  let cnt = 0
-  let pos = 1
-  let current = 0
-  while pos <= bufnr('$')
-    if s:buflisted(pos)
-      if pos == bufnr('%')
-        let current = cnt
-      endif
-
-      let cnt += 1
-    endif
-
-    let pos += 1
-  endwhile
-
-  if current > cnt / 2
-    bprevious
-  else
-    bnext
-  endif
-endfunction " }}}
-
-function! s:buflisted(bufnr) abort " {{{
-  return exists('t:unite_buffer_directory') ? has_key(t:unite_buffer_directory, a:bufnr) && buflisted(a:bufnr) : buflisted(a:bufnr)
-endfunction " }}}
+" バッファ削除
+nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
+" バッファ削除(強制)
+nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
 " }}}
 
 " diff {{{
