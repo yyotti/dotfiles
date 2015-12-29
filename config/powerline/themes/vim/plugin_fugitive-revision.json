@@ -21,6 +21,10 @@
 				"draw_soft_divider": false
 			},
 			{
+				"function": "modified_indicator",
+				"before": " "
+			},
+			{
 				"function": "ext.segments.vim.plugin.fugitive.revision",
 				"priority": 20,
 				"args": {
