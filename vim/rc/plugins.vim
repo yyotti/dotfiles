@@ -560,4 +560,10 @@ if neobundle#tap('winresizer') " {{{
   " @vimlint(EVL103, 0, a:bundle)
 endif " }}}
 
+if neobundle#tap('vim-gista') " {{{
+  let g:gista#github_user = 'yyotti'
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
