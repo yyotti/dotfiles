@@ -211,6 +211,10 @@ repository = 'Yggdroot/indentLine'
 on_path = '.*'
 disabled = '!has("conceal")'
 
+[[plugins]]
+repository = 'tpope/vim-repeat'
+on_source = 'vim-easymotion'
+
 # TODO unite-todolistを公開したら記述
 
 # vim: fenc=utf-8 ts=8 sw=2 sts=2 expandtab:
