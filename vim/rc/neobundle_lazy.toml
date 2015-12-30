@@ -206,6 +206,11 @@ on_cmd = 'Gista'
 on_map = '<Plug>(gista-'
 on_unite = 1
 
+[[plugins]]
+repository = 'Yggdroot/indentLine'
+on_path = '.*'
+disabled = '!has("conceal")'
+
 # TODO unite-todolistを公開したら記述
 
 # vim: fenc=utf-8 ts=8 sw=0 sts=2 expandtab:
