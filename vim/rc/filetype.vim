@@ -8,7 +8,7 @@ set autoindent
 set smartindent
 
 augroup VimrcAutocmd
-  autocmd FileType,Syntax,BufEnter,BufWinEnter * call s:on_filetype()
+  autocmd FileType * call s:on_filetype()
 
   autocmd FileType gitcommit setlocal nofoldenable
   autocmd FileType ref nnoremap <buffer> <TAB> <C-w>w
