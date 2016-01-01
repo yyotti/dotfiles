@@ -568,6 +568,7 @@ endif " }}}
 
 if neobundle#tap('vim-gista') " {{{
   let g:gista#github_user = 'yyotti'
+  let g:gista#post_private = 1
 
   nnoremap [unite]a :<C-u>Unite gista<CR>
 
