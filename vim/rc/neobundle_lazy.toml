@@ -211,7 +211,7 @@ on_cmd = 'WinResizerStartResize'
 repository = 'lambdalisue/vim-gista'
 on_cmd = 'Gista'
 on_map = '<Plug>(gista-'
-on_unite = 1
+on_unite = 'gista'
 
 [[plugins]]
 repository = 'Yggdroot/indentLine'
