@@ -187,9 +187,16 @@ on_cmd = [
   'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush', 'Gfetch', 'Ggrep',
   'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit', 'Gpedit', 'Gread', 'Gwrite',
   'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff', 'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
-  'Merginal', 'MerginalToggle', 'MerginalClose', # FIXME vim-merginalのコマンドまで入っているのが気持ち悪い
 ]
 augroup = 'fugitive'
+
+[[plugins]]
+repository = 'idanarye/vim-merginal'
+depends = 'tpope/vim-fugitive'
+augroup = 'merginal'
+on_cmd = [
+  'Merginal', 'MerginalToggle', 'MerginalClose',
+]
 
 [[plugins]]
 repository = 'Shougo/junkfile.vim'

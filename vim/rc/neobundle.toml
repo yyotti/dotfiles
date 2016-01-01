@@ -16,8 +16,4 @@ repository = 'altercation/vim-colors-solarized'
 repository = 'itchyny/lightline.vim'
 disabled = 'PowerlineEnabled()'
 
-[[plugins]]
-repository = 'idanarye/vim-merginal'
-depends = 'tpope/vim-fugitive'
-
 # vim: fenc=utf-8 ts=8 sw=2 sts=2 expandtab:

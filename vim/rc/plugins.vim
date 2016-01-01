@@ -470,6 +470,12 @@ endif " }}}
 if neobundle#tap('vim-merginal') " {{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_post_source(bundle) abort " {{{
+    doautocmd User Fugitive
+  endfunction " }}}
+  " @vimlint(EVL103, 0, a:bundle)
+
   call neobundle#untap()
 endif " }}}
 
