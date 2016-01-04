@@ -519,7 +519,7 @@ if neobundle#tap('unite-googletodo') " {{{
   endfunction " }}}
   " @vimlint(EVL103, 0, a:bundle)
 
-  nnoremap <silent> [unite]t :<C-u>Unite googletodo -no-start-insert<CR>
+  nnoremap <silent> [unite]t :<C-u>Unite googletodo/new googletodo<CR>
 
   call neobundle#untap()
 endif " }}}
