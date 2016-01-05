@@ -5,9 +5,6 @@ scriptencoding utf-8
 if !has('gui_running')
   set t_ut=
   set t_Co=256
-  set background=dark
-else
-  set background=light
 endif
 
 function! s:exists_colorscheme(name) abort " {{{
@@ -25,7 +22,13 @@ endfunction " }}}
 
 if s:exists_colorscheme('solarized')
   colorscheme solarized
+  if has('gui_running')
+    set background=light
+  else
+    set background=dark
+  endif
 else
+  " desertの場合は勝手にbackgroundをdarkにされる
   colorscheme desert
 endif
 
