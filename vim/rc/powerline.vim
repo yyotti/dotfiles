@@ -19,7 +19,7 @@ augroup VimrcAutocmd
   autocmd ColorScheme * call <SID>change_powerline_colorscheme()
 augroup END
 
-function! s:change_powerline_colorscheme() abort
+function! s:change_powerline_colorscheme() abort " {{{
   let postfix = ''
   if &background == 'light'
     let postfix = 'light'
@@ -35,6 +35,6 @@ function! s:change_powerline_colorscheme() abort
         \ }
 
   python if 'powerline' in globals(): powerline.reload()
-endfunction
+endfunction " }}}
 
 " vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
