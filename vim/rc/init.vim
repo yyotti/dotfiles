@@ -47,6 +47,23 @@ if has('vim_starting')
 
     unlet s:neobundle_dir
   endif
+
+  if has('unix')
+    " Linuxならvimprocも同時に準備する
+    " TODO Linuxの他にも準備できる環境はあるので改善する
+    if &runtimepath !~ '/vimproc.vim'
+      let s:vimproc_dir = expand('$CACHE/neobundle/') . '/vimproc.vim'
+      if !isdirectory(s:vimproc_dir)
+        execute printf('!git clone %s://github.com/Shougo/vimproc.vim.git', (exists('$http_proxy') ? 'https' : 'git')) s:vimproc_dir
+        " ビルドする
+        execute printf('!cd "%s"; make', s:vimproc_dir)
+      endif
+
+      " runtimepathへの追加はNeoBundleがやってくれる
+
+      unlet s:vimproc_dir
+    endif
+  endif
 endif
 
 let g:neobundle#default_options = {}
