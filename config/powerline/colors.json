@@ -1,0 +1,30 @@
+{
+    "colors": {
+        "hybrid:background": [ 234, "1d1f21" ],
+        "hybrid:foreground": [ 250, "c5c8c6" ],
+        "hybrid:selection": [ 237, "373b41" ],
+        "hybrid:line": [ 235, "282a2e" ],
+        "hybrid:comment": [ 243, "707880" ],
+
+        "hybrid:red": [ 167, "cc6666" ],
+        "hybrid:orange": [ 173, "de935f" ],
+        "hybrid:yellow": [ 221, "f0c674" ],
+        "hybrid:green": [ 143, "b5bd68" ],
+        "hybrid:aqua": [ 109, "8abeb7" ],
+        "hybrid:blue": [ 110, "81a2be" ],
+        "hybrid:purple": [ 139, "b294bb" ],
+
+        "hybrid:window": [ 236, "303030" ],
+        "hybrid:darkcolumn": [ 234, "1c1c1c" ],
+        "hybrid:addbg": [ 65, "5f875f" ],
+        "hybrid:addfg": [ 193, "d7ffaf" ],
+        "hybrid:changebg": [ 60, "5f5f87" ],
+        "hybrid:changefg": [ 189, "d7d7ff" ],
+        "hybrid:delbg": [ 167, "cc6666" ],
+
+        "hybrid:darkblue": [ 17, "00005f" ],
+        "hybrid:darkcyan": [ 24, "005f5f" ],
+        "hybrid:darkred": [ 52, "5f0000" ],
+        "hybrid:darkpurple": [ 53, "5f005f" ]
+    }
+}
