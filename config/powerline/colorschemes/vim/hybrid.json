@@ -30,7 +30,7 @@
 				"file_name":      "mode",
 				"branch":         { "fg": "hybrid:comment", "bg": "hybrid:background", "attrs": [] },
 				"line_current":   "mode",
-				"file_format":   "mode"
+				"file_format":    "mode"
 			}
 		},
 		"i": {
