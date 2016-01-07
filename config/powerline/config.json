@@ -7,7 +7,7 @@
 	},
 	"ext": {
 		"vim": {
-			"colorscheme": "custom",
+			"colorscheme": "default",
 			"theme": "custom",
 
 			"local_themes": {

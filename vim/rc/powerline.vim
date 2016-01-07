@@ -20,8 +20,18 @@ augroup VimrcAutocmd
 augroup END
 
 function! s:change_powerline_colorscheme() abort " {{{
+  let s:colors_name = g:colors_name
+  if s:colors_name ==# 'solarized'
+    " powerline側のsolarizedをcustomの名前で改造しているので変更する
+    let s:colors_name = 'custom'
+  endif
+
+  if s:colors_name !=# 'custom' && s:colors_name !=# 'hybrid'
+    let s:colors_name = 'default'
+  endif
+
   let postfix = ''
-  if &background == 'light'
+  if s:colors_name ==# 'custom' && &background == 'light'
     let postfix = 'light'
   endif
 
@@ -29,10 +39,12 @@ function! s:change_powerline_colorscheme() abort " {{{
   let g:powerline_config_overrides = {
         \   'ext': {
         \     'vim': {
-        \       'colorscheme': 'custom' . postfix,
+        \       'colorscheme': s:colors_name . postfix,
         \     },
         \   },
         \ }
+
+  unlet s:colors_name
 
   python if 'powerline' in globals(): powerline.reload()
 endfunction " }}}
