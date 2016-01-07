@@ -11,6 +11,9 @@ repository = 'Shougo/vimproc.vim'
 [[plugins]]
 repository = 'altercation/vim-colors-solarized'
 
+[[plugins]]
+repository = 'w0ng/vim-hybrid'
+
 # 環境次第では無効化される
 [[plugins]]
 repository = 'itchyny/lightline.vim'
