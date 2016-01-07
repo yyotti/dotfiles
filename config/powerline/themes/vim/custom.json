@@ -55,7 +55,8 @@
 				"after": "]",
 				"args": {
 					"sign_subsep": ":"
-				}
+				},
+				"draw_soft_divider": false
 			},
 			{
 				"type": "string",
