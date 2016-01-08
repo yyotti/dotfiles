@@ -2,7 +2,7 @@
 	"name": "hybrid for vim",
 	"groups": {
 		"information:additional":   { "fg": "hybrid:foreground", "bg": "hybrid:selection", "attrs": [] },
-		"background":               { "fg": "hybrid:foreground", "bg": "hybrid:background", "attrs": [] },
+		"background":               { "fg": "hybrid:foreground", "bg": "hybrid:line", "attrs": [] },
 		"background:divider":       { "fg": "hybrid:comment", "bg": "hybrid:selection", "attrs": [] },
 		"mode":                     { "fg": "hybrid:foreground", "bg": "hybrid:darkcyan", "attrs": [] },
 		"visual_range":             { "fg": "hybrid:green", "bg": "hybrid:selection", "attrs": ["bold"] },
@@ -20,7 +20,7 @@
 			"groups": {
 				"mode":           { "fg": "hybrid:comment", "bg": "hybrid:window", "attrs": [] },
 				"file_name":      "mode",
-				"branch":         { "fg": "hybrid:comment", "bg": "hybrid:background", "attrs": [] },
+				"branch":         { "fg": "hybrid:comment", "bg": "hybrid:line", "attrs": [] },
 				"line_current":   "mode",
 				"file_format":    "mode"
 			}
