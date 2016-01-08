@@ -31,7 +31,7 @@ elseif executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('git')
   let g:unite_source_grep_command = 'git'
-  let g:unite_source_grep_default_opts = '--no-index --no-color --exclude-standard -I --line-number -i'
+  let g:unite_source_grep_default_opts = 'grep --no-index --no-color --exclude-standard -I --line-number -i'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
