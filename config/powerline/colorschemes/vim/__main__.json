@@ -1,5 +1,15 @@
 {
 	"groups": {
+		"information:unimportant":  "information:additional",
+		"modified_indicator":       "file_name",
+		"readonly_indicator":       "file_name",
+		"branch":                   "background",
+		"file_name_no_file":        "file_name",
+		"file_format":              "file_directory",
+		"line_percent":             "line_current",
+		"line_current_symbol":      "line_current",
+		"virtcol_current":          "line_current",
+
 		"watchdogs": "error",
 		"eskk": "mode",
 		"gitgutter_hunks": "branch",
