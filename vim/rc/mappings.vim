@@ -29,9 +29,6 @@ nnoremap gk k
 xnoremap gj j
 xnoremap gk k
 
-" 行末までコピー（Dで行末まで削除できるのに合わせる）
-nnoremap Y y$
-
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zvzz
 nnoremap g* g*<C-o>zvzz

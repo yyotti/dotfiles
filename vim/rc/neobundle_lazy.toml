@@ -221,6 +221,10 @@ on_source = 'vim-easymotion'
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
+[[plugins]]
+repo = 'haya14busa/vim-operator-flashy'
+on_map = '<Plug>'
+
 # TODO unite-todolistを公開したら記述
 
 # vim:set sw=2:

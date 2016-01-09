@@ -575,4 +575,11 @@ if neobundle#tap('vim-gista') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-operator-flashy') " {{{
+  let g:operator#flashy#flash_time = 300
+
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+endif " }}}
+
 " vim:set sw=2 foldmethod=marker:
