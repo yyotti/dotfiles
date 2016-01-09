@@ -165,4 +165,4 @@ if executable('git')
   endfunction " }}}
 endif
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:

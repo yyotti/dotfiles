@@ -1,5 +1,4 @@
 scriptencoding utf-8
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
 
 "--------------------------------------------------------------------------------
 " Initialize:
@@ -93,3 +92,5 @@ let g:loaded_netrwFileHandlers = 1
 let g:loaded_matchparen = 1
 
 " }}}
+
+" vim:set sw=2 foldmethod=marker:

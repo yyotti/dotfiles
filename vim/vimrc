@@ -132,4 +132,4 @@ if filereadable(expand('~/.vimrc_local'))
   execute 'source' expand('~/.vimrc_local')
 endif
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:

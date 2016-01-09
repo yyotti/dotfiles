@@ -16,4 +16,4 @@ set hlsearch
 " 最後まで検索したら先頭に戻る(逆も)
 set wrapscan
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:

@@ -89,4 +89,4 @@ catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
   autocmd MyAutoCmd VimEnter * highlight ModeMsg guifg=bg guibg=bg | highlight Question guifg=bg guibg=bg
 endtry
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:

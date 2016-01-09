@@ -49,4 +49,4 @@ function! s:change_powerline_colorscheme() abort " {{{
   python if 'powerline' in globals(): powerline.reload()
 endfunction " }}}
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:

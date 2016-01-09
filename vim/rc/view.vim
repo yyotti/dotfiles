@@ -178,4 +178,4 @@ function! s:_wcwidth(ucs) abort " {{{
   return 1
 endfunction " }}}
 
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+" vim:set sw=2 foldmethod=marker:
