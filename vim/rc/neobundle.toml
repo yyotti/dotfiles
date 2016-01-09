@@ -1,5 +1,5 @@
 [[plugins]]
-repository = 'Shougo/vimproc.vim'
+repo = 'Shougo/vimproc.vim'
   [plugins.build]
   windows = 'tools\\update-all-mingw'
   cygwin = 'make -f make_cygwin.mak'
@@ -9,14 +9,14 @@ repository = 'Shougo/vimproc.vim'
 
 # colorschemeはLazyできないようなのでこっち
 [[plugins]]
-repository = 'altercation/vim-colors-solarized'
+repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
-repository = 'w0ng/vim-hybrid'
+repo = 'w0ng/vim-hybrid'
 
 # 環境次第では無効化される
 [[plugins]]
-repository = 'itchyny/lightline.vim'
+repo = 'itchyny/lightline.vim'
 disabled = 'PowerlineEnabled()'
 
 # vim:set sw=2:
