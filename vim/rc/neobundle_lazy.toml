@@ -227,4 +227,4 @@ repository = 'vim-jp/vimdoc-ja'
 
 # TODO unite-todolistを公開したら記述
 
-# vim: fenc=utf-8 ts=8 sw=2 sts=2 expandtab:
+# vim:set sw=2:

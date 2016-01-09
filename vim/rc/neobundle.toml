@@ -19,4 +19,4 @@ repository = 'w0ng/vim-hybrid'
 repository = 'itchyny/lightline.vim'
 disabled = 'PowerlineEnabled()'
 
-# vim: fenc=utf-8 ts=8 sw=2 sts=2 expandtab:
+# vim:set sw=2:
