@@ -21,7 +21,9 @@ function! IsWindows() abort
 endfunction
 
 function! PowerlineEnabled() abort
-  return has("python") && executable("powerline-daemon")
+  let enable_python = has('python') && executable('python')
+  let enable_python3 = has('python3') && executable('python3')
+  return (enable_python || enable_python3) && executable("powerline-daemon")
 endfunction
 
 function! RcDir() abort
