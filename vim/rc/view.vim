@@ -102,8 +102,6 @@ set noequalalways
 " ヘルプウィンドウの最小の高さ
 set helpheight=12
 
-" マクロ実行中は画面を再描画しない
-set lazyredraw
 set ttyfast
 
 " すごく長い行も@にせず表示する
