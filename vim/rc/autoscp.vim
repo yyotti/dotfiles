@@ -8,7 +8,7 @@ if !neobundle#is_installed('vital.vim') || !executable('scp')
   finish
 endif
 
-" .autoscp.json
+" .autoscp.json {{{
 " {
 "     "enable": 1,
 "     "host": "",
@@ -49,6 +49,7 @@ endif
 "     }
 " }
 " remote_baseを空にした場合、sshのホームディレクトリからの相対パスにされる。
+" }}}
 
 augroup VimrcAutocmd
   autocmd BufWinEnter *.php,*.tpl,*.css,*.js call s:vital_init() | call s:autoscp_init()
@@ -65,7 +66,7 @@ let s:autoscp_config_default = {
       \   'path_map': {}
       \ }
 
-function! s:vital_init() abort
+function! s:vital_init() abort " {{{
   if exists('s:Vital')
     return
   endif
@@ -76,13 +77,13 @@ function! s:vital_init() abort
 
   let s:Vital = vital#of('vital')
   let s:Json = s:Vital.import('Web.JSON')
-endfunction
+endfunction " }}}
 
-function! s:add_last_slash(path) abort
+function! s:add_last_slash(path) abort " {{{
   return !empty(a:path) && a:path !~# '/$' ? a:path.'/' : a:path
-endfunction
+endfunction " }}}
 
-function! s:autoscp_init() abort
+function! s:autoscp_init() abort " {{{
   if get(b:, 'autoscp_init', 0)
     return
   endif
@@ -116,16 +117,16 @@ function! s:autoscp_init() abort
   let b:autoscp_local_path = local_base . relpath
 
   let b:autoscp_init = 1
-endfunction
+endfunction " }}}
 
-function! s:autoscp_relpath(path, base) abort
+function! s:autoscp_relpath(path, base) abort " {{{
   let p = expand(a:path)
   let b = s:add_last_slash(expand(a:base))
 
   return stridx(p, b) == 0 ? p[strlen(b):] : p
-endfunction
+endfunction " }}}
 
-function! s:autoscp_upload(force) abort
+function! s:autoscp_upload(force) abort " {{{
   if !exists('b:autoscp_config') || !a:force && !b:autoscp_config.enable
     return
   endif
@@ -158,18 +159,18 @@ function! s:autoscp_upload(force) abort
   if !empty(res)
     call s:err_msg(res)
   endif
-endfunction
+endfunction " }}}
 
-function! s:autoscp_toggle_enable() abort
+function! s:autoscp_toggle_enable() abort " {{{
   if !exists('b:autoscp_config')
     call s:err_msg('autoscpが初期化されていません')
     return
   endif
 
   let b:autoscp_config.enable = !b:autoscp_config.enable
-endfunction
+endfunction " }}}
 
-function! s:load_config(file_path) abort
+function! s:load_config(file_path) abort " {{{
   if !filereadable(a:file_path)
     return 0
   endif
@@ -189,9 +190,9 @@ function! s:load_config(file_path) abort
   call extend(b:autoscp_config, s:autoscp_config_default, 'keep')
 
   return 1
-endfunction
+endfunction " }}}
 
-function! s:check_config(config) abort
+function! s:check_config(config) abort " {{{
   if !has_key(a:config, 'host') || type(a:config.host) != 1 || empty(a:config.host)
     call s:err_msg('.autoscp.josn error: hostは文字列で必ず指定してください')
     return 0
@@ -227,7 +228,7 @@ function! s:check_config(config) abort
   endif
 
   return 1
-endfunction
+endfunction " }}}
 
 function! s:err_msg(msg) abort
   echohl WarningMsg
