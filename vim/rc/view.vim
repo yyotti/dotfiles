@@ -16,7 +16,7 @@ set showmode
 set number
 if v:version >= 703
   " 相対行数を表示
-  set relativenumber
+  " set relativenumber
 endif
 
 " タブや改行を表示する
