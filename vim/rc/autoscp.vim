@@ -161,9 +161,70 @@ function! s:autoscp_upload(force) abort " {{{
   let cmd .= ' '
   let cmd .= remote . ':' . shellescape(b:autoscp_remote_dir)
 
-  let res = system(cmd)
-  if !empty(res)
-    call s:err_msg(res)
+  if neobundle#tap('vimproc.vim')
+    " vimprocが使えるなら非同期アップロード
+    call s:async_exec(cmd)
+  else
+    let res = system(cmd)
+    if !empty(res)
+      call s:err_msg(res)
+    else
+      echo 'uploaded.'
+    endif
+  endif
+endfunction " }}}
+
+function! s:async_exec(cmd) abort " {{{
+  let s:vimproc = vimproc#pgroup_open(a:cmd)
+  call s:vimproc.stdin.close()
+  let s:result = ''
+
+  augroup AutoscpAutocmd
+    autocmd! CursorHold,CursorHoldI * call s:receive_vimproc_result()
+  augroup END
+endfunction " }}}
+
+function! s:receive_vimproc_result() " {{{
+  if !has_key(s:, "vimproc")
+    return
+  endif
+
+  try
+    if !s:vimproc.stdout.eof
+      let s:result .= s:vimproc.stdout.read()
+    endif
+
+    if !s:vimproc.stderr.eof
+      let s:result .= s:vimproc.stderr.read()
+    endif
+
+    if !(s:vimproc.stdout.eof && s:vimproc.stderr.eof)
+      return 0
+    endif
+  catch
+    echom v:throwpoint
+  endtry
+
+  call s:autoscp_finish_upload(s:result)
+
+  augroup AutoscpAutocmd
+    autocmd!
+  augroup END
+
+  call s:vimproc.stdout.close()
+  call s:vimproc.stderr.close()
+  call s:vimproc.waitpid()
+  unlet s:vimproc
+  unlet s:result
+endfunction " }}}
+
+function! s:autoscp_finish_upload(result) " {{{
+  if a:result != ''
+    echohl WarningMsg
+    echomsg 'upload error: ' . a:result
+    echohl None
+  else
+    echo 'uploaded.'
   endif
 endfunction " }}}
 
