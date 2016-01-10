@@ -125,6 +125,7 @@ endfunction " }}}
 
 if v:version >= 703
   set conceallevel=2
+  set concealcursor=
 
   function! s:wcswidth(str) abort " {{{
     return strwidth(a:str)
