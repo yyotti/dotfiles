@@ -39,7 +39,7 @@ set title
 " タイトルの長さ
 set titlelen=95
 " タイトル文字列(tmuxを使っていないときに関係してくる)
-let &titlestring="%{expand('%:p:~:.')}%(%m%r%w%)%<\(%{".s:SID_PREFIX()."strwidthpart(fnamemodify(&filetype ==# 'vimfiler' ? substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),&columns-len(expand('%:p:.:~')))}\) - VIM"
+let &g:titlestring="%{expand('%:p:~:.')}%(%m%r%w%)%<\(%{".s:SID_PREFIX()."strwidthpart(fnamemodify(&filetype ==# 'vimfiler' ? substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),&columns-len(expand('%:p:.:~')))}\) - VIM"
 " タブがあればタブラインを表示する
 set showtabline=1
 
@@ -47,7 +47,7 @@ set showtabline=1
 if !PowerlineEnabled()
   " Powerlineもlightline.vimもOFFの場合はこの設定とする
   " lightline.vimが有効であれば後で上書きされる
-  let &statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+  let &g:statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
         \ . "%{exists('*anzu#search_status')&&!empty(anzu#search_status())?anzu#search_status():''}"
