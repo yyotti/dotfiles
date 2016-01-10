@@ -73,7 +73,7 @@ set novisualbell
 
 " コマンド候補はステータスバーに表示する
 set wildmenu
-set wildmode=list:longest,full
+set wildmode=longest,full
 " 履歴を増やす
 set history=1000
 
