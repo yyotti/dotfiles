@@ -236,10 +236,10 @@ function! s:check_config(config) abort " {{{
   return 1
 endfunction " }}}
 
-function! s:err_msg(msg) abort
+function! s:err_msg(msg) abort " {{{
   echohl WarningMsg
   echo a:msg
   echohl None
-endfunction
+endfunction " }}}
 
 " vim:set sw=2 foldmethod=marker:
