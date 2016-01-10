@@ -3,8 +3,14 @@ scriptencoding utf-8
 " Autoscp:
 "
 
-" autoscp
-if !neobundle#is_installed('vital.vim') || !executable('scp')
+let s:enabled_vital = 0
+if neobundle#tap('vital.vim')
+  let s:enabled_vital = 1
+
+  call neobundle#untap()
+endif
+
+if !s:enabled_vital || !executable('scp')
   finish
 endif
 
