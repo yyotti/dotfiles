@@ -76,15 +76,19 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 # 色の設定
-export LSCOLORS=Exfxcxdxbxegedabagacad
-# 補完時の色
-export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-# ZSH_COLORS
-export ZSH_COLORS=$LS_COLORS
-# lsコマンドの時、色をつける
-export CLICOLOR=true
-# 補完候補に色
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# see: https://github.com/seebi/dircolors-solarized
+# run: ls -s /path/to/dircolors-solarized/dircolors.ansi-universal $HOME/.dircolors
+if [ -f $HOME/.dircolors ]; then
+  if type dircolors > /dev/null 2>&1; then
+    eval $(dircolors $HOME/.dircolors)
+  elif type gdircolors > /dev/null 2>&1; then
+    eval $(gdircolors $HOME/.dircolors)
+  fi
+fi
+# 補完にも同じ色を設定する
+if [ -n "$LS_COLORS" ]; then
+  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi
 
 # プロンプト
 _prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%Y/%m/%d %T}]%f"
