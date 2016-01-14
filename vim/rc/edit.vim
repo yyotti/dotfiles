@@ -8,10 +8,6 @@ set expandtab
 
 " インデントをオプション'shiftwidth'の値の倍数に丸める
 set shiftround
-" タブ設定(ヘルプに書いてある1つ目のやり方だが、expandtabはオンである)
-set tabstop=8
-set softtabstop=4
-set shiftwidth=4
 
 " modelineを有効にする
 set modeline
