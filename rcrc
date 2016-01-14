@@ -1,3 +1,3 @@
 DOTFILES_DIRS="$HOME/git/unix_settings"
 EXCLUDES="README.md install *template.json wiki"
-SYMLINK_DIRS="*:config:powerline *:vim:rc"
+SYMLINK_DIRS="*:config:powerline *:vim"
