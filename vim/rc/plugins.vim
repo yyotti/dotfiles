@@ -616,4 +616,13 @@ if neobundle#tap('vim-operator-flashy') " {{{
   nmap Y <Plug>(operator-flashy)$
 endif " }}}
 
+if neobundle#tap('vim-autoupload') " {{{
+  augroup VimrcAutocmd
+    autocmd BufWinEnter *.php,*.tpl,*.css,*.js call autoupload#init(0)
+    autocmd BufWritePost *.php,*.tpl,*.css,*.js call autoupload#upload(0)
+  augroup END
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:

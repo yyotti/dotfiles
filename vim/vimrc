@@ -126,12 +126,6 @@ call s:source_rc('powerline.vim')
 "
 call s:source_rc('colorscheme.vim')
 
-"-----------------------------------------------------------------------------
-" Others:
-"
-" TODO そのうちプラグインにする
-call s:source_rc('autoscp.vim')
-
 " 問題がない限り、やったほうがいいらしい
 set secure
 
