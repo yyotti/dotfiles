@@ -12,7 +12,6 @@ augroup VimrcAutocmd
 
   autocmd FileType gitcommit setlocal nofoldenable
   autocmd FileType ref nnoremap <buffer> <TAB> <C-w>w
-  autocmd FileType python setlocal foldmethod=indent noexpandtab shiftwidth=8 tabstop=8
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown wrap | let b:not_del_last_whitespaces = 1
