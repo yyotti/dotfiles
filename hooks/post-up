@@ -1,11 +1,14 @@
 #!/bin/sh
 
-if [ -e $HOME/.vim/refs/php_manual_ja.tar.gz ]; then
-	if [ -e $HOME/.vim/refs/php-chunked-xhtml ]; then
-		rm -fR $HOME/.vim/refs/php-chunked-xhtml
-	fi
+REFS_DIR=$HOME/.vim/refs
+PHP_MANUAL_DIR=$REFS_DIR/php-chunked-xhtml
 
-	cd $HOME/.vim/refs
-	tar xzf php_manual_ja.tar.gz
-	rm -f php_manual_ja.tar.gz
+if [ -e "$PHP_MANUAL_DIR" ]; then
+        exit 0
 fi
+
+wget -O /tmp/php_manual_ja.tar.gz http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
+
+mkdir -p "$REFS_DIR"
+cd "$REFS_DIR"
+tar xzf /tmp/php_manual_ja.tar.gz
