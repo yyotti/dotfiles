@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " neocomplete.vim
 "
 
@@ -34,7 +34,8 @@ if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#sources#omni#input_patterns.python = '[^. *\t]\.\w*\|\h\w*'
-" let g:neocomplete#sources#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" let g:neocomplete#sources#omni#input_patterns.php =
+"       \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
 " キーワード定義
 if !exists('g:neocomplete#keyword_patterns')
@@ -61,10 +62,14 @@ call neocomplete#custom#source('_', 'converters', [
 " " オムニ補完
 " augroup vimrc_neocomplete
 "   autocmd!
-"   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"   " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"   autocmd FileType css
+"         \ setlocal omnifunc=csscomplete#CompleteCSS
+"   autocmd FileType html,markdown
+"         \ setlocal omnifunc=htmlcomplete#CompleteTags
+"   autocmd FileType javascript
+"         \ setlocal omnifunc=javascriptcomplete#CompleteJS
+"   autocmd FileType xml
+"         \ setlocal omnifunc=xmlcomplete#CompleteTags
 " augroup END
 
 " }}}
@@ -98,4 +103,4 @@ endfunction
 let g:neocomplete#fallback_mappings = [ "\<C-x>\<C-o>", "\<C-x>\<C-n>" ]
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

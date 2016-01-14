@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Initialize:
 "
 
@@ -39,7 +39,10 @@ if has('vim_starting')
   if &runtimepath !~ '/neobundle.vim'
     let s:neobundle_dir = expand('$CACHE/neobundle') . '/neobundle.vim'
     if !isdirectory(s:neobundle_dir)
-      execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git', (exists('$http_proxy') ? 'https' : 'git')) s:neobundle_dir
+      execute printf(
+            \   '!git clone %s://github.com/Shougo/neobundle.vim.git',
+            \   exists('$http_proxy') ? 'https' : 'git'
+            \ ) s:neobundle_dir
     endif
 
     execute 'set runtimepath^=' . s:neobundle_dir
@@ -53,7 +56,10 @@ if has('vim_starting')
     if &runtimepath !~ '/vimproc.vim'
       let s:vimproc_dir = expand('$CACHE/neobundle/') . '/vimproc.vim'
       if !isdirectory(s:vimproc_dir)
-        execute printf('!git clone %s://github.com/Shougo/vimproc.vim.git', (exists('$http_proxy') ? 'https' : 'git')) s:vimproc_dir
+        execute printf(
+              \   '!git clone %s://github.com/Shougo/vimproc.vim.git',
+              \   exists('$http_proxy') ? 'https' : 'git'
+              \ ) s:vimproc_dir
         " ビルドする
         execute printf('!cd "%s"; make', s:vimproc_dir)
       endif
@@ -93,4 +99,4 @@ let g:loaded_matchparen = 1
 
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " vim-ref.vim
 "
 
@@ -13,4 +13,4 @@ endif
 let g:ref_phpmanual_path = $HOME . '/.vim/refs/php-chunked-xhtml'
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

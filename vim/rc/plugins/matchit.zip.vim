@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " matchit.zip.vim
 "
 
@@ -26,4 +26,4 @@ augroup END
 
 silent! execute 'doautocmd FileType' &filetype
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

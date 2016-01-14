@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " View:
 "
 
@@ -39,7 +39,11 @@ set title
 " タイトルの長さ
 set titlelen=95
 " タイトル文字列(tmuxを使っていないときに関係してくる)
-let &g:titlestring="%{expand('%:p:~:.')}%(%m%r%w%)%<\(%{".s:SID_PREFIX()."strwidthpart(fnamemodify(&filetype ==# 'vimfiler' ? substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),&columns-len(expand('%:p:.:~')))}\) - VIM"
+let &g:titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
+      \ . "%<\(%{".s:SID_PREFIX()."strwidthpart("
+      \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
+      \ . "substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),"
+      \ . "&columns-len(expand('%:p:.:~')))}\) - VIM""
 " タブがあればタブラインを表示する
 set showtabline=1
 
@@ -50,9 +54,10 @@ if !PowerlineEnabled()
   let &g:statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
-        \ . "%{exists('*anzu#search_status')&&!empty(anzu#search_status())?anzu#search_status():''}"
-        \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?
-        \ '['.(&filetype!=''?&filetype.',':'')"
+        \ . "%{exists('*anzu#search_status')&&!empty(anzu#search_status())?"
+        \ . "anzu#search_status():''}"
+        \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?"
+        \ . "'['.(&filetype!=''?&filetype.',':'')"
         \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
         \ . "%m%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
         \ . "%{exists('*qfstatusline#Update')?qfstatusline#Update():''}"
@@ -188,4 +193,4 @@ function! s:_wcwidth(ucs) abort " {{{
   return 1
 endfunction " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

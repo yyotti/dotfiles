@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Powerline:
 "
 if !PowerlineEnabled()
@@ -49,4 +49,4 @@ function! s:change_powerline_colorscheme() abort " {{{
   python if 'powerline' in globals(): powerline.reload()
 endfunction " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

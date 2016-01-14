@@ -43,7 +43,11 @@ on_map = [ [ 'nx', '<Plug>', 'K' ] ]
 
 [[plugins]]
 repo = 'osyo-manga/vim-watchdogs'
-depends = [ 'thinca/vim-quickrun', 'Shougo/vimproc.vim', 'osyo-manga/shabadou.vim' ]
+depends = [
+  'thinca/vim-quickrun',
+  'Shougo/vimproc.vim',
+  'osyo-manga/shabadou.vim',
+]
 on_cmd = 'WatchdogsRun'
 on_i = 1
 
@@ -180,9 +184,10 @@ repo = 'Shougo/unite-outline'
 repo = 'tpope/vim-fugitive'
 on_path = '.*'
 on_cmd = [
-  'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush', 'Gfetch', 'Ggrep',
-  'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit', 'Gtabedit', 'Gpedit', 'Gread', 'Gwrite',
-  'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff', 'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
+  'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush',
+  'Gfetch', 'Ggrep', 'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit',
+  'Gtabedit', 'Gpedit', 'Gread', 'Gwrite', 'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff',
+  'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
 ]
 augroup = 'fugitive'
 

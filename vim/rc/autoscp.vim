@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Autoscp:
 "
 
@@ -58,7 +58,8 @@ endif
 " }}}
 
 augroup VimrcAutocmd
-  autocmd BufWinEnter *.php,*.tpl,*.css,*.js call s:vital_init() | call s:autoscp_init()
+  autocmd BufWinEnter *.php,*.tpl,*.css,*.js
+        \ call s:vital_init() | call s:autoscp_init()
   autocmd BufWritePost *.php,*.tpl,*.css,*.js call s:autoscp_upload(0)
 augroup END
 
@@ -95,7 +96,9 @@ function! s:autoscp_init() abort " {{{
   endif
 
   let conf_file_name = get(g:, 'autoscp_conf_name', '.autoscp.json')
-  let conf_file = findfile(conf_file_name, fnamemodify(expand('%'), ':p:h') . ';**/')
+  let conf_file = findfile(
+        \   conf_file_name, fnamemodify(expand('%'), ':p:h') . ';**/'
+        \ )
   if empty(conf_file)
     let b:autoscp_init = 1
     return
@@ -114,11 +117,14 @@ function! s:autoscp_init() abort " {{{
   for from in keys(b:autoscp_config.path_map)
     let remote = s:add_last_slash(b:autoscp_remote_dir)
     if stridx(remote, from) == 0
-      let b:autoscp_remote_dir = s:add_last_slash(substitute(remote, from, b:autoscp_config.path_map[from], ''))
+      let b:autoscp_remote_dir = s:add_last_slash(
+            \   substitute(remote, from, b:autoscp_config.path_map[from], '')
+            \ )
       break
     endif
   endfor
-  let b:autoscp_remote_dir = s:add_last_slash(b:autoscp_config.remote_base) . b:autoscp_remote_dir
+  let b:autoscp_remote_dir = s:add_last_slash(b:autoscp_config.remote_base)
+        \ . b:autoscp_remote_dir
 
   let b:autoscp_local_path = local_base . relpath
 
@@ -137,7 +143,9 @@ function! s:autoscp_upload(force) abort " {{{
     return
   endif
 
-  let remote = shellescape(b:autoscp_config.user) . '@' . shellescape(b:autoscp_config.host)
+  let remote = shellescape(b:autoscp_config.user)
+        \ . '@'
+        \ . shellescape(b:autoscp_config.host)
 
   " ディレクトリが存在しなければ作る
   let cmd  = 'ssh'
@@ -260,22 +268,26 @@ function! s:load_config(file_path) abort " {{{
 endfunction " }}}
 
 function! s:check_config(config) abort " {{{
-  if !has_key(a:config, 'host') || type(a:config.host) != 1 || empty(a:config.host)
+  if !has_key(a:config, 'host')
+        \ || type(a:config.host) != 1 || empty(a:config.host)
     call s:err_msg('.autoscp.josn error: hostは文字列で必ず指定してください')
     return 0
   endif
 
-  if !has_key(a:config, 'user') || type(a:config.user) != 1 || empty(a:config.user)
+  if !has_key(a:config, 'user')
+        \ || type(a:config.user) != 1 || empty(a:config.user)
     call s:err_msg('.autoscp.josn error: userは文字列で必ず指定してください')
     return 0
   endif
 
-  if has_key(a:config, 'timeout') && (type(a:config.timeout) != 0 || a:config.timeout < 1)
+  if has_key(a:config, 'timeout')
+        \ && (type(a:config.timeout) != 0 || a:config.timeout < 1)
     call s:err_msg('autoscp error: timeoutは正数で指定してください')
     return 0
   endif
 
-  if has_key(a:config, 'path_map') && (type(a:config.timeout) != 4)
+  if has_key(a:config, 'path_map')
+        \ && (type(a:config.timeout) != 4)
     if type(a:config.path_map) != 4
       call s:err_msg('autoscp error: path_mapは辞書型で指定してください')
       return 0
@@ -283,7 +295,9 @@ function! s:check_config(config) abort " {{{
 
     for key in keys(a:config.path_map)
       if type(a:config.path_map[key]) != 1
-        call s:err_msg('autoscp error: path_mapの値は文字列でなければなりません')
+        call s:err_msg(
+              \   'autoscp error: path_mapの値は文字列でなければなりません'
+              \ )
         return 0
       endif
     endfor
@@ -303,4 +317,4 @@ function! s:err_msg(msg) abort " {{{
   echohl None
 endfunction " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

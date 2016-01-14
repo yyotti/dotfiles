@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Encoding:
 "
 " 文字コードを自動判別する
@@ -11,7 +11,8 @@ endif
 
 " ターミナルのエンコーディングをセット {{{
 if !has('gui_running')
-  if &term ==# 'win32' && (v:version < 703 || v:version == 703 && has('patch814'))
+  if &term ==# 'win32'
+        \ && (v:version < 703 || v:version == 703 && has('patch814'))
     " 非GUIの日本語コンソールの場合
 
     " これをしないと化ける
@@ -95,17 +96,23 @@ set fileformats=unix,dos,mac
 
 " 特定の文字コードで開くためのコマンド群 {{{
 " UTF-8で開く
-command! -bang -bar -complete=file -nargs=? Utf8 edit<bang> ++enc=utf-8 <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Utf8 edit<bang> ++enc=utf-8 <args>
 " iso-2022-jpで開く
-command! -bang -bar -complete=file -nargs=? Iso2022jp edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Iso2022jp edit<bang> ++enc=iso-2022-jp <args>
 " cp932で開く
-command! -bang -bar -complete=file -nargs=? Cp932 edit<bang> ++enc=cp932 <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Cp932 edit<bang> ++enc=cp932 <args>
 " EUC-JPで開く
-command! -bang -bar -complete=file -nargs=? Euc edit<bang> ++enc=euc-jp <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Euc edit<bang> ++enc=euc-jp <args>
 " UTF-16で開く
-command! -bang -bar -complete=file -nargs=? Utf16 edit<bang> ++enc=ucs-2le <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Utf16 edit<bang> ++enc=ucs-2le <args>
 " UTF-16BEで開く
-command! -bang -bar -complete=file -nargs=? Utf16be edit<bang> ++enc=ucs-2 <args>
+command! -bang -bar -complete=file -nargs=?
+      \ Utf16be edit<bang> ++enc=ucs-2 <args>
 
 " エイリアス
 command! -bang -bar -complete=file -nargs=? Jis Iso2022jp<bang> <args>
@@ -129,9 +136,12 @@ command! WUnicode WUtf16
 " }}}
 
 " 改行コードを指定して保存 {{{
-command! -bang -complete=file -nargs=? WUnix write<bang> ++fileformat=unix <args> | edit <args>
-command! -bang -complete=file -nargs=? WDos write<bang> ++fileformat=dos <args> | edit <args>
-command! -bang -complete=file -nargs=? WMac write<bang> ++fileformat=mac <args> | edit <args>
+command! -bang -complete=file -nargs=?
+      \ WUnix write<bang> ++fileformat=unix <args> | edit <args>
+command! -bang -complete=file -nargs=?
+      \ WDos write<bang> ++fileformat=dos <args> | edit <args>
+command! -bang -complete=file -nargs=?
+      \ WMac write<bang> ++fileformat=mac <args> | edit <args>
 " }}}
 
 if has('multi_byte_ime')
@@ -140,4 +150,4 @@ if has('multi_byte_ime')
   set imsearch=0
 endif
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

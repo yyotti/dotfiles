@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " vim-gitgutter.vim
 "
 
@@ -21,4 +21,4 @@ nmap [c <Plug>GitGutterPrevHunkzvzz
 nmap ]c <Plug>GitGutterNextHunkzvzz
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

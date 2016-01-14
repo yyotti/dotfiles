@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " vimfiler.vim
 "
 
@@ -17,7 +17,9 @@ let g:vimfiler_as_default_explorer = 1
 if IsWindows()
   " Windowsの場合のドライブ名
   let g:vimfiler_detect_drives = [
-        \   'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/', 'J:/', 'K:/', 'L:/', 'M:/', 'N:/',
+        \   'C:/', 'D:/', 'E:/', 'F:/', 'G:/',
+        \   'H:/', 'I:/', 'J:/', 'K:/', 'L:/',
+        \   'M:/', 'N:/',
         \ ]
 endif
 
@@ -34,8 +36,9 @@ function! s:vimfiler_settings() abort " {{{
   call vimfiler#set_execute_file('vim', [ 'vim', 'notepad' ])
   call vimfiler#set_execute_file('txt', 'vim')
 
-  nnoremap <silent> <buffer> J :<C-u>Unite -default-action=lcd directory_mru<CR>
+  nnoremap <silent> <buffer> J
+        \ :<C-u>Unite -default-action=lcd directory_mru<CR>
 endfunction " }}}
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

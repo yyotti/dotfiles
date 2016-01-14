@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Mappings:
 "
 
@@ -136,17 +136,20 @@ xnoremap id i"
 
 " 設定ファイル操作 {{{
 " vimrcを開く
-nnoremap <silent> <Leader>;v :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
+nnoremap <silent> <Leader>;v
+      \ :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " vimrcをリロード
 nnoremap <silent> <Leader>;r :<C-u>source $MYVIMRC<CR>
 
 if filereadable(expand('~/.tmux.conf'))
   " tmux.confを開く
-  nnoremap <silent> <Leader>;t :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
+  nnoremap <silent> <Leader>;t
+        \ :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
 endif
 if filereadable(expand('~/.zshrc'))
   " zshrcを開く
-  nnoremap <silent> <Leader>;z :<C-u>edit <C-r>=resolve(expand('~/.zshrc'))<CR><CR>
+  nnoremap <silent> <Leader>;z
+        \ :<C-u>edit <C-r>=resolve(expand('~/.zshrc'))<CR><CR>
 endif
 " }}}
 
@@ -200,4 +203,4 @@ nnoremap x "_x
 nnoremap Q q
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " plugins.vim
 "
 
@@ -39,9 +39,13 @@ if neobundle#tap('unite.vim') " {{{
   " バッファ内で行を検索
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " grep
-  nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep -no-start-insert -auto-preview -no-empty<CR>
+  nnoremap <silent> [unite]g
+        \ :<C-u>Unite grep -buffer-name=grep
+        \ -no-start-insert -auto-preview -no-empty<CR>
   " grep用のresume
-  nnoremap <silent> [unite]r :<C-u>UniteResume -buffer-name=grep -no-start-insert -auto-preview -no-empty grep<CR>
+  nnoremap <silent> [unite]r
+        \ :<C-u>UniteResume -buffer-name=grep
+        \ -no-start-insert -auto-preview -no-empty grep<CR>
   " }}}
 
   " ステータスラインを強制的に書き換えるのを抑止する
@@ -63,7 +67,8 @@ if neobundle#tap('vimfiler.vim') " {{{
   " 現在開いているバッファのディレクトリを開く
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
   " 現在開いているバッファをIDE風に開く
-  nnoremap <silent> [vimfiler]i :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
+  nnoremap <silent> [vimfiler]i
+        \ :<C-u>VimFilerExplorer -split -winwidth=40 -find -no-quit<CR>
   " }}}
 
   let neobundle#hooks.on_source = s:fpath('vimfiler.vim')
@@ -78,7 +83,8 @@ if neobundle#tap('eskk.vim') " {{{
 endif " }}}
 
 if neobundle#tap('unite-quickfix') " {{{
-  nnoremap <silent> [unite]q :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
+  nnoremap <silent> [unite]q
+        \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
 
   call neobundle#untap()
 endif " }}}
@@ -91,7 +97,10 @@ endif " }}}
 
 if neobundle#tap('vim-ref') " {{{
   " マッピング {{{
-  autocmd VimrcAutocmd FileType * if &filetype =~# '\v^ref-.+' | nnoremap <silent> <buffer> q :bdelete<CR> | endif
+  autocmd VimrcAutocmd FileType *
+        \ if &filetype =~# '\v^ref-.+'
+        \ | nnoremap <silent> <buffer> q :bdelete<CR>
+        \ | endif
   " }}}
 
   let neobundle#hooks.on_source = s:fpath('vim-ref.vim')
@@ -113,14 +122,16 @@ if neobundle#tap('vim-watchdogs') " {{{
   if !has_key(g:quickrun_config, 'toml/watchdogs_checker')
     let g:quickrun_config['toml/watchdogs_checker'] = {}
   endif
-  let g:quickrun_config['toml/watchdogs_checker']['type'] = executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
+  let g:quickrun_config['toml/watchdogs_checker']['type'] =
+        \ executable('tomlv') ? 'watchdogs_checker/tomlv' : ''
 
   if !has_key(g:quickrun_config, 'watchdogs_checker/tomlv')
     let g:quickrun_config['watchdogs_checker/tomlv'] = {}
   endif
   let g:quickrun_config['watchdogs_checker/tomlv']['command'] = 'tomlv'
   let g:quickrun_config['watchdogs_checker/tomlv']['exec'] = '%c %s:p'
-  let g:quickrun_config['watchdogs_checker/tomlv']['quickfix/errorformat'] = "Error in '%f': Near line %l %m"
+  let g:quickrun_config['watchdogs_checker/tomlv']['quickfix/errorformat'] =
+        \ "Error in '%f': Near line %l %m"
 
   " 書き込み後にシンタックスチェックを行う
   let g:watchdogs_check_BufWritePost_enable = 1
@@ -216,7 +227,8 @@ if neobundle#tap('vim-anzu') " {{{
 
   " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort " {{{
-    autocmd VimrcAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+    autocmd VimrcAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
+          \ call anzu#clear_search_status()
   endfunction " }}}
   " @vimlint(EVL103, 0, a:bundle)
 
@@ -224,7 +236,10 @@ if neobundle#tap('vim-anzu') " {{{
 endif " }}}
 
 if neobundle#tap('restart.vim') " {{{
-  command! -bar RestartWithSession let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages' | Restart
+  command! -bar RestartWithSession
+        \ let g:restart_sessionoptions =
+        \   'blank,buffers,curdir,folds,help,localoptions,tabpages'
+        \ | Restart
 
   call neobundle#untap()
 endif " }}}
@@ -265,8 +280,10 @@ if neobundle#tap('colorizer') " {{{
 endif " }}}
 
 if neobundle#tap('ghcmod-vim') " {{{
-  autocmd VimrcAutocmd FileType haskell nnoremap <buffer> <Leader>tt :GhcModType<CR>
-  autocmd VimrcAutocmd FileType haskell nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
+  autocmd VimrcAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tt :GhcModType<CR>
+  autocmd VimrcAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
 
   call neobundle#untap()
 endif " }}}
@@ -316,8 +333,12 @@ if neobundle#tap('lightline.vim') " {{{
         \     'inactivemode': '%{"INACTIVE"}',
         \     'lineinfo': '⭡ %3l:%-2v (%p%%)',
         \     'fileformat': '%{FileInfoVisible() ? &fileformat : ""}',
-        \     'filetype': '%{FileInfoVisible() ? (!empty(&filetype) ? &filetype : "no ft") : ""}',
-        \     'fileencoding': '%{FileInfoVisible() ? (!empty(&fileencoding) ? &fileencoding : &encoding) : ""}',
+        \     'filetype': '%{FileInfoVisible() ?'
+        \                   . '(!empty(&filetype) ? &filetype : "no ft")'
+        \                   . ' : ""}',
+        \     'fileencoding': '%{FileInfoVisible() ?'
+        \                   . '(!empty(&fileencoding)?&fileencoding:&encoding)'
+        \                   . ' : ""}',
         \     'anzu': '%{AnzuVisible() ? Anzu() : ""}',
         \   },
         \   'component_function': {
@@ -358,14 +379,19 @@ if neobundle#tap('lightline.vim') " {{{
   endfunction " }}}
 
   function! s:modified() abort " {{{
-    return &filetype =~# 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    return &filetype =~# 'help\|vimfiler\|gundo' ? '' :
+          \ &modified ? '+' : &modifiable ? '' : '-'
   endfunction " }}}
 
   function! Filename() abort " {{{
     return (!empty(s:readonly()) ? s:readonly().' ' : '').
           \ (&filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
-          \  &filetype ==? 'unite' ? substitute(unite#get_status_string(), ' | ', '', '') :
-          \  &filetype ==? 'vimshell' ? substitute(b:vimshell.current_dir, expand('~'), '~', '') :
+          \  &filetype ==? 'unite' ? substitute(
+          \     unite#get_status_string(), ' | ', '', ''
+          \  ) :
+          \  &filetype ==? 'vimshell' ? substitute(
+          \     b:vimshell.current_dir, expand('~'), '~', ''
+          \  ) :
           \  !empty(expand('%')) ? expand('%') : '[No Name]').
           \ (!empty(s:modified()) ? ' '.s:modified() : '')
   endfunction " }}}
@@ -375,11 +401,14 @@ if neobundle#tap('lightline.vim') " {{{
   endfunction " }}}
 
   function! Eskk() abort " {{{
-    return EskkVisible() ? matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ''
+    return EskkVisible() ?
+          \ matchlist(eskk#statusline(), "^\\[eskk:\\(.\\+\\)\\]$")[1] : ''
   endfunction " }}}
 
   function! FugitiveVisible() abort " {{{
-    return &ft != 'vimfiler' && exists('*fugitive#head') && !empty(fugitive#head())
+    return &ft != 'vimfiler'
+          \ && exists('*fugitive#head')
+          \ && !empty(fugitive#head())
   endfunction " }}}
 
   function! Fugitive() abort " {{{
@@ -387,7 +416,9 @@ if neobundle#tap('lightline.vim') " {{{
   endfunction " }}}
 
   function! GitinfoVisible() abort " {{{
-    return exists('*GitGutterGetHunkSummary') && get(g:, 'gitgutter_enabled', 0) && winwidth(0) > 90
+    return exists('*GitGutterGetHunkSummary')
+          \ && get(g:, 'gitgutter_enabled', 0)
+          \ && winwidth(0) > 90
   endfunction " }}}
 
   function! Gitinfo() abort " {{{
@@ -416,7 +447,9 @@ if neobundle#tap('lightline.vim') " {{{
   endfunction " }}}
 
   function! AnzuVisible() abort " {{{
-    return exists('*anzu#search_status') && !empty(anzu#search_status()) && winwidth(0) > 70
+    return exists('*anzu#search_status')
+          \ && !empty(anzu#search_status())
+          \ && winwidth(0) > 70
   endfunction " }}}
 
   function! Anzu() abort " {{{
@@ -430,8 +463,9 @@ if neobundle#tap('lightline.vim') " {{{
     try
       if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
         let g:lightline.colorscheme =
-              \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
-              \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
+              \ substitute(
+              \   substitute(g:colors_name, '-', '_', 'g'), '256.*', '', ''
+              \ ) . (g:colors_name ==# 'solarized' ? '_' . &background : '')
       else
         let g:lightline.colorscheme = 'default'
       endif
@@ -582,4 +616,4 @@ if neobundle#tap('vim-operator-flashy') " {{{
   nmap Y <Plug>(operator-flashy)$
 endif " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

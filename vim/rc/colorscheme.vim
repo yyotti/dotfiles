@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Colorscheme:
 "
 if !has('gui_running')
@@ -45,4 +45,4 @@ else
   colorscheme desert
 endif
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

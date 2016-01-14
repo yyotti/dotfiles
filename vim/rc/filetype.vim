@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " FileType:
 "
 
@@ -14,7 +14,8 @@ augroup VimrcAutocmd
   autocmd FileType ref nnoremap <buffer> <TAB> <C-w>w
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
-  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown wrap | let b:not_del_last_whitespaces = 1
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
+        \ setlocal filetype=markdown wrap | let b:not_del_last_whitespaces = 1
 augroup END
 
 function! s:on_filetype() abort " {{{
@@ -75,7 +76,12 @@ function! s:set_syntax_of_user_defined_commands() " {{{
   silent! command
   redir END
 
-  let command_names = join(map(split(_, '\n')[1:], "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"))
+  let command_names = join(
+        \   map(
+        \     split(_, '\n')[1:],
+        \     "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"
+        \   )
+        \ )
 
   if command_names == ''
     return
@@ -90,7 +96,9 @@ try
   set shortmess+=c
 catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
   " shortmessにcが加えられないなら、メッセージを背景色と同色にする
-  autocmd MyAutoCmd VimEnter * highlight ModeMsg guifg=bg guibg=bg | highlight Question guifg=bg guibg=bg
+  autocmd MyAutoCmd VimEnter *
+        \   highlight ModeMsg guifg=bg guibg=bg
+        \ | highlight Question guifg=bg guibg=bg
 endtry
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

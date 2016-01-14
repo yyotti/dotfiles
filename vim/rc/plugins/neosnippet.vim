@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " neosnippet.vim
 "
 
@@ -20,4 +20,4 @@ smap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
 xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

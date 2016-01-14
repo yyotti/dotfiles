@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " Edit:
 "
 set smarttab
@@ -95,8 +95,9 @@ set virtualedit=block
 set keywordprg=:help
 
 " INSERTモードを抜けたら、pasteモードを解除したりdiffupをしたりする
-autocmd VimrcAutocmd InsertLeave * if &paste | set nopaste | echo 'nopaste' | endif
-autocmd VimrcAutocmd InsertLeave * if &l:diff | diffupdate | endif
+autocmd VimrcAutocmd InsertLeave *
+      \ if &paste | set nopaste | echo 'nopaste' | endif |
+      \ if &l:diff | diffupdate | endif
 
 " 保存時に行末の空白を除去
 autocmd VimrcAutocmd BufWritePre * call <SID>del_last_whitespaces()
@@ -161,4 +162,4 @@ if executable('git')
   endfunction " }}}
 endif
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:

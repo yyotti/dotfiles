@@ -1,5 +1,5 @@
 scriptencoding utf-8
-"--------------------------------------------------------------------------------
+"-----------------------------------------------------------------------------
 " vim-watchdogs.vim
 "
 
@@ -32,4 +32,4 @@ let g:watchdogs_check_CursorHold_enables = {
 call watchdogs#setup(g:quickrun_config)
 " }}}
 
-" vim:set sw=2 foldmethod=marker:
+" vim:set foldmethod=marker:
