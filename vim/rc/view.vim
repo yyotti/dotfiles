@@ -58,8 +58,17 @@ if !PowerlineEnabled()
         \ . "%{exists('*qfstatusline#Update')?qfstatusline#Update():''}"
 endif
 
-" 長い行も折り返さない
-set nowrap
+" 折り返し
+set linebreak
+set showbreak=\
+set breakat=\ \ ;:,!?
+set whichwrap+=h,l,<,>,[,],b,s,~
+if exists('+breakindent')
+  set breakindent
+  set wrap
+else
+  set nowrap
+endif
 
 " カーソル行をハイライトする
 set cursorline
@@ -126,6 +135,8 @@ endfunction " }}}
 if v:version >= 703
   set conceallevel=2
   set concealcursor=
+
+  set colorcolumn=79
 
   function! s:wcswidth(str) abort " {{{
     return strwidth(a:str)

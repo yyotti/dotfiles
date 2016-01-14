@@ -28,6 +28,11 @@ function! s:on_filetype() abort " {{{
     setlocal foldtext=FoldCCtext()
   endif
 
+  " 自動折り返しを無効にする
+  if &l:textwidth != 70 && &filetype !=# 'help'
+    setlocal textwidth=0
+  endif
+
   if !&l:modifiable
     setlocal nofoldenable
     setlocal foldcolumn=0
