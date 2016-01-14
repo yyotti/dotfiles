@@ -6,6 +6,7 @@ set cpo&vim
 setlocal softtabstop=4
 setlocal shiftwidth=4
 setlocal colorcolumn=
+setlocal nowrap
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
