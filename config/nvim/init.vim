@@ -26,4 +26,32 @@ endfunction "}}}
 
 call s:source_rc('init.rc.vim')
 
+" プラグインインストール/設定
+call dein#begin(expand('$CACHE/dein'))
+
+call dein#add('Shougo/dein.vim', { 'rtp': '' })
+
+" FIXME deinがtomlをサポートしたら書き換える
+call s:source_rc('dein.rc.vim')
+call s:source_rc('dein_lazy.rc.vim')
+
+" 開発用設定
+for s:file in glob('~/.dev_plugins/*_dev.vim', 0, 1)
+  execute 'source' fnameescape(expand(s:file))
+  unlet s:file
+endfor
+
+" プラグインごとの設定
+call s:source_rc('plugins.rc.vim')
+
+call dein#end()
+
+filetype plugin indent on
+
+syntax enable
+
+if !has('vim_starting')
+  call dein#check_install()
+endif
+
 " vim:set foldmethod=marker:
