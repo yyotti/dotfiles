@@ -36,11 +36,18 @@ call s:source_rc('init.rc.vim')
 " NeoBundle
 call neobundle#begin(expand('$CACHE/neobundle'))
 
-if neobundle#load_cache(expand('<sfile>'), '~/.config/nvim/rc/neobundle.toml', '~/.config/nvim/rc/neobundle.toml')
+if neobundle#load_cache(
+      \   expand('<sfile>'),
+      \   s:nvim_dir . '/rc/neobundle.toml',
+      \   s:nvim_dir . '/rc/neobundle.toml'
+      \ )
   NeoBundleFetch 'Shougo/neobundle.vim'
 
-  call neobundle#load_toml('~/.config/nvim/rc/neobundle.toml')
-  call neobundle#load_toml('~/.config/nvim/rc/neobundle_lazy.toml', { 'lazy': 1 })
+  call neobundle#load_toml(s:nvim_dir . '/rc/neobundle.toml')
+  call neobundle#load_toml(
+        \   s:nvim_dir . '/rc/neobundle_lazy.toml',
+        \   { 'lazy': 1 }
+        \ )
 
   if IsHomePC()
     " 開発用設定
