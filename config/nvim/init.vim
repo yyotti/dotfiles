@@ -41,11 +41,23 @@ call dein#add('Shougo/dein.vim', { 'rtp': '' })
 call s:source_rc('dein.rc.vim')
 call s:source_rc('dein_lazy.rc.vim')
 
-" 開発用設定
-for s:file in glob('~/.dev_plugins/*_dev.vim', 0, 1)
-  execute 'source' fnameescape(expand(s:file))
-  unlet s:file
-endfor
+if IsHomePC()
+  " 開発用設定
+  " 上で公開版の設定がされていても、こちらで開発用に上書きできる。
+  " FIXME neobundle#local()相当のものがdeinに実装されたら書き換える
+  for s:pattern in [
+        \   'vim*', 'unite-*', '*.vim', '*.nvim', 'neosnippet-additional'
+        \ ]
+    for s:dir in glob(s:vimdev_dir . '/' . s:pattern, 0, 1)
+      call dein#add(s:dir, { 'lazy': 1 })
+    endfor
+  endfor
+  " call neobundle#local(
+  "       \   s:vimdev_dir,
+  "       \   { 'lazy': 1 },
+  "       \   [ 'vim*', 'unite-*', '*.vim', 'neosnippet-additional' ]
+  "       \ )
+endif
 
 " プラグインごとの設定
 call s:source_rc('plugins.rc.vim')
