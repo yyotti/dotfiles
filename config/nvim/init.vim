@@ -8,6 +8,8 @@ let s:is_windows = has('win16') || has('win32') || has('win64') || has('win95')
 let s:is_cygwin = has('win32unix')
 let s:is_unix = has('unix')
 
+let s:vimdev_dir = resolve(expand('~/vim_dev'))
+
 function! s:source_rc(path) abort "{{{
   execute 'source' fnameescape(s:nvim_dir . '/rc/' . a:path)
 endfunction "}}}
@@ -22,6 +24,10 @@ endfunction "}}}
 
 function! IsPowerlineEnabled() abort "{{{
   return (has('python') || has('python3')) && executable('powerline-daemon')
+endfunction "}}}
+
+function! IsHomePC() abort "{{{
+  return isdirectory(s:vimdev_dir)
 endfunction "}}}
 
 call s:source_rc('init.rc.vim')
