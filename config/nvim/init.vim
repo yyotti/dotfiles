@@ -32,44 +32,40 @@ endfunction "}}}
 
 call s:source_rc('init.rc.vim')
 
-" プラグインインストール/設定
-call dein#begin(expand('$CACHE/dein'))
+" FIXME deinが正式にリリースされたら書き換える
+" NeoBundle
+call neobundle#begin(expand('$CACHE/neobundle'))
 
-call dein#add('Shougo/dein.vim', { 'rtp': '' })
+if neobundle#load_cache(expand('<sfile>'), '~/.config/nvim/rc/neobundle.toml', '~/.config/nvim/rc/neobundle.toml')
+  NeoBundleFetch 'Shougo/neobundle.vim'
 
-" FIXME deinがtomlをサポートしたら書き換える
-call s:source_rc('dein.rc.vim')
-call s:source_rc('dein_lazy.rc.vim')
+  call neobundle#load_toml('~/.config/nvim/rc/neobundle.toml')
+  call neobundle#load_toml('~/.config/nvim/rc/neobundle_lazy.toml', { 'lazy': 1 })
 
-if IsHomePC()
-  " 開発用設定
-  " 上で公開版の設定がされていても、こちらで開発用に上書きできる。
-  " FIXME neobundle#local()相当のものがdeinに実装されたら書き換える
-  for s:pattern in [
-        \   'vim*', 'unite-*', '*.vim', '*.nvim', 'neosnippet-additional'
-        \ ]
-    for s:dir in glob(s:vimdev_dir . '/' . s:pattern, 0, 1)
-      call dein#add(s:dir, { 'lazy': 1 })
-    endfor
-  endfor
-  " call neobundle#local(
-  "       \   s:vimdev_dir,
-  "       \   { 'lazy': 1 },
-  "       \   [ 'vim*', 'unite-*', '*.vim', 'neosnippet-additional' ]
-  "       \ )
+  if IsHomePC()
+    " 開発用設定
+    " 上で公開版の設定がされていても、こちらで開発用に上書きできる。
+    call neobundle#local(
+          \   s:vimdev_dir,
+          \   { 'lazy': 1 },
+          \   [ 'vim*', 'unite-*', '*.vim', '*.nvim', 'neosnippet-additional' ]
+          \ )
+  endif
+
+  NeoBundleSaveCache
 endif
 
 " プラグインごとの設定
 call s:source_rc('plugins.rc.vim')
 
-call dein#end()
+call neobundle#end()
 
 filetype plugin indent on
 
 syntax enable
 
 if !has('vim_starting')
-  call dein#check_install()
+  NeoBundleCheck
 endif
 
 " vim:set foldmethod=marker:

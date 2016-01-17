@@ -42,22 +42,22 @@ if has('vim_starting')
           \ ) a:dir
   endfunction
 
-  " deinをロードする
-  if &runtimepath !~ '/dein.vim'
-    let s:dein_dir = expand('$CACHE/dein') . '/dein.vim'
-    if !isdirectory(s:dein_dir)
-      call s:clone('dein.vim', s:dein_dir)
+  " FIXME deinが正式にリリースされたら書き換える
+  " neobundleをロードする
+  if &runtimepath !~ '/neobundle.vim'
+    let s:neobundle_dir = expand('$CACHE/neobundle') . '/neobundle.vim'
+    if !isdirectory(s:neobundle_dir)
+      call s:clone('neobundle.vim', s:neobundle_dir)
     endif
-    execute 'set runtimepath^=' . s:dein_dir
-    unlet s:dein_dir
+    execute 'set runtimepath^=' . s:neobundle_dir
+    unlet s:neobundle_dir
   endif
 
-  " FIXME とりあえず dein だけでやるが、最終的に vimproc も有効にする
-  if 0 && IsUnix()
+  if IsUnix()
     " Linuxならvimprocも用意する
     " TODO Linuxでなくても事前準備は可能なので改善の余地あり
     if &runtimepath !~ '/vimproc.vim'
-      let s:vimproc_dir = expand('$CACHE/dein') . '/vimproc.vim'
+      let s:vimproc_dir = expand('$CACHE/neobundle') . '/vimproc.vim'
       if !isdirectory(s:vimproc_dir)
         call s:clone('vimproc.vim', s:vimproc_dir)
 
@@ -65,15 +65,14 @@ if has('vim_starting')
         execute printf('!cd "%s"; make', s:vimproc_dir)
       endif
 
-      " runtimepathへの追加はdeinがやってくれる
+      " runtimepathへの追加はneobundleがやってくれる
 
       unlet s:vimproc_dir
     endif
   endif
 endif
 
-" TODO deinでもこれは必要か？
-" let g:neobundle#default_options = {}
+let g:neobundle#default_options = {}
 
 " デフォルトのプラグインを無効化する {{{
 
