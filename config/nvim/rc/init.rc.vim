@@ -34,13 +34,13 @@ if has('vim_starting')
           \ )
   endif
 
-  function! s:clone(name, dir) abort
+  function! s:clone(name, dir) abort "{{{
     execute printf(
           \   '!git clone %s://github.com/Shougo/%s.git',
           \   exists('$http_proxy') ? 'https' : 'git',
           \   a:name
           \ ) a:dir
-  endfunction
+  endfunction "}}}
 
   " FIXME deinが正式にリリースされたら書き換える
   " neobundleをロードする
