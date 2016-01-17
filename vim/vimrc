@@ -16,6 +16,9 @@ let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:rc_path = resolve(expand('~/.vim/rc'))
 
+let s:vimdev_dir = resolve(expand('~/vim_dev/'))
+let s:vimrc_local = resolve(expand('~/.vimrc_local'))
+
 function! IsWindows() abort
   return s:is_windows
 endfunction
@@ -28,6 +31,10 @@ endfunction
 
 function! RcDir() abort
   return s:rc_path
+endfunction
+
+function! IsHomePC() abort
+  return isdirectory(s:vimdev_dir)
 endfunction
 
 call s:source_rc('init.vim')
@@ -54,11 +61,16 @@ if neobundle#load_cache(
         \   { 'install_process_timeout': 30, 'lazy': 1 }
         \ )
 
-  " 開発用設定をロードする
-  for s:file in glob('~/.*_dev.vim', 0, 1)
-    execute 'source' fnameescape(expand(s:file))
-    unlet s:file
-  endfor
+  if IsHomePC()
+    " 開発用設定をロードする
+    " tomlファイルに公開版の設定が入っていても、こちらで開発版に上書きすることが
+    " できる。
+    call neobundle#local(
+          \   s:vimdev_dir,
+          \   { 'lazy': 1 },
+          \   [ 'vim*', 'unite-*', '*.vim', 'neosnippet-additional' ]
+          \ )
+  endif
 
   NeoBundleSaveCache
 endif
@@ -132,8 +144,8 @@ set secure
 "-----------------------------------------------------------------------------
 " Local Settings:
 "
-if filereadable(expand('~/.vimrc_local'))
-  execute 'source' expand('~/.vimrc_local')
+if filereadable(s:vimrc_local)
+  execute 'source' s:vimrc_local
 endif
 
 " vim:set foldmethod=marker:
