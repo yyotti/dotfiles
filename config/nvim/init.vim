@@ -11,7 +11,7 @@ let s:is_unix = has('unix')
 let s:vimdev_dir = resolve(expand('~/vim_dev'))
 
 function! s:source_rc(path) abort "{{{
-  execute 'source' fnameescape(s:nvim_dir . '/rc/' . a:path)
+  execute 'source' fnameescape(NvimDir() . '/rc/' . a:path)
 endfunction "}}}
 
 function! IsWindows() abort "{{{
@@ -30,6 +30,10 @@ function! IsHomePC() abort "{{{
   return isdirectory(s:vimdev_dir)
 endfunction "}}}
 
+function! NvimDir() abort "{{{
+  return s:nvim_dir
+endfunction "}}}
+
 call s:source_rc('init.rc.vim')
 
 " FIXME deinが正式にリリースされたら書き換える
@@ -38,14 +42,14 @@ call neobundle#begin(expand('$CACHE/neobundle'))
 
 if neobundle#load_cache(
       \   expand('<sfile>'),
-      \   s:nvim_dir . '/rc/neobundle.toml',
-      \   s:nvim_dir . '/rc/neobundle.toml'
+      \   NvimDir() . '/rc/neobundle.toml',
+      \   NvimDir() . '/rc/neobundle.toml'
       \ )
   NeoBundleFetch 'Shougo/neobundle.vim'
 
-  call neobundle#load_toml(s:nvim_dir . '/rc/neobundle.toml')
+  call neobundle#load_toml(NvimDir() . '/rc/neobundle.toml')
   call neobundle#load_toml(
-        \   s:nvim_dir . '/rc/neobundle_lazy.toml',
+        \   NvimDir() . '/rc/neobundle_lazy.toml',
         \   { 'lazy': 1 }
         \ )
 
