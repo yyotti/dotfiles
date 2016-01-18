@@ -3,7 +3,7 @@ scriptencoding utf-8
 " VimFiler:
 "
 call vimfiler#custom#profile('default', 'context', {
-      \   'save': 0,
+      \   'safe': 0,
       \   'auto_expand': 1,
       \   'parent': 0,
       \ })
