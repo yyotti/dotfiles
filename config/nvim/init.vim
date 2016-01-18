@@ -79,4 +79,9 @@ if !has('vim_starting')
   NeoBundleCheck
 endif
 
+"-----------------------------------------------------------------------------
+" Encoding:
+"
+call s:source_rc('encoding.rc.vim')
+
 " vim:set foldmethod=marker:
