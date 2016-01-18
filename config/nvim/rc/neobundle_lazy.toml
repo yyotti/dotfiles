@@ -24,3 +24,7 @@ on_cmd = 'VimFiler'
 [[plugins]]
 repo = 'tyru/eskk.vim'
 on_map = [ [ 'i', '<Plug>' ], [ 'c', '<Plug>' ] ]
+
+[[plugins]]
+repo = 'Shougo/junkfile.vim'
+on_unite = 'junkfile'

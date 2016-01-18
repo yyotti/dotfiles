@@ -73,4 +73,10 @@ if neobundle#tap('eskk.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('junkfile.vim') " {{{
+  nnoremap <silent> [unite]j :<C-u>Unite junkfile/new junkfile<CR>
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:
