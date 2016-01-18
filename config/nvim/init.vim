@@ -109,4 +109,9 @@ call s:source_rc('filetype.rc.vim')
 "
 call s:source_rc('mappings.rc.vim')
 
+"-----------------------------------------------------------------------------
+" GUI:
+"
+" TODO GUIの設定
+
 " vim:set foldmethod=marker:
