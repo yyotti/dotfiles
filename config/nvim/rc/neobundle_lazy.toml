@@ -20,3 +20,7 @@ depends = 'Shougo/unite.vim'
 on_map = '<Plug>'
 on_path = '.*'
 on_cmd = 'VimFiler'
+
+[[plugins]]
+repo = 'tyru/eskk.vim'
+on_map = [ [ 'i', '<Plug>' ], [ 'c', '<Plug>' ] ]

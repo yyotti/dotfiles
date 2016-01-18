@@ -63,4 +63,14 @@ if neobundle#tap('vimfiler.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('eskk.vim') " {{{
+  imap <C-j> <Plug>(eskk:toggle)
+  cmap <C-j> <Plug>(eskk:toggle)
+
+  let neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/eskk.rc.vim'
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:
