@@ -1,3 +1,10 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = [ 'Shougo/deoplete.nvim', 'Shougo/neosnippet-snippets' ]
+on_i = 1
+on_ft = 'snippet'
+on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]

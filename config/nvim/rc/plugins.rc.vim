@@ -11,4 +11,11 @@ if neobundle#tap('deoplete.nvim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('neosnippet.vim') " {{{
+  let neobundle#hooks.on_source =
+        \   NvimDir() . '/rc/plugins/neosnippet.rc.vim'
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:
