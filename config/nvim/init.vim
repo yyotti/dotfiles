@@ -94,4 +94,9 @@ call s:source_rc('search.rc.vim')
 "
 call s:source_rc('edit.rc.vim')
 
+"-----------------------------------------------------------------------------
+" View:
+"
+call s:source_rc('view.rc.vim')
+
 " vim:set foldmethod=marker:
