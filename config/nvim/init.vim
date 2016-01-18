@@ -104,4 +104,9 @@ call s:source_rc('view.rc.vim')
 "
 call s:source_rc('filetype.rc.vim')
 
+"-----------------------------------------------------------------------------
+" Mappings:
+"
+call s:source_rc('mappings.rc.vim')
+
 " vim:set foldmethod=marker:
