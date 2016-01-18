@@ -124,4 +124,13 @@ call s:source_rc('mappings.rc.vim')
 "
 call s:source_rc('colorscheme.rc.vim')
 
+"-----------------------------------------------------------------------------
+" Local Settings:
+"
+if filereadable(expand('~/.nvimrc_local'))
+  execute 'source' expand('~/.nvimrc_local')
+endif
+
+set secure
+
 " vim:set foldmethod=marker:
