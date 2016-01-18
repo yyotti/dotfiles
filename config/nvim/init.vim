@@ -84,4 +84,9 @@ endif
 "
 call s:source_rc('encoding.rc.vim')
 
+"-----------------------------------------------------------------------------
+" Search:
+"
+call s:source_rc('search.rc.vim')
+
 " vim:set foldmethod=marker:
