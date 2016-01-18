@@ -4,7 +4,7 @@ scriptencoding utf-8
 "
 
 " <Leader> は <Space> にする
-let g:mapleader = '\<Space>'
+let g:mapleader = "\<Space>"
 
 if IsWindows()
   " Windowsの場合はファイルパスの\を/にする
