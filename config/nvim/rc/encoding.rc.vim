@@ -33,6 +33,7 @@ if !exists('g:did_encoding_settings') && has('iconv')
   let &fileencodings .= ',utf-8'
   let &fileencodings .= ',' . s:enc_euc
   let &fileencodings .= ',cp932'
+  let &fileencodings .= ',cp20932'
 
   unlet s:enc_euc
   unlet s:enc_jis
