@@ -23,7 +23,9 @@ function! IsUnix() abort "{{{
 endfunction "}}}
 
 function! IsPowerlineEnabled() abort "{{{
-  return (has('python') || has('python3')) && executable('powerline-daemon')
+  " return (has('python') || has('python3')) && executable('powerline-daemon')
+  " TODO Powerlineがnvimで使えるようになったら有効にする
+  return 0
 endfunction "}}}
 
 function! IsHomePC() abort "{{{
