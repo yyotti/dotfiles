@@ -119,4 +119,9 @@ call s:source_rc('mappings.rc.vim')
 "
 " TODO Powerlineの設定
 
+"-----------------------------------------------------------------------------
+" Colorscheme:
+"
+call s:source_rc('colorscheme.rc.vim')
+
 " vim:set foldmethod=marker:
