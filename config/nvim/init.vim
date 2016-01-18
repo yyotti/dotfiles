@@ -89,4 +89,9 @@ call s:source_rc('encoding.rc.vim')
 "
 call s:source_rc('search.rc.vim')
 
+"-----------------------------------------------------------------------------
+" Edit:
+"
+call s:source_rc('edit.rc.vim')
+
 " vim:set foldmethod=marker:
