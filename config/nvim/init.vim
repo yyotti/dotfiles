@@ -99,4 +99,9 @@ call s:source_rc('edit.rc.vim')
 "
 call s:source_rc('view.rc.vim')
 
+"-----------------------------------------------------------------------------
+" FileType:
+"
+call s:source_rc('filetype.rc.vim')
+
 " vim:set foldmethod=marker:
