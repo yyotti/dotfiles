@@ -13,3 +13,10 @@ on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
 repo = 'Shougo/unite.vim'
 depends = 'Shougo/neomru.vim'
 on_cmd = 'Unite'
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = 'Shougo/unite.vim'
+on_map = '<Plug>'
+on_path = '.*'
+on_cmd = 'VimFiler'

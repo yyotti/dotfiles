@@ -49,4 +49,18 @@ if neobundle#tap('unite.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vimfiler.vim') " {{{
+  nnoremap [vimfiler] <Nop>
+  xnoremap [vimfiler] <Nop>
+  nmap <Leader>f [vimfiler]
+  xmap <Leader>f [vimfiler]
+
+  nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
+
+  let neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/vimfiler.rc.vim'
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:
