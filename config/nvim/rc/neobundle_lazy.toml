@@ -8,3 +8,8 @@ depends = [ 'Shougo/deoplete.nvim', 'Shougo/neosnippet-snippets' ]
 on_i = 1
 on_ft = 'snippet'
 on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'Shougo/neomru.vim'
+on_cmd = 'Unite'
