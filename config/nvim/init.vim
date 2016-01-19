@@ -4,7 +4,8 @@ scriptencoding utf-8
 " Initialize:
 "
 let s:nvim_dir = fnamemodify(expand('<sfile>'), ':h')
-let s:is_windows = has('win16') || has('win32') || has('win64') || has('win95')
+let s:is_windows =
+      \ has('win16') || has('win32') || has('win64') || has('win95')
 let s:is_cygwin = has('win32unix')
 let s:is_unix = has('unix')
 
