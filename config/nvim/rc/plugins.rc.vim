@@ -151,4 +151,35 @@ if neobundle#tap('vim-ref') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-easymotion') "{{{
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  let g:EasyMotion_startofline = 0
+
+  " easymotionのプレフィックスは基本的に'とする
+  map ' <Plug>(easymotion-prefix)
+
+  " fとtのマッピングを置換する
+  map f <Plug>(easymotion-fl)
+  map t <Plug>(easymotion-tl)
+  map F <Plug>(easymotion-Fl)
+  map T <Plug>(easymotion-Tl)
+  " ;/,を置換
+  map ; <Plug>(easymotion-next)
+  map , <Plug>(easymotion-prev)
+
+  " ' + f/t/F/T で複数文字のやつにする
+  map 'f <Plug>(easymotion-fln)
+  map 't <Plug>(easymotion-tln)
+  map 'F <Plug>(easymotion-Fln)
+  map 'T <Plug>(easymotion-Tln)
+
+  " 'sは複数個のやつにマッピングする
+  " これがあるとw/e系がほとんど不要になってしまうが。
+  map 's <Plug>(easymotion-sn)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
