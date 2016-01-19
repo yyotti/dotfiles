@@ -79,4 +79,27 @@ if neobundle#tap('junkfile.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-fugitive') " {{{
+  " prefix定義
+  nnoremap [git] <Nop>
+  nmap <Leader>g [git]
+
+  nnoremap <silent> [git]s :<C-u>Gstatus<CR>
+  nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-merginal') " {{{
+  nnoremap <silent> [git]m :<C-u>Merginal<CR>
+
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_post_source(bundle) abort " {{{
+    doautocmd User Fugitive
+  endfunction " }}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:

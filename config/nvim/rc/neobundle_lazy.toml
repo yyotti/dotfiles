@@ -28,3 +28,22 @@ on_map = [ [ 'i', '<Plug>' ], [ 'c', '<Plug>' ] ]
 [[plugins]]
 repo = 'Shougo/junkfile.vim'
 on_unite = 'junkfile'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+on_path = '.*'
+on_cmd = [
+  'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush',
+  'Gfetch', 'Ggrep', 'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit',
+  'Gtabedit', 'Gpedit', 'Gread', 'Gwrite', 'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff',
+  'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
+]
+augroup = 'fugitive'
+
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+depends = 'tpope/vim-fugitive'
+augroup = 'merginal'
+on_cmd = [
+  'Merginal', 'MerginalToggle', 'MerginalClose',
+]
