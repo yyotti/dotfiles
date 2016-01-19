@@ -160,10 +160,10 @@ endfunction "}}}
 autocmd NvimAutocmd ColorScheme * call <SID>lightline_update()
 function! s:lightline_update() abort "{{{
   try
-    if g:colors_name =~# 'wombat\|solarized\|landsca;e\|jellybeans\|Tomorrow'
+    if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
       let g:lightline.colorscheme =
             \ substitute(
-            \   substitute(g:folors_name, '-', '_', 'g'), '256.*, '', ''
+            \   substitute(g:colors_name, '-', '_', 'g'), '256.*', '', ''
             \ ) . (g:colors_name ==# 'solarized' ? '_' . &background : '')
     else
       let g:lightline.colorscheme = 'default'
