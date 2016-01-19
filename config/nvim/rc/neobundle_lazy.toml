@@ -93,3 +93,7 @@ on_map = [ [ 'nx', '<Plug>' ] ]
 repo = 'rhysd/vim-operator-surround'
 depends = 'kana/vim-operator-user'
 on_map = '<Plug>'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+on_path = '.*'
