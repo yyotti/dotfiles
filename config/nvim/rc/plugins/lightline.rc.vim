@@ -159,20 +159,23 @@ endfunction "}}}
 " リアルタイムにカラースキームを書き換えるための細工
 autocmd NvimAutocmd ColorScheme * call <SID>lightline_update()
 function! s:lightline_update() abort "{{{
-  try
-    if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
-      let g:lightline.colorscheme =
-            \ substitute(
-            \   substitute(g:colors_name, '-', '_', 'g'), '256.*', '', ''
-            \ ) . (g:colors_name ==# 'solarized' ? '_' . &background : '')
-    else
-      let g:lightline.colorscheme = 'default'
-    endif
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
-  catch
-  endtry
+  let g:lightline.colorscheme = 'default'
+  if g:colors_name =~#
+        \ 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
+    let g:lightline.colorscheme =
+          \ substitute(
+          \   substitute(g:colors_name, '-', '_', 'g'), '256.*', '', ''
+          \ ) . (g:colors_name ==# 'solarized' ? '_' . &background : '')
+  endif
+
+  if !has('vim_starting')
+    try
+      call lightline#init()
+      call lightline#colorscheme()
+      call lightline#update()
+    catch
+    endtry
+  endif
 endfunction "}}}
 
 " vim:set foldmethod=marker:
