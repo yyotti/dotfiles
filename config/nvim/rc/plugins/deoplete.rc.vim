@@ -1,6 +1,6 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
-" Deoplete:
+" deoplete.nvim:
 "
 set completeopt+=noinsert
 

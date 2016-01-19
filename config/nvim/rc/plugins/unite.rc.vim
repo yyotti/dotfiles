@@ -1,6 +1,6 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
-" Unite:
+" unite.vim:
 "
 let g:neomru#file_mru_limit = 200
 

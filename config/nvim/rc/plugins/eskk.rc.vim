@@ -1,6 +1,6 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
-" Eskk:
+" eskk.vim:
 "
 let g:eskk#directory = expand('~/.skk')
 " Large dic

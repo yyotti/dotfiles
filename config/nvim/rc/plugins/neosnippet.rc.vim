@@ -1,6 +1,6 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
-" NeoSnippet:
+" neosnippet.vim:
 "
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#enable_complete_done = 1

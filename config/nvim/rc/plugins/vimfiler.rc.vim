@@ -1,6 +1,6 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
-" VimFiler:
+" vimfiler.vim:
 "
 call vimfiler#custom#profile('default', 'context', {
       \   'safe': 0,
