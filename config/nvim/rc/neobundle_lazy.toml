@@ -47,3 +47,8 @@ augroup = 'merginal'
 on_cmd = [
   'Merginal', 'MerginalToggle', 'MerginalClose',
 ]
+
+[[plugins]]
+repo = 'cohama/agit.vim'
+depends = 'tpope/vim-fugitive'
+on_cmd = [ 'Agit', 'AgitFile' ]

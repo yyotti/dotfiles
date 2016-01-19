@@ -102,4 +102,11 @@ if neobundle#tap('vim-merginal') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('agit.vim') " {{{
+  nnoremap <silent> [git]a :<C-u>Agit<CR>
+  nnoremap <silent> [git]f :<C-u>AgitFile<CR>
+
+  call neobundle#untap()
+endif " }}}
+
 " vim:set foldmethod=marker:
