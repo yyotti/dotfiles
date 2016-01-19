@@ -3,22 +3,22 @@ scriptencoding utf-8
 " Plugins:
 "
 
-if neobundle#tap('deoplete.nvim') " {{{
+if neobundle#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
   let neobundle#hooks.on_source =
-        \   NvimDir() . '/rc/plugins/deoplete.rc.vim'
+        \ NvimDir() . '/rc/plugins/deoplete.rc.vim'
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('neosnippet.vim') " {{{
+if neobundle#tap('neosnippet.vim') "{{{
   let neobundle#hooks.on_source =
-        \   NvimDir() . '/rc/plugins/neosnippet.rc.vim'
+        \ NvimDir() . '/rc/plugins/neosnippet.rc.vim'
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('unite.vim') " {{{
+if neobundle#tap('unite.vim') "{{{
   nnoremap [unite] <Nop>
   xnoremap [unite] <Nop>
   nmap <Leader>u [unite]
@@ -47,9 +47,9 @@ if neobundle#tap('unite.vim') " {{{
         \ NvimDir() . '/rc/plugins/unite.rc.vim'
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('vimfiler.vim') " {{{
+if neobundle#tap('vimfiler.vim') "{{{
   nnoremap [vimfiler] <Nop>
   xnoremap [vimfiler] <Nop>
   nmap <Leader>f [vimfiler]
@@ -61,9 +61,9 @@ if neobundle#tap('vimfiler.vim') " {{{
         \ NvimDir() . '/rc/plugins/vimfiler.rc.vim'
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('eskk.vim') " {{{
+if neobundle#tap('eskk.vim') "{{{
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
 
@@ -71,15 +71,15 @@ if neobundle#tap('eskk.vim') " {{{
         \ NvimDir() . '/rc/plugins/eskk.rc.vim'
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('junkfile.vim') " {{{
+if neobundle#tap('junkfile.vim') "{{{
   nnoremap <silent> [unite]j :<C-u>Unite junkfile/new junkfile<CR>
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('vim-fugitive') " {{{
+if neobundle#tap('vim-fugitive') "{{{
   " prefix定義
   nnoremap [git] <Nop>
   nmap <Leader>g [git]
@@ -88,25 +88,25 @@ if neobundle#tap('vim-fugitive') " {{{
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('vim-merginal') " {{{
+if neobundle#tap('vim-merginal') "{{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
   " @vimlint(EVL103, 1, a:bundle)
-  function! neobundle#hooks.on_post_source(bundle) abort " {{{
+  function! neobundle#hooks.on_post_source(bundle) abort "{{{
     doautocmd User Fugitive
-  endfunction " }}}
+  endfunction "}}}
   " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
-if neobundle#tap('agit.vim') " {{{
+if neobundle#tap('agit.vim') "{{{
   nnoremap <silent> [git]a :<C-u>Agit<CR>
   nnoremap <silent> [git]f :<C-u>AgitFile<CR>
 
   call neobundle#untap()
-endif " }}}
+endif "}}}
 
 " vim:set foldmethod=marker:
