@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 "-----------------------------------------------------------------------------
-" Initialize_for_nvim:
+" Initialize:
 "
 let s:nvim_dir = fnamemodify(expand('<sfile>'), ':h')
 let s:is_windows = has('win16') || has('win32') || has('win64') || has('win95')
