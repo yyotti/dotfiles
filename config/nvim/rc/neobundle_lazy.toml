@@ -101,3 +101,7 @@ on_path = '.*'
 [[plugins]]
 repo = 'sudo.vim'
 on_path = 'sudo:.*'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+on_cmd = 'WinResizerStartResize'

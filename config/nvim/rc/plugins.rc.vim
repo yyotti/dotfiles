@@ -213,4 +213,30 @@ if neobundle#tap('vim-operator-surround') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('winresizer') "{{{
+  " winresizerに用意されているマッピング機能を使うと遅延ロードが
+  " できないので、こちらで手動マッピングしてやる。
+  " winresizerをロードしたらデフォルトのマッピングがされるので、
+  " ロード後にそれらのマッピングを解除する。
+
+  if has('gui_running')
+    let g:winresizer_gui_enable = 1
+    nnoremap <C-w>R :<C-u>WinResizerStartResizeGUI<CR>
+  endif
+
+  let g:winresizer_vert_resize = 5
+  nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
+
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_post_source(bundle) abort "{{{
+    execute 'unmap' g:winresizer_start_key
+    if has('gui_running')
+      execute 'unmap' g:winresizer_gui_start_key
+    endif
+  endfunction "}}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
