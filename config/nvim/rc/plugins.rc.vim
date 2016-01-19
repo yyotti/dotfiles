@@ -137,4 +137,11 @@ if neobundle#tap('vim-gitgutter') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('lightline.vim') "{{{
+  let neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/lightline.rc.vim'
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

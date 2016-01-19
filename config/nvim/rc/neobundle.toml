@@ -5,3 +5,7 @@ build = 'make'
 # colorschemeはLazyできないようなのでこっち
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+disabled = 'IsPowerlineEnabled()'
