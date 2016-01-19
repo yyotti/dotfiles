@@ -32,7 +32,6 @@ if neobundle#tap('neosnippet-additional') "{{{
       endif
     endfor
 
-    echomsg string(snippets_dir)
     let g:neosnippet#snippets_directory = join(add(dirs, snippets_dir), ',')
   endfunction "}}}
 
