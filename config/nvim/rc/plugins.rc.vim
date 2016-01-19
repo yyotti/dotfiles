@@ -245,4 +245,10 @@ if neobundle#tap('foldCC.vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('colorizer') "{{{
+  let g:colorizer_nomap = 1
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

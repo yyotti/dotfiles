@@ -117,3 +117,8 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'smarty-syntax'
 on_ft = 'smarty'
+
+[[plugins]]
+repo = 'lilydjwg/colorizer'
+on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
+on_ft = [ 'smarty', 'html', 'css', 'php' ]
