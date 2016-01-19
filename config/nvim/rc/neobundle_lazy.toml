@@ -113,3 +113,7 @@ on_path = '.*'
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
+
+[[plugins]]
+repo = 'smarty-syntax'
+on_ft = 'smarty'
