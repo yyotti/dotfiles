@@ -105,3 +105,7 @@ on_path = 'sudo:.*'
 [[plugins]]
 repo = 'simeji/winresizer'
 on_cmd = 'WinResizerStartResize'
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+on_path = '.*'

@@ -239,4 +239,10 @@ if neobundle#tap('winresizer') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('foldCC.vim') "{{{
+  let g:foldCCtext_enable_autofdc_adjuster = 1
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
