@@ -57,3 +57,7 @@ on_cmd = [
 repo = 'cohama/agit.vim'
 depends = 'tpope/vim-fugitive'
 on_cmd = [ 'Agit', 'AgitFile' ]
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+on_path = '.*'

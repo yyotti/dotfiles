@@ -130,4 +130,11 @@ if neobundle#tap('agit.vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-gitgutter') "{{{
+  let neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/vim-gitgutter.rc.vim'
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
