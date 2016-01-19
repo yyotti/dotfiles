@@ -205,4 +205,12 @@ if neobundle#tap('vim-operator-replace') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-operator-surround') "{{{
+  map <silent> ra <Plug>(operator-surround-append)
+  map <silent> rd <Plug>(operator-surround-delete)
+  map <silent> rc <Plug>(operator-surround-replace)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

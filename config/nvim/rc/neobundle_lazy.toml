@@ -88,3 +88,8 @@ on_func = 'anzu#'
 repo = 'kana/vim-operator-replace'
 depends = 'kana/vim-operator-user'
 on_map = [ [ 'nx', '<Plug>' ] ]
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'kana/vim-operator-user'
+on_map = '<Plug>'
