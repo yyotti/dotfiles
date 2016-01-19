@@ -61,3 +61,8 @@ on_cmd = [ 'Agit', 'AgitFile' ]
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 on_path = '.*'
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+external_commands = 'lynx'
+on_map = [ [ 'nx', '<Plug>', 'K' ] ]

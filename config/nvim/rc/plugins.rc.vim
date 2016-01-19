@@ -144,4 +144,11 @@ if neobundle#tap('lightline.vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-ref') "{{{
+  let neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/vim-ref.rc.vim'
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
