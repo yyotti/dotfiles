@@ -122,3 +122,105 @@ on_ft = 'smarty'
 repo = 'lilydjwg/colorizer'
 on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
 on_ft = [ 'smarty', 'html', 'css', 'php' ]
+
+##############################################################################
+#[[plugins]]
+#repo = 'osyo-manga/unite-quickfix'
+#depends = 'Shougo/unite.vim'
+
+#[[plugins]]
+#repo = 'thinca/vim-quickrun'
+#on_map = '<Plug>'
+
+#[[plugins]]
+#repo = 'osyo-manga/vim-watchdogs'
+#depends = [
+#  'thinca/vim-quickrun',
+#  'Shougo/vimproc.vim',
+#  'osyo-manga/shabadou.vim',
+#]
+#on_cmd = 'WatchdogsRun'
+#on_i = 1
+
+#[[plugins]]
+#repo = 'KazuakiM/vim-qfsigns'
+#depends = 'osyo-manga/vim-watchdogs'
+#on_source = 'vim-watchdogs'
+
+#[[plugins]]
+#repo = 'KazuakiM/vim-qfstatusline'
+#depends = 'osyo-manga/vim-watchdogs'
+#on_source = 'vim-watchdogs'
+#disabled = 'PowerlineEnabled()'
+
+#[[plugins]]
+#repo = 'syngan/vim-vimlint'
+#depends = [ 'ynkdir/vim-vimlparser', 'osyo-manga/vim-watchdogs' ]
+#on_source = 'vim-watchdogs'
+
+#[[plugins]]
+#repo = 'vim-jp/vital.vim'
+#on_cmd = 'Vitalize'
+
+#[[plugins]]
+#repo = 'tyru/restart.vim'
+#gui = 1
+#on_cmd = [ 'Restart', 'RestartWithSession' ]
+
+# TODO こいつをうまくロードする方法を考える
+#[[plugins]]
+#repo = 'lambdalisue/vim-unified-diff'
+#on_path = '.*'
+#on_i = 1
+
+#[[plugins]]
+#repo = 'kannokanno/previm'
+#depends = 'tyru/open-browser.vim'
+#on_cmd = 'PrevimOpen'
+
+#[[plugins]]
+#repo = 'derekwyatt/vim-scala'
+#on_ft = [ 'scala', 'sbt' ]
+
+#[[plugins]]
+#repo = 'groenewege/vim-less'
+#on_ft = 'less'
+
+#[[plugins]]
+#repo = 'kchmck/vim-coffee-script'
+#on_ft = [ 'coffee', 'markdown' ]
+
+#[[plugins]]
+#repo = 'gre/play2vim'
+#on_ft = [ 'play2-conf', 'play2-routes' ]
+
+#[[plugins]]
+#repo = 'itchyny/vim-haskell-indent'
+#on_ft = 'haskell'
+
+#[[plugins]]
+#repo = 'eagletmt/ghcmod-vim'
+#depends = 'Shougo/vimproc.vim'
+#external_commands = 'ghc-mod'
+#on_ft = 'haskell'
+
+#[[plugins]]
+#repo = 'benjifisher/matchit.zip'
+#on_map = [
+#  [ 'nxo', '%', 'g%' ],
+#]
+
+#[[plugins]]
+#repo = 'lambdalisue/vim-gista'
+#on_cmd = 'Gista'
+#on_map = '<Plug>'
+#on_unite = 'gista'
+
+#[[plugins]]
+#repo = 'vim-jp/vimdoc-ja'
+
+#[[plugins]]
+#repo = 'haya14busa/vim-operator-flashy'
+#on_map = '<Plug>'
+
+# TODO unite-todolistを公開したら記述
