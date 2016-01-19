@@ -250,4 +250,10 @@ if neobundle#tap('colorizer') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('neomake') "{{{
+  autocmd NvimAutocmd BufWritePost * Neomake
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

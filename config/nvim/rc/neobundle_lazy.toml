@@ -123,6 +123,10 @@ repo = 'lilydjwg/colorizer'
 on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
 on_ft = [ 'smarty', 'html', 'css', 'php' ]
 
+[[plugins]]
+repo = 'benekastah/neomake'
+on_cmd = 'Neomake'
+
 ##############################################################################
 #[[plugins]]
 #repo = 'osyo-manga/unite-quickfix'
