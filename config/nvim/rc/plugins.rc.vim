@@ -198,4 +198,11 @@ if neobundle#tap('vim-anzu') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-operator-replace') "{{{
+  map R <Plug>(operator-replace)
+  xmap p <Plug>(operator-replace)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

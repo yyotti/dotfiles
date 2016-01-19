@@ -83,3 +83,8 @@ on_path = '.*'
 repo = 'osyo-manga/vim-anzu'
 on_map = '<Plug>'
 on_func = 'anzu#'
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = 'kana/vim-operator-user'
+on_map = [ [ 'nx', '<Plug>' ] ]
