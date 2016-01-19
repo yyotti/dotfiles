@@ -78,3 +78,8 @@ on_source = 'vim-easymotion'
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 on_path = '.*'
+
+[[plugins]]
+repo = 'osyo-manga/vim-anzu'
+on_map = '<Plug>'
+on_func = 'anzu#'

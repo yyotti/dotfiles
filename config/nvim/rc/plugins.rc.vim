@@ -182,4 +182,20 @@ if neobundle#tap('vim-easymotion') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-anzu') "{{{
+  nmap n <Plug>(anzu-n)zvzz
+  nmap N <Plug>(anzu-N)zvzz
+  nmap * <Plug>(anzu-star)zvzz
+  nmap # <Plug>(anzu-sharp)zvzz
+
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort "{{{
+    autocmd NvimAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
+          \ call anzu#clear_search_status()
+  endfunction "}}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
