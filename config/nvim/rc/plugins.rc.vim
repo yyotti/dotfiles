@@ -253,6 +253,16 @@ endif "}}}
 if neobundle#tap('neomake') "{{{
   autocmd NvimAutocmd BufWritePost * Neomake
 
+  " tomlv
+  if executable('tomlv')
+    let g:neomake_toml_enabled_makers = [ 'tomlv' ]
+    let g:neomake_toml_tomlv_maker = {
+          \   'exe': 'tomlv',
+          \   'args': [ '%:p' ],
+          \   'errorformat': 'Error\ in\ ''%f'':\ Near\ line\ %l\ %m',
+          \ }
+  endif
+
   call neobundle#untap()
 endif "}}}
 
