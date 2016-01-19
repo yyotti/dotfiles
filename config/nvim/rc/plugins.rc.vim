@@ -18,6 +18,27 @@ if neobundle#tap('neosnippet.vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('neosnippet-additional') "{{{
+  function! neobundle#hooks.on_source(bundle) abort "{{{
+    if !exists('g:neosnippet#snippets_directory')
+      let g:neosnippet#snippets_directory = ''
+    endif
+
+    let snippets_dir = expand(a:bundle.path . '/snippets/')
+    let dirs = split(g:neosnippet#snippets_directory, ',')
+    for dir in dirs
+      if dir ==# snippets_dir
+        return
+      endif
+    endfor
+
+    echomsg string(snippets_dir)
+    let g:neosnippet#snippets_directory = join(add(dirs, snippets_dir), ',')
+  endfunction "}}}
+
+  call neobundle#untap()
+endif "}}}
+
 if neobundle#tap('unite.vim') "{{{
   nnoremap [unite] <Nop>
   xnoremap [unite] <Nop>

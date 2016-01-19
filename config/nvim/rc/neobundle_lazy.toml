@@ -10,6 +10,11 @@ on_ft = 'snippet'
 on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
 
 [[plugins]]
+repo = 'yyotti/neosnippet-additional'
+depends = 'Shougo/neosnippet.vim'
+on_source = 'neosnippet.vim'
+
+[[plugins]]
 repo = 'Shougo/unite.vim'
 depends = 'Shougo/neomru.vim'
 on_cmd = 'Unite'
