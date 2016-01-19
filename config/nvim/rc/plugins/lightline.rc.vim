@@ -46,7 +46,7 @@ let g:lightline = {
       \   },
       \   'component': {
       \     'inactivemode': '%{"INACTIVE"}',
-      \     'lineinfo': '⭡ %3l:%-2v (%p%%)',
+      \     'lineinfo': '⭡ %v:%l/%L',
       \     'fileformat': '%{'.s:SID_PREFIX().'fileinfo_visible()?&fileformat:""}',
       \     'filetype': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&filetype)?&filetype:"no ft"):""}',
       \     'fileencoding': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&fileencoding)?&fileencoding:&encoding):""}',
@@ -76,8 +76,6 @@ let g:lightline = {
       \   },
       \ }
 
-" TODO 表示条件はwinwidthの判定を最初にもっていく
-
 function! s:mode() abort "{{{
   return &ft == 'unite' ? 'Unite' :
         \ &ft == 'vimfiler' ? 'VimFiler' :
@@ -94,6 +92,16 @@ function! s:modified() abort "{{{
         \ &modified ? '+' :
         \ &modifiable ? '' :
         \ '-'
+endfunction "}}}
+
+function! s:filename() abort "{{{
+  return (!empty(s:readonly()) ? s:readonly().' ' : '') .
+        \ (&filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
+        \   &filetype ==? 'unite' ? substitute(
+        \     unite#get_status_string(), ' | ', '', ''
+        \   ) :
+        \   !empty(expand('%')) ? expand('%') : '[No file]') .
+        \   (!empty(s:modified()) ? ' ' . s:modified() : '')
 endfunction "}}}
 
 function! s:eskk_visible() abort "{{{
