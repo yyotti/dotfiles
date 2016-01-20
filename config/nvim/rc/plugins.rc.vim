@@ -263,6 +263,8 @@ if neobundle#tap('neomake') "{{{
           \ }
   endif
 
+  let g:neomake_error_sign = { 'texthl': 'ErrorMsg' }
+
   call neobundle#untap()
 endif "}}}
 
