@@ -137,30 +137,10 @@ on_cmd = 'Neomake'
 #on_map = '<Plug>'
 
 #[[plugins]]
-#repo = 'osyo-manga/vim-watchdogs'
-#depends = [
-#  'thinca/vim-quickrun',
-#  'Shougo/vimproc.vim',
-#  'osyo-manga/shabadou.vim',
-#]
-#on_cmd = 'WatchdogsRun'
-#on_i = 1
-
-#[[plugins]]
-#repo = 'KazuakiM/vim-qfsigns'
-#depends = 'osyo-manga/vim-watchdogs'
-#on_source = 'vim-watchdogs'
-
-#[[plugins]]
 #repo = 'KazuakiM/vim-qfstatusline'
 #depends = 'osyo-manga/vim-watchdogs'
 #on_source = 'vim-watchdogs'
 #disabled = 'PowerlineEnabled()'
-
-#[[plugins]]
-#repo = 'syngan/vim-vimlint'
-#depends = [ 'ynkdir/vim-vimlparser', 'osyo-manga/vim-watchdogs' ]
-#on_source = 'vim-watchdogs'
 
 #[[plugins]]
 #repo = 'vim-jp/vital.vim'
