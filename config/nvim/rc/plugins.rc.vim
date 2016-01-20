@@ -251,7 +251,7 @@ if neobundle#tap('colorizer') "{{{
 endif "}}}
 
 if neobundle#tap('neomake') "{{{
-  autocmd NvimAutocmd BufWritePost * Neomake
+  " autocmd NvimAutocmd BufWritePost * Neomake
 
   " tomlv
   let g:neomake_toml_enabled_makers = [ 'tomlv' ]
