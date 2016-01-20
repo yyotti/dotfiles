@@ -266,4 +266,10 @@ if neobundle#tap('neomake') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-lintexec.nvim') "{{{
+  let g:lintexec#log_level = 0
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
