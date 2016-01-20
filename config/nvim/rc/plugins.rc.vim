@@ -258,7 +258,7 @@ if neobundle#tap('neomake') "{{{
   let g:neomake_toml_tomlv_maker = {
         \   'exe': 'tomlv',
         \   'args': [ '%:p' ],
-        \   'errorformat': 'Error\ in\ ''%f'':\ Near\ line\ %l\ %m',
+        \   'errorformat': '%trror\ in\ ''%f'':\ Near\ line\ %l\ %m',
         \ }
 
   let g:neomake_error_sign = { 'texthl': 'ErrorMsg' }
