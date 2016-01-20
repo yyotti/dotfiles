@@ -46,7 +46,7 @@ call neobundle#begin(expand('$CACHE/neobundle'))
 if neobundle#load_cache(
       \   expand('<sfile>'),
       \   NvimDir() . '/rc/neobundle.toml',
-      \   NvimDir() . '/rc/neobundle.toml'
+      \   NvimDir() . '/rc/neobundle_lazy.toml'
       \ )
   NeoBundleFetch 'Shougo/neobundle.vim'
 
