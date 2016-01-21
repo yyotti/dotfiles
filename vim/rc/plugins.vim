@@ -151,6 +151,17 @@ if neobundle#tap('vim-watchdogs') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-vimlint') "{{{
+  " vimのチェックはvimlintで行う
+  if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+  endif
+  if !has_key(g:quickrun_config, 'vim/watchdogs_checker')
+    let g:quickrun_config['vim/watchdogs_checker'] = {}
+  endif
+  let g:quickrun_config['vim/watchdogs_checker']['type'] = 'watchdogs_checker/vimlint'
+endif "}}}
+
 if neobundle#tap('vim-qfsigns') " {{{
   let g:qfsigns#AutoJump = 1
 
