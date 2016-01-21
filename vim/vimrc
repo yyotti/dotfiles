@@ -52,13 +52,10 @@ if neobundle#load_cache(
 
   " プラグイン設定をロードする
   " TODO サーバ用と家PC用とで分ける
-  call neobundle#load_toml(
-        \   RcDir() . '/neobundle.toml',
-        \   { 'install_process_timeout': 30 }
-        \ )
+  call neobundle#load_toml(RcDir() . '/neobundle.toml')
   call neobundle#load_toml(
         \   RcDir() . '/neobundle_lazy.toml',
-        \   { 'install_process_timeout': 30, 'lazy': 1 }
+        \   { 'lazy': 1 }
         \ )
 
   if IsHomePC()
