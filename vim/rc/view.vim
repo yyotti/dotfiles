@@ -48,7 +48,7 @@ let &g:titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
 set showtabline=1
 
 " ステータスライン
-if !PowerlineEnabled()
+if !IsPowerlineEnabled()
   " Powerlineもlightline.vimもOFFの場合はこの設定とする
   " lightline.vimが有効であれば後で上書きされる
   let &g:statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"

@@ -2,7 +2,7 @@ scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Powerline:
 "
-if !PowerlineEnabled()
+if !IsPowerlineEnabled()
   finish
 endif
 

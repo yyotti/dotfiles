@@ -17,6 +17,6 @@ repo = 'w0ng/vim-hybrid'
 # 環境次第では無効化される
 [[plugins]]
 repo = 'itchyny/lightline.vim'
-disabled = 'PowerlineEnabled()'
+disabled = 'IsPowerlineEnabled()'
 
 # vim:set sw=2:
