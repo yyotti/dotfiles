@@ -64,7 +64,7 @@ if neobundle#load_cache(
     " できる。
     call neobundle#local(
           \   s:vimdev_dir,
-          \   { 'lazy': 1 },
+          \   { 'type': 'none' },
           \   [ 'vim*', 'unite-*', '*.vim', 'neosnippet-additional' ]
           \ )
   endif
