@@ -61,7 +61,7 @@ if neobundle#load_cache(
     " 上で公開版の設定がされていても、こちらで開発用に上書きできる。
     call neobundle#local(
           \   s:vimdev_dir,
-          \   {},
+          \   { 'type': 'none' },
           \   [ 'vim*', 'unite-*', '*.vim', '*.nvim', 'neosnippet-additional' ]
           \ )
   endif
