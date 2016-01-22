@@ -305,4 +305,14 @@ if neobundle#tap('vim-operator-flashy') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-unified-diff') "{{{
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_post_source(bundle) abort "{{{
+    set diffexpr=unified_diff#diffexpr()
+  endfunction "}}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

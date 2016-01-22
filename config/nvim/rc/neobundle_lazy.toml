@@ -144,13 +144,13 @@ on_map = '<Plug>'
 repo = 'haya14busa/vim-operator-flashy'
 on_map = '<Plug>'
 
-##############################################################################
-
 # TODO こいつをうまくロードする方法を考える
-#[[plugins]]
-#repo = 'lambdalisue/vim-unified-diff'
-#on_path = '.*'
-#on_i = 1
+[[plugins]]
+repo = 'lambdalisue/vim-unified-diff'
+on_path = '.*'
+on_i = 1
+
+##############################################################################
 
 #[[plugins]]
 #repo = 'kannokanno/previm'
