@@ -315,4 +315,13 @@ if neobundle#tap('vim-unified-diff') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-autoupload') "{{{
+  autocmd NvimAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
+        \ call autoupload#init(0)
+  autocmd NvimAutocmd BufWritePost *.php,*.tpl,*.css,*.js
+        \ call autoupload#upload(0)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:

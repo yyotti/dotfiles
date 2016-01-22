@@ -150,6 +150,10 @@ repo = 'lambdalisue/vim-unified-diff'
 on_path = '.*'
 on_i = 1
 
+[[plugins]]
+repo = 'ysktti/vim-autoupload'
+on_path = '.*'
+
 ##############################################################################
 
 #[[plugins]]
