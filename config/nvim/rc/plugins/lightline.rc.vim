@@ -60,7 +60,7 @@ let g:lightline = {
       \     'filename': s:SID_PREFIX().'filename',
       \   },
       \   'component_expand': {
-      \     'syntaxcheck': 'qfstatusline#update',
+      \     'syntaxcheck': s:SID_PREFIX() . 'error_count',
       \   },
       \   'component_visible_condition': {
       \     'eskk': s:SID_PREFIX().'eskk_visible()',
@@ -163,6 +163,15 @@ endfunction "}}}
 function! s:anzu() abort "{{{
   return anzu#search_status()
 endfunction "}}}
+
+function! s:error_count() abort
+  if !exists('*lintexec#count_errors()')
+    return ''
+  endif
+
+  let cnt = lintexec#count_errors()
+  return cnt == 0 ? '' : printf('E(%d)', cnt)
+endfunction
 
 " リアルタイムにカラースキームを書き換えるための細工
 autocmd NvimAutocmd ColorScheme * call <SID>lightline_update()
