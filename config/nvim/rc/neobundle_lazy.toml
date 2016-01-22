@@ -142,11 +142,6 @@ on_map = '<Plug>'
 
 ##############################################################################
 
-#[[plugins]]
-#repo = 'tyru/restart.vim'
-#gui = 1
-#on_cmd = [ 'Restart', 'RestartWithSession' ]
-
 # TODO こいつをうまくロードする方法を考える
 #[[plugins]]
 #repo = 'lambdalisue/vim-unified-diff'
