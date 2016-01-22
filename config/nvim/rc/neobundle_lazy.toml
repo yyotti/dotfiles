@@ -195,7 +195,4 @@ on_map = '<Plug>'
 #on_map = '<Plug>'
 #on_unite = 'gista'
 
-#[[plugins]]
-#repo = 'vim-jp/vimdoc-ja'
-
 # TODO unite-todolistを公開したら記述
