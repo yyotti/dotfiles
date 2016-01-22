@@ -279,4 +279,10 @@ if neobundle#tap('unite-quickfix') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-quickrun') "{{{
+  nmap <silent> <Leader>r <Plug>(quickrun)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
