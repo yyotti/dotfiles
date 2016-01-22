@@ -140,6 +140,10 @@ depends = 'Shougo/unite.vim'
 repo = 'thinca/vim-quickrun'
 on_map = '<Plug>'
 
+[[plugins]]
+repo = 'haya14busa/vim-operator-flashy'
+on_map = '<Plug>'
+
 ##############################################################################
 
 # TODO こいつをうまくロードする方法を考える
@@ -193,9 +197,5 @@ on_map = '<Plug>'
 
 #[[plugins]]
 #repo = 'vim-jp/vimdoc-ja'
-
-#[[plugins]]
-#repo = 'haya14busa/vim-operator-flashy'
-#on_map = '<Plug>'
 
 # TODO unite-todolistを公開したら記述

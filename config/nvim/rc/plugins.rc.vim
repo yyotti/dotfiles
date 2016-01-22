@@ -285,4 +285,24 @@ if neobundle#tap('vim-quickrun') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('vim-operator-flashy') "{{{
+  let g:operator#flashy#flash_time = 300
+
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort "{{{
+    " highlight Cursor が設定されていないとエラーになるので、その対処
+    let v:errmsg = ''
+    silent! highlight Cursor
+    if !empty(v:errmsg)
+      highlight Cursor guibg=fg guifg=bg
+    endif
+  endfunction "}}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
