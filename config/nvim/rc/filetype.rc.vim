@@ -94,14 +94,6 @@ function! s:set_syntax_of_user_defined_commands() "{{{
 endfunction "}}}
 
 " 補完時のメッセージを表示しない
-" Patch: https://groups.google.com/forum/#!topic/vim_dev/WeBBjkXE8H8
-try
-  set shortmess+=c
-catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
-  " shortmessにcが加えられないなら、メッセージを背景色と同色にする
-  autocmd MyAutoCmd VimEnter *
-        \ highlight ModeMsg guifg=bg guibg=bg |
-        \ highlight Question guifg=bg guibg=bg
-endtry
+set shortmess+=c
 
 " vim:set foldmethod=marker:
