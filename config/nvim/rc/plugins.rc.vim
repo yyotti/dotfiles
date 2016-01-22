@@ -272,4 +272,11 @@ if neobundle#tap('vim-lintexec.nvim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('unite-quickfix') "{{{
+  nnoremap <silent> [unite]q
+        \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
