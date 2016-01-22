@@ -129,7 +129,7 @@ on_cmd = 'Neomake'
 
 [[plugins]]
 repo = 'yyotti/vim-lintexec.nvim'
-on_ft = 'vim'
+on_func = 'lintexec#run'
 
 [[plugins]]
 repo = 'osyo-manga/unite-quickfix'
