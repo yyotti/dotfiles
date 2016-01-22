@@ -6,7 +6,9 @@ set expandtab
 
 set shiftround
 
-" TODO クリップボード連携
+" クリップボード連携
+set clipboard&
+set clipboard+=unnamedplus
 
 " バックアップを作成しない
 set nowritebackup
