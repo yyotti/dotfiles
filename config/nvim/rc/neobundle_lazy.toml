@@ -142,16 +142,6 @@ verbose = 1
 #on_map = '<Plug>'
 
 #[[plugins]]
-#repo = 'KazuakiM/vim-qfstatusline'
-#depends = 'osyo-manga/vim-watchdogs'
-#on_source = 'vim-watchdogs'
-#disabled = 'PowerlineEnabled()'
-
-#[[plugins]]
-#repo = 'vim-jp/vital.vim'
-#on_cmd = 'Vitalize'
-
-#[[plugins]]
 #repo = 'tyru/restart.vim'
 #gui = 1
 #on_cmd = [ 'Restart', 'RestartWithSession' ]
