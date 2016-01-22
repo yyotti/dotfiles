@@ -267,8 +267,6 @@ if neobundle#tap('neomake') "{{{
 endif "}}}
 
 if neobundle#tap('vim-lintexec.nvim') "{{{
-  let g:lintexec#log_level = 0
-
   " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort "{{{
     if exists('*lightline#update')
