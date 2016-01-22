@@ -269,6 +269,20 @@ endif "}}}
 if neobundle#tap('vim-lintexec.nvim') "{{{
   let g:lintexec#log_level = 0
 
+  " @vimlint(EVL103, 1, a:bundle)
+  function! neobundle#hooks.on_source(bundle) abort "{{{
+    if exists('*lightline#update')
+      let g:lintexec#checker_cmd = {
+            \   '_': {
+            \     'on_exit': function('lightline#update'),
+            \   },
+            \ }
+    endif
+  endfunction "}}}
+  " @vimlint(EVL103, 0, a:bundle)
+
+  autocmd NvimAutocmd BufWritePost * call lintexec#run()
+
   call neobundle#untap()
 endif "}}}
 
