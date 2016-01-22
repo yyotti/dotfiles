@@ -60,12 +60,10 @@ let g:is_bash = 1
 " markdownの色付け設定
 " http://mattn.kaoriya.net/software/vim/20140523124903.htm
 let g:markdown_fenced_languages = [
-      \   'coffee',
       \   'css',
       \   'javascript',
       \   'js=javascript',
       \   'json=javascript',
-      \   'sass',
       \   'xml',
       \   'vim',
       \   'php',
