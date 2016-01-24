@@ -153,6 +153,14 @@ on_i = 1
 repo = 'ysktti/vim-autoupload'
 on_path = '.*'
 
+#[[plugins]]
+#repo = 'benjifisher/matchit.zip'
+#on_map = [
+#  [ 'nxo', '%', 'g%' ],
+#]
+
+# TODO unite-todolistを公開したら記述
+
 # 以下、家PC用
 [[plugins]]
 repo = 'kannokanno/previm'
@@ -171,13 +179,3 @@ depends = 'Shougo/vimproc.vim'
 external_commands = 'ghc-mod'
 on_ft = 'haskell'
 disabled = '!IsHomePC()'
-
-##############################################################################
-
-#[[plugins]]
-#repo = 'benjifisher/matchit.zip'
-#on_map = [
-#  [ 'nxo', '%', 'g%' ],
-#]
-
-# TODO unite-todolistを公開したら記述
