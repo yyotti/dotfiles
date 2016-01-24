@@ -267,13 +267,33 @@ if neobundle#tap('neomake') "{{{
 endif "}}}
 
 if neobundle#tap('vim-lintexec.nvim') "{{{
+  if !exists('g:lintexec#checker_cmd')
+    let g:lintexec#checker_cmd = {}
+  endif
+
+  let s:bundle_dir = $CACHE . '/neobundle'
+  let s:vimlint_path = s:bundle_dir . '/vim-vimlint'
+  let s:vimlparser_path = s:bundle_dir . '/vim-vimlparser'
+  if isdirectory(s:vimlint_path) && isdirectory(s:vimlparser_path)
+    let s:vimlint_sh = fnamemodify(expand($MYVIMRC), ':p:h') .
+          \ '/sh/vimlint.sh'
+    let g:lintexec#checker_cmd.vim = {
+          \   'exec': s:vimlint_sh,
+          \   'args': [
+          \     s:vimlparser_path, s:vimlint_path,
+          \   ],
+          \   'errfmt': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,',
+          \ }
+  endif
+  unlet s:bundle_dir
+  unlet s:vimlint_path
+  unlet s:vimlparser_path
+
   " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort "{{{
     if exists('*lightline#update')
-      let g:lintexec#checker_cmd = {
-            \   '_': {
-            \     'on_exit': function('lightline#update'),
-            \   },
+      let g:lintexec#checker_cmd._ = {
+            \   'on_exit': function('lightline#update'),
             \ }
     endif
   endfunction "}}}
