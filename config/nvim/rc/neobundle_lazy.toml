@@ -124,10 +124,6 @@ on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
 on_ft = [ 'smarty', 'html', 'css', 'php' ]
 
 [[plugins]]
-repo = 'benekastah/neomake'
-on_cmd = 'Neomake'
-
-[[plugins]]
 repo = 'yyotti/vim-lintexec.nvim'
 on_func = 'lintexec#run'
 

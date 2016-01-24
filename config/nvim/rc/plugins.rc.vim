@@ -250,22 +250,6 @@ if neobundle#tap('colorizer') "{{{
   call neobundle#untap()
 endif "}}}
 
-if neobundle#tap('neomake') "{{{
-  " autocmd NvimAutocmd BufWritePost * Neomake
-
-  " tomlv
-  let g:neomake_toml_enabled_makers = [ 'tomlv' ]
-  let g:neomake_toml_tomlv_maker = {
-        \   'exe': 'tomlv',
-        \   'args': [ '%:p' ],
-        \   'errorformat': '%trror\ in\ ''%f'':\ Near\ line\ %l\ %m',
-        \ }
-
-  let g:neomake_error_sign = { 'texthl': 'ErrorMsg' }
-
-  call neobundle#untap()
-endif "}}}
-
 if neobundle#tap('vim-lintexec.nvim') "{{{
   if !exists('g:lintexec#checker_cmd')
     let g:lintexec#checker_cmd = {}
