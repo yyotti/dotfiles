@@ -153,6 +153,11 @@ on_i = 1
 repo = 'ysktti/vim-autoupload'
 on_path = '.*'
 
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+on_i = 1
+
 #[[plugins]]
 #repo = 'benjifisher/matchit.zip'
 #on_map = [
