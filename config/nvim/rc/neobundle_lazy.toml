@@ -153,12 +153,14 @@ on_i = 1
 repo = 'ysktti/vim-autoupload'
 on_path = '.*'
 
-##############################################################################
+# 以下、家PC用
+[[plugins]]
+repo = 'kannokanno/previm'
+depends = 'tyru/open-browser.vim'
+on_cmd = 'PrevimOpen'
+disabled = '!IsHomePC()'
 
-#[[plugins]]
-#repo = 'kannokanno/previm'
-#depends = 'tyru/open-browser.vim'
-#on_cmd = 'PrevimOpen'
+##############################################################################
 
 #[[plugins]]
 #repo = 'derekwyatt/vim-scala'
