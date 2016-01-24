@@ -163,22 +163,6 @@ disabled = '!IsHomePC()'
 ##############################################################################
 
 #[[plugins]]
-#repo = 'derekwyatt/vim-scala'
-#on_ft = [ 'scala', 'sbt' ]
-
-#[[plugins]]
-#repo = 'groenewege/vim-less'
-#on_ft = 'less'
-
-#[[plugins]]
-#repo = 'kchmck/vim-coffee-script'
-#on_ft = [ 'coffee', 'markdown' ]
-
-#[[plugins]]
-#repo = 'gre/play2vim'
-#on_ft = [ 'play2-conf', 'play2-routes' ]
-
-#[[plugins]]
 #repo = 'itchyny/vim-haskell-indent'
 #on_ft = 'haskell'
 
