@@ -160,17 +160,19 @@ depends = 'tyru/open-browser.vim'
 on_cmd = 'PrevimOpen'
 disabled = '!IsHomePC()'
 
+[[plugins]]
+repo = 'itchyny/vim-haskell-indent'
+on_ft = 'haskell'
+disabled = '!IsHomePC()'
+
+[[plugins]]
+repo = 'eagletmt/ghcmod-vim'
+depends = 'Shougo/vimproc.vim'
+external_commands = 'ghc-mod'
+on_ft = 'haskell'
+disabled = '!IsHomePC()'
+
 ##############################################################################
-
-#[[plugins]]
-#repo = 'itchyny/vim-haskell-indent'
-#on_ft = 'haskell'
-
-#[[plugins]]
-#repo = 'eagletmt/ghcmod-vim'
-#depends = 'Shougo/vimproc.vim'
-#external_commands = 'ghc-mod'
-#on_ft = 'haskell'
 
 #[[plugins]]
 #repo = 'benjifisher/matchit.zip'
