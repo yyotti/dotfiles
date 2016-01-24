@@ -198,6 +198,9 @@ nnoremap x "_x
 
 " Exモードは無効
 nnoremap Q q
+
+" terminalでの<Esc>は<C-\><C-n>にする
+tnoremap <Esc> <C-\><C-n>
 "}}}
 
 " vim:set foldmethod=marker:
