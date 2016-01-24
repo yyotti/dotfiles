@@ -6,9 +6,7 @@ set completeopt+=noinsert
 
 let g:deoplete#enable_smart_case = 1
 
-" <C-h>はポップアップを消すだけ
-inoremap <expr> <C-h> deoplete#mappings#close_popup() . "\<C-h>"
-" <BS>は補完入力された部分も消す
+inoremap <expr> <C-h> deoplete#mappings#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS>  deoplete#mappings#smart_close_popup() . "\<C-h>"
 
 " <CR>でポップアップを閉じてインデントを保存する
