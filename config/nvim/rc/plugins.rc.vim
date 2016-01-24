@@ -336,4 +336,13 @@ if neobundle#tap('vim-autoupload') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('ghcmod-vim') "{{{
+  autocmd NvimAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tt :GhcModType<CR>
+  autocmd NvimAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
