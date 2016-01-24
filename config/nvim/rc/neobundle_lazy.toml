@@ -180,10 +180,4 @@ disabled = '!IsHomePC()'
 #  [ 'nxo', '%', 'g%' ],
 #]
 
-#[[plugins]]
-#repo = 'lambdalisue/vim-gista'
-#on_cmd = 'Gista'
-#on_map = '<Plug>'
-#on_unite = 'gista'
-
 # TODO unite-todolistを公開したら記述
