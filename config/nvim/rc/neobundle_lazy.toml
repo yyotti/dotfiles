@@ -1,0 +1,186 @@
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = [ 'Shougo/deoplete.nvim', 'Shougo/neosnippet-snippets' ]
+on_i = 1
+on_ft = 'snippet'
+on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
+
+[[plugins]]
+repo = 'yyotti/neosnippet-additional'
+depends = 'Shougo/neosnippet.vim'
+on_source = 'neosnippet.vim'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'Shougo/neomru.vim'
+on_cmd = 'Unite'
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = 'Shougo/unite.vim'
+on_map = '<Plug>'
+on_path = '.*'
+on_cmd = 'VimFiler'
+
+[[plugins]]
+repo = 'tyru/eskk.vim'
+on_map = [ [ 'i', '<Plug>' ], [ 'c', '<Plug>' ] ]
+
+[[plugins]]
+repo = 'Shougo/junkfile.vim'
+on_unite = 'junkfile'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+on_path = '.*'
+on_cmd = [
+  'Git', 'Gcd', 'Glcd', 'Gstatus', 'Gcommit', 'Gmerge', 'Gpull', 'Gpush',
+  'Gfetch', 'Ggrep', 'Glgrep', 'Glog', 'Gllog', 'Gedit', 'Gsplit', 'Gvsplit',
+  'Gtabedit', 'Gpedit', 'Gread', 'Gwrite', 'Gwq', 'Gdiff', 'Gsdiff', 'Gvdiff',
+  'Gmove', 'Gremove', 'Gblame', 'Gbrowse',
+]
+augroup = 'fugitive'
+
+[[plugins]]
+repo = 'idanarye/vim-merginal'
+depends = 'tpope/vim-fugitive'
+augroup = 'merginal'
+on_cmd = [
+  'Merginal', 'MerginalToggle', 'MerginalClose',
+]
+
+[[plugins]]
+repo = 'cohama/agit.vim'
+depends = 'tpope/vim-fugitive'
+on_cmd = [ 'Agit', 'AgitFile' ]
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+on_path = '.*'
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+external_commands = 'lynx'
+on_map = [ [ 'nx', '<Plug>', 'K' ] ]
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+on_map = '<Plug>'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+on_source = 'vim-easymotion'
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'osyo-manga/vim-anzu'
+on_map = '<Plug>'
+on_func = 'anzu#'
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = 'kana/vim-operator-user'
+on_map = [ [ 'nx', '<Plug>' ] ]
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'kana/vim-operator-user'
+on_map = '<Plug>'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+on_path = '.*'
+
+[[plugins]]
+repo = 'sudo.vim'
+on_path = 'sudo:.*'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+on_cmd = 'WinResizerStartResize'
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'smarty-syntax'
+on_ft = 'smarty'
+
+[[plugins]]
+repo = 'lilydjwg/colorizer'
+on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
+on_ft = [ 'smarty', 'html', 'css', 'php' ]
+
+[[plugins]]
+repo = 'benekastah/neomake'
+on_cmd = 'Neomake'
+
+[[plugins]]
+repo = 'yyotti/vim-lintexec.nvim'
+on_func = 'lintexec#run'
+
+[[plugins]]
+repo = 'osyo-manga/unite-quickfix'
+depends = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_map = '<Plug>'
+
+[[plugins]]
+repo = 'haya14busa/vim-operator-flashy'
+on_map = '<Plug>'
+
+# TODO こいつをうまくロードする方法を考える
+[[plugins]]
+repo = 'lambdalisue/vim-unified-diff'
+on_path = '.*'
+on_i = 1
+
+[[plugins]]
+repo = 'ysktti/vim-autoupload'
+on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+on_i = 1
+
+#[[plugins]]
+#repo = 'benjifisher/matchit.zip'
+#on_map = [
+#  [ 'nxo', '%', 'g%' ],
+#]
+
+# TODO unite-todolistを公開したら記述
+
+# 以下、家PC用
+[[plugins]]
+repo = 'kannokanno/previm'
+depends = 'tyru/open-browser.vim'
+on_cmd = 'PrevimOpen'
+disabled = '!IsHomePC()'
+
+[[plugins]]
+repo = 'itchyny/vim-haskell-indent'
+on_ft = 'haskell'
+disabled = '!IsHomePC()'
+
+[[plugins]]
+repo = 'eagletmt/ghcmod-vim'
+depends = 'Shougo/vimproc.vim'
+external_commands = 'ghc-mod'
+on_ft = 'haskell'
+disabled = '!IsHomePC()'
