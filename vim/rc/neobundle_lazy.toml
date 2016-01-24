@@ -114,6 +114,7 @@ on_ft = [ 'smarty', 'html', 'css', 'php' ]
 repo = 'kannokanno/previm'
 depends = 'tyru/open-browser.vim'
 on_cmd = 'PrevimOpen'
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'smarty-syntax'
@@ -122,28 +123,34 @@ on_ft = 'smarty'
 [[plugins]]
 repo = 'derekwyatt/vim-scala'
 on_ft = [ 'scala', 'sbt' ]
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'groenewege/vim-less'
 on_ft = 'less'
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'kchmck/vim-coffee-script'
 on_ft = [ 'coffee', 'markdown' ]
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'gre/play2vim'
 on_ft = [ 'play2-conf', 'play2-routes' ]
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'itchyny/vim-haskell-indent'
 on_ft = 'haskell'
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'eagletmt/ghcmod-vim'
 depends = 'Shougo/vimproc.vim'
 external_commands = 'ghc-mod'
 on_ft = 'haskell'
+disabled = '!IsHomePC()'
 
 [[plugins]]
 repo = 'benjifisher/matchit.zip'
