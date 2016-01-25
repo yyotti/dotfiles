@@ -158,6 +158,10 @@ on_i = 1
 repo = 'syngan/vim-vimlint'
 depends = 'ynkdir/vim-vimlparser'
 
+[[plugins]]
+repo = 'vim-jp/vital.vim'
+on_cmd = 'Vitalize'
+
 #[[plugins]]
 #repo = 'benjifisher/matchit.zip'
 #on_map = [
