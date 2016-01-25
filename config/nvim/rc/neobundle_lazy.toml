@@ -168,7 +168,9 @@ on_cmd = 'Vitalize'
 #  [ 'nxo', '%', 'g%' ],
 #]
 
-# TODO unite-todolistを公開したら記述
+[[plugins]]
+repo = 'yyotti/unite-googletasks'
+depends = 'Shougo/unite.vim'
 
 # 以下、家PC用
 [[plugins]]

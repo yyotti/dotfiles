@@ -349,4 +349,11 @@ if neobundle#tap('ghcmod-vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('unite-googletasks') "{{{
+  nnoremap [unite]t
+        \ :<C-u>Unite googletasks/tasklists/new googletasks/tasklists<CR>
+
+  call neobundle#untap()
+endif "}}}
+
 " vim:set foldmethod=marker:
