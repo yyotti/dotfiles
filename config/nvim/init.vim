@@ -71,6 +71,13 @@ endif
 
 " プラグインごとの設定
 call s:source_rc('plugins.rc.vim')
+if IsHomePC()
+  let s:vimrc_dev = s:vimdev_dir . '/vimrc'
+  if filereadable(s:vimrc_dev)
+    execute 'source' s:vimrc_dev
+  endif
+  unlet s:vimrc_dev
+endif
 
 call neobundle#end()
 
