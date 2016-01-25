@@ -350,7 +350,7 @@ if neobundle#tap('ghcmod-vim') "{{{
 endif "}}}
 
 if neobundle#tap('unite-googletasks') "{{{
-  nnoremap [unite]t
+  nnoremap <silent> [unite]t
         \ :<C-u>Unite googletasks/tasklists/new googletasks/tasklists<CR>
 
   call neobundle#untap()
