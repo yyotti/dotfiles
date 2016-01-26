@@ -27,10 +27,9 @@ call deoplete#custom#set(
 
 let g:deoplete#keyword_patterns = {}
 let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
-" TODO PHPなどの設定を追加
 
 let g:deoplete#omni#functions = {}
 let g:deoplete#omni#input_patterns = {}
-" TODO PHPなどの設定を追加
+let g:deoplete#omni#functions.python = 'python3complete#Complete'
 
 " vim:set foldmethod=marker:
