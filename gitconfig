@@ -6,3 +6,5 @@
 	algorithm = histogram
 [core]
 	editor = vim
+[push]
+        default = simple
