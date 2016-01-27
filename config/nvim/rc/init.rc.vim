@@ -11,7 +11,7 @@ if IsWindows()
   set shellslash
 endif
 
-let $CACHE = expand('~/.cache_nvim') " FIXME 動作確認が済んだら~/.cacheにする
+let $CACHE = expand('~/.cache')
 if !isdirectory($CACHE)
   call mkdir($CACHE, 'p')
 endif
