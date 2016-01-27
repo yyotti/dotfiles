@@ -1,3 +1,4 @@
 DOTFILES_DIRS="$HOME/git/unix_settings"
+COPY_ALWAYS="fonts/*"
 EXCLUDES="README.md install *template.json wiki"
 SYMLINK_DIRS="*:config:powerline *:vim *:config:nvim"
