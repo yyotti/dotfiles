@@ -96,4 +96,7 @@ set concealcursor=niv
 
 set colorcolumn=79
 
+" カーソルが変に飛んでしまうのでマウスは無効とする
+set mouse-=a
+
 " vim:set foldmethod=marker:
