@@ -351,7 +351,7 @@ endif "}}}
 
 if neobundle#tap('unite-googletasks') "{{{
   nnoremap <silent> [unite]t
-        \ :<C-u>Unite googletasks/tasklists/new googletasks/tasklists<CR>
+        \ :<C-u>Unite googletasks/tasklists googletasks/tasklists/new<CR>
 
   call neobundle#untap()
 endif "}}}
