@@ -113,11 +113,9 @@ endif "}}}
 if neobundle#tap('vim-merginal') "{{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_post_source(bundle) abort "{{{
     doautocmd User Fugitive
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
 endif "}}}
@@ -187,12 +185,10 @@ if neobundle#tap('vim-anzu') "{{{
   nmap * <Plug>(anzu-star)zvzz
   nmap # <Plug>(anzu-sharp)zvzz
 
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort "{{{
     autocmd NvimAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
           \ call anzu#clear_search_status()
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
 endif "}}}
@@ -226,14 +222,12 @@ if neobundle#tap('winresizer') "{{{
   let g:winresizer_vert_resize = 5
   nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
 
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_post_source(bundle) abort "{{{
     execute 'unmap' g:winresizer_start_key
     if has('gui_running')
       execute 'unmap' g:winresizer_gui_start_key
     endif
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
 endif "}}}
@@ -251,37 +245,15 @@ if neobundle#tap('colorizer') "{{{
 endif "}}}
 
 if neobundle#tap('vim-lintexec.nvim') "{{{
-  if !exists('g:lintexec#checker_cmd')
-    let g:lintexec#checker_cmd = {}
-  endif
-
-  let s:bundle_dir = $CACHE . '/neobundle'
-  let s:vimlint_path = s:bundle_dir . '/vim-vimlint'
-  let s:vimlparser_path = s:bundle_dir . '/vim-vimlparser'
-  if isdirectory(s:vimlint_path) && isdirectory(s:vimlparser_path)
-    let s:vimlint_sh = fnamemodify(expand($MYVIMRC), ':p:h') .
-          \ '/sh/vimlint.sh'
-    let g:lintexec#checker_cmd.vim = {
-          \   'exec': s:vimlint_sh,
-          \   'args': [
-          \     s:vimlparser_path, s:vimlint_path,
-          \   ],
-          \   'errfmt': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,',
-          \ }
-  endif
-  unlet s:bundle_dir
-  unlet s:vimlint_path
-  unlet s:vimlparser_path
-
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort "{{{
     if exists('*lightline#update')
-      let g:lintexec#checker_cmd._ = {
-            \   'on_exit': function('lightline#update'),
+      let g:lintexec#checker_cmd = {
+            \   '_': {
+            \     'on_exit': function('lightline#update'),
+            \   },
             \ }
     endif
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   autocmd NvimAutocmd BufWritePost * call lintexec#run()
 
@@ -307,7 +279,6 @@ if neobundle#tap('vim-operator-flashy') "{{{
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_source(bundle) abort "{{{
     " highlight Cursor が設定されていないとエラーになるので、その対処
     let v:errmsg = ''
@@ -316,17 +287,14 @@ if neobundle#tap('vim-operator-flashy') "{{{
       highlight Cursor guibg=fg guifg=bg
     endif
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('vim-unified-diff') "{{{
-  " @vimlint(EVL103, 1, a:bundle)
   function! neobundle#hooks.on_post_source(bundle) abort "{{{
     set diffexpr=unified_diff#diffexpr()
   endfunction "}}}
-  " @vimlint(EVL103, 0, a:bundle)
 
   call neobundle#untap()
 endif "}}}

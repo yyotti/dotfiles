@@ -156,10 +156,6 @@ on_ft = 'vim'
 on_i = 1
 
 [[plugins]]
-repo = 'syngan/vim-vimlint'
-depends = 'ynkdir/vim-vimlparser'
-
-[[plugins]]
 repo = 'vim-jp/vital.vim'
 on_cmd = 'Vitalize'
 
