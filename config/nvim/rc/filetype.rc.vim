@@ -7,8 +7,6 @@ set smartindent
 augroup NvimAutocmd
   autocmd FileType,Syntax * call s:on_filetype()
 
-  " TODO fugitiveでの設定に移す
-  autocmd FileType gitcommit setlocal nofoldenable
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}

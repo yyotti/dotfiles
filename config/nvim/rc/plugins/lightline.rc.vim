@@ -133,21 +133,20 @@ function! s:gitinfo() abort "{{{
     return ''
   endif
 
-  " TODO もうちょっとエレガントに書きたい
   let l:symbols = [
-        \   g:gitgutter_sign_added . ' ',
-        \   g:gitgutter_sign_modified . ' ',
-        \   g:gitgutter_sign_removed . ' ',
+        \   g:gitgutter_sign_added,
+        \   g:gitgutter_sign_modified,
+        \   g:gitgutter_sign_removed,
         \ ]
   let l:hunks = GitGutterGetHunkSummary()
-  let l:ret = []
-  for l:i in [0, 1, 2]
-    if l:hunks[l:i] > 0
-      call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
-    endif
-  endfor
 
-  return join(l:ret, ' ')
+  return join(
+        \   filter(
+        \     map([0, 1, 2], "l:symbols[v:val] . ':' . l:hunks[v:val]"),
+        \     "v:val[-2:] !=# ':0'"
+        \   ),
+        \   ' '
+        \ )
 endfunction "}}}
 
 function! s:fileinfo_visible() abort "{{{

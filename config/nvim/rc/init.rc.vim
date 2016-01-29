@@ -79,7 +79,6 @@ let g:neobundle#default_options = {}
 "   set guioptions=Mc
 " endif
 
-" TODO できるなら matchit を遅延ロードにしたい
 let g:loaded_gzip = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_zipPlugin = 1
@@ -92,6 +91,9 @@ let g:loaded_rrhelper = 1
 let g:loaded_spellfile_plugin = 1
 let g:loaded_logipat = 1
 let g:loaded_logipat = 1
+
+" matchitはここでいったんロード済みにして、後でロードできるようにする
+let g:loaded_matchit = 1
 " }}}
 
 " vim:set foldmethod=marker:

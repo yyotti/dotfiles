@@ -140,11 +140,9 @@ on_map = '<Plug>'
 repo = 'haya14busa/vim-operator-flashy'
 on_map = '<Plug>'
 
-# TODO こいつをうまくロードする方法を考える
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
 on_path = '.*'
-on_i = 1
 
 [[plugins]]
 repo = 'ysktti/vim-autoupload'
@@ -159,11 +157,11 @@ on_i = 1
 repo = 'vim-jp/vital.vim'
 on_cmd = 'Vitalize'
 
-#[[plugins]]
-#repo = 'benjifisher/matchit.zip'
-#on_map = [
-#  [ 'nxo', '%', 'g%' ],
-#]
+[[plugins]]
+repo = 'benjifisher/matchit.zip'
+on_map = [
+  [ 'nxo', '%', 'g%' ],
+]
 
 [[plugins]]
 repo = 'yyotti/unite-googletasks'

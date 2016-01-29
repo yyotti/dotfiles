@@ -292,9 +292,7 @@ if neobundle#tap('vim-operator-flashy') "{{{
 endif "}}}
 
 if neobundle#tap('vim-unified-diff') "{{{
-  function! g:neobundle#hooks.on_post_source(bundle) abort "{{{
-    set diffexpr=unified_diff#diffexpr()
-  endfunction "}}}
+  set diffexpr=unified_diff#diffexpr()
 
   call neobundle#untap()
 endif "}}}
@@ -320,6 +318,13 @@ endif "}}}
 if neobundle#tap('unite-googletasks') "{{{
   nnoremap <silent> [unite]t
         \ :<C-u>Unite googletasks/tasklists googletasks/tasklists/new<CR>
+
+  call neobundle#untap()
+endif "}}}
+
+if neobundle#tap('matchit.zip') "{{{
+  let g:neobundle#hooks.on_source =
+        \ NvimDir() . '/rc/plugins/matchit.zip.vim'
 
   call neobundle#untap()
 endif "}}}
