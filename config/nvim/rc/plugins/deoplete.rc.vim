@@ -29,7 +29,11 @@ let g:deoplete#keyword_patterns = {}
 let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
 
 let g:deoplete#omni#functions = {}
-let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#functions.python = 'python3complete#Complete'
+
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.python = ''
+
+let g:deoplete#enable_refresh_always = 1
 
 " vim:set foldmethod=marker:

@@ -22,53 +22,51 @@ augroup NvimAutocmd
 augroup END
 
 " runtimepathの初期設定
-if has('vim_starting')
-  if IsWindows()
-    let &runtimepath = join(
-          \   [
-          \     expand('~/.config/nvim'),
-          \     expand('$VIM/runtile'),
-          \     expand('~/.config/nvim/after'),
-          \   ],
-          \   ','
-          \ )
+if IsWindows()
+  let &runtimepath = join(
+        \   [
+        \     expand('~/.config/nvim'),
+        \     expand('$VIM/runtile'),
+        \     expand('~/.config/nvim/after'),
+        \   ],
+        \   ','
+        \ )
+endif
+
+function! s:clone(name, dir) abort "{{{
+  execute printf(
+        \   '!git clone %s://github.com/Shougo/%s.git',
+        \   exists('$http_proxy') ? 'https' : 'git',
+        \   a:name
+        \ ) a:dir
+endfunction "}}}
+
+" FIXME deinが正式にリリースされたら書き換える
+" neobundleをロードする
+if &runtimepath !~ '/neobundle.vim'
+  let s:neobundle_dir = expand('$CACHE/neobundle') . '/neobundle.vim'
+  if !isdirectory(s:neobundle_dir)
+    call s:clone('neobundle.vim', s:neobundle_dir)
   endif
+  execute 'set runtimepath^=' . s:neobundle_dir
+  unlet s:neobundle_dir
+endif
 
-  function! s:clone(name, dir) abort "{{{
-    execute printf(
-          \   '!git clone %s://github.com/Shougo/%s.git',
-          \   exists('$http_proxy') ? 'https' : 'git',
-          \   a:name
-          \ ) a:dir
-  endfunction "}}}
+if IsUnix()
+  " Linuxならvimprocも用意する
+  " TODO Linuxでなくても事前準備は可能なので改善の余地あり
+  if &runtimepath !~ '/vimproc.vim'
+    let s:vimproc_dir = expand('$CACHE/neobundle') . '/vimproc.vim'
+    if !isdirectory(s:vimproc_dir)
+      call s:clone('vimproc.vim', s:vimproc_dir)
 
-  " FIXME deinが正式にリリースされたら書き換える
-  " neobundleをロードする
-  if &runtimepath !~ '/neobundle.vim'
-    let s:neobundle_dir = expand('$CACHE/neobundle') . '/neobundle.vim'
-    if !isdirectory(s:neobundle_dir)
-      call s:clone('neobundle.vim', s:neobundle_dir)
+      " Build
+      execute printf('!cd "%s"; make', s:vimproc_dir)
     endif
-    execute 'set runtimepath^=' . s:neobundle_dir
-    unlet s:neobundle_dir
-  endif
 
-  if IsUnix()
-    " Linuxならvimprocも用意する
-    " TODO Linuxでなくても事前準備は可能なので改善の余地あり
-    if &runtimepath !~ '/vimproc.vim'
-      let s:vimproc_dir = expand('$CACHE/neobundle') . '/vimproc.vim'
-      if !isdirectory(s:vimproc_dir)
-        call s:clone('vimproc.vim', s:vimproc_dir)
+    " runtimepathへの追加はneobundleがやってくれる
 
-        " Build
-        execute printf('!cd "%s"; make', s:vimproc_dir)
-      endif
-
-      " runtimepathへの追加はneobundleがやってくれる
-
-      unlet s:vimproc_dir
-    endif
+    unlet s:vimproc_dir
   endif
 endif
 
