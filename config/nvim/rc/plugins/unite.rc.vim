@@ -23,7 +23,7 @@ if executable('pt')
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ag')
   let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = "-i --nocolor --nogroup --hidden"
+  let g:unite_source_grep_default_opts = '-i --nocolor --nogroup --hidden'
         \ . " --ignore '.hg'"
         \ . " --ignore '.svn'"
         \ . " --ignore '.git'"

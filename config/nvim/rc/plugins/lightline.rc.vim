@@ -77,8 +77,8 @@ let g:lightline = {
       \ }
 
 function! s:mode() abort "{{{
-  return &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
+  return &filetype ==# 'unite' ? 'Unite' :
+        \ &filetype ==# 'vimfiler' ? 'VimFiler' :
         \ winwidth(0) > 60 ? lightline#mode() :
         \ ''
 endfunction "}}}
@@ -114,7 +114,7 @@ function! s:eskk() abort "{{{
 endfunction "}}}
 
 function! s:fugitive_visible() abort "{{{
-  return &ft != 'vimfiler' &&
+  return &filetype !=# 'vimfiler' &&
         \ exists('*fugitive#head') && !empty(fugitive#head())
 endfunction "}}}
 
@@ -134,24 +134,24 @@ function! s:gitinfo() abort "{{{
   endif
 
   " TODO もうちょっとエレガントに書きたい
-  let symbols = [
+  let l:symbols = [
         \   g:gitgutter_sign_added . ' ',
         \   g:gitgutter_sign_modified . ' ',
         \   g:gitgutter_sign_removed . ' ',
         \ ]
-  let hunks = GitGutterGetHunkSummary()
-  let ret = []
-  for i in [0, 1, 2]
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
+  let l:hunks = GitGutterGetHunkSummary()
+  let l:ret = []
+  for l:i in [0, 1, 2]
+    if l:hunks[l:i] > 0
+      call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
     endif
   endfor
 
-  return join(ret, ' ')
+  return join(l:ret, ' ')
 endfunction "}}}
 
 function! s:fileinfo_visible() abort "{{{
-  return &ft != 'unite' && &ft != 'vimfiler' && winwidth(0) > 70
+  return &filetype !=# 'unite' && &filetype !=# 'vimfiler' && winwidth(0) > 70
 endfunction "}}}
 
 function! s:anzu_visible() abort "{{{
@@ -169,8 +169,8 @@ function! s:error_count() abort
     return ''
   endif
 
-  let cnt = lintexec#count_errors()
-  return cnt == 0 ? '' : printf('E(%d)', cnt)
+  let l:count = lintexec#count_errors()
+  return l:count == 0 ? '' : printf('E(%d)', l:count)
 endfunction
 
 " リアルタイムにカラースキームを書き換えるための細工

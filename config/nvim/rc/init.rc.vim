@@ -43,7 +43,7 @@ endfunction "}}}
 
 " FIXME deinが正式にリリースされたら書き換える
 " neobundleをロードする
-if &runtimepath !~ '/neobundle.vim'
+if &runtimepath !~# '/neobundle.vim'
   let s:neobundle_dir = expand('$CACHE/neobundle') . '/neobundle.vim'
   if !isdirectory(s:neobundle_dir)
     call s:clone('neobundle.vim', s:neobundle_dir)
@@ -55,7 +55,7 @@ endif
 if IsUnix()
   " Linuxならvimprocも用意する
   " TODO Linuxでなくても事前準備は可能なので改善の余地あり
-  if &runtimepath !~ '/vimproc.vim'
+  if &runtimepath !~# '/vimproc.vim'
     let s:vimproc_dir = expand('$CACHE/neobundle') . '/vimproc.vim'
     if !isdirectory(s:vimproc_dir)
       call s:clone('vimproc.vim', s:vimproc_dir)

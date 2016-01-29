@@ -76,21 +76,21 @@ augroup syntax-highlight-extends
 augroup END
 
 function! s:set_syntax_of_user_defined_commands() "{{{
-  redir => _
+  redir => l:_
     silent! command
   redir END
 
-  let command_names = join(
+  let l:command_names = join(
         \   map(
-        \     split(_, '\n')[1:],
+        \     split(l:_, '\n')[1:],
         \     "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"
         \   )
         \ )
-  if command_names == ''
+  if l:command_names ==# ''
     return
   endif
 
-  execute 'syntax keyword vimComand ' . command_names
+  execute 'syntax keyword vimComand ' . l:command_names
 endfunction "}}}
 
 " 補完時のメッセージを表示しない

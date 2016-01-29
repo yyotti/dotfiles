@@ -24,7 +24,7 @@ set title
 set titlelen=95
 " タイトル文字列(tmuxを使っていないときに関係してくる)
 let &g:titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
-      \ . "%<\(%{".s:SID_PREFIX()."strwidthpart("
+      \ . '%<\(%{'.s:SID_PREFIX().'strwidthpart('
       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
       \ . "substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - NVIM""
@@ -33,15 +33,15 @@ function! s:strwidthpart(str, width) abort "{{{
     return ''
   endif
 
-  let ret = a:str
-  let width = strwidth(a:str)
-  while width > a:width
-    let char = matchstr(ret, '.$')
-    let ret = ret[: -1 - len(char)]
-    let width -= strwidth(char)
+  let l:ret = a:str
+  let l:width = strwidth(a:str)
+  while l:width > a:width
+    let l:char = matchstr(l:ret, '.$')
+    let l:ret = l:ret[: -1 - len(l:char)]
+    let l:width -= strwidth(l:char)
   endwhile
 
-  return ret
+  return l:ret
 endfunction "}}}
 
 " ステータスライン

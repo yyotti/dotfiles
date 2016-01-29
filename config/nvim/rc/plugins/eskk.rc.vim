@@ -37,13 +37,13 @@ endif
 " 変換テーブル
 autocmd NvimAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
 function! s:eskk_initial_pre() abort
-  let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
-  call t.add_map('z ', '　')
-  call t.add_map('z(', '（')
-  call t.add_map('z)', '）')
-  call t.add_map('~', '～')
-  call eskk#register_mode_table('hira', t)
-  unlet t
+  let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+  call l:t.add_map('z ', '　')
+  call l:t.add_map('z(', '（')
+  call l:t.add_map('z)', '）')
+  call l:t.add_map('~', '～')
+  call eskk#register_mode_table('hira', l:t)
+  unlet l:t
 endfunction
 
 " vim:set foldmethod=marker:

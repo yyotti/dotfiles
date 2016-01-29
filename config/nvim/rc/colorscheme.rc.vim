@@ -16,10 +16,10 @@ function! s:change_colorscheme(cs_name) abort "{{{
 endfunction "}}}
 
 function! s:exists_colorscheme(name) abort "{{{
-  let color_files = split(globpath(&runtimepath, 'colors/*.vim'), '\n')
-  for c in color_files
-    let f = fnamemodify(c, ':t:r')
-    if f ==# a:name
+  let l:color_files = split(globpath(&runtimepath, 'colors/*.vim'), '\n')
+  for l:c in l:color_files
+    let l:f = fnamemodify(l:c, ':t:r')
+    if l:f ==# a:name
       return 1
     endif
   endfor

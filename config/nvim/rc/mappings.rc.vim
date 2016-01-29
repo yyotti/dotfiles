@@ -100,18 +100,18 @@ cnoremap <C-g> <C-c>
 " <C-o>:検索時のみ、単語境界をトグル
 cnoremap <C-o> <C-\>e<SID>toggle_word_border()<CR>
 function! s:toggle_word_border() abort "{{{
-  let cmdline = getcmdline()
-  if getcmdtype() != '/' && getcmdtype() != '?'
-    return cmdline
+  let l:cmdline = getcmdline()
+  if getcmdtype() !=# '/' && getcmdtype() !=# '?'
+    return l:cmdline
   endif
 
-  if cmdline !~# '^\\<.*\\>$'
-    let cmdline = '\<' . cmdline . '\>'
+  if l:cmdline !~# '^\\<.*\\>$'
+    let l:cmdline = '\<' . l:cmdline . '\>'
   else
-    let cmdline = cmdline[2:len(cmdline) - 3]
+    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
   endif
 
-  return cmdline
+  return l:cmdline
 endfunction "}}}
 "}}}
 

@@ -5,34 +5,34 @@ scriptencoding utf-8
 
 if neobundle#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/deoplete.rc.vim'
 
   call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('neosnippet.vim') "{{{
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/neosnippet.rc.vim'
 
   call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('neosnippet-additional') "{{{
-  function! neobundle#hooks.on_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_source(bundle) abort "{{{
     if !exists('g:neosnippet#snippets_directory')
       let g:neosnippet#snippets_directory = ''
     endif
 
-    let snippets_dir = expand(a:bundle.path . '/snippets/')
-    let dirs = split(g:neosnippet#snippets_directory, ',')
-    for dir in dirs
-      if dir ==# snippets_dir
+    let l:snippets_dir = expand(a:bundle.path . '/snippets/')
+    let l:dirs = split(g:neosnippet#snippets_directory, ',')
+    for l:dir in l:dirs
+      if l:dir ==# l:snippets_dir
         return
       endif
     endfor
 
-    let g:neosnippet#snippets_directory = join(add(dirs, snippets_dir), ',')
+    let g:neosnippet#snippets_directory = join(add(l:dirs, l:snippets_dir), ',')
   endfunction "}}}
 
   call neobundle#untap()
@@ -63,7 +63,7 @@ if neobundle#tap('unite.vim') "{{{
 
   let g:unite_force_overwrite_statusline = 0
 
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/unite.rc.vim'
 
   call neobundle#untap()
@@ -77,7 +77,7 @@ if neobundle#tap('vimfiler.vim') "{{{
 
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
 
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/vimfiler.rc.vim'
 
   call neobundle#untap()
@@ -87,7 +87,7 @@ if neobundle#tap('eskk.vim') "{{{
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
 
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/eskk.rc.vim'
 
   call neobundle#untap()
@@ -113,7 +113,7 @@ endif "}}}
 if neobundle#tap('vim-merginal') "{{{
   nnoremap <silent> [git]m :<C-u>Merginal<CR>
 
-  function! neobundle#hooks.on_post_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_post_source(bundle) abort "{{{
     doautocmd User Fugitive
   endfunction "}}}
 
@@ -128,21 +128,21 @@ if neobundle#tap('agit.vim') "{{{
 endif "}}}
 
 if neobundle#tap('vim-gitgutter') "{{{
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/vim-gitgutter.rc.vim'
 
   call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('lightline.vim') "{{{
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/lightline.rc.vim'
 
   call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('vim-ref') "{{{
-  let neobundle#hooks.on_source =
+  let g:neobundle#hooks.on_source =
         \ NvimDir() . '/rc/plugins/vim-ref.rc.vim'
 
   call neobundle#untap()
@@ -185,7 +185,7 @@ if neobundle#tap('vim-anzu') "{{{
   nmap * <Plug>(anzu-star)zvzz
   nmap # <Plug>(anzu-sharp)zvzz
 
-  function! neobundle#hooks.on_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_source(bundle) abort "{{{
     autocmd NvimAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
           \ call anzu#clear_search_status()
   endfunction "}}}
@@ -222,7 +222,7 @@ if neobundle#tap('winresizer') "{{{
   let g:winresizer_vert_resize = 5
   nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
 
-  function! neobundle#hooks.on_post_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_post_source(bundle) abort "{{{
     execute 'unmap' g:winresizer_start_key
     if has('gui_running')
       execute 'unmap' g:winresizer_gui_start_key
@@ -245,7 +245,7 @@ if neobundle#tap('colorizer') "{{{
 endif "}}}
 
 if neobundle#tap('vim-lintexec.nvim') "{{{
-  function! neobundle#hooks.on_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_source(bundle) abort "{{{
     if exists('*lightline#update')
       let g:lintexec#checker_cmd = {
             \   '_': {
@@ -279,7 +279,7 @@ if neobundle#tap('vim-operator-flashy') "{{{
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 
-  function! neobundle#hooks.on_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_source(bundle) abort "{{{
     " highlight Cursor が設定されていないとエラーになるので、その対処
     let v:errmsg = ''
     silent! highlight Cursor
@@ -292,7 +292,7 @@ if neobundle#tap('vim-operator-flashy') "{{{
 endif "}}}
 
 if neobundle#tap('vim-unified-diff') "{{{
-  function! neobundle#hooks.on_post_source(bundle) abort "{{{
+  function! g:neobundle#hooks.on_post_source(bundle) abort "{{{
     set diffexpr=unified_diff#diffexpr()
   endfunction "}}}
 

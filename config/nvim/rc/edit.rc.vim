@@ -66,7 +66,7 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
-  :%s/\s\+$//ge
+  normal! :%s/\s\+$//ge
 endfunction "}}}
 
 " Ctrl+aやCtrl+xでインクリメント/デクリメントするとき、先頭に
@@ -82,25 +82,25 @@ if executable('git')
   endfunction "}}}
 
   function! s:cd_gitroot() abort "{{{
-    let dir = getcwd()
+    let l:dir = getcwd()
 
-    let buf_path = expand('%:p')
-    if !isdirectory(buf_path)
-      let buf_path = fnamemodify(buf_path, ':h')
+    let l:buf_path = expand('%:p')
+    if !isdirectory(l:buf_path)
+      let l:buf_path = fnamemodify(l:buf_path, ':h')
     endif
-    if !isdirectory(buf_path)
+    if !isdirectory(l:buf_path)
       return
     endif
-    execute 'lcd' buf_path
+    execute 'lcd' l:buf_path
 
-    let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
-    if in_git_dir !=# 'true'
-      execute 'lcd' dir
+    let l:in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
+    if l:in_git_dir !=# 'true'
+      execute 'lcd' l:dir
       return
     endif
 
-    let git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' git_root
+    let l:git_root = s:trim(system('git rev-parse --show-toplevel'))
+    execute 'lcd' l:git_root
   endfunction "}}}
 endif
 
