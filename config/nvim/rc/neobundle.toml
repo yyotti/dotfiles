@@ -2,6 +2,9 @@
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
+[[plugins]]
+repo = 'tyru/eskk.vim'
+
 # colorschemeはLazyできないようなのでこっち
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
