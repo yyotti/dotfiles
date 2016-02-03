@@ -70,7 +70,12 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
-  normal! :%s/\s\+$//ge
+  let l:cursor = getpos('.')
+
+  global/^/ s/\s\+$//e
+
+  call setpos('.', l:cursor)
+  unlet l:cursor
 endfunction "}}}
 
 " Ctrl+aやCtrl+xでインクリメント/デクリメントするとき、先頭に
