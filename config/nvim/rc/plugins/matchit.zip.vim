@@ -2,8 +2,6 @@ scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " matchit.zip.vim
 "
-" 起動時にデフォルトの方を無効にしているのでここで有効化する
-unlet g:loaded_matchit
 
 function! s:set_match_words() abort " {{{
   let l:words = [ '(:)', '{:}', '[:]', '（:）', '「:」' ]
