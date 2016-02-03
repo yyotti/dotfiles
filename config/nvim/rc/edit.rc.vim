@@ -66,6 +66,10 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
+  if &binary || &diff
+    return
+  endif
+
   normal! :%s/\s\+$//ge
 endfunction "}}}
 
