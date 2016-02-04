@@ -327,7 +327,7 @@ if neobundle#tap('matchit.zip') "{{{
     " 起動時にデフォルトの方を無効にしているのでここで有効化する
     unlet g:loaded_matchit
   endfunction "}}}
-  
+
   let g:neobundle#hooks.on_post_source =
         \ NvimDir() . '/rc/plugins/matchit.zip.vim'
 
