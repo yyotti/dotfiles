@@ -67,30 +67,6 @@ let g:markdown_fenced_languages = [
       \   'php',
       \ ]
 
-" ユーザコマンドのシンタックスハイライト
-augroup syntax-highlight-extends
-  autocmd!
-  autocmd Syntax vim call s:set_syntax_of_user_defined_commands()
-augroup END
-
-function! s:set_syntax_of_user_defined_commands() "{{{
-  redir => l:_
-    silent! command
-  redir END
-
-  let l:command_names = join(
-        \   map(
-        \     split(l:_, '\n')[1:],
-        \     "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"
-        \   )
-        \ )
-  if l:command_names ==# ''
-    return
-  endif
-
-  execute 'syntax keyword vimComand ' . l:command_names
-endfunction "}}}
-
 " 補完時のメッセージを表示しない
 set shortmess+=c
 

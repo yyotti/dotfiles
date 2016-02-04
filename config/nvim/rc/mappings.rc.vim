@@ -38,12 +38,6 @@ nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
 " Insert mode mappings: "{{{
 " <C-t>はタブ
 inoremap <C-t> <C-v><TAB>
-" <C-d>は<DEL>
-inoremap <C-d> <DEL>
-" <C-a>は先頭に移動
-inoremap <C-a> <C-o>^
-" <C-e>は末尾に移動
-inoremap <C-e> <C-o>$
 " <C-w>と<C-u>でundoを可能にする
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>

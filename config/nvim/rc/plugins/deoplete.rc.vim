@@ -20,8 +20,6 @@ call deoplete#custom#set(
       \   'converters',
       \   [
       \     'converter_auto_paren',
-      \     'converter_auto_delimiter',
-      \     'remove_overlap',
       \     'converter_remove_paren',
       \   ]
       \ )
