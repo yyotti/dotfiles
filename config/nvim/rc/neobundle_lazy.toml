@@ -187,3 +187,13 @@ depends = 'Shougo/vimproc.vim'
 external_commands = 'ghc-mod'
 on_ft = 'haskell'
 disabled = '!IsHomePC()'
+
+[[plugins]]
+repo = 'derekwyatt/vim-scala'
+on_ft = [ 'scala', 'sbt' ]
+disabled = '!IsHomePC()'
+
+[[plugins]]
+repo = 'gre/play2vim'
+on_ft = [ 'play2-conf', 'play2-routes' ]
+disabled = '!IsHomePC()'
