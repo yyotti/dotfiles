@@ -22,11 +22,6 @@ options     head
     ${0:TARGET}
   endfunction "}}}
 
-snippet     modeline
-abbr        " vim:set foldmethod=marker:
-options     head
-  " vim:set foldmethod=marker:
-
 snippet     title
 abbr        " Title:
 options     head
@@ -55,3 +50,19 @@ options     head
 
   let &cpoptions = s:save_cpo
   unlet s:save_cpo
+
+snippet     function
+abbr        func endfunc
+alias       func
+options     head
+    function! ${1:#:func_name}(${2}) abort "{{{
+      ${0:TARGET}
+    endfunction "}}}
+
+snippet     autoload
+abbr        autoload func endfunc
+alias       afunction afunc
+options     head
+    function! `substitute(matchstr(neosnippet#util#expand('%:p:r'), '/autoload/\zs.*$'), '/', '#', 'g')`#${1:#:func_name}(${2:#:args}) abort "{{{
+      ${0}
+    endfunction "}}}
