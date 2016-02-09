@@ -2,6 +2,7 @@
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
+# TODO Lazyだとカーソルに問題が出る
 [[plugins]]
 repo = 'tyru/eskk.vim'
 

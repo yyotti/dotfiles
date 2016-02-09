@@ -10,7 +10,7 @@ repo = 'Shougo/neosnippet.vim'
 depends = [ 'Shougo/neocomplete.vim', 'Shougo/neosnippet-snippets' ]
 on_i = 1
 on_ft = 'snippet'
-on_unite = [ 'neosnippet', 'neosnippet/user', 'neosnippet/runtime' ]
+on_source = 'unite.vim'
 
 [[plugins]]
 repo = 'Shougo/unite.vim'
@@ -208,7 +208,7 @@ on_cmd = [
 
 [[plugins]]
 repo = 'Shougo/junkfile.vim'
-on_unite = 'junkfile'
+on_source = 'unite.vim'
 on_cmd = 'JunkfileOpen'
 
 [[plugins]]
@@ -219,7 +219,7 @@ on_cmd = 'WinResizerStartResize'
 repo = 'lambdalisue/vim-gista'
 on_cmd = 'Gista'
 on_map = '<Plug>'
-on_unite = 'gista'
+on_source = 'unite.vim'
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'

@@ -1,11 +1,6 @@
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
-  [plugins.build]
-  windows = 'tools\\update-all-mingw'
-  cygwin = 'make -f make_cygwin.mak'
-  mac = 'make -f make_mak.mak'
-  linux = 'make'
-  unix = 'gmake'
+build = 'make'
 
 # colorschemeはLazyできないようなのでこっち
 [[plugins]]
