@@ -20,6 +20,7 @@ if executable('google-ime-skk')
   let g:eskk#server = {
         \   'host': 'localhost',
         \   'port': 55100,
+        \   'type': 'notfound',
         \ }
 endif
 
