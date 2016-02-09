@@ -10,6 +10,7 @@ path=(
   ~/bin(N-/)
   ~/.local/bin(N-/)
   ~/.go/bin(N-/)
+  ~/.composer/vendor/bin(N-/)
   $path
 )
 
