@@ -4,6 +4,7 @@ scriptencoding utf-8
 "
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#enable_complete_done = 1
+let g:neosnippet#snippets_directory = NvimDir() . '/snippets'
 
 imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
 smap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
