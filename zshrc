@@ -27,6 +27,7 @@ alias -g G='| grep'
 alias -g L='| less'
 alias tsp='tmux new-session \; split-window -h -d'
 alias tvsp='tmux new-session \; split-window -d'
+alias vim2='XDG_CONFIG_HOME=/home/tsutsui/.config_dein vim'
 
 # cd履歴をスタックに追加する
 setopt auto_pushd
