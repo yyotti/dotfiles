@@ -39,7 +39,6 @@ endfunction "}}}
 
 call s:source_rc('init.rc.vim')
 
-" FIXME deinが正式にリリースされたら書き換える
 " dein
 call dein#begin(expand('$CACHE/dein'))
 
