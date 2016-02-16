@@ -40,33 +40,28 @@ endfunction "}}}
 call s:source_rc('init.rc.vim')
 
 " FIXME deinが正式にリリースされたら書き換える
-" NeoBundle
-call neobundle#begin(expand('$CACHE/neobundle'))
+" dein
+call dein#begin(expand('$CACHE/dein'))
 
-if neobundle#load_cache(
-      \   expand('<sfile>'),
-      \   NvimDir() . '/rc/neobundle.toml',
-      \   NvimDir() . '/rc/neobundle_lazy.toml'
-      \ )
-  NeoBundleFetch 'Shougo/neobundle.vim'
+let s:toml_path = NvimDir() . '/rc/dein.toml'
+let s:toml_lazy_path = NvimDir() . '/rc/dein_lazy.toml'
+if dein#load_cache([ expand('<sfile>'), s:toml_path, s:toml_lazy_path ])
+  call dein#add('Shougo/dein.vim', { 'rtp': '' })
 
-  call neobundle#load_toml(NvimDir() . '/rc/neobundle.toml')
-  call neobundle#load_toml(
-        \   NvimDir() . '/rc/neobundle_lazy.toml',
-        \   { 'lazy': 1 }
-        \ )
+  call dein#load_toml(s:toml_path)
+  call dein#load_toml(s:toml_lazy_path, { 'lazy': 1 })
 
   if IsHomePC()
     " 開発用設定
     " 上で公開版の設定がされていても、こちらで開発用に上書きできる。
-    call neobundle#local(
+    call dein#local(
           \   s:vimdev_dir,
-          \   { 'type': 'none' },
+          \   { 'frozen': 1 },
           \   [ 'vim*', 'unite-*', '*.vim', '*.nvim', 'neosnippet-additional' ]
           \ )
   endif
 
-  NeoBundleSaveCache
+  call dein#save_cache()
 endif
 
 " プラグインごとの設定
@@ -79,14 +74,14 @@ if IsHomePC()
   unlet s:vimrc_dev
 endif
 
-call neobundle#end()
+call dein#end()
 
 filetype plugin indent on
 
 syntax enable
 
-if !has('vim_starting')
-  NeoBundleCheck
+if dein#check_install()
+  call dein#install()
 endif
 
 "-----------------------------------------------------------------------------
