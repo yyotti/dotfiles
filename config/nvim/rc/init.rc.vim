@@ -51,6 +51,7 @@ endif
 if IsUnix()
   " Linuxならvimprocも用意する
   " TODO Linuxでなくても事前準備は可能なので改善の余地あり
+  " TODO deinがbuildを実装するか、非同期インストールを実装したらこの処理を外す
   if &runtimepath !~# '/vimproc.vim'
     let s:vimproc_dir = expand('$CACHE/dein') .
           \ '/repos/github.com/Shougo/vimproc.vim'
