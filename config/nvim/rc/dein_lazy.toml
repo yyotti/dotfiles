@@ -142,7 +142,7 @@ on_map = '<Plug>'
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
-on_func = 'unified_diff#diffexpr'
+on_path = '.*'
 
 [[plugins]]
 repo = 'ysktti/vim-autoupload'
