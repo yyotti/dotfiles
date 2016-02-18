@@ -288,15 +288,4 @@ if dein#tap('matchit.zip') "{{{
   endfunction "}}}
 endif "}}}
 
-if dein#tap('vim-gita') "{{{
-  nnoremap [gita] <Nop>
-  nmap <Leader>a [gita]
-
-  nnoremap <silent> [gita]s :<C-u>Gita status<CR>
-  nnoremap <silent> [gita]d :<C-u>Gita diff<CR>
-  nnoremap <silent> [gita]b :<C-u>Gita blame<CR>
-
-  " let g:gita#features#commit#enable_default_mappings = 0
-endif "}}}
-
 " vim:set foldmethod=marker:

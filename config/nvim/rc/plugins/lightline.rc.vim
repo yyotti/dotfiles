@@ -115,12 +115,12 @@ endfunction "}}}
 
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ !empty(dein#get('vim-gita')) &&
-        \ !empty(gita#statusline#format('%ln'))
+        \ !empty(dein#get('vim-fugitive')) &&
+        \ !empty('*fugitive#head')
 endfunction "}}}
 
 function! s:branch() abort "{{{
-  return s:branch_visible() ? '⭠ ' . gita#statusline#format('%ln') : ''
+  return s:branch_visible() ? '⭠ ' . fugitive#head() : ''
 endfunction "}}}
 
 function! s:gitinfo_visible() abort "{{{
