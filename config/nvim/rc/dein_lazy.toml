@@ -41,7 +41,8 @@ on_source = 'unite.vim'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-on_path = '.*'
+on_func = 'fugitive#head'
+on_cmd = [ 'Git', 'Gstatus', 'Gdiff', 'Gvdiff' ]
 
 [[plugins]]
 repo = 'idanarye/vim-merginal'
