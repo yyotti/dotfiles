@@ -1,4 +1,3 @@
-" vim:set ts=8 sts=2 sw=2 tw=0 expandtab nofoldenable:
 snippet     marker
 abbr        " xxx "{{{ ... "}}}
 options     head
@@ -6,21 +5,24 @@ options     head
   ${0:TARGET}
   "}}}
 
-snippet     neobundle_tap
-abbr        if neobundle#tap(...) "{{{ ... endif "}}}
+snippet     tap
+abbr        if dein#tap(...) "{{{ ... endif "}}}
 options     head
-  if neobundle#tap(${1:#:plugin_name}) "{{{
+  if dein#tap(${1:#:plugin_name}) "{{{
     ${0:TARGET}
-
-    call neobundle#untap()
   endif "}}}
 
-snippet     neobundle_on_source
-abbr        function! neobundle#hooks.on_source(bundle) abort "{{{ ... endfunction "}}}
+snippet     on_source
+abbr        autocmd User dein#source#plugin_name ...
 options     head
-  function! g:neobundle#hooks.on_source(bundle) abort "{{{
-    ${0:TARGET}
-  endfunction "}}}
+  autocmd NvimAutocmd User dein#source#${1:#:plugin_name}
+        \ ${0:#:cmd}
+
+snippet     on_post_source
+abbr        autocmd User dein#post_source#plugin_name ...
+options     head
+  autocmd NvimAutocmd User dein#post_source#${1:#:plugin_name}
+        \ ${0:#:cmd}
 
 snippet     title
 abbr        " Title:
