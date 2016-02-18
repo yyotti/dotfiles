@@ -163,14 +163,14 @@ function! s:anzu() abort "{{{
   return anzu#search_status()
 endfunction "}}}
 
-function! s:error_count() abort
+function! s:error_count() abort "{{{
   if !exists('*lintexec#count_errors()')
     return ''
   endif
 
   let l:count = lintexec#count_errors()
   return l:count == 0 ? '' : printf('E(%d)', l:count)
-endfunction
+endfunction "}}}
 
 " リアルタイムにカラースキームを書き換えるための細工
 autocmd NvimAutocmd ColorScheme * call <SID>lightline_update()
