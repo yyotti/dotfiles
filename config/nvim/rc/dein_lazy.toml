@@ -47,12 +47,11 @@ on_cmd = [ 'Git', 'Gstatus', 'Gdiff', 'Gvdiff' ]
 [[plugins]]
 repo = 'idanarye/vim-merginal'
 depends = 'vim-fugitive'
-on_path = '.*'
+on_cmd = 'Merginal'
 
 [[plugins]]
 repo = 'cohama/agit.vim'
-depends = 'vim-fugitive'
-on_path = '.*'
+on_path = [ 'Agit', 'AgitFile' ]
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'

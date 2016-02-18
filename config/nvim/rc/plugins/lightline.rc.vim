@@ -115,7 +115,7 @@ endfunction "}}}
 
 function! s:fugitive_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ exists('*fugitive#head') && !empty(fugitive#head())
+        \ !empty(dein#get('vim-fugitive')) && !empty(fugitive#head())
 endfunction "}}}
 
 function! s:fugitive() abort "{{{
