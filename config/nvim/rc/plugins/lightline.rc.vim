@@ -24,7 +24,7 @@ let g:lightline = {
       \     'left': [
       \       [ 'mode', 'eskk' ],
       \       [ 'filename' ],
-      \       [ 'fugitive', 'gitinfo' ],
+      \       [ 'branch', 'gitinfo' ],
       \     ],
       \     'right': [
       \       [ 'syntaxcheck', 'lineinfo' ],
@@ -36,7 +36,7 @@ let g:lightline = {
       \     'left': [
       \       [ 'inactivemode' ],
       \       [ 'filename' ],
-      \       [ 'fugitive', 'gitinfo' ],
+      \       [ 'branch', 'gitinfo' ],
       \     ],
       \     'right': [
       \       [ 'syntaxcheck', 'lineinfo' ],
@@ -55,7 +55,7 @@ let g:lightline = {
       \   'component_function': {
       \     'mode': s:SID_PREFIX().'mode',
       \     'eskk': s:SID_PREFIX().'eskk',
-      \     'fugitive': s:SID_PREFIX().'fugitive',
+      \     'branch': s:SID_PREFIX().'branch',
       \     'gitinfo': s:SID_PREFIX().'gitinfo',
       \     'filename': s:SID_PREFIX().'filename',
       \   },
@@ -64,7 +64,7 @@ let g:lightline = {
       \   },
       \   'component_visible_condition': {
       \     'eskk': s:SID_PREFIX().'eskk_visible()',
-      \     'fugitive': s:SID_PREFIX().'fugitive_visible()',
+      \     'branch': s:SID_PREFIX().'branch_visible()',
       \     'fileformat': s:SID_PREFIX().'fileinfo_visible()',
       \     'filetype': s:SID_PREFIX().'fileinfo_visible()',
       \     'fileencoding': s:SID_PREFIX().'fileinfo_visible()',
@@ -113,13 +113,14 @@ function! s:eskk() abort "{{{
         \ matchlist(eskk#statusline(), '^\[eskk:\(.\+\)\]$')[1] : ''
 endfunction "}}}
 
-function! s:fugitive_visible() abort "{{{
+function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ !empty(dein#get('vim-fugitive')) && !empty(fugitive#head())
+        \ !empty(dein#get('vim-gita')) &&
+        \ !empty(gita#statusline#format('%ln'))
 endfunction "}}}
 
-function! s:fugitive() abort "{{{
-  return s:fugitive_visible() ? '⭠ ' . fugitive#head() : ''
+function! s:branch() abort "{{{
+  return s:branch_visible() ? '⭠ ' . gita#statusline#format('%ln') : ''
 endfunction "}}}
 
 function! s:gitinfo_visible() abort "{{{
