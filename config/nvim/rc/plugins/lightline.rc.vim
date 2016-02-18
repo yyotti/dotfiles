@@ -116,7 +116,7 @@ endfunction "}}}
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
         \ !empty(dein#get('vim-fugitive')) &&
-        \ !empty('*fugitive#head')
+        \ !empty(fugitive#head())
 endfunction "}}}
 
 function! s:branch() abort "{{{
