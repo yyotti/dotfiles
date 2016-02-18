@@ -2,6 +2,21 @@ scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Plugins:
 "
+" Unite prefix
+nnoremap [unite] <Nop>
+xnoremap [unite] <Nop>
+nmap <Leader>u [unite]
+xmap <Leader>u [unite]
+
+" VimFiler prefix
+nnoremap [vimfiler] <Nop>
+xnoremap [vimfiler] <Nop>
+nmap <Leader>f [vimfiler]
+xmap <Leader>f [vimfiler]
+
+" Git prefix
+nnoremap [git] <Nop>
+nmap <Leader>g [git]
 
 if dein#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
@@ -37,11 +52,6 @@ if dein#tap('neosnippet-additional') "{{{
 endif "}}}
 
 if dein#tap('unite.vim') "{{{
-  nnoremap [unite] <Nop>
-  xnoremap [unite] <Nop>
-  nmap <Leader>u [unite]
-  xmap <Leader>u [unite]
-
   " buffer + mru
   nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
   " only mru
@@ -66,11 +76,6 @@ if dein#tap('unite.vim') "{{{
 endif "}}}
 
 if dein#tap('vimfiler.vim') "{{{
-  nnoremap [vimfiler] <Nop>
-  xnoremap [vimfiler] <Nop>
-  nmap <Leader>f [vimfiler]
-  xmap <Leader>f [vimfiler]
-
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
 
   autocmd NvimAutocmd User dein#source#vimfiler.vim
@@ -91,8 +96,6 @@ endif "}}}
 
 if dein#tap('vim-fugitive') "{{{
   " prefix定義
-  nnoremap [git] <Nop>
-  nmap <Leader>g [git]
 
   nnoremap <silent> [git]s :<C-u>Gstatus<CR>
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
