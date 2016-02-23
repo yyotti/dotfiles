@@ -60,6 +60,7 @@ if IsUnix()
 
       " Build
       execute printf('!cd "%s"; make', s:vimproc_dir)
+      execute 'set runtimepath+=' . fnamemodify(s:vimproc_dir, ':p')
     endif
 
     " runtimepathへの追加はdeinがやってくれる

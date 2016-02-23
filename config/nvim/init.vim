@@ -45,8 +45,6 @@ call dein#begin(expand('$CACHE/dein'))
 let s:toml_path = NvimDir() . '/rc/dein.toml'
 let s:toml_lazy_path = NvimDir() . '/rc/dein_lazy.toml'
 if dein#load_cache([ expand('<sfile>'), s:toml_path, s:toml_lazy_path ])
-  call dein#add('Shougo/dein.vim', { 'rtp': '' })
-
   call dein#load_toml(s:toml_path)
   call dein#load_toml(s:toml_lazy_path, { 'lazy': 1 })
 
