@@ -20,7 +20,6 @@ call deoplete#custom#set(
       \   'converters',
       \   [
       \     'converter_auto_paren',
-      \     'converter_remove_paren',
       \   ]
       \ )
 
