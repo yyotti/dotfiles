@@ -1,0 +1,4 @@
+snippet     package_play
+options     head
+	package `substitute(substitute(expand('%:h'), '.*\<app/', '', ''), '/', '.', 'g')`
+
