@@ -72,8 +72,8 @@ depends = 'vim-repeat'
 on_map = '<Plug>'
 
 [[plugins]]
-repo = 'tomtom/tcomment_vim'
-on_path = '.*'
+repo = 'tyru/caw.vim'
+on_map = '<Plug>'
 
 [[plugins]]
 repo = 'osyo-manga/vim-anzu'
