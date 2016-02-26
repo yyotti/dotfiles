@@ -291,4 +291,9 @@ if dein#tap('matchit.zip') "{{{
   endfunction "}}}
 endif "}}}
 
+if dein#tap('caw.vim') "{{{
+  nmap gc <Plug>(caw:prefix)
+  xmap gc <Plug>(caw:prefix)
+endif "}}}
+
 " vim:set foldmethod=marker:
