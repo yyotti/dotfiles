@@ -43,6 +43,16 @@ function! s:on_filetype() abort "{{{
     setlocal colorcolumn=
   endif
 
+  if &l:filetype !=# '' || bufname('%') !=# ''
+    redir => l:filetype_out
+    silent! filetype
+    redir END
+    if l:filetype_out =~# 'OFF'
+      silent! filetype plugin indent on
+      syntax enable
+    endif
+  endif
+
   " helpやquickfixはqで閉じれるようにする
   if &buftype ==# 'help' || &buftype ==# 'quickfix'
     nnoremap <silent> <buffer> q :bdelete<CR>

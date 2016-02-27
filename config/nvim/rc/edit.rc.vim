@@ -7,8 +7,14 @@ set expandtab
 set shiftround
 
 " クリップボード連携
-set clipboard&
-set clipboard+=unnamedplus
+if $DISPLAY !=# '' && has('clipboard')
+  set clipboard&
+  if has('unnamedplus')
+    set clipboard+=unnamedplus
+  else
+    set clipboard+=unnamed
+  endif
+endif
 
 " バックアップを作成しない
 set nowritebackup

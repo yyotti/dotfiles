@@ -66,7 +66,7 @@ xnoremap k gk
 xnoremap gj j
 xnoremap gk k
 
-if has('clipboard')
+if $DISPLAY !=# '' && has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
 "}}}
