@@ -30,7 +30,6 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
-on_cmd = 'Unite'
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
