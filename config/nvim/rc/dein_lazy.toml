@@ -44,7 +44,6 @@ on_source = 'unite.vim'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 on_func = 'fugitive#head'
-on_cmd = [ 'Git', 'Gstatus', 'Gdiff', 'Gvdiff' ]
 
 [[plugins]]
 repo = 'cohama/agit.vim'
@@ -100,7 +99,6 @@ on_path = 'sudo:.*'
 
 [[plugins]]
 repo = 'simeji/winresizer'
-on_cmd = 'WinResizerStartResize'
 
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
@@ -116,7 +114,6 @@ on_ft = 'smarty'
 
 [[plugins]]
 repo = 'lilydjwg/colorizer'
-on_cmd = [ 'ColorToggle', 'ColorHighlight', 'ColorClear' ]
 on_ft = [ 'smarty', 'html', 'css', 'php' ]
 
 [[plugins]]
@@ -149,7 +146,6 @@ on_i = 1
 
 [[plugins]]
 repo = 'vim-jp/vital.vim'
-on_cmd = 'Vitalize'
 
 [[plugins]]
 repo = 'benjifisher/matchit.zip'
