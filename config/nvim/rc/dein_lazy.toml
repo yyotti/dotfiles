@@ -48,11 +48,6 @@ on_func = 'fugitive#head'
 on_cmd = [ 'Git', 'Gstatus', 'Gdiff', 'Gvdiff' ]
 
 [[plugins]]
-repo = 'idanarye/vim-merginal'
-depends = 'vim-fugitive'
-on_cmd = 'Merginal'
-
-[[plugins]]
 repo = 'cohama/agit.vim'
 on_path = [ 'Agit', 'AgitFile' ]
 

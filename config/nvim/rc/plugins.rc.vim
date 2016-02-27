@@ -104,10 +104,6 @@ if dein#tap('vim-fugitive') "{{{
         \ doautocmd fugitive VimEnter
 endif "}}}
 
-if dein#tap('vim-merginal') "{{{
-  nnoremap <silent> [git]m :<C-u>Merginal<CR>
-endif "}}}
-
 if dein#tap('agit.vim') "{{{
   nnoremap <silent> [git]a :<C-u>Agit<CR>
   nnoremap <silent> [git]f :<C-u>AgitFile<CR>
