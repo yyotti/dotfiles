@@ -26,6 +26,11 @@ endif
 
 let g:eskk#show_annotation = 1
 
+let g:eskk#debug = 0
+let g:eskk#show_annotation = 1
+let g:eskk#rom_input_style = 'msime'
+let g:eskk#start_completion_length = 4
+
 if !has('gui_running')
   " ターミナルでの表示が崩れるのでマーカーを変える
   " ターミナルの表示が直ったら消す設定

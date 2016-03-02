@@ -9,6 +9,7 @@ augroup NvimAutocmd
 
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
+  autocmd FileType javascript,css setlocal shiftwidth=4
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
         \ setlocal filetype=markdown | let b:not_del_last_whitespaces = 1
 
