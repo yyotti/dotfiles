@@ -114,7 +114,9 @@ call s:source_rc('mappings.rc.vim')
 "-----------------------------------------------------------------------------
 " GUI:
 "
-call s:source_rc('gui.rc.vim')
+if $NVIM_GUI !=# ''
+  call s:source_rc('gui.rc.vim')
+endif
 
 "-----------------------------------------------------------------------------
 " Powerline:
