@@ -9,11 +9,7 @@ set shiftround
 " クリップボード連携
 if $DISPLAY !=# '' && has('clipboard')
   set clipboard&
-  if has('unnamedplus')
-    set clipboard+=unnamedplus
-  else
-    set clipboard+=unnamed
-  endif
+  set clipboard+=unnamedplus
 endif
 
 " バックアップを作成しない
