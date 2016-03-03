@@ -62,12 +62,11 @@ if dein#tap('unite.vim') "{{{
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " grep
   nnoremap <silent> [unite]g
-        \ :<C-u>Unite grep -buffer-name=grep
-        \   -no-start-insert -auto-preview -no-empty<CR>
+        \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
   " grep resume
   nnoremap <silent> [unite]r
         \ :<C-u>UniteResume -buffer-name=grep
-        \   -no-start-insert -auto-preview -no-empty grep<CR>
+        \   -no-start-insert -no-empty grep<CR>
 
   let g:unite_force_overwrite_statusline = 0
 
