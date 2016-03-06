@@ -119,6 +119,7 @@ if dein#tap('lightline.vim') "{{{
 endif "}}}
 
 if dein#tap('vim-ref') "{{{
+  nmap K <Plug>(ref-keyword)
   autocmd NvimAutocmd User dein#source#vim-ref
         \ execute 'source' NvimDir() . '/rc/plugins/vim-ref.rc.vim'
 endif "}}}
