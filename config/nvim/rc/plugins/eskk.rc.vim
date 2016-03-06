@@ -47,7 +47,7 @@ function! s:eskk_initial_pre() abort
   call l:t.add_map('z ', '　')
   call l:t.add_map('z(', '（')
   call l:t.add_map('z)', '）')
-  call l:t.add_map('~', '～')
+  call l:t.add_map('~', '〜')
   call eskk#register_mode_table('hira', l:t)
   unlet l:t
 endfunction
