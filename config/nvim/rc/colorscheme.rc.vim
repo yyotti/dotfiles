@@ -10,7 +10,7 @@ endif
 autocmd NvimAutocmd ColorScheme *
       \ call <SID>change_colorscheme(expand('<amatch>'))
 function! s:change_colorscheme(cs_name) abort "{{{
-  if a:cs_name ==# 'hybrid'
+  if a:cs_name ==# 'hybrid' && !exists('$NVIM_GUI')
     highlight clear CursorLine
   endif
 endfunction "}}}
