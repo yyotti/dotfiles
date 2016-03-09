@@ -234,7 +234,7 @@ if dein#tap('vim-quickrun') "{{{
 endif "}}}
 
 if dein#tap('vim-operator-flashy') "{{{
-  let g:operator#flashy#flash_time = 300
+  let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
 
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$

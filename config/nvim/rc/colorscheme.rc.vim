@@ -10,7 +10,7 @@ endif
 autocmd NvimAutocmd ColorScheme *
       \ call <SID>change_colorscheme(expand('<amatch>'))
 function! s:change_colorscheme(cs_name) abort "{{{
-  if a:cs_name ==# 'hybrid' && !exists('$NVIM_GUI')
+  if a:cs_name ==# 'hybrid'
     highlight clear CursorLine
   endif
 endfunction "}}}
@@ -39,6 +39,12 @@ elseif s:exists_colorscheme('solarized')
   endif
 else
   colorscheme desert
+endif
+
+if exists('$NVIM_GUI')
+  " TODO colorschemeやbackgroundが設定されるとウィンドウサイズが戻ってしまう
+  "      ようなので、ここで設定してやる
+  SetWinsizeDefault
 endif
 
 " vim:set foldmethod=marker:

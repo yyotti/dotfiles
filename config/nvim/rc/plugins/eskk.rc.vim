@@ -31,13 +31,11 @@ let g:eskk#show_annotation = 1
 let g:eskk#rom_input_style = 'msime'
 let g:eskk#start_completion_length = 4
 
-if !has('gui_running')
+if !exists('$NVIM_GUI')
   " ターミナルでの表示が崩れるのでマーカーを変える
   " ターミナルの表示が直ったら消す設定
   let g:eskk#marker_henkan = '<>'
   let g:eskk#marker_henkan_select = '>>'
-else
-  set imdisable
 endif
 
 " 変換テーブル

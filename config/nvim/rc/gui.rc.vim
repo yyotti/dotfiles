@@ -19,6 +19,6 @@ set ambiwidth=double
 " endfunction "}}}
 
 " TODO ウィンドウサイズの変更はとりあえずコマンドで代用
-command! SetWinsizeDefault set lines=48 columns=180
+command! SetWinsizeDefault set lines=55 columns=250
 
-" TODO その他、フォントの設定とか
+" TODO その他、フォントの設定とか(python-guiがフォントの変更に対応したらやる)
