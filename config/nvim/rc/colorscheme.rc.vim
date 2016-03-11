@@ -41,10 +41,4 @@ else
   colorscheme desert
 endif
 
-if exists('$NVIM_GUI')
-  " TODO colorschemeやbackgroundが設定されるとウィンドウサイズが戻ってしまう
-  "      ようなので、ここで設定してやる
-  SetWinsizeDefault
-endif
-
 " vim:set foldmethod=marker:
