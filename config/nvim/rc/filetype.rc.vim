@@ -40,7 +40,6 @@ function! s:on_filetype() abort "{{{
   if !&l:modifiable
     setlocal nofoldenable
     setlocal foldcolumn=0
-    silent! IndentLinesDisable
     setlocal colorcolumn=
   endif
 

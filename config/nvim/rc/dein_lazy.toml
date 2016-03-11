@@ -91,10 +91,6 @@ depends = 'vim-operator-user'
 on_map = '<Plug>'
 
 [[plugins]]
-repo = 'Yggdroot/indentLine'
-on_path = '.*'
-
-[[plugins]]
 repo = 'vim-scripts/sudo.vim'
 on_path = 'sudo:.*'
 
