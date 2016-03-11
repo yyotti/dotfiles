@@ -1,7 +1,6 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
 on_i = 1
-rev = 'e5313e5e4ab26ee66447abfbe798c8b8c407d72c'
 
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
