@@ -15,13 +15,13 @@ options     head
 snippet     on_source
 abbr        autocmd User dein#source#plugin_name ...
 options     head
-  autocmd NvimAutocmd User dein#source#${1:#:plugin_name}
+  autocmd MyAutocmd User dein#source#${1:#:plugin_name}
         \ ${0:#:cmd}
 
 snippet     on_post_source
 abbr        autocmd User dein#post_source#plugin_name ...
 options     head
-  autocmd NvimAutocmd User dein#post_source#${1:#:plugin_name}
+  autocmd MyAutocmd User dein#post_source#${1:#:plugin_name}
         \ ${0:#:cmd}
 
 snippet     title

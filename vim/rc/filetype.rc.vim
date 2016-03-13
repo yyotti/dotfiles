@@ -4,7 +4,7 @@ scriptencoding utf-8
 "
 set smartindent
 
-augroup NvimAutocmd
+augroup MyAutocmd
   autocmd FileType,Syntax * call s:on_filetype()
 
   autocmd BufReadPost *.tpl set filetype=smarty.html

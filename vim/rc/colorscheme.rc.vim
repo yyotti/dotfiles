@@ -7,7 +7,7 @@ if !has('gui_running')
   set t_Co=256
 endif
 
-autocmd NvimAutocmd ColorScheme *
+autocmd MyAutocmd ColorScheme *
       \ call <SID>change_colorscheme(expand('<amatch>'))
 function! s:change_colorscheme(cs_name) abort "{{{
   if a:cs_name ==# 'hybrid'

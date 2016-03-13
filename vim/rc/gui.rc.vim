@@ -6,7 +6,7 @@ set ambiwidth=double
 
 " TODO 一応、設定できてはいるが、ウィンドウが表示された後ですぐに元に戻されて
 "      しまう
-" autocmd NvimAutocmd BufEnter * call s:set_winsize()
+" autocmd MyAutocmd BufEnter * call s:set_winsize()
 " function! s:set_winsize() abort "{{{
 "   if exists('g:_set_winsize')
 "     return

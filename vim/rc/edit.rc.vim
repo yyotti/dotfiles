@@ -54,15 +54,15 @@ set virtualedit=block
 
 set keywordprg=:help
 
-autocmd NvimAutocmd WinEnter * checktime
+autocmd MyAutocmd WinEnter * checktime
 
-autocmd NvimAutocmd InsertLeave *
+autocmd MyAutocmd InsertLeave *
       \ if &paste | setlocal nopaste | echo 'nopaste' | endif
-autocmd NvimAutocmd InsertLeave *
+autocmd MyAutocmd InsertLeave *
       \ if &l:diff | diffupdate | endif
 
 " 保存時に行末の空白を除去
-autocmd NvimAutocmd BufWritePre * call <SID>del_last_whitespaces()
+autocmd MyAutocmd BufWritePre * call <SID>del_last_whitespaces()
 function! s:del_last_whitespaces() abort "{{{
   if exists('b:not_del_last_whitespaces')
     return
@@ -86,7 +86,7 @@ set nrformats=
 
 " Git管理下のファイルを開いたら、.gitがあるディレクトリにカレントを移動する
 if executable('git')
-  autocmd NvimAutocmd BufWinEnter * call s:cd_gitroot()
+  autocmd MyAutocmd BufWinEnter * call s:cd_gitroot()
 
   function! s:trim(str) abort "{{{
     return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')

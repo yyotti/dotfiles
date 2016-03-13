@@ -17,7 +17,7 @@ if !isdirectory($CACHE)
 endif
 
 " autocmdをいったん全削除
-augroup NvimAutocmd
+augroup MyAutocmd
   autocmd!
 augroup END
 

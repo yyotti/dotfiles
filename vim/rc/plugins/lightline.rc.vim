@@ -174,7 +174,7 @@ function! s:error_count() abort "{{{
 endfunction "}}}
 
 " リアルタイムにカラースキームを書き換えるための細工
-autocmd NvimAutocmd ColorScheme * call <SID>lightline_update()
+autocmd MyAutocmd ColorScheme * call <SID>lightline_update()
 function! s:lightline_update() abort "{{{
   let g:lightline.colorscheme = 'default'
   if g:colors_name =~#

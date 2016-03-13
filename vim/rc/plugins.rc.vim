@@ -20,17 +20,17 @@ nmap <Leader>g [git]
 
 if dein#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
-  autocmd NvimAutocmd User dein#source#deoplete.nvim
+  autocmd MyAutocmd User dein#source#deoplete.nvim
         \ source ~/.vim/rc/plugins/deoplete.rc.vim
 endif "}}}
 
 if dein#tap('neosnippet.vim') "{{{
-  autocmd NvimAutocmd User dein#source#neosnippet.vim
+  autocmd MyAutocmd User dein#source#neosnippet.vim
         \ source ~/.vim/rc/plugins/neosnippet.rc.vim
 endif "}}}
 
 if dein#tap('neosnippet-additional') "{{{
-  autocmd NvimAutocmd User dein#source#neosnippet-additional
+  autocmd MyAutocmd User dein#source#neosnippet-additional
         \ call s:neosnippet_additional_on_source()
   function! s:neosnippet_additional_on_source() abort "{{{
     if !exists('g:neosnippet#snippets_directory')
@@ -70,14 +70,14 @@ if dein#tap('unite.vim') "{{{
 
   let g:unite_force_overwrite_statusline = 0
 
-  autocmd NvimAutocmd User dein#source#unite.vim
+  autocmd MyAutocmd User dein#source#unite.vim
         \ source ~/.vim/rc/plugins/unite.rc.vim
 endif "}}}
 
 if dein#tap('vimfiler.vim') "{{{
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
 
-  autocmd NvimAutocmd User dein#source#vimfiler.vim
+  autocmd MyAutocmd User dein#source#vimfiler.vim
         \ source ~/.vim/rc/plugins/vimfiler.rc.vim
 endif "}}}
 
@@ -85,7 +85,7 @@ if dein#tap('eskk.vim') "{{{
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
 
-  autocmd NvimAutocmd User dein#source#eskk.vim
+  autocmd MyAutocmd User dein#source#eskk.vim
         \ source ~/.vim/rc/plugins/eskk.rc.vim
 endif "}}}
 
@@ -99,7 +99,7 @@ if dein#tap('vim-fugitive') "{{{
   nnoremap <silent> [git]s :<C-u>Gstatus<CR>
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
 
-  autocmd NvimAutocmd User dein#post_source#vim-fugitive
+  autocmd MyAutocmd User dein#post_source#vim-fugitive
         \ doautocmd fugitive VimEnter
 endif "}}}
 
@@ -109,18 +109,18 @@ if dein#tap('agit.vim') "{{{
 endif "}}}
 
 if dein#tap('vim-gitgutter') "{{{
-  autocmd NvimAutocmd User dein#source#vim-gitgutter
+  autocmd MyAutocmd User dein#source#vim-gitgutter
         \ source ~/.vim/rc/plugins/vim-gitgutter.rc.vim
 endif "}}}
 
 if dein#tap('lightline.vim') "{{{
-  autocmd NvimAutocmd User dein#source#lightline.vim
+  autocmd MyAutocmd User dein#source#lightline.vim
         \ source ~/.vim/rc/plugins/lightline.rc.vim
 endif "}}}
 
 if dein#tap('vim-ref') "{{{
   nmap K <Plug>(ref-keyword)
-  autocmd NvimAutocmd User dein#source#vim-ref
+  autocmd MyAutocmd User dein#source#vim-ref
         \ source ~/.vim/rc/plugins/vim-ref.rc.vim
 endif "}}}
 
@@ -159,8 +159,8 @@ if dein#tap('vim-anzu') "{{{
   nmap * <Plug>(anzu-star)zvzz
   nmap # <Plug>(anzu-sharp)zvzz
 
-  autocmd NvimAutocmd User dein#post_source#vim-anzu
-        \ autocmd NvimAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
+  autocmd MyAutocmd User dein#post_source#vim-anzu
+        \ autocmd MyAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
         \   call anzu#clear_search_status()
 endif "}}}
 
@@ -189,7 +189,7 @@ if dein#tap('winresizer') "{{{
   let g:winresizer_vert_resize = 5
   nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
 
-  autocmd NvimAutocmd User dein#post_source#winresizer
+  autocmd MyAutocmd User dein#post_source#winresizer
         \ call s:winresizer_on_post_source()
 
   function! s:winresizer_on_post_source() abort "{{{
@@ -209,7 +209,7 @@ if dein#tap('colorizer') "{{{
 endif "}}}
 
 if dein#tap('vim-lintexec.nvim') "{{{
-  autocmd NvimAutocmd User dein#source#vim-lintexec.nvim
+  autocmd MyAutocmd User dein#source#vim-lintexec.nvim
         \ call s:lintexec_on_source()
   function! s:lintexec_on_source() abort "{{{
     if exists('*lightline#update')
@@ -221,7 +221,7 @@ if dein#tap('vim-lintexec.nvim') "{{{
     endif
   endfunction "}}}
 
-  autocmd NvimAutocmd BufWritePost * call lintexec#run()
+  autocmd MyAutocmd BufWritePost * call lintexec#run()
 endif "}}}
 
 if dein#tap('unite-quickfix') "{{{
@@ -239,7 +239,7 @@ if dein#tap('vim-operator-flashy') "{{{
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 
-  autocmd NvimAutocmd User dein#source#vim-operator-flashy
+  autocmd MyAutocmd User dein#source#vim-operator-flashy
         \ call s:operator_flashy_on_source()
 
   function! s:operator_flashy_on_source() abort "{{{
@@ -257,16 +257,16 @@ if dein#tap('vim-unified-diff') "{{{
 endif "}}}
 
 if dein#tap('vim-autoupload') "{{{
-  autocmd NvimAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
+  autocmd MyAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
         \ call autoupload#init(0)
-  autocmd NvimAutocmd BufWritePost *.php,*.tpl,*.css,*.js
+  autocmd MyAutocmd BufWritePost *.php,*.tpl,*.css,*.js
         \ call autoupload#upload(0)
 endif "}}}
 
 if dein#tap('ghcmod-vim') "{{{
-  autocmd NvimAutocmd FileType haskell
+  autocmd MyAutocmd FileType haskell
         \ nnoremap <buffer> <Leader>tt :GhcModType<CR>
-  autocmd NvimAutocmd FileType haskell
+  autocmd MyAutocmd FileType haskell
         \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
 endif "}}}
 
@@ -276,9 +276,9 @@ if dein#tap('unite-googletasks') "{{{
 endif "}}}
 
 if dein#tap('matchit.zip') "{{{
-  autocmd NvimAutocmd User dein#source#matchit.zip
+  autocmd MyAutocmd User dein#source#matchit.zip
         \ call s:matchit_on_source()
-  autocmd NvimAutocmd User dein#post_source#matchit.zip
+  autocmd MyAutocmd User dein#post_source#matchit.zip
         \ source ~/.vim/rc/plugins/matchit.zip.rc.vim
 
   function! s:matchit_on_source() abort "{{{

@@ -22,7 +22,7 @@ endif
 
 let g:vimfiler_force_overwrite_statusline = 0
 
-autocmd NvimAutocmd FileType vimfiler call <SID>vimfiler_settings()
+autocmd MyAutocmd FileType vimfiler call <SID>vimfiler_settings()
 function! s:vimfiler_settings() abort
   call vimfiler#set_execute_file('vim', [ 'nvim', 'notepad' ])
   call vimfiler#set_execute_file('txt', 'nvim')

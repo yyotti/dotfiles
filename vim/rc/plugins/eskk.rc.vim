@@ -39,7 +39,7 @@ if !exists('$NVIM_GUI')
 endif
 
 " 変換テーブル
-autocmd NvimAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
+autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
 function! s:eskk_initial_pre() abort
   let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
   call l:t.add_map('z ', '　')

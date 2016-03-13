@@ -44,7 +44,7 @@ endif
 
 " 日本語を含んでいない場合、 encoding を fileencoding として使う
 " ただし調べるのは先頭から100行まで
-autocmd NvimAutocmd BufReadPost * call s:re_check_fenc()
+autocmd MyAutocmd BufReadPost * call s:re_check_fenc()
 function! s:re_check_fenc() abort "{{{
   let l:is_multi_byte = search("[^\x01-\x7e]", 'n', 100, 100)
   if &fileencoding =~# 'iso-2022-jp' && !l:is_multi_byte

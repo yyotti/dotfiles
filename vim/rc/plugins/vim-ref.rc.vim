@@ -16,6 +16,6 @@ let g:ref_lynx_hide_url_number = 0
 " PHP
 let g:ref_phpmanual_path = $HOME . '/.vim/refs/php-chunked-xhtml'
 
-autocmd NvimAutocmd FileType ref-* nnoremap <silent> <buffer> q :bdelete<CR>
+autocmd MyAutocmd FileType ref-* nnoremap <silent> <buffer> q :bdelete<CR>
 
 " vim:set foldmethod=marker:
