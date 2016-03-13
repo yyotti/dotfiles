@@ -27,7 +27,7 @@ alias -g G='| grep'
 alias -g L='| less'
 alias tsp='tmux new-session \; split-window -h -d'
 alias tvsp='tmux new-session \; split-window -d'
-alias gnvim='NVIM_GUI=1 pynvim'
+alias gnvim='NVIM_GUI=pynvim pynvim'
 
 # cd履歴をスタックに追加する
 setopt auto_pushd
