@@ -2,7 +2,7 @@ scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " unite.vim:
 "
-let g:neomru#file_mru_limit = 200
+let g:unite_enable_auto_select = 0
 
 call unite#custom#profile('default', 'context', {
       \   'start_insert': 1,
