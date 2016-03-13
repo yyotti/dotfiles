@@ -8,26 +8,22 @@ scriptencoding utf-8
 nmap <C-Space> <C-@>
 cmap <C-Space> <C-@>
 
-" ノーマルモードのマッピング {{{
+" Normal mode mappings: "{{{
 " インデント
 nnoremap > >>
 nnoremap < <<
 
-" 危険なキーマッピングを無効に
+" 危険なマッピングを無効に
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 " 表示行で移動
 nnoremap j gj
 nnoremap k gk
-xnoremap j gj
-xnoremap k gk
 
 " 実際の行で移動
 nnoremap gj j
 nnoremap gk k
-xnoremap gj j
-xnoremap gk k
 
 " アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zvzz
@@ -37,15 +33,11 @@ nnoremap g# g#<C-o>zvzz
 
 " ハイライトを消す
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
-" }}}
+"}}}
 
-" インサートモードのマッピング {{{
-" <C-t>はタブを入力
+" Insert mode mappings: "{{{
+" <C-t>はタブ
 inoremap <C-t> <C-v><TAB>
-" <C-d>は<DEL>
-inoremap <C-d> <DEL>
-" <C-a>は先頭に移動
-inoremap <C-a> <C-o>^
 " <C-w>と<C-u>でundoを可能にする
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
@@ -54,10 +46,10 @@ if has('gui_running')
   " <Esc>の反応をよくする？
   inoremap <ESC> <ESC>
 endif
-" }}}
+"}}}
 
-" ビジュアルモードのマッピング {{{
-" <TAB>はインデントにする
+" Visual mode mappings: "{{{
+" <TAB>はインデント
 xnoremap <TAB> >
 " <S-TAB>はアンインデント
 xnoremap <S-TAB> <
@@ -66,49 +58,58 @@ xnoremap <S-TAB> <
 xnoremap > >gv
 xnoremap < <gv
 
-if has('clipboard')
+" 表示行で移動
+xnoremap j gj
+xnoremap k gk
+
+" 実際の行で移動
+xnoremap gj j
+xnoremap gk k
+
+if $DISPLAY !=# '' && has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
-" }}}
+"}}}
 
-" コマンドラインモードのマッピング {{{
-" <C-a>で先頭へ
+" Command-line mode mappings: "{{{
+" <C-a>:先頭
 cnoremap <C-a> <Home>
-" <C-e>で末尾へ
+" <C-e>:末尾
 cnoremap <C-e> <End>
-" <C-b>で1文字戻る
+" <C-b>:左
 cnoremap <C-b> <Left>
-" <C-f>で1文字進む
+" <C-f>:右
 cnoremap <C-f> <Right>
-" <C-d>は<DEL>
-cnoremap <C-d> <Del>
-" <C-p>は<Up>
+" <C-d>:1文字削除
+cnoremap <C-d> <DEL>
+" <C-p>:ヒストリバック
 cnoremap <C-p> <Up>
-" <C-n>は<Down>
+" <C-n>:ヒストリフォワード
 cnoremap <C-n> <Down>
-" <C-y>でペースト
+" <C-y>:ペースト
 cnoremap <C-y> <C-r>*
+" <C-g>:Exit
+cnoremap <C-g> <C-c>
 
-" C-oで単語境界をトグルする(検索時のみ)
+" <C-o>:検索時のみ、単語境界をトグル
 cnoremap <C-o> <C-\>e<SID>toggle_word_border()<CR>
-function! s:toggle_word_border() abort
-  let cmdline = getcmdline()
-  if getcmdtype() != '/' && getcmdtype() != '?'
-    return cmdline
+function! s:toggle_word_border() abort "{{{
+  let l:cmdline = getcmdline()
+  if getcmdtype() !=# '/' && getcmdtype() !=# '?'
+    return l:cmdline
   endif
 
-  if cmdline !~# '^\\<.*\\>$'
-    let cmdline = '\<' . cmdline . '\>'
+  if l:cmdline !~# '^\\<.*\\>$'
+    let l:cmdline = '\<' . l:cmdline . '\>'
   else
-    let cmdline = cmdline[2:len(cmdline) - 3]
+    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
   endif
 
-  return cmdline
-endfunction
+  return l:cmdline
+endfunction "}}}
+"}}}
 
-" }}}
-
-" a>やi>を置き換える {{{
+" a>やi>を置き換える "{{{
 " <angle>
 onoremap aa a>
 xnoremap aa a>
@@ -132,75 +133,70 @@ onoremap ad a"
 xnoremap ad a"
 onoremap id i"
 xnoremap id i"
-" }}}
+"}}}
 
-" 設定ファイル操作 {{{
-" vimrcを開く
+" 設定ファイル操作 "{{{
+" vimrc
 nnoremap <silent> <Leader>;v
       \ :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
-" vimrcをリロード
-nnoremap <silent> <Leader>;r :<C-u>source $MYVIMRC<CR>
+" reload vimrc
+nnoremap <silent> <Leader>;r
+      \ :<C-u>source $MYVIMRC<CR> \| :echo "source " . $MYVIMRC<CR>
 
+" .tmux.conf
 if filereadable(expand('~/.tmux.conf'))
-  " tmux.confを開く
   nnoremap <silent> <Leader>;t
         \ :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
 endif
+
+" .zshrc
 if filereadable(expand('~/.zshrc'))
-  " zshrcを開く
   nnoremap <silent> <Leader>;z
         \ :<C-u>edit <C-r>=resolve(expand('~/.zshrc'))<CR><CR>
 endif
-" }}}
+"}}}
 
-" ウィンドウ移動 {{{
+" ウィンドウ移動 "{{{
 nnoremap <Leader>h <C-w>h
 nnoremap <Leader>l <C-w>l
 nnoremap <Leader>k <C-w>k
 nnoremap <Leader>j <C-w>j
 
-" ウィンドウを入れ替える
 nnoremap <Leader>x <C-w>x
 
-" ウィンドウの位置を組替える
-nnoremap <Leader>K <C-w>K
-nnoremap <Leader>J <C-w>J
 nnoremap <Leader>H <C-w>H
 nnoremap <Leader>L <C-w>L
-" }}}
+nnoremap <Leader>K <C-w>K
+nnoremap <Leader>J <C-w>J
+"}}}
 
-" バッファ操作 {{{
-" バッファのみにする
+" バッファ操作 "{{{
 nnoremap <silent> <Leader>o :<C-u>only<CR>
-" バッファ削除
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
-" バッファ削除(強制)
 nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
-" }}}
+"}}}
 
-" diff {{{
-" TODO Diffモードのときのみ有効にしたい
-nnoremap <silent> <Leader>ig :<C-u>diffget<CR>
-nnoremap <silent> <Leader>ip :<C-u>diffput<CR>
-nnoremap <silent> <Leader>iu :<C-u>diffupdate<CR>
-" }}}
-
-" その他 {{{
-" backgroundの light/dark を切り替える
+" Others "{{{
+" backgroundの切り替え
 nmap <expr> <C-b> <SID>toggle_background()
-function! s:toggle_background() abort
+function! s:toggle_background() abort "{{{
   if &background ==# 'light'
     set background=dark
   else
     set background=light
   endif
-endfunction
+endfunction "}}}
 
-" xをヤンク目的では使用しないので、捨てる(ノーマルモードのみ)
+" xを捨て
 nnoremap x "_x
 
-" Exモードを無効にする
+" Exモードは無効
 nnoremap Q q
-" }}}
+
+if has('nvim')
+  " terminalでの<Esc>は<C-\><C-n>にする
+  tnoremap <Esc> <C-\><C-n>
+endif
+"}}}
 
 " vim:set foldmethod=marker:

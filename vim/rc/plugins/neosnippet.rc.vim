@@ -15,8 +15,7 @@ if !exists('g:neosnippet#snippets_directory')
   let g:neosnippet#snippets_directory = ''
 endif
 
-let s:snippets_dir =
-      \ (NvimDir() . '/snippets')
+let s:snippets_dir = '~/.vim/snippets'
 let s:dirs = split(g:neosnippet#snippets_directory, ',')
 for s:dir in s:dirs
   if s:dir ==# s:snippets_dir

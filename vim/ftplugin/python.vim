@@ -8,9 +8,9 @@ setlocal shiftwidth=4
 setlocal textwidth=80
 setlocal expandtab
 setlocal nosmartindent
-setlocal foldmethod=indent
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
 " vim:set foldmethod=marker:
+

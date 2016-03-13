@@ -13,3 +13,4 @@ let &cpo = s:save_cpo
 unlet s:save_cpo
 
 " vim:set foldmethod=marker:
+

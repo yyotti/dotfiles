@@ -21,12 +21,12 @@ nmap <Leader>g [git]
 if dein#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
   autocmd NvimAutocmd User dein#source#deoplete.nvim
-        \ execute 'source' NvimDir() . '/rc/plugins/deoplete.rc.vim'
+        \ source ~/.vim/rc/plugins/deoplete.rc.vim
 endif "}}}
 
 if dein#tap('neosnippet.vim') "{{{
   autocmd NvimAutocmd User dein#source#neosnippet.vim
-        \ execute 'source' NvimDir() . '/rc/plugins/neosnippet.rc.vim'
+        \ source ~/.vim/rc/plugins/neosnippet.rc.vim
 endif "}}}
 
 if dein#tap('neosnippet-additional') "{{{
@@ -71,14 +71,14 @@ if dein#tap('unite.vim') "{{{
   let g:unite_force_overwrite_statusline = 0
 
   autocmd NvimAutocmd User dein#source#unite.vim
-        \ execute 'source' NvimDir() . '/rc/plugins/unite.rc.vim'
+        \ source ~/.vim/rc/plugins/unite.rc.vim
 endif "}}}
 
 if dein#tap('vimfiler.vim') "{{{
   nnoremap <silent> [vimfiler]e :<C-u>VimFilerBufferDir -invisible<CR>
 
   autocmd NvimAutocmd User dein#source#vimfiler.vim
-        \ execute 'source' NvimDir() . '/rc/plugins/vimfiler.rc.vim'
+        \ source ~/.vim/rc/plugins/vimfiler.rc.vim
 endif "}}}
 
 if dein#tap('eskk.vim') "{{{
@@ -86,7 +86,7 @@ if dein#tap('eskk.vim') "{{{
   cmap <C-j> <Plug>(eskk:toggle)
 
   autocmd NvimAutocmd User dein#source#eskk.vim
-        \ execute 'source' NvimDir() . '/rc/plugins/eskk.rc.vim'
+        \ source ~/.vim/rc/plugins/eskk.rc.vim
 endif "}}}
 
 if dein#tap('junkfile.vim') "{{{
@@ -110,18 +110,18 @@ endif "}}}
 
 if dein#tap('vim-gitgutter') "{{{
   autocmd NvimAutocmd User dein#source#vim-gitgutter
-        \ execute 'source' NvimDir() . '/rc/plugins/vim-gitgutter.rc.vim'
+        \ source ~/.vim/rc/plugins/vim-gitgutter.rc.vim
 endif "}}}
 
 if dein#tap('lightline.vim') "{{{
   autocmd NvimAutocmd User dein#source#lightline.vim
-        \ execute 'source' NvimDir() . '/rc/plugins/lightline.rc.vim'
+        \ source ~/.vim/rc/plugins/lightline.rc.vim
 endif "}}}
 
 if dein#tap('vim-ref') "{{{
   nmap K <Plug>(ref-keyword)
   autocmd NvimAutocmd User dein#source#vim-ref
-        \ execute 'source' NvimDir() . '/rc/plugins/vim-ref.rc.vim'
+        \ source ~/.vim/rc/plugins/vim-ref.rc.vim
 endif "}}}
 
 if dein#tap('vim-easymotion') "{{{
@@ -279,7 +279,7 @@ if dein#tap('matchit.zip') "{{{
   autocmd NvimAutocmd User dein#source#matchit.zip
         \ call s:matchit_on_source()
   autocmd NvimAutocmd User dein#post_source#matchit.zip
-        \ execute 'source' NvimDir() . '/rc/plugins/matchit.zip.vim'
+        \ source ~/.vim/rc/plugins/matchit.zip.rc.vim
 
   function! s:matchit_on_source() abort "{{{
     " 起動時にデフォルトの方を無効にしているのでここで有効化する

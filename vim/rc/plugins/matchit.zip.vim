@@ -3,19 +3,16 @@ scriptencoding utf-8
 " matchit.zip.vim
 "
 
-" matchit.vimをロードする
-runtime macros/matchit.vim
-
 function! s:set_match_words() abort " {{{
-  let words = [ '(:)', '{:}', '[:]', '（:）', '「:」' ]
+  let l:words = [ '(:)', '{:}', '[:]', '（:）', '「:」' ]
   if exists('b:match_words')
-    for w in words
-      if b:match_words !~ '\V' . w
-        let b:match_words .= ',' . w
+    for l:w in l:words
+      if b:match_words !~# '\V' . l:w
+        let b:match_words .= ',' . l:w
       endif
     endfor
   else
-    let b:match_words = join(words, ',')
+    let b:match_words = join(l:words, ',')
   endif
 endfunction " }}}
 
