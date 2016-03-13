@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " vim-gitgutter.vim:
 "
@@ -11,5 +10,3 @@ let g:gitgutter_map_keys = 0
 
 nmap [c <Plug>GitGutterPrevHunkzvzz
 nmap ]c <Plug>GitGutterNextHunkzvzz
-
-" vim:set foldmethod=marker:

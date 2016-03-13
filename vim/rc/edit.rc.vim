@@ -1,21 +1,36 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Edit:
 "
+set smarttab
 set expandtab
 
 set shiftround
 
-" クリップボード連携
-if $DISPLAY !=# '' && has('clipboard')
+set modeline
+
+" Clipboard
+if has('clipboard')
   set clipboard&
-  set clipboard+=unnamedplus
+  if has('nvim')
+    set clipboard+=unnamedplus
+  else
+
+  endif
+endif
+if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
+  set clipboard&
+  if has('nvim')
+    set clipboard+=unnamedplus
+  else
+    if has('unnamedplus')
+      set clipboard=unnamedplus
+    else
+      set clipboard=unnamed
+    endif
+  endif
 endif
 
-" バックアップを作成しない
-set nowritebackup
-set noswapfile
-set backupdir-=.
+set backspace=indent,eol,start
 
 set showmatch
 set matchtime=1
@@ -23,32 +38,49 @@ set matchpairs+=<:>
 
 set hidden
 
-" 単語補完を行った際に、入力された文字列の大文字小文字と補完する語句の
-" 大文字小文字が合っていない場合は修正する
 set infercase
 
+" Folding
 set foldmethod=marker
-set foldcolumn=2
+set foldcolumn=1
 set fillchars=vert:\|
 set commentstring=%s
 
+" TODO Move to foldCC plugin setting
 if exists('*FoldCCtext')
-  set foldtext=FoldCCtext()
+  " Use FoldCCtext().
+   set foldtext=FoldCCtext()
 endif
 
 set grepprg=grep\ -inH
 
-" ファイル名に使う文字から=を外す
+" Exclude = from isfilename
 set isfname-==
 
-" キーマップのタイムアウト
 set timeout
 set timeoutlen=3000
 set ttimeoutlen=100
 
 set updatetime=1000
 
-set undofile
+" Remove current directory from swap directory
+set directory-=.
+
+" Do not create backup
+set nowritebackup
+set nobackup
+set noswapfile
+set backupdir-=.
+
+if v:version >= 703
+  set undofile
+  let &undodir=&directory
+endif
+
+if v:version < 703 || v:version == 7.3 && !has('patch336')
+  " Vim's bug
+  set notagbsearch
+endif
 
 set virtualedit=block
 
@@ -59,9 +91,27 @@ autocmd MyAutocmd WinEnter * checktime
 autocmd MyAutocmd InsertLeave *
       \ if &paste | setlocal nopaste | echo 'nopaste' | endif
 autocmd MyAutocmd InsertLeave *
-      \ if &l:diff | diffupdate | endif
+      \ if &diff | diffupdate | endif
 
-" 保存時に行末の空白を除去
+" Create directory automatically
+" http://vim-users.jp/2011/02/hack202/
+autocmd MyAutocmd BufWritePre *
+      \ call s:mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
+function! s:mkdir_as_necessary(dir, force) abort "{{{
+  if isdirectory(a:dir) || &l:buftype !=# ''
+    return
+  endif
+
+  let l:ans = 'yes'
+  if !a:force
+    l:ans = input(printf('"%s" does not exists. Create? [y/N]', a:dir))
+  endif
+  if l:ans =~? '^y\%[es]$'
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
+endfunction "}}}
+
+" Remove last whitespaces
 autocmd MyAutocmd BufWritePre * call <SID>del_last_whitespaces()
 function! s:del_last_whitespaces() abort "{{{
   if exists('b:not_del_last_whitespaces')
@@ -80,11 +130,9 @@ function! s:del_last_whitespaces() abort "{{{
   unlet l:cursor
 endfunction "}}}
 
-" Ctrl+aやCtrl+xでインクリメント/デクリメントするとき、先頭に
-" 0詰めされた 001 などを8進数ではなく10進数とみなす
 set nrformats=
 
-" Git管理下のファイルを開いたら、.gitがあるディレクトリにカレントを移動する
+" lcd git root directory
 if executable('git')
   autocmd MyAutocmd BufWinEnter * call s:cd_gitroot()
 
@@ -114,5 +162,3 @@ if executable('git')
     execute 'lcd' l:git_root
   endfunction "}}}
 endif
-
-" vim:set foldmethod=marker:

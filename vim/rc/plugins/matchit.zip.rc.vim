@@ -1,7 +1,4 @@
 "-----------------------------------------------------------------------------
-" Search:
+" matchit.zip.rc.vim
 "
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
+silent! execute 'doautocmd FileType' &filetype

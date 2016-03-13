@@ -1,99 +1,77 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Mappings:
 "
-
-" <C-Space>は<C-@>(<Nul>)にする
-" これが何を意味するかはよく分かっていない
 nmap <C-Space> <C-@>
 cmap <C-Space> <C-@>
 
-" Normal mode mappings: "{{{
-" インデント
+" Normal/Visual mode mappings: "{{{
 nnoremap > >>
 nnoremap < <<
+xnoremap > >gv
+xnoremap < <gv
 
-" 危険なマッピングを無効に
+xnoremap <TAB> >
+xnoremap <S-TAB> <
+
+" Disable dangerous mappings
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
-" 表示行で移動
+" Disable Ex mode
+nnoremap Q <Nop>
+
 nnoremap j gj
 nnoremap k gk
+xnoremap j gj
+xnoremap k gk
 
-" 実際の行で移動
 nnoremap gj j
 nnoremap gk k
+xnoremap gj j
+xnoremap gk k
 
-" アスタリスクでの検索時に、最初に次の位置へ移動してしまうのを改善
 nnoremap * *<C-o>zvzz
 nnoremap g* g*<C-o>zvzz
 nnoremap # #<C-o>zvzz
 nnoremap g# g#<C-o>zvzz
 
-" ハイライトを消す
+if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
+  xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
+endif
+
+" Clear hlsearch
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
 "}}}
 
 " Insert mode mappings: "{{{
-" <C-t>はタブ
 inoremap <C-t> <C-v><TAB>
-" <C-w>と<C-u>でundoを可能にする
+
+" Enable undo <C-w> and <C-u>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 
 if has('gui_running')
-  " <Esc>の反応をよくする？
   inoremap <ESC> <ESC>
 endif
 "}}}
 
-" Visual mode mappings: "{{{
-" <TAB>はインデント
-xnoremap <TAB> >
-" <S-TAB>はアンインデント
-xnoremap <S-TAB> <
-
-" インデント
-xnoremap > >gv
-xnoremap < <gv
-
-" 表示行で移動
-xnoremap j gj
-xnoremap k gk
-
-" 実際の行で移動
-xnoremap gj j
-xnoremap gk k
-
-if $DISPLAY !=# '' && has('clipboard')
-  xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
-endif
-"}}}
-
 " Command-line mode mappings: "{{{
-" <C-a>:先頭
 cnoremap <C-a> <Home>
-" <C-e>:末尾
 cnoremap <C-e> <End>
-" <C-b>:左
 cnoremap <C-b> <Left>
-" <C-f>:右
 cnoremap <C-f> <Right>
-" <C-d>:1文字削除
 cnoremap <C-d> <DEL>
-" <C-p>:ヒストリバック
 cnoremap <C-p> <Up>
-" <C-n>:ヒストリフォワード
 cnoremap <C-n> <Down>
-" <C-y>:ペースト
-cnoremap <C-y> <C-r>*
-" <C-g>:Exit
+
+cnoremap <C-k>
+      \ <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
+cnoremap <C-t> <C-r>*
 cnoremap <C-g> <C-c>
 
-" <C-o>:検索時のみ、単語境界をトグル
-cnoremap <C-o> <C-\>e<SID>toggle_word_border()<CR>
-function! s:toggle_word_border() abort "{{{
+" Toggle word boundary
+cnoremap <C-o> <C-\>e<SID>toggle_word_boundary()<CR>
+function! s:toggle_word_boundary() abort "{{{
   let l:cmdline = getcmdline()
   if getcmdtype() !=# '/' && getcmdtype() !=# '?'
     return l:cmdline
@@ -109,7 +87,7 @@ function! s:toggle_word_border() abort "{{{
 endfunction "}}}
 "}}}
 
-" a>やi>を置き換える "{{{
+" Replace a>,i>,etc... "{{{
 " <angle>
 onoremap aa a>
 xnoremap aa a>
@@ -135,7 +113,7 @@ onoremap id i"
 xnoremap id i"
 "}}}
 
-" 設定ファイル操作 "{{{
+" Edit config files "{{{
 " vimrc
 nnoremap <silent> <Leader>;v
       \ :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
@@ -156,7 +134,7 @@ if filereadable(expand('~/.zshrc'))
 endif
 "}}}
 
-" ウィンドウ移動 "{{{
+" Move cursor between windows "{{{
 nnoremap <Leader>h <C-w>h
 nnoremap <Leader>l <C-w>l
 nnoremap <Leader>k <C-w>k
@@ -170,14 +148,14 @@ nnoremap <Leader>K <C-w>K
 nnoremap <Leader>J <C-w>J
 "}}}
 
-" バッファ操作 "{{{
+" Operate buffer "{{{
 nnoremap <silent> <Leader>o :<C-u>only<CR>
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
 "}}}
 
 " Others "{{{
-" backgroundの切り替え
+" Toggle background
 nmap <expr> <C-b> <SID>toggle_background()
 function! s:toggle_background() abort "{{{
   if &background ==# 'light'
@@ -187,16 +165,5 @@ function! s:toggle_background() abort "{{{
   endif
 endfunction "}}}
 
-" xを捨て
 nnoremap x "_x
-
-" Exモードは無効
-nnoremap Q q
-
-if has('nvim')
-  " terminalでの<Esc>は<C-\><C-n>にする
-  tnoremap <Esc> <C-\><C-n>
-endif
 "}}}
-
-" vim:set foldmethod=marker:

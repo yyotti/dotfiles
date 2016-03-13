@@ -24,23 +24,16 @@ if executable('google-ime-skk')
         \ }
 endif
 
-let g:eskk#show_annotation = 1
-
 let g:eskk#debug = 0
 let g:eskk#show_annotation = 1
-let g:eskk#rom_input_style = 'msime'
-let g:eskk#start_completion_length = 4
 
-if !exists('$NVIM_GUI')
-  " ターミナルでの表示が崩れるのでマーカーを変える
-  " ターミナルの表示が直ったら消す設定
+if !exists('$NVIM_GUI') && !has('gui_running')
   let g:eskk#marker_henkan = '<>'
   let g:eskk#marker_henkan_select = '>>'
 endif
 
-" 変換テーブル
 autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
-function! s:eskk_initial_pre() abort
+function! s:eskk_initial_pre() abort "{{{
   let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
   call l:t.add_map('z ', '　')
   call l:t.add_map('z(', '（')
@@ -48,6 +41,4 @@ function! s:eskk_initial_pre() abort
   call l:t.add_map('~', '〜')
   call eskk#register_mode_table('hira', l:t)
   unlet l:t
-endfunction
-
-" vim:set foldmethod=marker:
+endfunction "}}}

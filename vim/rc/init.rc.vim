@@ -1,13 +1,24 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Initialize:
 "
 
-" <Leader> は <Space> にする
+if IsWindows()
+  language message en
+else
+  language message C
+endif
+
+" Use <Space> for <Leader>
 let g:mapleader = "\<Space>"
+" Use ',' for <LocalLeader>
+let g:maplocalleader = ','
+
+" Disable mappings for some plugins
+nnoremap ,  <Nop>
+xnoremap ,  <Nop>
 
 if IsWindows()
-  " Windowsの場合はファイルパスの\を/にする
+  " Change path separator
   set shellslash
 endif
 
@@ -16,66 +27,34 @@ if !isdirectory($CACHE)
   call mkdir($CACHE, 'p')
 endif
 
-" autocmdをいったん全削除
+" Delete all my autocmd
 augroup MyAutocmd
   autocmd!
 augroup END
 
-" runtimepathの初期設定
-if IsWindows()
+" Set runtimepath
+if IsWindows() || has('nvim')
   let &runtimepath = join(
         \   [
-        \     expand('~/.config/nvim'),
-        \     expand('$VIM/runtile'),
-        \     expand('~/.config/nvim/after'),
+        \     expand('~/.vim'),
+        \     expand('$VIM/runtime'),
+        \     expand('~/.vim/after'),
         \   ],
         \   ','
         \ )
 endif
 
-function! s:clone(name, dir) abort "{{{
-  execute printf('!git clone https://github.com/Shougo/%s', a:name) a:dir
-endfunction "}}}
-
-" deinをロードする
+" Load dein.vim
 if &runtimepath !~# '/dein.vim'
-  let s:dein_dir = expand('$CACHE/dein') .
-        \ '/repos/github.com/Shougo/dein.vim'
+  let s:dein_dir = expand('$CACHE/dein') . '/repos/github.com/Shougo/dein.vim'
   if !isdirectory(s:dein_dir)
-    call s:clone('dein.vim', s:dein_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
   endif
   execute 'set runtimepath^=' . fnamemodify(s:dein_dir, ':p')
   unlet s:dein_dir
 endif
 
-if IsUnix()
-  " Linuxならvimprocも用意する
-  " TODO Linuxでなくても事前準備は可能なので改善の余地あり
-  " TODO deinがbuildを実装するか、非同期インストールを実装したらこの処理を外す
-  if &runtimepath !~# '/vimproc.vim'
-    let s:vimproc_dir = expand('$CACHE/dein') .
-          \ '/repos/github.com/Shougo/vimproc.vim'
-    if !isdirectory(s:vimproc_dir)
-      call s:clone('vimproc.vim', s:vimproc_dir)
-
-      " Build
-      execute printf('!cd "%s"; make', s:vimproc_dir)
-      execute 'set runtimepath+=' . fnamemodify(s:vimproc_dir, ':p')
-    endif
-
-    " runtimepathへの追加はdeinがやってくれる
-
-    unlet s:vimproc_dir
-  endif
-endif
-
-" デフォルトのプラグインを無効化する {{{
-
-" TODO GUIでの動作確認
-" if has('gui_running')
-"   set guioptions=Mc
-" endif
-
+" Disable default plugins {{{
 let g:loaded_gzip = 1
 let g:loaded_tar = 1
 let g:loaded_tarPlugin = 1
@@ -98,9 +77,4 @@ let g:loaded_logipat = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_man = 1
 let g:loaded_matchit = 1
-
-" matchitはここでいったんロード済みにして、後でロードできるようにする
-let g:loaded_matchit = 1
 " }}}
-
-" vim:set foldmethod=marker:

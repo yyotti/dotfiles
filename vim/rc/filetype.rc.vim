@@ -1,11 +1,11 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " FileType:
 "
+set autoindent
 set smartindent
 
 augroup MyAutocmd
-  autocmd FileType,Syntax * call s:on_filetype()
+  autocmd FileType,Syntax,BufEnter,BufWinEnter * call s:on_filetype()
 
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
@@ -13,7 +13,7 @@ augroup MyAutocmd
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
         \ setlocal filetype=markdown | let b:not_del_last_whitespaces = 1
 
-  " filetypeを更新する
+  " Update filetype
   autocmd BufWritePost *
         \ if &l:filetype ==# '' || exists('b:ftdetect')
         \ |   unlet! b:ftdetect
@@ -23,12 +23,10 @@ augroup MyAutocmd
 augroup END
 
 function! s:on_filetype() abort "{{{
-  " 自動的にコメントを追加するのを無効にする
   setlocal formatoptions-=ro
-  " 行を連結する際にマルチバイト文字の前後や間に空白を挿入しない
   setlocal formatoptions+=mMBl
 
-  " help以外はFoldCCtextを使う
+  " TODO Move to foldCC plugin setting
   if &filetype !=# 'help' && exists('*FoldCCtext')
     setlocal foldtext=FoldCCtext()
   endif
@@ -40,22 +38,22 @@ function! s:on_filetype() abort "{{{
   if !&l:modifiable
     setlocal nofoldenable
     setlocal foldcolumn=0
-    setlocal colorcolumn=
+    if v:version >= 703
+      setlocal colorcolumn=
+    endif
   endif
 
-  " helpやquickfixはqで閉じれるようにする
   if &buftype ==# 'help' || &buftype ==# 'quickfix'
-    nnoremap <silent> <buffer> q :bdelete<CR>
+    nnoremap <silent> <buffer> q :q<CR>
   endif
 endfunction "}}}
 
 " python.vim
 let g:python_highlight_all = 1
 
-" bashスクリプトの色付けが綺麗になるらしい
 let g:is_bash = 1
 
-" markdownの色付け設定
+" markdown colors
 " http://mattn.kaoriya.net/software/vim/20140523124903.htm
 let g:markdown_fenced_languages = [
       \   'css',
@@ -67,7 +65,10 @@ let g:markdown_fenced_languages = [
       \   'php',
       \ ]
 
-" 補完時のメッセージを表示しない
-set shortmess+=c
-
-" vim:set foldmethod=marker:
+try
+  set shortmess+=c
+catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
+  autocmd MyAutoCmd VimEnter *
+        \ highlight ModeMsg guifg=bg guibg=bg |
+        \ highlight Question guifg=bg guibg=bg
+endtry

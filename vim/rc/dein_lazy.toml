@@ -1,5 +1,12 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
+if = 'has("nvim")'
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+depends = 'context_filetype.vim'
+if = '!has("nvim") && has("lua")'
 on_i = 1
 
 [[plugins]]
@@ -14,7 +21,7 @@ repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
-depends = [ 'neosnippet-snippets' ]
+depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
 on_i = 1
 on_ft = 'snippet'
 on_source = 'unite.vim'
@@ -114,6 +121,29 @@ on_ft = [ 'smarty', 'html', 'css', 'php' ]
 
 [[plugins]]
 repo = 'yyotti/vim-lintexec.nvim'
+if = 'has("nvim")'
+
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
+if = '!has("nvim")'
+
+[[plugins]]
+repo = 'osyo-manga/vim-watchdogs'
+depends = [ 'vim-quickrun', 'vimproc.vim', 'shabadou.vim' ]
+if = '!has("nvim")'
+on_path = '.*'
+
+[[plugins]]
+repo = 'KazuakiM/vim-qfstatusline'
+depends = [ 'vim-watchdogs' ]
+if = '!has("nvim")'
+on_source = 'vim-watchdogs'
+
+[[plugins]]
+repo = 'KazuakiM/vim-qfsigns'
+depends = [ 'vim-watchdogs' ]
+if = '!has("nvim")'
+on_source = 'vim-watchdogs'
 
 [[plugins]]
 repo = 'osyo-manga/unite-quickfix'
@@ -154,6 +184,16 @@ repo = 'yyotti/unite-tasks.vim'
 depends = 'unite.vim'
 on_source = 'unite.vim'
 
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+on_ft = 'help'
+if = '!has("nvim")'
+
+[[plugins]]
+repo = 'lambdalisue/vim-gista'
+on_map = '<Plug>'
+if = 0
+
 # 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
@@ -184,4 +224,14 @@ if = 'IsHomePC()'
 [[plugins]]
 repo = 'gre/play2vim'
 on_ft = [ 'play2-conf', 'play2-routes' ]
+if = 'IsHomePC()'
+
+[[plugins]]
+repo = 'groenewege/vim-less'
+on_ft = [ 'less' ]
+if = 'IsHomePC()'
+
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+on_ft = [ 'coffee', 'markdown' ]
 if = 'IsHomePC()'

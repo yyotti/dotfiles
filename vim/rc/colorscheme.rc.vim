@@ -1,12 +1,6 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Colorscheme:
 "
-if !has('gui_running')
-  set t_ut=
-  set t_Co=256
-endif
-
 autocmd MyAutocmd ColorScheme *
       \ call <SID>change_colorscheme(expand('<amatch>'))
 function! s:change_colorscheme(cs_name) abort "{{{
@@ -30,15 +24,6 @@ endfunction "}}}
 if s:exists_colorscheme('hybrid')
   colorscheme hybrid
   set background=dark
-elseif s:exists_colorscheme('solarized')
-  colorscheme solarized
-  if has('gui_running')
-    set background=light
-  else
-    set background=dark
-  endif
 else
   colorscheme desert
 endif
-
-" vim:set foldmethod=marker:

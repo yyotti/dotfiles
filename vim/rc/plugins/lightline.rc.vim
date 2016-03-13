@@ -7,8 +7,6 @@ function! s:SID_PREFIX() abort " {{{
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
 endfunction " }}}
 
-let g:Qfstatusline#UpdateCmd = function('lightline#update')
-
 set noshowmode
 
 let g:lightline = {
@@ -165,15 +163,18 @@ function! s:anzu() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if !exists('*lintexec#count_errors()')
-    return ''
-  endif
+  if has('nvim')
+    if !exists('*lintexec#count_errors()')
+      return ''
+    endif
 
-  let l:count = lintexec#count_errors()
-  return l:count == 0 ? '' : printf('E(%d)', l:count)
+    let l:count = lintexec#count_errors()
+    return l:count == 0 ? '' : printf('E(%d)', l:count)
+  else
+    return exists('*qfstatusline#Update') ? qfstatusline#Update() : ''
+  endif
 endfunction "}}}
 
-" リアルタイムにカラースキームを書き換えるための細工
 autocmd MyAutocmd ColorScheme * call <SID>lightline_update()
 function! s:lightline_update() abort "{{{
   let g:lightline.colorscheme = 'default'
@@ -194,5 +195,3 @@ function! s:lightline_update() abort "{{{
     endtry
   endif
 endfunction "}}}
-
-" vim:set foldmethod=marker:

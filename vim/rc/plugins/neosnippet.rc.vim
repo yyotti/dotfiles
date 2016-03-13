@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " neosnippet.vim:
 "
@@ -11,6 +10,8 @@ xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
 
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#enable_complete_done = 1
+let g:neosnippet#expand_word_boundary = 1
+
 if !exists('g:neosnippet#snippets_directory')
   let g:neosnippet#snippets_directory = ''
 endif
@@ -25,5 +26,3 @@ endfor
 
 let g:neosnippet#snippets_directory =
       \ join(add(s:dirs, s:snippets_dir), ',')
-
-" vim:set foldmethod=marker:

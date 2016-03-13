@@ -1,10 +1,8 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " vimfiler.vim:
 "
 call vimfiler#custom#profile('default', 'context', {
       \   'safe': 0,
-      \   'auto_expand': 1,
       \   'parent': 0,
       \ })
 
@@ -20,15 +18,24 @@ if IsWindows()
   let g:unite_kind_file_use_trashbox = 1
 endif
 
+" %p : full path
+" %d : current directory
+" %f : filename
+" %F : filename removed extensions
+" %* : filenames
+" %# : filenames fullpath
+let g:vimfiler_sendto = {
+      \ 'unzip' : 'unzip %f',
+      \ 'zip' : 'zip -r %F.zip %*',
+      \ }
+
 let g:vimfiler_force_overwrite_statusline = 0
 
 autocmd MyAutocmd FileType vimfiler call <SID>vimfiler_settings()
 function! s:vimfiler_settings() abort
-  call vimfiler#set_execute_file('vim', [ 'nvim', 'notepad' ])
-  call vimfiler#set_execute_file('txt', 'nvim')
+  call vimfiler#set_execute_file('vim', [ 'nvim', 'vim', 'notepad' ])
+  call vimfiler#set_execute_file('txt', [ 'nvim', 'vim', 'notepad' ])
 
   nnoremap <silent> <buffer> J
         \ :<C-u>Unite -default-action=lcd directory_mru<CR>
 endfunction
-
-" vim:set foldmethod=marker:

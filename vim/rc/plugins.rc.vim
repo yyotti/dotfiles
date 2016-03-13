@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Plugins:
 "
@@ -22,6 +21,12 @@ if dein#tap('deoplete.nvim') "{{{
   let g:deoplete#enable_at_startup = 1
   autocmd MyAutocmd User dein#source#deoplete.nvim
         \ source ~/.vim/rc/plugins/deoplete.rc.vim
+endif "}}}
+
+if dein#tap('neocomplete.vim') "{{{
+  let g:neocomplete#enable_at_startup = 1
+  autocmd MyAutocmd User dein#source#neocomplete.vim
+        \ source ~/.vim/rc/plugins/neocomplete.rc.vim
 endif "}}}
 
 if dein#tap('neosnippet.vim') "{{{
@@ -54,10 +59,13 @@ endif "}}}
 if dein#tap('unite.vim') "{{{
   " buffer + mru
   nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
-  " only mru
-  nnoremap <silent> [unite]u :<C-u>Unite file_mru<CR>
   " bookmarks
   nnoremap <silent> [unite]m :<C-u>Unite bookmark<CR>
+  " file
+  nnoremap <silent> [unite]f
+        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
+        \     buffer_tab:- file file/new<CR>
   " unite-line
   nnoremap <silent> [unite]l :<C-u>Unite line<CR>
   " grep
@@ -94,8 +102,6 @@ if dein#tap('junkfile.vim') "{{{
 endif "}}}
 
 if dein#tap('vim-fugitive') "{{{
-  " prefix定義
-
   nnoremap <silent> [git]s :<C-u>Gstatus<CR>
   nnoremap <silent> [git]d :<C-u>Gvdiff<CR>
 
@@ -129,27 +135,23 @@ if dein#tap('vim-easymotion') "{{{
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   let g:EasyMotion_startofline = 0
+  let g:EasyMotion_verbose = 0
 
-  " easymotionのプレフィックスは基本的に'とする
   map ' <Plug>(easymotion-prefix)
 
-  " fとtのマッピングを置換する
   map f <Plug>(easymotion-fl)
   map t <Plug>(easymotion-tl)
   map F <Plug>(easymotion-Fl)
   map T <Plug>(easymotion-Tl)
-  " ;/,を置換
+
   map ; <Plug>(easymotion-next)
   map , <Plug>(easymotion-prev)
 
-  " ' + f/t/F/T で複数文字のやつにする
   map 'f <Plug>(easymotion-fln)
   map 't <Plug>(easymotion-tln)
   map 'F <Plug>(easymotion-Fln)
   map 'T <Plug>(easymotion-Tln)
 
-  " 'sは複数個のやつにマッピングする
-  " これがあるとw/e系がほとんど不要になってしまうが。
   map 's <Plug>(easymotion-sn)
 endif "}}}
 
@@ -176,11 +178,6 @@ if dein#tap('vim-operator-surround') "{{{
 endif "}}}
 
 if dein#tap('winresizer') "{{{
-  " winresizerに用意されているマッピング機能を使うと遅延ロードが
-  " できないので、こちらで手動マッピングしてやる。
-  " winresizerをロードしたらデフォルトのマッピングがされるので、
-  " ロード後にそれらのマッピングを解除する。
-
   if has('gui_running')
     let g:winresizer_gui_enable = 1
     nnoremap <C-w>R :<C-u>WinResizerStartResizeGUI<CR>
@@ -208,7 +205,7 @@ if dein#tap('colorizer') "{{{
   let g:colorizer_nomap = 1
 endif "}}}
 
-if dein#tap('vim-lintexec.nvim') "{{{
+if dein#tap('vim-lintexec.nvim') && has('nvim') "{{{
   autocmd MyAutocmd User dein#source#vim-lintexec.nvim
         \ call s:lintexec_on_source()
   function! s:lintexec_on_source() abort "{{{
@@ -243,7 +240,6 @@ if dein#tap('vim-operator-flashy') "{{{
         \ call s:operator_flashy_on_source()
 
   function! s:operator_flashy_on_source() abort "{{{
-    " highlight Cursor が設定されていないとエラーになるので、その対処
     let v:errmsg = ''
     silent! highlight Cursor
     if !empty(v:errmsg)
@@ -270,11 +266,6 @@ if dein#tap('ghcmod-vim') "{{{
         \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
 endif "}}}
 
-if dein#tap('unite-googletasks') "{{{
-  nnoremap <silent> [unite]t
-        \ :<C-u>Unite googletasks/tasklists googletasks/tasklists/new<CR>
-endif "}}}
-
 if dein#tap('matchit.zip') "{{{
   autocmd MyAutocmd User dein#source#matchit.zip
         \ call s:matchit_on_source()
@@ -282,7 +273,6 @@ if dein#tap('matchit.zip') "{{{
         \ source ~/.vim/rc/plugins/matchit.zip.rc.vim
 
   function! s:matchit_on_source() abort "{{{
-    " 起動時にデフォルトの方を無効にしているのでここで有効化する
     unlet g:loaded_matchit
   endfunction "}}}
 endif "}}}
@@ -292,4 +282,32 @@ if dein#tap('caw.vim') "{{{
   xmap gc <Plug>(caw:prefix)
 endif "}}}
 
-" vim:set foldmethod=marker:
+if dein#tap('vim-watchdogs') "{{{
+  autocmd MyAutocmd User dein#source#vim-watchdogs
+        \ source ~/.vim/rc/plugins/vim-watchdogs.rc.vim
+  autocmd MyAutocmd User dein#post_source#vim-watchdogs
+        \ call watchdogs#setup(g:quickrun_config)
+endif "}}}
+
+if dein#tap('vim-qfstatusline') "{{{
+  autocmd MyAutocmd User dein#source#vim-qfstatusline
+        \ source ~/.vim/rc/plugins/vim-qfstatusline.rc.vim
+  autocmd MyAutocmd User dein#post_source#vim-qfstatusline
+        \ let g:Qfstatusline#UpdateCmd =
+        \   exists('*lightline#update') ?
+        \     function('lightline#update') : function('qfstatusline#Update')
+
+endif "}}}
+
+if dein#tap('vim-qfsigns') "{{{
+  autocmd MyAutocmd User dein#source#vim-qfsigns
+        \ source ~/.vim/rc/plugins/vim-qfsigns.rc.vim
+endif "}}}
+
+if dein#tap('vim-gista') " {{{
+  let g:gista#github_user = 'yyotti'
+  let g:gista#post_private = 1
+  let g:gista#directory = expand('$CACHE/gista')
+
+  nnoremap [unite]a :<C-u>Unite gista<CR>
+endif " }}}

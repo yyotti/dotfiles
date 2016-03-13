@@ -1,24 +1,48 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " GUI:
 "
+
+"-----------------------------------------------------------------------------
+" Fonts:
+"
 set ambiwidth=double
 
-" TODO 一応、設定できてはいるが、ウィンドウが表示された後ですぐに元に戻されて
-"      しまう
-" autocmd MyAutocmd BufEnter * call s:set_winsize()
-" function! s:set_winsize() abort "{{{
-"   if exists('g:_set_winsize')
-"     return
-"   endif
-"
-"   set lines=48
-"   set columns=180
-"
-"   let g:_set_winsize = 1
-" endfunction "}}}
+set guifontwide=Ricty\ for\ Powerline\ 11
+set guifont=Ricty\ for\ Powerline\ 11
+if has('win32') || has('win64')
+  " Windows
+  set linespace=2
+  if has('patch-7.4.394')
+    set renderoptions=type:directx,gamma:2.2,mode:3
+  endif
 
-" TODO ウィンドウサイズの変更はとりあえずコマンドで代用
-command! SetWinsizeDefault set lines=55 columns=250
+  if has('kaoriya')
+    set ambiwidth=auto
+  endif
+endif
 
-" TODO その他、フォントの設定とか(python-guiがフォントの変更に対応したらやる)
+"-----------------------------------------------------------------------------
+" Window:
+"
+if has('win32') || has('win64')
+  set columns=220
+  set lines=55
+else
+  if &columns < 180
+    set columns=180
+  endif
+  if &lines < 55
+    set lines=55
+  endif
+endif
+
+"-----------------------------------------------------------------------------
+" Menu:
+"
+set guioptions=Mc
+
+"-----------------------------------------------------------------------------
+" View:
+"
+set guicursor&
+set guicursor+=a:blinkon0
