@@ -150,11 +150,6 @@ on_map = [
 ]
 
 [[plugins]]
-repo = 'yyotti/unite-googletasks'
-depends = 'unite.vim'
-on_source = 'unite.vim'
-
-[[plugins]]
 repo = 'yyotti/unite-tasks.vim'
 depends = 'unite.vim'
 on_source = 'unite.vim'
