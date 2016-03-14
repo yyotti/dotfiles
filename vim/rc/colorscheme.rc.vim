@@ -21,9 +21,12 @@ function! s:exists_colorscheme(name) abort "{{{
   return 0
 endfunction "}}}
 
-if s:exists_colorscheme('hybrid')
-  colorscheme hybrid
+if has('gui_running') && s:exists_colorscheme('solarized')
+  set background=light
+  colorscheme solarized
+elseif s:exists_colorscheme('hybrid')
   set background=dark
+  colorscheme hybrid
 else
   colorscheme desert
 endif

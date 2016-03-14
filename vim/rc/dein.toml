@@ -10,5 +10,8 @@ build = 'make'
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 if = '!IsPowerlineEnabled()'
