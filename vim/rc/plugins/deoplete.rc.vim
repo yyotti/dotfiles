@@ -12,8 +12,6 @@ function! s:my_cr_function() abort "{{{
   return deoplete#mappings#close_popup() . "\<CR>"
 endfunction "}}}
 
-inoremap <expr> ' pumvisible() ? deoplete#mappings#close_popup() : "'"
-
 call deoplete#custom#set(
       \   '_',
       \   'converters',
