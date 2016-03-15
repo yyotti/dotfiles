@@ -113,4 +113,5 @@ if filereadable(expand('~/.nvimrc_local'))
   execute 'source' expand('~/.nvimrc_local')
 endif
 
+set helplang& helplang=en,ja
 set secure

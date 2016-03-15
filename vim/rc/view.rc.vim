@@ -55,6 +55,7 @@ endif
 set cursorline
 
 set shortmess=aTI
+" TODO set shortmess+=F ?
 
 set wildmenu
 set wildmode=full
