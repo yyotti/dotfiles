@@ -31,6 +31,8 @@ if dein#load_cache([ expand('<sfile>'), s:toml_path, s:toml_lazy_path ])
   call dein#save_cache()
 endif
 
+call dein#end()
+
 " TODO Improve
 source ~/.vim/rc/plugins.rc.vim
 
@@ -43,5 +45,3 @@ if IsHomePC()
 
   unlet s:vimrc_dev
 endif
-
-call dein#end()
