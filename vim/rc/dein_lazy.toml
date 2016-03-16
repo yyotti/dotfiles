@@ -178,11 +178,6 @@ on_map = [
 ]
 
 [[plugins]]
-repo = 'yyotti/unite-tasks.vim'
-depends = 'unite.vim'
-on_source = 'unite.vim'
-
-[[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 on_ft = 'help'
 if = '!has("nvim")'
