@@ -21,7 +21,7 @@ if exists('$NVIM_GUI')
     " TODO Set initial window size
     " set columns=180
     " set lines=50
-    command! SetWinsizeDefault set columns=180 lines=50
+    command! SetWinsizeDefault set columns=230 lines=55
 
     " TODO Font setting
 
