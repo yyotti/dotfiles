@@ -32,16 +32,3 @@ if dein#load_cache([ expand('<sfile>'), s:toml_path, s:toml_lazy_path ])
 endif
 
 call dein#end()
-
-" TODO Improve
-source ~/.vim/rc/plugins.rc.vim
-
-if IsHomePC()
-  " Load develop version settings
-  let s:vimrc_dev = '~/vim_dev/vimrc'
-  if filereadable(s:vimrc_dev)
-    execute 'source' s:vimrc_dev
-  endif
-
-  unlet s:vimrc_dev
-endif

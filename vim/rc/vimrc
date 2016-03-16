@@ -36,6 +36,18 @@ call s:source_rc('init.rc.vim')
 
 call s:source_rc('dein.rc.vim')
 
+call s:source_rc('plugins.rc.vim')
+
+if IsHomePC()
+  " Load develop version settings
+  let s:vimrc_dev = s:vimdev_dir . '/vimrc'
+  if filereadable(s:vimrc_dev)
+    execute 'source' s:vimrc_dev
+  endif
+
+  unlet s:vimrc_dev
+endif
+
 filetype plugin indent on
 syntax enable
 
