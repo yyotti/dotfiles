@@ -35,13 +35,6 @@ function! s:on_filetype() abort "{{{
     setlocal textwidth=0
   endif
 
-  if !&l:modifiable
-    setlocal nofoldenable
-    setlocal foldcolumn=0
-    if v:version >= 703
-      setlocal colorcolumn=
-    endif
-  endif
 
   if &buftype ==# 'help' || &buftype ==# 'quickfix'
     nnoremap <silent> <buffer> q :q<CR>

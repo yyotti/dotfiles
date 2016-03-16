@@ -16,7 +16,6 @@ call unite#custom#source(
       \   'file_mru',
       \   'matchers',
       \   [
-      \     'matcher_project_files',
       \     'matcher_fuzzy',
       \     'matcher_hide_hidden_files',
       \     'matcher_hide_current_file',
