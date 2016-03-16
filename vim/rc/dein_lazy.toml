@@ -135,13 +135,11 @@ on_path = '.*'
 
 [[plugins]]
 repo = 'KazuakiM/vim-qfstatusline'
-depends = [ 'vim-watchdogs' ]
 if = '!has("nvim")'
 on_source = 'vim-watchdogs'
 
 [[plugins]]
 repo = 'KazuakiM/vim-qfsigns'
-depends = [ 'vim-watchdogs' ]
 if = '!has("nvim")'
 on_source = 'vim-watchdogs'
 
