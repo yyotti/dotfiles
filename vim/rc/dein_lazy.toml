@@ -160,7 +160,7 @@ repo = 'lambdalisue/vim-unified-diff'
 on_path = '.*'
 
 [[plugins]]
-repo = 'ysktti/vim-autoupload'
+repo = 'yyotti/vim-autoupload'
 on_path = '.*'
 
 [[plugins]]
