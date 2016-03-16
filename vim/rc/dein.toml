@@ -19,3 +19,10 @@ if = '!IsPowerlineEnabled()'
 [[plugins]]
 repo = 'thinca/vim-themis'
 if = 'IsHomePC()'
+
+[[plugins]]
+repo = 'syngan/vim-vimlint'
+depends = [ 'vim-vimlparser' ]
+
+[[plugins]]
+repo = 'ynkdir/vim-vimlparser'

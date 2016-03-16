@@ -98,15 +98,15 @@ function! s:strwidthpart(str, width) abort "{{{
     return ''
   endif
 
-  let l:ret = a:str
-  let l:width = strwidth(a:str)
-  while l:width > a:width
-    let l:char = matchstr(l:ret, '.$')
-    let l:ret = l:ret[: -1 - len(l:char)]
-    let l:width -= strwidth(l:char)
+  let ret = a:str
+  let width = strwidth(a:str)
+  while width > a:width
+    let char = matchstr(ret, '.$')
+    let ret = ret[: -1 - len(char)]
+    let width -= strwidth(char)
   endwhile
 
-  return l:ret
+  return ret
 endfunction "}}}
 
 if v:version >= 703

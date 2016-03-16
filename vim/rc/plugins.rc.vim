@@ -42,17 +42,17 @@ if dein#tap('neosnippet-additional') "{{{
       let g:neosnippet#snippets_directory = ''
     endif
 
-    let l:snippets_dir =
+    let snippets_dir =
           \ expand(dein#get('neosnippet-additional').path . '/snippets/')
-    let l:dirs = split(g:neosnippet#snippets_directory, ',')
-    for l:dir in l:dirs
-      if l:dir ==# l:snippets_dir
+    let dirs = split(g:neosnippet#snippets_directory, ',')
+    for dir in dirs
+      if dir ==# snippets_dir
         return
       endif
     endfor
 
     let g:neosnippet#snippets_directory =
-          \ join(add(l:dirs, l:snippets_dir), ',')
+          \ join(add(dirs, snippets_dir), ',')
   endfunction "}}}
 endif "}}}
 

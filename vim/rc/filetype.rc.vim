@@ -15,7 +15,7 @@ augroup MyAutocmd
 
   " Update filetype
   autocmd BufWritePost *
-        \ if &l:filetype ==# '' || exists('b:ftdetect')
+        \ if &filetype ==# '' || exists('b:ftdetect')
         \ |   unlet! b:ftdetect
         \ |   filetype detect
         \ | endif
@@ -31,7 +31,7 @@ function! s:on_filetype() abort "{{{
     setlocal foldtext=FoldCCtext()
   endif
 
-  if &l:textwidth != 70 && &filetype !=# 'help'
+  if &textwidth != 70 && &filetype !=# 'help'
     setlocal textwidth=0
   endif
 

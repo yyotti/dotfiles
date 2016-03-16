@@ -132,16 +132,16 @@ function! s:gitinfo() abort "{{{
     return ''
   endif
 
-  let l:symbols = [
+  let symbols = [
         \   g:gitgutter_sign_added,
         \   g:gitgutter_sign_modified,
         \   g:gitgutter_sign_removed,
         \ ]
-  let l:hunks = GitGutterGetHunkSummary()
+  let hunks = GitGutterGetHunkSummary()
 
   return join(
         \   filter(
-        \     map([0, 1, 2], "l:symbols[v:val] . ':' . l:hunks[v:val]"),
+        \     map([0, 1, 2], "symbols[v:val] . ':' . hunks[v:val]"),
         \     "v:val[-2:] !=# ':0'"
         \   ),
         \   ' '
@@ -168,8 +168,8 @@ function! s:error_count() abort "{{{
       return ''
     endif
 
-    let l:count = lintexec#count_errors()
-    return l:count == 0 ? '' : printf('E(%d)', l:count)
+    let cnt = lintexec#count_errors()
+    return cnt == 0 ? '' : printf('E(%d)', cnt)
   else
     return exists('*qfstatusline#Update') ? qfstatusline#Update() : ''
   endif

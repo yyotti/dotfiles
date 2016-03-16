@@ -19,9 +19,9 @@ function! IsPowerlineEnabled() abort "{{{
     return 0
   endif
 
-  let l:has_python = has('python') && executable('python')
-  let l:has_python3 = has('python3') && executable('python3')
-  return (l:has_python3 || l:has_python) && executable('powerline-daemon')
+  let has_python = has('python') && executable('python')
+  let has_python3 = has('python3') && executable('python3')
+  return (has_python3 || has_python) && executable('powerline-daemon')
 endfunction "}}}
 
 function! IsHomePC() abort "{{{

@@ -36,8 +36,8 @@ function! s:unite_settings() abort "{{{
   nmap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)
   imap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)
 
-  let l:u = unite#get_current_unite()
-  if l:u.profile_name =~# '^search' || l:u.profile_name =~# '^grep'
+  let u = unite#get_current_unite()
+  if u.profile_name =~# '^search' || u.profile_name =~# '^grep'
     nnoremap <silent> <buffer> <expr> r unite#do_action('replace')
   else
     nnoremap <silent> <buffer> <expr> r unite#do_action('rename')

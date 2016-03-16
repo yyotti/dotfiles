@@ -72,18 +72,18 @@ cnoremap <C-g> <C-c>
 " Toggle word boundary
 cnoremap <C-o> <C-\>e<SID>toggle_word_boundary()<CR>
 function! s:toggle_word_boundary() abort "{{{
-  let l:cmdline = getcmdline()
+  let cmdline = getcmdline()
   if getcmdtype() !=# '/' && getcmdtype() !=# '?'
-    return l:cmdline
+    return cmdline
   endif
 
-  if l:cmdline !~# '^\\<.*\\>$'
-    let l:cmdline = '\<' . l:cmdline . '\>'
+  if cmdline !~# '^\\<.*\\>$'
+    let cmdline = '\<' . cmdline . '\>'
   else
-    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
+    let cmdline = cmdline[2:len(cmdline) - 3]
   endif
 
-  return l:cmdline
+  return cmdline
 endfunction "}}}
 "}}}
 

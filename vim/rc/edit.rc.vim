@@ -98,15 +98,15 @@ autocmd MyAutocmd InsertLeave *
 autocmd MyAutocmd BufWritePre *
       \ call s:mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
 function! s:mkdir_as_necessary(dir, force) abort "{{{
-  if isdirectory(a:dir) || &l:buftype !=# ''
+  if isdirectory(a:dir) || &buftype !=# ''
     return
   endif
 
-  let l:ans = 'yes'
+  let ans = 'yes'
   if !a:force
-    l:ans = input(printf('"%s" does not exists. Create? [y/N]', a:dir))
+    let ans = input(printf('"%s" does not exists. Create? [y/N]', a:dir))
   endif
-  if l:ans =~? '^y\%[es]$'
+  if ans =~? '^y\%[es]$'
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
   endif
 endfunction "}}}
@@ -122,12 +122,12 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
-  let l:cursor = getpos('.')
+  let cursor = getpos('.')
 
   global/^/ s/\s\+$//e
 
-  call setpos('.', l:cursor)
-  unlet l:cursor
+  call setpos('.', cursor)
+  unlet cursor
 endfunction "}}}
 
 set nrformats=
@@ -141,24 +141,24 @@ if executable('git')
   endfunction "}}}
 
   function! s:cd_gitroot() abort "{{{
-    let l:dir = getcwd()
+    let dir = getcwd()
 
-    let l:buf_path = expand('%:p')
-    if !isdirectory(l:buf_path)
-      let l:buf_path = fnamemodify(l:buf_path, ':h')
+    let buf_path = expand('%:p')
+    if !isdirectory(buf_path)
+      let buf_path = fnamemodify(buf_path, ':h')
     endif
-    if !isdirectory(l:buf_path)
+    if !isdirectory(buf_path)
       return
     endif
-    execute 'lcd' l:buf_path
+    execute 'lcd' buf_path
 
-    let l:in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
-    if l:in_git_dir !=# 'true'
-      execute 'lcd' l:dir
+    let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
+    if in_git_dir !=# 'true'
+      execute 'lcd' dir
       return
     endif
 
-    let l:git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' l:git_root
+    let git_root = s:trim(system('git rev-parse --show-toplevel'))
+    execute 'lcd' git_root
   endfunction "}}}
 endif

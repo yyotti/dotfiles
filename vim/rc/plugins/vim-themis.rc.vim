@@ -2,26 +2,26 @@
 " vim-themis.rc.vim:
 "
 function! s:split_envpath(path) abort "{{{
-  let l:delimiter = has('win32') ? ';' : ':'
-  if stridx(a:path, '\' . l:delimiter) < 0
-    return split(a:path, l:delimiter)
+  let delimiter = has('win32') ? ';' : ':'
+  if stridx(a:path, '\' . delimiter) < 0
+    return split(a:path, delimiter)
   endif
 
-  let l:split = split(a:path, '\\\@<!\%(\\\\\)*\zs' . l:delimiter)
+  let split = split(a:path, '\\\@<!\%(\\\\\)*\zs' . delimiter)
   return map(
-        \   l:split,
-        \   'substitute(v:val, ''\\\([\\' . l:delimiter . ']\)'', "\\1", "g")'
+        \   split,
+        \   'substitute(v:val, ''\\\([\\' . delimiter . ']\)'', "\\1", "g")'
         \ )
 endfunction "}}}
 
 function! s:join_envpath(list, orig_path, add_path) abort "{{{
-  let l:delimiter = has('win32') ? ';' : ':'
+  let delimiter = has('win32') ? ';' : ':'
 
-  if stridx(a:orig_path, '\' . l:delimiter) < 0 &&
-        \ stridx(a:add_path, l:delimiter) < 0
-    return join(a:list, l:delimiter)
+  if stridx(a:orig_path, '\' . delimiter) < 0 &&
+        \ stridx(a:add_path, delimiter) < 0
+    return join(a:list, delimiter)
   else
-    return join(map(copy(a:list), 's:escape(v:val)'), l:delimiter)
+    return join(map(copy(a:list), 's:escape(v:val)'), delimiter)
   endif
 endfunction "}}}
 
