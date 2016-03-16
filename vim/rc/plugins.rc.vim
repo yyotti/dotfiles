@@ -311,3 +311,8 @@ if dein#tap('vim-gista') " {{{
 
   nnoremap [unite]a :<C-u>Unite gista<CR>
 endif " }}}
+
+if dein#tap('vim-themis') "{{{
+  autocmd MyAutocmd User dein#post_source#vim-themis
+        \ source ~/.vim/rc/plugins/vim-themis.rc.vim
+endif "}}}

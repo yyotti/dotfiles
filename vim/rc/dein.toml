@@ -15,3 +15,7 @@ repo = 'altercation/vim-colors-solarized'
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 if = '!IsPowerlineEnabled()'
+
+[[plugins]]
+repo = 'thinca/vim-themis'
+if = 'IsHomePC()'
