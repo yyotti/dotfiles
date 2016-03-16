@@ -216,6 +216,25 @@ if dein#tap('vim-lintexec.nvim') && has('nvim') "{{{
             \   },
             \ }
     endif
+
+    " Use vim-vimlint
+    if dein#tap('vim-vimlparser') && dein#tap('vim-vimlint')
+      let vimlparser = fnamemodify(dein#get('vim-vimlparser').rtp, ':p')
+      let vimlint = fnamemodify(dein#get('vim-vimlint').rtp, ':p')
+      if !exists('g:lintexec#checker_cmd')
+        let g:lintexec#checker_cmd = {}
+      endif
+      if !has_key(g:lintexec#checker_cmd, 'vim')
+        let g:lintexec#checker_cmd.vim = {}
+      endif
+      let g:lintexec#checker_cmd.vim.exec =
+            \ expand('~/.vim/script/vim-vimlint.sh')
+      let g:lintexec#checker_cmd.vim.args = [
+            \   vimlparser, vimlint, tempname()
+            \ ]
+      let g:lintexec#checker_cmd.vim.errfmt =
+            \ '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m'
+    endif
   endfunction "}}}
 
   autocmd MyAutocmd BufWritePost * call lintexec#run()
