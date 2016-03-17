@@ -187,6 +187,14 @@ repo = 'lambdalisue/vim-gista'
 on_map = '<Plug>'
 if = 0
 
+[[plugins]]
+repo = 'syngan/vim-vimlint'
+depends = [ 'vim-vimlparser' ]
+on_source = 'vim-watchdogs'
+
+[[plugins]]
+repo = 'ynkdir/vim-vimlparser'
+
 # 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
@@ -228,11 +236,3 @@ if = 'IsHomePC()'
 repo = 'kchmck/vim-coffee-script'
 on_ft = [ 'coffee', 'markdown' ]
 if = 'IsHomePC()'
-
-[[plugins]]
-repo = 'syngan/vim-vimlint'
-depends = [ 'vim-vimlparser' ]
-on_source = 'vim-watchdogs'
-
-[[plugins]]
-repo = 'ynkdir/vim-vimlparser'

@@ -119,11 +119,6 @@ if dein#tap('vim-gitgutter') "{{{
         \ source ~/.vim/rc/plugins/vim-gitgutter.rc.vim
 endif "}}}
 
-if dein#tap('lightline.vim') "{{{
-  autocmd MyAutocmd User dein#source#lightline.vim
-        \ source ~/.vim/rc/plugins/lightline.rc.vim
-endif "}}}
-
 if dein#tap('vim-ref') "{{{
   nmap K <Plug>(ref-keyword)
   autocmd MyAutocmd User dein#source#vim-ref

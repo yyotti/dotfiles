@@ -22,14 +22,14 @@ set showcmd
 
 set title
 set titlelen=95
-let &g:titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
+let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
       \ . '%<\(%{'.s:SID_PREFIX().'strwidthpart('
       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
       \ . "substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
 
 if !IsPowerlineEnabled()
-  let &g:statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+  let &statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
         \ . "%{exists('*anzu#search_status')&&!empty(anzu#search_status())?"

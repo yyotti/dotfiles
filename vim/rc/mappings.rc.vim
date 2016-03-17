@@ -141,6 +141,7 @@ nnoremap <Leader>k <C-w>k
 nnoremap <Leader>j <C-w>j
 
 nnoremap <Leader>x <C-w>x
+nnoremap <Leader>= <C-w>=
 
 nnoremap <Leader>H <C-w>H
 nnoremap <Leader>L <C-w>L

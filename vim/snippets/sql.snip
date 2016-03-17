@@ -1,0 +1,5 @@
+snippet     truncate_insert
+abbr        TRUNCATE TABLE ...; INSERT INTO ...;
+options     head
+        TRUNCATE TABLE \`${1:database}\`.\`${2:table}\`;
+        INSERT INTO \`$1\`.\`$2\` SELECT * FROM \`${3:database}\`.\`$2\`${4: ORDER BY \`id\`};${0}
