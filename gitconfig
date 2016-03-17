@@ -10,3 +10,9 @@
 	default = simple
 [merge]
 	tool = vimdiff
+[alias]
+	df = diff
+	ds = diff --name-status
+	dt = difftool
+	ss = status --short
+	st = status
