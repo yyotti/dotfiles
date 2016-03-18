@@ -3,3 +3,8 @@ abbr        TRUNCATE TABLE ...; INSERT INTO ...;
 options     head
         TRUNCATE TABLE \`${1:database}\`.\`${2:table}\`;
         INSERT INTO \`$1\`.\`$2\` SELECT * FROM \`${3:database}\`.\`$2\`${4: ORDER BY \`id\`};${0}
+
+snippet     add_column
+abbr        ALTER TABLE {table} ADD {column} AFTER {column}
+options     head
+        ALTER TABLE \`${1:#:database}\`.\`${2:#:table}\` ADD \`${3:#:new_column_name}\` ${4:#:type} NOT NULL COMMENT '${5:#:comment}' AFTER \`${6:#:column_name}\`;${0}
