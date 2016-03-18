@@ -27,7 +27,7 @@ if IsHomePC()
     call dein#local(
           \   VimDevDir(),
           \   { 'frozen': 1 },
-          \   [ '*.nvim' ]
+          \   [ 'nvim-*', '*.nvim' ]
           \ )
   endif
 endif

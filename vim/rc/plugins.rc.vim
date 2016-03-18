@@ -327,6 +327,5 @@ if dein#tap('vim-gista') " {{{
 endif " }}}
 
 if dein#tap('vim-themis') "{{{
-  autocmd MyAutocmd User dein#post_source#vim-themis
-        \ source ~/.vim/rc/plugins/vim-themis.rc.vim
+  source ~/.vim/rc/plugins/vim-themis.rc.vim
 endif "}}}
