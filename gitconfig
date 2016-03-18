@@ -16,3 +16,4 @@
 	dt = difftool
 	ss = status --short
 	st = status
+	co = checkout
