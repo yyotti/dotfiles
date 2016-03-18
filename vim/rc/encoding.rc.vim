@@ -22,7 +22,7 @@ if has('kaoriya')
   set fileencodings=guess
 elseif !exists('g:did_encoding_settings') && has('iconv')
   let &fileencodings = join(
-        \   [ 'ucs-bom', 'iso-2022-jp-3', 'utf-8', 'euc-jp', 'cp932' ]
+        \   [ 'ucs-bom', 'iso-2022-jp-3', 'utf-8', 'euc-jp', 'cp932' ], ','
         \ )
 
   let g:did_encoding_settings = 1
@@ -36,7 +36,7 @@ function! s:re_check_fenc() abort "{{{
   endif
 endfunction "}}}
 
-set fileformat=unix
+" set fileformat=unix
 set fileformats=unix,dos,mac
 
 if has('multi_byte_ime')
