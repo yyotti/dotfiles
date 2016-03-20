@@ -33,4 +33,4 @@ if IsHomePC()
 endif
 
 call dein#end()
-call dein#save_cache()
+call dein#save_state()
