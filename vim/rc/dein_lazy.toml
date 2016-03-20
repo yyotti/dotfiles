@@ -86,6 +86,7 @@ repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 hook_add = 'nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>'
 
+# TODO gvimでロードされない
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 on_func = 'fugitive#head'
