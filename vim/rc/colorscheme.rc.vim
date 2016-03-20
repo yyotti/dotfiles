@@ -1,14 +1,6 @@
 "-----------------------------------------------------------------------------
 " Colorscheme:
 "
-autocmd MyAutocmd ColorScheme *
-      \ call <SID>change_colorscheme(expand('<amatch>'))
-function! s:change_colorscheme(cs_name) abort "{{{
-  if a:cs_name ==# 'hybrid'
-    highlight clear CursorLine
-  endif
-endfunction "}}}
-
 function! s:exists_colorscheme(name) abort "{{{
   let color_files = split(globpath(&runtimepath, 'colors/*.vim'), '\n')
   for c in color_files

@@ -52,7 +52,8 @@ else
   set nowrap
 endif
 
-set cursorline
+autocmd MyAutocmd BufEnter,BufWinEnter *
+      \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
 
 set shortmess=aTI
 if has('patch-7.4.314')
