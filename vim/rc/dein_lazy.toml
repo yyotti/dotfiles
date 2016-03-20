@@ -1,13 +1,22 @@
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
 if = 'has("nvim")'
 on_i = 1
+hook_source = '''
+  let g:deoplete#enable_at_startup = 1
+  source ~/.vim/rc/plugins/deoplete.rc.vim
+'''
 
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
 depends = 'context_filetype.vim'
 if = '!has("nvim") && has("lua")'
 on_i = 1
+hook_source = '''
+  let g:neocomplete#enable_at_startup = 1
+  source ~/.vim/rc/plugins/neocomplete.rc.vim
+'''
 
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
@@ -15,6 +24,11 @@ repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'tyru/eskk.vim'
 on_i = 1
+hook_add = '''
+  imap <C-j> <Plug>(eskk:toggle)
+  cmap <C-j> <Plug>(eskk:toggle)
+'''
+hook_source = 'source ~/.vim/rc/plugins/eskk.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
@@ -24,12 +38,13 @@ repo = 'Shougo/neosnippet.vim'
 depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
 on_i = 1
 on_ft = 'snippet'
-on_source = 'unite.vim'
+hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 
 [[plugins]]
 repo = 'yyotti/neosnippet-additional'
 depends = 'neosnippet.vim'
 on_source = 'neosnippet.vim'
+hook_source = 'source ~/.vim/rc/plugins/neosnippet-additional.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
@@ -37,33 +52,70 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
+hook_add = '''
+  nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
+  nnoremap <silent> <Leader>um :<C-u>Unite bookmark<CR>
+  nnoremap <silent> <Leader>uf
+        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
+        \     buffer_tab:- file file/new<CR>
+  nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
+  nnoremap <silent> <Leader>ug
+        \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
+  nnoremap <silent> <Leader>ur
+        \ :<C-u>UniteResume -buffer-name=grep
+        \   -no-start-insert -no-empty grep<CR>
+
+  let g:unite_force_overwrite_statusline = 0
+'''
+hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
 on_map = '<Plug>'
 on_path = '.*'
+hook_add = '''
+  nnoremap <silent> <Leader>fe
+        \ :<C-u>VimFilerBufferDir -invisible<CR>
+'''
+hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
+hook_add = 'nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 on_func = 'fugitive#head'
+hook_add = '''
+  nnoremap <silent> <Leader>gs :<C-u>Gstatus<CR>
+  nnoremap <silent> <Leader>gd :<C-u>Gvdiff<CR>
+'''
+hook_post_source = 'doautocmd fugitive VimEnter'
 
 [[plugins]]
 repo = 'cohama/agit.vim'
 on_path = [ 'Agit', 'AgitFile' ]
+hook_add = '''
+  nnoremap <silent> <Leader>ga :<C-u>Agit<CR>
+  nnoremap <silent> <Leader>gf :<C-u>AgitFile<CR>
+'''
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 on_path = '.*'
+hook_source = 'source ~/.vim/rc/plugins/vim-gitgutter.rc.vim'
 
 [[plugins]]
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
 on_map = '<Plug>'
+hook_source = '''
+  nmap K <Plug>(ref-keyword)
+  source ~/.vim/rc/plugins/vim-ref.rc.vim
+'''
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
@@ -73,15 +125,57 @@ repo = 'tpope/vim-repeat'
 repo = 'easymotion/vim-easymotion'
 depends = 'vim-repeat'
 on_map = '<Plug>'
+hook_add = '''
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  let g:EasyMotion_startofline = 0
+  let g:EasyMotion_verbose = 0
+
+  map ' <Plug>(easymotion-prefix)
+
+  map f <Plug>(easymotion-fl)
+  map t <Plug>(easymotion-tl)
+  map F <Plug>(easymotion-Fl)
+  map T <Plug>(easymotion-Tl)
+
+  map ; <Plug>(easymotion-next)
+  map , <Plug>(easymotion-prev)
+
+  map 'f <Plug>(easymotion-fln)
+  map 't <Plug>(easymotion-tln)
+  map 'F <Plug>(easymotion-Fln)
+  map 'T <Plug>(easymotion-Tln)
+
+  map 's <Plug>(easymotion-sn)
+'''
 
 [[plugins]]
 repo = 'tyru/caw.vim'
-on_map = '<Plug>'
+depends = 'vim-operator-user'
+on_map = [
+  [ 'nx', '<Plug>(operator-caw)' ],
+  [ 'nx', '<Plug>' ]
+]
+hook_add = '''
+  nmap gc <Plug>(caw:prefix)
+  xmap gc <Plug>(caw:prefix)
+'''
 
 [[plugins]]
 repo = 'osyo-manga/vim-anzu'
 on_map = '<Plug>'
 on_func = 'anzu#'
+hook_add = '''
+  nmap n <Plug>(anzu-n)zvzz
+  nmap N <Plug>(anzu-N)zvzz
+  nmap * <Plug>(anzu-star)zvzz
+  nmap # <Plug>(anzu-sharp)zvzz
+'''
+hook_post_source = '''
+  autocmd MyAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
+        \ call anzu#clear_search_status()
+'''
 
 [[plugins]]
 repo = 'kana/vim-operator-user'
@@ -89,12 +183,21 @@ repo = 'kana/vim-operator-user'
 [[plugins]]
 repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = '<Plug>'
+hook_add = '''
+  map R <Plug>(operator-replace)
+  xmap p <Plug>(operator-replace)
+'''
 
 [[plugins]]
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = '<Plug>'
+hook_add = '''
+  map <silent> ra <Plug>(operator-surround-append)
+  map <silent> rd <Plug>(operator-surround-delete)
+  map <silent> rc <Plug>(operator-surround-replace)
+'''
 
 [[plugins]]
 repo = 'vim-scripts/sudo.vim'
@@ -102,10 +205,29 @@ on_path = 'sudo:.*'
 
 [[plugins]]
 repo = 'simeji/winresizer'
+hook_add = '''
+  if has('gui_running')
+    let g:winresizer_gui_enable = 1
+    nnoremap <C-w>R :<C-u>WinResizerStartResizeGUI<CR>
+  endif
+
+  let g:winresizer_vert_resize = 5
+  nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
+'''
+hook_post_source = '''
+  execute 'unmap' g:winresizer_start_key
+  if has('gui_running')
+    execute 'unmap' g:winresizer_gui_start_key
+  endif
+'''
 
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 on_path = '.*'
+hook_add = '''
+  let g:foldCCtext_enable_autofdc_adjuster = 1
+  set foldtext=FoldCCtext()
+'''
 
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -118,10 +240,13 @@ on_ft = 'smarty'
 [[plugins]]
 repo = 'lilydjwg/colorizer'
 on_ft = [ 'smarty', 'html', 'css', 'php' ]
+hook_add = 'let g:colorizer_nomap = 1'
 
 [[plugins]]
 repo = 'yyotti/vim-lintexec.nvim'
 if = 'has("nvim")'
+hook_add = 'autocmd MyAutocmd BufWritePost * call lintexec#run()'
+hook_source = 'source ~/.vim/rc/plugins/vim-lintexec.rc.vim'
 
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
@@ -132,36 +257,68 @@ repo = 'osyo-manga/vim-watchdogs'
 depends = [ 'vim-quickrun', 'vimproc.vim', 'shabadou.vim' ]
 if = '!has("nvim")'
 on_path = '.*'
+hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
+hook_post_source = 'call watchdogs#setup(g:quickrun_config)'
 
 [[plugins]]
 repo = 'KazuakiM/vim-qfstatusline'
 if = '!has("nvim")'
 on_source = 'vim-watchdogs'
+hook_source = 'source ~/.vim/rc/plugins/vim-qfstatusline.rc.vim'
+hook_post_source = '''
+  let g:Qfstatusline#UpdateCmd = exists('*lightline#update') ?
+        \ function('lightline#update') : function('qfstatusline#Update')
+'''
 
 [[plugins]]
 repo = 'KazuakiM/vim-qfsigns'
 if = '!has("nvim")'
 on_source = 'vim-watchdogs'
+hook_source = 'source ~/.vim/rc/plugins/vim-qfsigns.rc.vim'
 
 [[plugins]]
 repo = 'osyo-manga/unite-quickfix'
 on_source = 'unite.vim'
+hook_add = '''
+  nnoremap <silent> <Leader>uq
+        \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
+'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
 on_map = '<Plug>'
+hook_add = 'nmap <silent> <Leader>r <Plug>(quickrun)'
 
 [[plugins]]
 repo = 'haya14busa/vim-operator-flashy'
 on_map = '<Plug>'
+hook_add = '''
+  let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+'''
+hook_source = '''
+  let v:errmsg = ''
+  silent! highlight Cursor
+  if !empty(v:errmsg)
+    highlight Cursor guibg=fg guifg=bg
+  endif
+'''
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
 on_path = '.*'
+hook_add = 'set diffexpr=unified_diff#diffexpr()'
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
 on_path = '.*'
+hook_add = '''
+  autocmd MyAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
+        \ call autoupload#init(0)
+  autocmd MyAutocmd BufWritePost *.php,*.tpl,*.css,*.js
+        \ call autoupload#upload(0)
+'''
 
 [[plugins]]
 repo = 'Shougo/neco-vim'
@@ -176,6 +333,8 @@ repo = 'benjifisher/matchit.zip'
 on_map = [
   [ 'nxo', '%', 'g%' ],
 ]
+hook_source = 'unlet g:loaded_matchit'
+hook_post_source = 'source ~/.vim/rc/plugins/matchit.zip.rc.vim'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
@@ -186,6 +345,13 @@ if = '!has("nvim")'
 repo = 'lambdalisue/vim-gista'
 on_map = '<Plug>'
 if = 0
+hook_add = '''
+  let g:gista#github_user = 'yyotti'
+  let g:gista#post_private = 1
+  let g:gista#directory = expand('$CACHE/gista')
+
+  nnoremap <Leader>ua :<C-u>Unite gista<CR>
+'''
 
 [[plugins]]
 repo = 'syngan/vim-vimlint'
@@ -203,7 +369,7 @@ if = 'IsHomePC()'
 [[plugins]]
 repo = 'kannokanno/previm'
 depends = 'open-browser.vim'
-on_ft = 'markdown'
+on_cmd = 'PrevimOpen'
 if = 'IsHomePC()'
 
 [[plugins]]
@@ -216,6 +382,12 @@ repo = 'eagletmt/ghcmod-vim'
 depends = 'vimproc.vim'
 on_ft = 'haskell'
 if = 'executable("ghc-mod")'
+hook_add = '''
+  autocmd MyAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tt :GhcModType<CR>
+  autocmd MyAutocmd FileType haskell
+        \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
+'''
 
 [[plugins]]
 repo = 'derekwyatt/vim-scala'

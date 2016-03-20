@@ -55,7 +55,16 @@ endif
 set cursorline
 
 set shortmess=aTI
-" TODO set shortmess+=F ?
+if has('patch-7.4.314')
+  set shortmess+=c
+else
+  autocmd MyAutocmd VimEnter *
+        \ highlight ModeMsg guifg=bg guibg=bg |
+        \ highlight Question guifg=bg guibg=bg
+endif
+if has('patch-7.4.1570')
+  set shortmess+=F
+endif
 
 set wildmenu
 set wildmode=full

@@ -36,8 +36,6 @@ call s:source_rc('init.rc.vim')
 
 call s:source_rc('dein.rc.vim')
 
-call s:source_rc('plugins.rc.vim')
-
 if IsHomePC()
   " Load develop version settings
   let s:vimrc_dev = s:vimdev_dir . '/vimrc'
@@ -50,11 +48,6 @@ endif
 
 filetype plugin indent on
 syntax enable
-
-" Check and install plugins
-if has('vim_starting') && dein#check_install()
-  call dein#install()
-endif
 
 "-----------------------------------------------------------------------------
 " Encoding:

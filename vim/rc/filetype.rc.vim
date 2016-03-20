@@ -26,15 +26,9 @@ function! s:on_filetype() abort "{{{
   setlocal formatoptions-=ro
   setlocal formatoptions+=mMBl
 
-  " TODO Move to foldCC plugin setting
-  if &filetype !=# 'help' && exists('*FoldCCtext')
-    setlocal foldtext=FoldCCtext()
-  endif
-
   if &textwidth != 70 && &filetype !=# 'help'
     setlocal textwidth=0
   endif
-
 
   if &buftype ==# 'help' || &buftype ==# 'quickfix'
     nnoremap <silent> <buffer> q :q<CR>
@@ -57,11 +51,3 @@ let g:markdown_fenced_languages = [
       \   'vim',
       \   'php',
       \ ]
-
-try
-  set shortmess+=c
-catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
-  autocmd MyAutoCmd VimEnter *
-        \ highlight ModeMsg guifg=bg guibg=bg |
-        \ highlight Question guifg=bg guibg=bg
-endtry

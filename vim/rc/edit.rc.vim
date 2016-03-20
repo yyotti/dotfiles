@@ -46,12 +46,6 @@ set foldcolumn=1
 set fillchars=vert:\|
 set commentstring=%s
 
-" TODO Move to foldCC plugin setting
-if exists('*FoldCCtext')
-  " Use FoldCCtext().
-   set foldtext=FoldCCtext()
-endif
-
 set grepprg=grep\ -inH
 
 " Exclude = from isfilename
