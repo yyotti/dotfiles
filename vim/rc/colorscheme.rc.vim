@@ -13,12 +13,11 @@ function! s:exists_colorscheme(name) abort "{{{
   return 0
 endfunction "}}}
 
-if has('gui_running') && s:exists_colorscheme('solarized')
-  set background=light
-  colorscheme solarized
-elseif s:exists_colorscheme('hybrid')
+if !has('nvim') && s:exists_colorscheme('hybrid')
   set background=dark
   colorscheme hybrid
+elseif has('nvim') && s:exists_colorscheme('atom-dark-256')
+  colorscheme atom-dark-256
 else
   colorscheme desert
 endif
