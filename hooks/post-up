@@ -12,3 +12,6 @@ wget -O /tmp/php_manual_ja.tar.gz http://jp2.php.net/get/php_manual_ja.tar.gz/fr
 mkdir -p "$REFS_DIR"
 cd "$REFS_DIR"
 tar xzf /tmp/php_manual_ja.tar.gz
+
+ln -s $HOME/.vim/ftplugin $HOME/.config/nvim/ftplugin
+ln -s $HOME/.vim/after $HOME/.config/nvim/after
