@@ -2,11 +2,7 @@
 " Initialize:
 "
 
-if IsWindows()
-  language message en
-else
-  language message C
-endif
+language message C
 
 " Use <Space> for <Leader>
 let g:mapleader = "\<Space>"
@@ -31,18 +27,6 @@ endif
 augroup MyAutocmd
   autocmd!
 augroup END
-
-" Set runtimepath
-if IsWindows() || has('nvim')
-  let &runtimepath = join(
-        \   [
-        \     expand('~/.vim'),
-        \     expand('$VIM/runtime'),
-        \     expand('~/.vim/after'),
-        \   ],
-        \   ','
-        \ )
-endif
 
 " Load dein.vim
 if &runtimepath !~# '/dein.vim'
