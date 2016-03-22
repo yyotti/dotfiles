@@ -1,5 +1,6 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
+frozen = 1
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
