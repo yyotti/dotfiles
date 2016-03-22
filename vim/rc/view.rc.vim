@@ -23,7 +23,7 @@ set showcmd
 set title
 set titlelen=95
 let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
-      \ . '%<\(%{'.s:SID_PREFIX().'strwidthpart('
+      \ . '%< (%{'.s:SID_PREFIX().'strwidthpart('
       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
       \ . "substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
