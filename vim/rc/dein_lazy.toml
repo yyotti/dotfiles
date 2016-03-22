@@ -373,6 +373,12 @@ hook_add = '''
         \|  nmap <buffer> dC <Plug>ToggleDiffCharCurrentLine
         \|endif
 '''
+hook_post_source = '''
+  if hasmapto("<Plug>JumpDiffCharPrevStart", 'n') | execute 'unmap [b' | endif
+  if hasmapto("<Plug>JumpDiffCharNextStart", 'n') | execute 'unmap ]b' | endif
+  if hasmapto("<Plug>JumpDiffCharPrevEnd", 'n') | execute 'unmap [e' | endif
+  if hasmapto("<Plug>JumpDiffCharNextEnd", 'n') | execute 'unmap ]e' | endif
+'''
 
 # 以下、家PC用
 [[plugins]]
