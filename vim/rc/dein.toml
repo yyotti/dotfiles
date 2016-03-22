@@ -10,9 +10,6 @@ build = 'make'
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
-repo = 'gosukiwi/vim-atom-dark'
-
-[[plugins]]
 repo = 'itchyny/lightline.vim'
 if = '!IsPowerlineEnabled()'
 
