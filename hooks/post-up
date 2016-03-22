@@ -3,15 +3,12 @@
 REFS_DIR=$HOME/.vim/refs
 PHP_MANUAL_DIR=$REFS_DIR/php-chunked-xhtml
 
-if [ -e "$PHP_MANUAL_DIR" ]; then
-        exit 0
+if [ ! -e "$PHP_MANUAL_DIR" ]; then
+        wget -O /tmp/php_manual_ja.tar.gz http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
+
+        mkdir -p "$REFS_DIR"
+        cd "$REFS_DIR"
+        tar xzf /tmp/php_manual_ja.tar.gz
 fi
 
-wget -O /tmp/php_manual_ja.tar.gz http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
-
-mkdir -p "$REFS_DIR"
-cd "$REFS_DIR"
-tar xzf /tmp/php_manual_ja.tar.gz
-
-ln -s $HOME/.vim/ftplugin $HOME/.config/nvim/ftplugin
-ln -s $HOME/.vim/after $HOME/.config/nvim/after
+ln -s $HOME/.vim $HOME/.config/nvim
