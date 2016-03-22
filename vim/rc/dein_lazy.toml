@@ -362,6 +362,18 @@ on_source = 'vim-watchdogs'
 [[plugins]]
 repo = 'ynkdir/vim-vimlparser'
 
+[[plugins]]
+repo = 'vim-scripts/diffchar.vim'
+on_cmd = [ 'SDChar' ]
+on_map = [ '<Plug>ToggleDiffCharAllLines', '<Plug>ToggleDiffCharCurrentLine' ]
+hook_add = '''
+  autocmd MyAutocmd BufEnter *
+        \ if &diff
+        \|  nmap <buffer> dc <Plug>ToggleDiffCharAllLines
+        \|  nmap <buffer> dC <Plug>ToggleDiffCharCurrentLine
+        \|endif
+'''
+
 # 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
