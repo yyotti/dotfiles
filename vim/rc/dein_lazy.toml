@@ -330,6 +330,11 @@ on_i = 1
 repo = 'vim-jp/vital.vim'
 
 [[plugins]]
+repo = 'lambdalisue/vital-VCS-Git'
+depends = [ 'vital.vim' ]
+on_source = [ 'vital.vim' ]
+
+[[plugins]]
 repo = 'benjifisher/matchit.zip'
 on_map = [
   [ 'nxo', '%', 'g%' ],
