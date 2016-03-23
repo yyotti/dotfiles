@@ -308,8 +308,11 @@ hook_source = '''
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
-on_path = '.*'
-hook_add = 'set diffexpr=unified_diff#diffexpr()'
+on_func = 'unified_diff#diffexpr'
+hook_add = '''
+  autocmd MyAutocmd FilterWritePre *
+        \ set diffexpr=unified_diff#diffexpr()
+'''
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
@@ -367,7 +370,7 @@ repo = 'vim-scripts/diffchar.vim'
 on_cmd = [ 'SDChar' ]
 on_map = [ '<Plug>ToggleDiffCharAllLines', '<Plug>ToggleDiffCharCurrentLine' ]
 hook_add = '''
-  autocmd MyAutocmd BufEnter *
+  autocmd MyAutocmd FilterWritePre *
         \ if &diff
         \|  nmap <buffer> dc <Plug>ToggleDiffCharAllLines
         \|  nmap <buffer> dC <Plug>ToggleDiffCharCurrentLine
