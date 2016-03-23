@@ -308,11 +308,8 @@ hook_source = '''
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
-on_func = 'unified_diff#diffexpr'
-hook_add = '''
-  autocmd MyAutocmd FilterWritePre *
-        \ set diffexpr=unified_diff#diffexpr()
-'''
+on_path = '.*'
+hook_add = 'set diffexpr=unified_diff#diffexpr()'
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
