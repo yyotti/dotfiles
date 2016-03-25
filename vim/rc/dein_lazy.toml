@@ -385,6 +385,9 @@ hook_post_source = '''
   if hasmapto("<Plug>JumpDiffCharNextEnd", 'n') | execute 'unmap ]e' | endif
 '''
 
+[[plugins]]
+repo = 'thinca/vim-prettyprint'
+
 # 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
