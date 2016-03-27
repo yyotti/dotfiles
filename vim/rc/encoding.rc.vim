@@ -2,7 +2,11 @@
 " Encoding:
 "
 if has('vim_starting') && &encoding !=# 'utf-8'
-  set encoding=utf-8
+  if IsWindows() && !has('gui_running')
+    set encoding=cp932
+  else
+    set encoding=utf-8
+  endif
 endif
 
 if !has('gui_running')

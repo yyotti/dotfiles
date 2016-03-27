@@ -387,6 +387,7 @@ hook_post_source = '''
 
 [[plugins]]
 repo = 'thinca/vim-prettyprint'
+on_func = [ 'PP' ]
 
 # 以下、家PC用
 [[plugins]]
