@@ -22,7 +22,7 @@ call unite#custom#source(
       \   ]
       \ )
 call unite#custom#source(
-      \   'file_rec,file_rec/async,file_rec/git,file_mru',
+      \   'buffer,file_rec,file_rec/async,file_rec/git,file_mru',
       \   'converters',
       \   [ 'converter_file_directory' ]
       \ )
