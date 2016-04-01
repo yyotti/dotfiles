@@ -1,6 +1,6 @@
 # Created by newuser for 5.0.2
 
-if [ `which vim` ]; then
+if command -v vim > /dev/null; then
   # エディタをvimに設定
   export EDITOR=vim
 fi
@@ -25,9 +25,16 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias -g G='| grep'
 alias -g L='| less'
-alias tsp='tmux new-session \; split-window -h -d'
-alias tvsp='tmux new-session \; split-window -d'
-alias gnvim='NVIM_GUI=pynvim pynvim'
+if command -v tmux > /dev/null; then
+  alias tsp='tmux new-session \; split-window -h -d'
+  alias tvsp='tmux new-session \; split-window -d'
+fi
+if command -v pynvim > /dev/null; then
+  alias gnvim='NVIM_GUI=pynvim pynvim'
+fi
+if command -v tig > /dev/null; then
+  alias tig='tig --all'
+fi
 
 # cd履歴をスタックに追加する
 setopt auto_pushd
