@@ -389,6 +389,16 @@ hook_post_source = '''
 repo = 'thinca/vim-prettyprint'
 on_func = [ 'PP' ]
 
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = 'context_filetype.vim'
+on_i = 1
+hook_source = '''
+  let g:precious_enable_switch_CursorMoved = { '*': 0 }
+  autocmd MyAutocmd InsertEnter * PreciousSwitch
+  autocmd MyAutocmd InsertLeave * PreciousReset
+'''
+
 # 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
