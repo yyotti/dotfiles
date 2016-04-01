@@ -17,6 +17,8 @@ call deoplete#custom#set(
       \   'converters',
       \   [
       \     'converter_auto_paren',
+      \     'converter_remove_overlap',
+      \     'converter_truncate_abbr',
       \   ]
       \ )
 
