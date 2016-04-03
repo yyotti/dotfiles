@@ -99,7 +99,7 @@ if [ -n "$LS_COLORS" ]; then
 fi
 
 # プロンプト
-_prompt="%F{cyan}[%n@%m:%F{green}%~%f %F{cyan}%D{%Y/%m/%d %T}]%f"
+_prompt="%F{cyan}[%n@%m:%F{green}%~%f%F{cyan}]%f"
 _prompt2="%F{cyan}%_> %f"
 _sprompt="%F{yellow}%r is correct? [Yes, No, Abort, Edit]:%f"
 if [ ${UID} -eq 0 ]; then
@@ -108,8 +108,6 @@ if [ ${UID} -eq 0 ]; then
   _prompt2="%B%U${_prompt2}%u%b"
   _sprompt="%B%U${_sprompt}%u%b"
 fi
-PROMPT="$_prompt
-%# "
 PROMPT2=$_prompt2
 SPROMPT=$_sprompt
 
@@ -136,8 +134,8 @@ zstyle ':vcs_info:bzr:*' use-simple true
 if is-at-least 4.3.10; then
   # git用のフォーマット
   # gitのときはステージしているかどうかを表示
-  zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
-  zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+  zstyle ':vcs_info:git:*' formats '(%b)' '%c%u %m'
+  zstyle ':vcs_info:git:*' actionformats '(%b)' '%c%u %m' '<!%a>'
   zstyle ':vcs_info:git:*' check-for-changes true
   zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
   zstyle ':vcs_info:git:*' unstagedstr "-" # %uで表示する文字列
@@ -252,13 +250,13 @@ fi
 _update_vcs_info_msg()
 {
   local -a messages
-  local prompt
+  local vcs_info
 
   LANG=en_US.UTF-8 vcs_info
 
   if [[ -z ${vcs_info_msg_0_} ]]; then
     # vcs_infoで何も取得していない場合はプロンプトを表示しない
-    prompt=""
+    vcs_info=""
   else
     # vcs_infoで情報を取得した場合
     # $vcs_info_msg_0_, $vcs_info_msg_1_, $vcs_info_msg_2_ をそれぞれ緑、黄、赤で表示する
@@ -267,10 +265,11 @@ _update_vcs_info_msg()
     [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
 
     # 間にスペースを入れて連結する
-    prompt="${(j: :)messages}"
+    vcs_info="${(j: :)messages}"
   fi
 
-  RPROMPT="$prompt"
+  PROMPT="$_prompt $vcs_info
+%# "
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
