@@ -33,7 +33,7 @@ if command -v pynvim > /dev/null; then
   alias gnvim='NVIM_GUI=pynvim pynvim'
 fi
 if command -v tig > /dev/null; then
-  alias tig='tig --all'
+  alias tiga='tig --all'
 fi
 
 # cd履歴をスタックに追加する
