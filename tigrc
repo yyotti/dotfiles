@@ -1,0 +1,38 @@
+#=============================================================================
+# View
+#
+
+set main-view = id date author commit-title:graph=yes,refs=yes
+set refs-view = author ref commit-title:display=yes
+
+#=============================================================================
+# Keymapping - generic
+#
+
+# Disable unexpected gc
+bind generic G none
+
+bind generic <Ctrl-f> scroll-page-down
+bind generic <Ctrl-b> scroll-page-up
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic B view-refs
+
+#=============================================================================
+# Keymapping - main
+#
+
+# Disable toggle commit-title-graph
+bind main G none
+# Disable toggle commit-title-refs
+bind main F none
+
+bind main R ?git rebase -i %(commit)
+bind main F ?git fetch
+
+#=============================================================================
+# Keymapping - regs
+#
+bind refs P ?git push origin %(branch)
+bind refs M ?git merge %(branch)
+bind refs D ?git branch -d %(branch)
