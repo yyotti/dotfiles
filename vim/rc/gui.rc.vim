@@ -13,7 +13,7 @@ if has('win32') || has('win64')
   " Windows
   set linespace=2
   if has('patch-7.4.394')
-    set renderoptions=type:directx,gamma:2.2,mode:3
+    set renderoptions=type:directx
   endif
 
   if has('kaoriya')

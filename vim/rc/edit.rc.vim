@@ -8,6 +8,9 @@ set shiftround
 
 set modeline
 
+set autoindent
+set smartindent
+
 " Clipboard
 if has('clipboard')
   set clipboard&

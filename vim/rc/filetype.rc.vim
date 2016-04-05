@@ -1,11 +1,8 @@
 "-----------------------------------------------------------------------------
 " FileType:
 "
-set autoindent
-set smartindent
-
 augroup MyAutocmd
-  autocmd FileType,Syntax,BufEnter,BufWinEnter * call s:on_filetype()
+  autocmd FileType,Syntax * call s:on_filetype()
 
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2

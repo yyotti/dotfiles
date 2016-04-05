@@ -1,7 +1,7 @@
 "-----------------------------------------------------------------------------
 " deoplete.nvim:
 "
-set completeopt+=noinsert
+" set completeopt+=noinsert
 
 inoremap <expr> <C-h> deoplete#mappings#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS> deoplete#mappings#smart_close_popup() . "\<C-h>"
@@ -19,6 +19,7 @@ call deoplete#custom#set(
       \     'converter_auto_paren',
       \     'converter_remove_overlap',
       \     'converter_truncate_abbr',
+      \     'converter_truncate_menu',
       \   ]
       \ )
 

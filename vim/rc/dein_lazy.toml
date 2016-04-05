@@ -73,7 +73,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
-on_map = '<Plug>'
+on_map = [ [ 'n', '<Plug>' ] ]
 on_path = '.*'
 hook_add = '''
   nnoremap <silent> <Leader>fe
@@ -112,7 +112,7 @@ hook_source = 'source ~/.vim/rc/plugins/vim-gitgutter.rc.vim'
 [[plugins]]
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
-on_map = '<Plug>'
+on_map = [ [ 'n', '<Plug>' ] ]
 hook_source = '''
   nmap K <Plug>(ref-keyword)
   source ~/.vim/rc/plugins/vim-ref.rc.vim
@@ -125,7 +125,7 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 depends = 'vim-repeat'
-on_map = '<Plug>'
+on_map = [ [ 'nxo', '<Plug>' ] ]
 hook_add = '''
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_enter_jump_first = 1
@@ -154,10 +154,7 @@ hook_add = '''
 [[plugins]]
 repo = 'tyru/caw.vim'
 depends = 'vim-operator-user'
-on_map = [
-  [ 'nx', '<Plug>(operator-caw)' ],
-  [ 'nx', '<Plug>' ]
-]
+on_map = [ [ 'nx', '<Plug>' ] ]
 hook_add = '''
   nmap gc <Plug>(caw:prefix)
   xmap gc <Plug>(caw:prefix)
@@ -184,7 +181,7 @@ repo = 'kana/vim-operator-user'
 [[plugins]]
 repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
-on_map = '<Plug>'
+on_map = [ [ 'nx', '<Plug>' ] ]
 hook_add = '''
   map R <Plug>(operator-replace)
   xmap p <Plug>(operator-replace)
@@ -193,7 +190,7 @@ hook_add = '''
 [[plugins]]
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
-on_map = '<Plug>'
+on_map = [ [ 'n', '<Plug>' ] ]
 hook_add = '''
   map <silent> ra <Plug>(operator-surround-append)
   map <silent> rd <Plug>(operator-surround-delete)
@@ -287,12 +284,12 @@ hook_add = '''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-on_map = '<Plug>'
+on_map = [ [ 'n', '<Plug>' ] ]
 hook_add = 'nmap <silent> <Leader>r <Plug>(quickrun)'
 
 [[plugins]]
 repo = 'haya14busa/vim-operator-flashy'
-on_map = '<Plug>'
+on_map = [ [ 'nx', '<Plug>' ] ]
 hook_add = '''
   let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
   map y <Plug>(operator-flashy)
@@ -349,7 +346,7 @@ if = '!has("nvim")'
 
 [[plugins]]
 repo = 'lambdalisue/vim-gista'
-on_map = '<Plug>'
+on_map = [ [ 'n', '<Plug>' ] ]
 if = 0
 hook_add = '''
   let g:gista#github_user = 'yyotti'
