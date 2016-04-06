@@ -304,9 +304,8 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'lambdalisue/vim-unified-diff'
+repo = 'lambdalisue/vim-diffa'
 on_path = '.*'
-hook_add = 'set diffexpr=unified_diff#diffexpr()'
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
