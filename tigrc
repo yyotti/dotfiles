@@ -36,3 +36,4 @@ bind main F ?git fetch
 bind refs P ?git push origin %(branch)
 bind refs M ?git merge %(branch)
 bind refs D ?git branch -d %(branch)
+bind refs c ?git checkout -b "%(prompt Enter branch name: )"
