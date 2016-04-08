@@ -296,6 +296,9 @@ hook_add = '''
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 '''
+hook_post_source = '''
+  highlight Flashy ctermbg=8 guibg=#666
+'''
 
 [[plugins]]
 repo = 'lambdalisue/vim-diffa'
