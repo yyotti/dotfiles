@@ -114,24 +114,9 @@ xnoremap id i"
 "}}}
 
 " Edit config files "{{{
-" vimrc
-nnoremap <silent> <Leader>;v
-      \ :<C-u>edit <C-r>=resolve(expand($MYVIMRC))<CR><CR>
 " reload vimrc
 nnoremap <silent> <Leader>;r
       \ :<C-u>source $MYVIMRC<CR> \| :echo "source " . $MYVIMRC<CR>
-
-" .tmux.conf
-if filereadable(expand('~/.tmux.conf'))
-  nnoremap <silent> <Leader>;t
-        \ :<C-u>edit <C-r>=resolve(expand('~/.tmux.conf'))<CR><CR>
-endif
-
-" .zshrc
-if filereadable(expand('~/.zshrc'))
-  nnoremap <silent> <Leader>;z
-        \ :<C-u>edit <C-r>=resolve(expand('~/.zshrc'))<CR><CR>
-endif
 "}}}
 
 " Move cursor between windows "{{{

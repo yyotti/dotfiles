@@ -75,3 +75,31 @@ endif
 
 nnoremap <silent> <Space>n :UniteNext<CR>
 nnoremap <silent> <Space>p :UnitePrevious<CR>
+
+"-----------------------------------------------------------------------------
+" menu:
+"
+let g:unite_source_menu_menus = {}
+
+" rc files
+function! s:vimrc_files() abort "{{{
+  let base = fnamemodify(expand('~/.vim/rc'), ':p')
+  let base_len = len(base) + 1
+  return map(
+        \   glob(base . '/**', 0, 1),
+        \   '[ v:val[base_len :], v:val ]'
+        \ )
+endfunction "}}}
+let g:unite_source_menu_menus.vimrc = {
+      \   'description': 'Edit vimrc files',
+      \ }
+let g:unite_source_menu_menus.vimrc.file_candidates = <SID>vimrc_files()
+
+let g:unite_source_menu_menus.rc  = {
+      \   'description': 'Edit zsh files',
+      \ }
+let g:unite_source_menu_menus.rc.file_candidates = [
+      \   [ 'zshrc', resolve(expand('~/.zshrc')) ],
+      \   [ 'zshenv', resolve(expand('~/.zshenv')) ],
+      \   [ 'tmux.conf', resolve(expand('~/.tmux.conf')) ],
+      \ ]
