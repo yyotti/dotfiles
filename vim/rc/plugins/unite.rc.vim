@@ -96,10 +96,11 @@ let g:unite_source_menu_menus.vimrc = {
 let g:unite_source_menu_menus.vimrc.file_candidates = <SID>vimrc_files()
 
 let g:unite_source_menu_menus.rc  = {
-      \   'description': 'Edit zsh files',
+      \   'description': 'Edit rc files',
       \ }
 let g:unite_source_menu_menus.rc.file_candidates = [
       \   [ 'zshrc', resolve(expand('~/.zshrc')) ],
       \   [ 'zshenv', resolve(expand('~/.zshenv')) ],
       \   [ 'tmux.conf', resolve(expand('~/.tmux.conf')) ],
+      \   [ 'tigrc', resolve(expand('~/.tigrc')) ],
       \ ]
