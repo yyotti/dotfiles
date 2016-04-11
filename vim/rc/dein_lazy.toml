@@ -65,8 +65,7 @@ hook_add = '''
   nnoremap <silent> <Leader>ur
         \ :<C-u>UniteResume -buffer-name=grep
         \   -no-start-insert -no-empty grep<CR>
-  nnoremap <silent> <Leader>uv :<C-u>Unite menu:vimrc<CR>
-  nnoremap <silent> <Leader>ue :<C-u>Unite menu<CR>
+  nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
 
   let g:unite_force_overwrite_statusline = 0
 '''
