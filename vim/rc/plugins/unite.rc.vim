@@ -99,7 +99,8 @@ function! s:menu_line(title, path, width) abort "{{{
         \   'word': a:path,
         \   'abbr': printf(fmt, a:title, a:path),
         \   'kind': isdirectory(a:path) ? 'directory' : 'file',
-        \   'action__path': a:path,
+        \   'action__path': resolve(fnamemodify(a:path, ':p')),
+        \   'action__path_delete': a:path,
         \ }
 endfunction "}}}
 
@@ -141,21 +142,87 @@ function! s:vimrc_files() abort "{{{
   return filter(glob('~/.vim/rc/**', 0, 1), '!isdirectory(v:val)')
 endfunction "}}}
 
-" TODO Add plugin directories
+function! s:dein_plugins() abort "{{{
+  let dein = expand($CACHE . '/dein/repos')
+  return filter(glob(dein . '/*/*/*', 0, 1), 'isdirectory(v:val)')
+endfunction "}}}
+
 call s:add_candidates('vim', s:vimrc_files())
+call s:add_candidates('dein', s:dein_plugins())
 call s:add_candidates('git', [
-      \   resolve(expand('~/.gitconfig')),
-      \   resolve(expand('~/.tigrc')),
+      \   expand('~/.gitconfig'),
+      \   expand('~/.tigrc'),
       \ ])
 call s:add_candidates('zsh', [
-      \   resolve(expand('~/.zshrc')),
-      \   resolve(expand('~/.zshenv')),
+      \   expand('~/.zshrc'),
+      \   expand('~/.zshenv'),
       \ ])
 call s:add_candidates('others', [
-      \   resolve(expand('~/.tmux.conf')),
-      \   resolve(expand('~/.ssh/config')),
+      \   expand('~/.tmux.conf'),
+      \   expand('~/.ssh/config'),
       \ ])
 
 call s:build_menu()
 
 unlet s:candidates
+
+function! s:input(...) abort "{{{
+  new
+  cnoremap <buffer> <Esc> __CANCELED__<CR>
+  try
+    let l:input = call('input', a:000)
+    let l:input = l:input =~# '__CANCELED__$' ? 0 : l:input
+  catch /^Vim:Interrupt$/
+    let l:input = -1
+  finally
+    bwipeout!
+    return l:input
+  endtry
+endfunction "}}}
+
+function! s:delete(path) abort "{{{
+  let command = 'rm -fr ' . shellescape(a:path)
+  let output = system(command)
+  if v:shell_error !=# 0
+    echohl WarningMsg
+    echomsg output
+    echohl None
+  endif
+endfunction "}}}
+
+let s:menu_delete = {
+      \   'description': 'Delete selected files/directories',
+      \   'is_selectable': 1,
+      \ }
+function! s:menu_delete.func(candidates) abort "{{{
+  " TODO Improve s:delete()
+  if IsWindows()
+    echohl WarningMsg
+    echo 'Delete action do not work in Windows platform.'
+    echohl None
+
+    return
+  endif
+
+  for path in map(a:candidates, 'v:val.action__path_delete')
+    let input = s:input(printf('Delete %s ? [y/N]:', path))
+    if type(input) ==# type(0) && input <= 0 || input !~? '^y\%[es]$'
+      continue
+    endif
+
+    let full_path = fnamemodify(path, ':p')
+    let ftype = getftype(full_path)
+    if ftype ==# 'link'
+      let msg = printf(
+            \   '%s is symbolic link. Delete link target ? [y/N]:', path
+            \ )
+      let input = s:input(msg)
+      if input =~? '^y\%[es]$'
+        call s:delete(resolve(full_path))
+      endif
+    endif
+    call s:delete(full_path)
+  endfor
+endfunction "}}}
+
+call unite#custom#action('source/menu/*', 'delete', s:menu_delete)
