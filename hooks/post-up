@@ -11,4 +11,6 @@ if [ ! -e "$PHP_MANUAL_DIR" ]; then
         tar xzf /tmp/php_manual_ja.tar.gz
 fi
 
-ln -s $HOME/.vim $HOME/.config/nvim
+if [ ! -e "$HOME/.config/nvim" ]; then
+        ln -s $HOME/.vim $HOME/.config/nvim
+fi
