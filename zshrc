@@ -54,6 +54,11 @@ if [ -e $HOME/git/cd-gitroot ]; then
   alias cdr='cd-gitroot'
 fi
 
+# git-nowの補完
+if [ -e $HOME/src/git-now ]; then
+  fpath=($HOME/src/git-now/etc(N-/) $fpath)
+fi
+
 # 補完
 autoload -U compinit; compinit
 setopt auto_list # 補完候補を一覧で表示する
