@@ -1,5 +1,6 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
+hook_add = 'source ~/.vim/rc/plugins/dein.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
