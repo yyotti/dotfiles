@@ -329,6 +329,11 @@ depends = [ 'vital.vim' ]
 on_source = [ 'vital.vim' ]
 
 [[plugins]]
+repo = 'lambdalisue/vital-ArgumentParser'
+depends = [ 'vital.vim' ]
+on_source = [ 'vital.vim' ]
+
+[[plugins]]
 repo = 'benjifisher/matchit.zip'
 on_map = [
   [ 'nxo', '%', 'g%' ],
