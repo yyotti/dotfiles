@@ -6,17 +6,10 @@
 command! -bang DeinClean call s:dein_clean(<bang>0)
 
 function! s:dein_clean(force) abort "{{{
-  let added_plugins = values(map(dein#get(), 'v:val.path'))
-
-  let repos = expand($CACHE . '/dein/repos/github.com')
-  let plugin_dirs = filter(glob(repos . '/*/*', 0, 1), 'isdirectory(v:val)')
-
-  let unused_plugins = filter(plugin_dirs, 'index(added_plugins, v:val) < 0')
-
   let del_all = a:force
-  for p in unused_plugins
+  for p in dein#check_clean()
     if !del_all
-      let answer = s:input(printf('Delete %s ? [y/N]', fnamemodify(p, ':~')))
+      let answer = s:input(printf('Delete %s ? [y/N/a]', fnamemodify(p, ':~')))
 
       if type(answer) is type(0) && answer <= 0
         " Cancel (Esc or <C-c> or 'q')
