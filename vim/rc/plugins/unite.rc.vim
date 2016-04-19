@@ -143,8 +143,8 @@ function! s:vimrc_files() abort "{{{
 endfunction "}}}
 
 function! s:dein_plugins() abort "{{{
-  let dein = expand($CACHE . '/dein/repos')
-  return filter(glob(dein . '/*/*/*', 0, 1), 'isdirectory(v:val)')
+  let plugins = dein#get()
+  return values(map(plugins, 'v:val.path'))
 endfunction "}}}
 
 call s:add_candidates('vim', s:vimrc_files())
