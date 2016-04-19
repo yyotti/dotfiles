@@ -2,7 +2,7 @@
 " FileType:
 "
 augroup MyAutocmd
-  autocmd FileType,Syntax * call s:on_filetype()
+  autocmd FileType,Syntax,BufNew * call s:on_filetype()
 
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
