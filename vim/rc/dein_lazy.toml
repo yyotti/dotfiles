@@ -388,11 +388,18 @@ hook_source = '''
   autocmd MyAutocmd InsertLeave * PreciousReset
 '''
 
-# 以下、家PC用
 [[plugins]]
 repo = 'tyru/open-browser.vim'
-if = 'IsHomePC()'
+normalized_name = 'openbrowser'
+on_map = [ [ 'nx', '<Plug>' ] ]
+hook_add = '''
+  nmap gb <Plug>(openbrowser-open)
+  vmap gb <Plug>(openbrowser-open)
 
+  vmap gx <Plug>(openbrowser-smart-search)
+'''
+
+# 以下、家PC用
 [[plugins]]
 repo = 'kannokanno/previm'
 depends = 'open-browser.vim'
