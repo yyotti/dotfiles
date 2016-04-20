@@ -95,13 +95,19 @@ endfunction "}}}
 
 function! s:menu_line(title, path, width) abort "{{{
   let fmt = printf('%%-%ds : %%s', a:width)
-  return {
+
+  let candidate = {
         \   'word': a:path,
-        \   'abbr': printf(fmt, a:title, a:path),
+        \   'abbr': printf(fmt, a:title, fnamemodify(a:path, ':~')),
         \   'kind': isdirectory(a:path) ? 'directory' : 'file',
-        \   'action__path': resolve(fnamemodify(a:path, ':p')),
+        \   'action__path': a:path,
         \   'action__path_delete': a:path,
         \ }
+  if a:path =~# '^' . $CACHE . '/dein/repos/github.com/'
+    let repo = strpart(a:path, strlen($CACHE . '/dein/repos/github.com/'))
+    let candidate.action__url = 'https://github.com/' . repo
+  endif
+  return candidate
 endfunction "}}}
 
 function! s:add_candidates(title, candidates) abort "{{{
@@ -110,7 +116,7 @@ function! s:add_candidates(title, candidates) abort "{{{
         \     a:candidates,
         \     "v:val !=# '' && (isdirectory(v:val) || filereadable(v:val))"
         \   ),
-        \   "[ fnamemodify(v:val, ':t'), fnamemodify(v:val, ':~') ]"
+        \   "[ fnamemodify(v:val, ':t'), v:val ]"
         \ )
   let s:candidates += [ [ a:title, '' ] ] + items
 endfunction "}}}
@@ -127,9 +133,9 @@ function! s:build_menu() abort "{{{
 
   function! menu.map(...) abort "{{{
     " Ignore first argument (key)
-    let [ word, path ] = a:2
+    let [ title, path ] = a:2
     let w = self.title_len_max
-    return path ==# '' ? s:separator(word) : s:menu_line(word, path, w)
+    return path ==# '' ? s:separator(title) : s:menu_line(title, path, w)
   endfunction "}}}
 
   let menu.candidates = s:candidates
@@ -138,17 +144,10 @@ function! s:build_menu() abort "{{{
   let g:unite_source_menu_menus._ = menu
 endfunction "}}}
 
-function! s:vimrc_files() abort "{{{
-  return filter(glob('~/.vim/rc/**', 0, 1), '!isdirectory(v:val)')
-endfunction "}}}
-
-function! s:dein_plugins() abort "{{{
-  let plugins = dein#get()
-  return values(map(plugins, 'v:val.path'))
-endfunction "}}}
-
-call s:add_candidates('vim', s:vimrc_files())
-call s:add_candidates('dein', s:dein_plugins())
+call s:add_candidates(
+      \   'vim', filter(glob('~/.vim/rc/**', 0, 1), '!isdirectory(v:val)')
+      \ )
+call s:add_candidates('dein', values(map(dein#get(), 'v:val.path')))
 call s:add_candidates('git', [
       \   expand('~/.gitconfig'),
       \   expand('~/.tigrc'),
@@ -195,7 +194,7 @@ let s:menu_delete = {
       \   'is_selectable': 1,
       \ }
 function! s:menu_delete.func(candidates) abort "{{{
-  " TODO Improve s:delete()
+  " TODO Improve
   if IsWindows()
     echohl WarningMsg
     echo 'Delete action do not work in Windows platform.'
@@ -226,3 +225,20 @@ function! s:menu_delete.func(candidates) abort "{{{
 endfunction "}}}
 
 call unite#custom#action('source/menu/*', 'delete', s:menu_delete)
+
+let s:menu_open_browser = {
+      \   'description': 'Open in browser',
+      \   'is_selectable': 1,
+      \ }
+function! s:menu_open_browser.func(candidates) abort "{{{
+  for url in map(a:candidates, "get(v:val, 'action__url', '')")
+    if url ==# ''
+      continue
+    endif
+
+    " TODO Improve(Ex. Use open-browser)
+    call system('xdg-open ' . shellescape(url))
+  endfor
+endfunction "}}}
+
+call unite#custom#action('source/menu/*', 'open_browser', s:menu_open_browser)
