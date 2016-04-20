@@ -11,6 +11,13 @@ build = 'make'
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+  nnoremap <silent> <Leader>gs :<C-u>Gstatus<CR>
+  nnoremap <silent> <Leader>gd :<C-u>Gvdiff<CR>
+'''
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 if = '!IsPowerlineEnabled()'
 

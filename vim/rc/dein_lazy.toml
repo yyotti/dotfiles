@@ -87,16 +87,6 @@ repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 hook_add = 'nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>'
 
-# TODO vim/gvimでロードされない
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-on_func = 'fugitive#head'
-hook_add = '''
-  nnoremap <silent> <Leader>gs :<C-u>Gstatus<CR>
-  nnoremap <silent> <Leader>gd :<C-u>Gvdiff<CR>
-'''
-hook_post_source = 'doautocmd fugitive VimEnter'
-
 [[plugins]]
 repo = 'cohama/agit.vim'
 on_path = [ 'Agit', 'AgitFile' ]
