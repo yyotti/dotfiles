@@ -79,9 +79,10 @@ nnoremap <silent> <Leader>p :UnitePrevious<CR>
 "-----------------------------------------------------------------------------
 " menu:
 "
-let s:candidates = []
+let s:items = []
+
 function! s:separator(title) abort "{{{
-  let ww = &colorcolumn
+  let ww = &colorcolumn ==# '' ? 78 : &colorcolumn
   let wt = len(a:title)
 
   let abbr = printf('===== [%s] %s', a:title, repeat('=', ww - wt - 10))
@@ -93,32 +94,34 @@ function! s:separator(title) abort "{{{
         \ }
 endfunction "}}}
 
-function! s:menu_line(title, path, width) abort "{{{
+function! s:menu_line(item, width) abort "{{{
   let fmt = printf('%%-%ds : %%s', a:width)
 
   let candidate = {
-        \   'word': a:path,
-        \   'abbr': printf(fmt, a:title, fnamemodify(a:path, ':~')),
-        \   'kind': isdirectory(a:path) ? 'directory' : 'file',
-        \   'action__path': a:path,
-        \   'action__path_delete': a:path,
+        \   'word': a:item.path,
+        \   'abbr': printf(fmt, a:item.title, fnamemodify(a:item.path, ':~')),
+        \   'kind': isdirectory(a:item.path) ? 'directory' : 'file',
+        \   'action__path': a:item.path,
         \ }
-  if a:path =~# '^' . $CACHE . '/dein/repos/github.com/'
-    let repo = strpart(a:path, strlen($CACHE . '/dein/repos/github.com/'))
-    let candidate.action__url = 'https://github.com/' . repo
+  if has_key(a:item, 'repo') && a:item.repo !=# ''
+    let candidate.action__url = 'https://github.com/' . a:item.repo
   endif
   return candidate
 endfunction "}}}
 
-function! s:add_candidates(title, candidates) abort "{{{
+function! s:is_valid_item(item) abort "{{{
+  return type(a:item) ==# type({}) &&
+        \ has_key(a:item, 'title') &&
+        \ has_key(a:item, 'path') &&
+        \ (isdirectory(a:item.path) || filereadable(a:item.path))
+endfunction "}}}
+
+function! s:add_items(title, items) abort "{{{
   let items = map(
-        \   filter(
-        \     a:candidates,
-        \     "v:val !=# '' && (isdirectory(v:val) || filereadable(v:val))"
-        \   ),
-        \   "[ fnamemodify(v:val, ':t'), v:val ]"
+        \   filter(a:items, 's:is_valid_item(v:val)'),
+        \   "extend(copy(v:val), { 'is_separator': 0 }, 'force')"
         \ )
-  let s:candidates += [ [ a:title, '' ] ] + items
+  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + items
 endfunction "}}}
 
 function! s:build_menu() abort "{{{
@@ -126,44 +129,67 @@ function! s:build_menu() abort "{{{
 
   let menu.title_len_max = max(
         \   map(
-        \     filter(copy(s:candidates), "v:val[1] !=# ''"),
-        \     'len(v:val[0])'
+        \     filter(copy(s:items), '!v:val.is_separator'),
+        \     'len(v:val.title)'
         \   )
         \ )
 
   function! menu.map(...) abort "{{{
     " Ignore first argument (key)
-    let [ title, path ] = a:2
+    let item = a:2
     let w = self.title_len_max
-    return path ==# '' ? s:separator(title) : s:menu_line(title, path, w)
+    return item.is_separator ? s:separator(item.title) : s:menu_line(item, w)
   endfunction "}}}
 
-  let menu.candidates = s:candidates
+  let menu.candidates = s:items
 
   let g:unite_source_menu_menus = {}
   let g:unite_source_menu_menus._ = menu
 endfunction "}}}
 
-call s:add_candidates(
-      \   'vim', filter(glob('~/.vim/rc/**', 0, 1), '!isdirectory(v:val)')
+function! s:simple_items(...) abort "{{{
+  return map(
+        \   copy(a:000),
+        \   '{' .
+        \     "'title': v:val," .
+        \     "'path': fnamemodify(resolve(expand(v:val)), ':p')," .
+        \   '}'
+        \ )
+endfunction "}}}
+
+function! s:vimrc_items() abort "{{{
+  let prefix = expand('~/.vim/rc/')
+
+  return map(
+      \   filter(glob(prefix . '**', 0, 1), '!isdirectory(v:val)'),
+      \   '{' .
+      \     "'title': strpart(v:val, strlen(prefix))," .
+      \     "'path': fnamemodify(v:val, ':p')," .
+      \   '}'
       \ )
-call s:add_candidates('dein', values(map(dein#get(), 'v:val.path')))
-call s:add_candidates('git', [
-      \   expand('~/.gitconfig'),
-      \   expand('~/.tigrc'),
-      \ ])
-call s:add_candidates('zsh', [
-      \   expand('~/.zshrc'),
-      \   expand('~/.zshenv'),
-      \ ])
-call s:add_candidates('others', [
-      \   expand('~/.tmux.conf'),
-      \   expand('~/.ssh/config'),
-      \ ])
+endfunction "}}}
+
+function! s:dein_items() abort "{{{
+  return map(
+        \   values(dein#get()),
+        \   '{' .
+        \     "'title': get(v:val, 'local', 0) ? " .
+        \       "'yyotti/' . fnamemodify(v:val.path, ':t') : v:val.repo," .
+        \     "'path': fnamemodify(v:val.path, ':p')," .
+        \     "'repo': v:val.repo," .
+        \   '}'
+        \ )
+endfunction "}}}
+
+call s:add_items('vim', s:vimrc_items())
+call s:add_items('dein', s:dein_items())
+call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
+call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
+call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
 
 call s:build_menu()
 
-unlet s:candidates
+unlet s:items
 
 function! s:input(...) abort "{{{
   new
@@ -208,7 +234,7 @@ let s:menu_delete = {
       \   'is_selectable': 1,
       \ }
 function! s:menu_delete.func(candidates) abort "{{{
-  for path in map(a:candidates, 'v:val.action__path_delete')
+  for path in map(a:candidates, 'v:val.action__path')
     let input = s:input(printf('Delete %s ? [y/N]:', path))
     if type(input) ==# type(0) && input <= 0 || input !~? '^y\%[es]$'
       continue
@@ -232,7 +258,7 @@ endfunction "}}}
 call unite#custom#action('source/menu/*', 'delete', s:menu_delete)
 
 let s:menu_open_browser = {
-      \   'description': 'Open in browser',
+      \   'description': 'Open github repository in browser',
       \   'is_selectable': 1,
       \ }
 function! s:menu_open_browser.func(candidates) abort "{{{
