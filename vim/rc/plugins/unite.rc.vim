@@ -73,8 +73,8 @@ elseif executable('git')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-nnoremap <silent> <Space>n :UniteNext<CR>
-nnoremap <silent> <Space>p :UnitePrevious<CR>
+nnoremap <silent> <Leader>n :UniteNext<CR>
+nnoremap <silent> <Leader>p :UnitePrevious<CR>
 
 "-----------------------------------------------------------------------------
 " menu:
