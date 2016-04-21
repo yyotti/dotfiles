@@ -82,7 +82,7 @@ nnoremap <silent> <Leader>p :UnitePrevious<CR>
 let s:items = []
 
 function! s:separator(title) abort "{{{
-  let ww = &colorcolumn ==# '' ? 78 : &colorcolumn
+  let ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
   let wt = len(a:title)
 
   let abbr = printf('===== [%s] %s', a:title, repeat('=', ww - wt - 10))
@@ -254,7 +254,6 @@ function! s:menu_delete.func(candidates) abort "{{{
     call s:delete(full_path)
   endfor
 endfunction "}}}
-
 call unite#custom#action('source/menu/*', 'delete', s:menu_delete)
 
 let s:menu_open_browser = {
@@ -281,5 +280,4 @@ function! s:menu_open_browser.func(candidates) abort "{{{
     endif
   endfor
 endfunction "}}}
-
 call unite#custom#action('source/menu/*', 'open_browser', s:menu_open_browser)
