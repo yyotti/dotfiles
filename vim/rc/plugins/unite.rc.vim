@@ -241,8 +241,18 @@ function! s:menu_open_browser.func(candidates) abort "{{{
       continue
     endif
 
-    " TODO Improve(Ex. Use open-browser)
-    call system('xdg-open ' . shellescape(url))
+    if exists('*openbrowser#open') ||
+          \ exists('*dein#get') && !empty(dein#get('open-browser.vim'))
+      call openbrowser#open(url)
+    else
+      let url = shellescape(url)
+      let exec_command = IsWindows() ? 'start' : 'xdg-open'
+      if exists('*vimproc#system')
+        call vimproc#system(printf('%s %s', exec_command, url))
+      else
+        call system(printf('%s %s', exec_command, url))
+      endif
+    endif
   endfor
 endfunction "}}}
 
