@@ -180,12 +180,26 @@ function! s:input(...) abort "{{{
 endfunction "}}}
 
 function! s:delete(path) abort "{{{
-  let command = 'rm -fr ' . shellescape(a:path)
-  let output = system(command)
-  if v:shell_error !=# 0
-    echohl WarningMsg
-    echomsg output
-    echohl None
+  " Refer to dein#install#_rm()
+  if !isdirectory(a:path) && !filereadable(a:path)
+    return
+  endif
+
+  if has('patch-7.4.1120')
+    call delete(a:path, 'rf')
+  else
+    let path = a:path
+    if IsWindows()
+      let path = substitute(path, '/', '\\\\', 'g')
+    endif
+
+    let rm_command = IsWindows() ? 'rmdir /S /Q' : 'rm -rf'
+    let result = system(printf('%s %s', rm_command, shellescape(path)))
+    if v:shell_error
+      echohl WarningMsg
+      echomsg result
+      echohl None
+    endif
   endif
 endfunction "}}}
 
@@ -194,15 +208,6 @@ let s:menu_delete = {
       \   'is_selectable': 1,
       \ }
 function! s:menu_delete.func(candidates) abort "{{{
-  " TODO Improve
-  if IsWindows()
-    echohl WarningMsg
-    echo 'Delete action do not work in Windows platform.'
-    echohl None
-
-    return
-  endif
-
   for path in map(a:candidates, 'v:val.action__path_delete')
     let input = s:input(printf('Delete %s ? [y/N]:', path))
     if type(input) ==# type(0) && input <= 0 || input !~? '^y\%[es]$'
