@@ -112,7 +112,6 @@ hook_source = '''
 [[plugins]]
 repo = 'tpope/vim-repeat'
 
-# FIXME Lazyだと最初のコマンドで問題が出る
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 depends = 'vim-repeat'
@@ -398,6 +397,9 @@ hook_add = '''
 
   vmap gx <Plug>(openbrowser-smart-search)
 '''
+
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
 
 # 以下、家PC用
 [[plugins]]
