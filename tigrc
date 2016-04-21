@@ -16,7 +16,6 @@ bind generic <Ctrl-f> scroll-page-down
 bind generic <Ctrl-b> scroll-page-up
 bind generic g move-first-line
 bind generic G move-last-line
-bind generic B view-refs
 
 #=============================================================================
 # Keymapping - main
