@@ -8,7 +8,7 @@ augroup MyAutocmd
   autocmd FileType haskell setlocal shiftwidth=2
   autocmd FileType javascript,css setlocal shiftwidth=4
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
-        \ setlocal filetype=markdown | let b:not_del_last_whitespaces = 1
+        \ setlocal filetype=markdown
 
   " Update filetype
   autocmd BufWritePost *
