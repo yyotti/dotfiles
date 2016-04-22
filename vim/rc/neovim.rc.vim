@@ -18,13 +18,6 @@ if exists('$NVIM_GUI')
       return
     endif
 
-    " TODO Set initial window size
-    " set columns=180
-    " set lines=50
-    command! SetWinsizeDefault set columns=250 lines=55
-
-    " TODO Font setting
-
     let g:loaded_pynvim = 1
   endfunction "}}}
 endif
