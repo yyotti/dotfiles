@@ -13,4 +13,5 @@ cd ../
   --with-lua-prefix=/usr \
   --with-luajit \
   --enable-fontset \
+  --enable-termtruecolor \
   --enable-fail-if-missing
