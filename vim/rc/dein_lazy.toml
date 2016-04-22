@@ -2,7 +2,7 @@
 repo = 'Shougo/deoplete.nvim'
 depends = 'context_filetype.vim'
 if = 'has("nvim")'
-on_i = 1
+on_event = 'InsertEnter'
 hook_source = '''
   let g:deoplete#enable_at_startup = 1
   source ~/.vim/rc/plugins/deoplete.rc.vim
@@ -23,7 +23,7 @@ repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
 repo = 'tyru/eskk.vim'
-on_i = 1
+on_event = 'InsertEnter'
 hook_add = '''
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
@@ -378,7 +378,7 @@ on_func = [ 'PP' ]
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = 'context_filetype.vim'
-on_i = 1
+on_event = 'InsertEnter'
 hook_source = '''
   let g:precious_enable_switch_CursorMoved = { '*': 0 }
   autocmd MyAutocmd InsertEnter * PreciousSwitch
