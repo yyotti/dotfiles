@@ -31,7 +31,13 @@ call unite#filters#sorter_default#use([ 'sorter_rank' ])
 autocmd MyAutocmd FileType unite call <SID>unite_settings()
 function! s:unite_settings() abort "{{{
   call unite#custom#alias('file', 'h', 'left')
-  call unite#custom#default_action('directory', 'narrow')
+
+  if exists('*vimfiler#start') ||
+        \ exists('*dein#get') && !empty(dein#get('vimfiler.vim'))
+    call unite#custom#default_action('directory', 'open')
+  else
+    call unite#custom#default_action('directory', 'narrow')
+  endif
 
   nmap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)
   imap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)

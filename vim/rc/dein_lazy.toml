@@ -54,7 +54,6 @@ repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
 hook_add = '''
   nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
-  nnoremap <silent> <Leader>um :<C-u>Unite bookmark<CR>
   nnoremap <silent> <Leader>uf
         \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
         \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
