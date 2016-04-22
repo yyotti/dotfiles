@@ -12,7 +12,7 @@ hook_source = '''
 repo = 'Shougo/neocomplete.vim'
 depends = 'context_filetype.vim'
 if = '!has("nvim") && has("lua")'
-on_i = 1
+on_event = 'InsertEnter'
 hook_source = '''
   let g:neocomplete#enable_at_startup = 1
   source ~/.vim/rc/plugins/neocomplete.rc.vim
@@ -36,7 +36,7 @@ repo = 'Shougo/neosnippet-snippets'
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
-on_i = 1
+on_event = 'InsertCharPre'
 on_ft = 'snippet'
 hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 
@@ -75,7 +75,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
 on_map = [ [ 'n', '<Plug>' ] ]
-on_path = '.*'
+on_if = 'isdirectory(bufname("%"))'
 hook_add = '''
   nnoremap <silent> <Leader>fe
         \ :<C-u>VimFilerBufferDir -invisible<CR>
@@ -307,7 +307,6 @@ hook_add = '''
 [[plugins]]
 repo = 'Shougo/neco-vim'
 on_ft = 'vim'
-on_i = 1
 
 [[plugins]]
 repo = 'vim-jp/vital.vim'
