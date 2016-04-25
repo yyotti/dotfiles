@@ -442,3 +442,12 @@ if = 'IsHomePC()'
 repo = 'kchmck/vim-coffee-script'
 on_ft = [ 'coffee', 'markdown' ]
 if = 'IsHomePC()'
+
+[[plugins]]
+repo = 'jwalton512/vim-blade'
+on_ft = 'blade'
+if = 'IsHomePC()'
+hook_add = '''
+  autocmd MyAutocmd FileType blade
+        \ let b:caw_wrap_oneline_comment = [ '{{--', '--}}' ]
+'''
