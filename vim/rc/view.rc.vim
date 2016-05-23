@@ -81,6 +81,9 @@ set wildoptions=tagfile
 let g:did_install_default_menus = 1
 
 set completeopt=menuone
+if has('patch-7.4.775')
+  set completeopt+=noinsert
+endif
 set complete=.
 set pumheight=20
 

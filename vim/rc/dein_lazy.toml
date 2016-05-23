@@ -73,7 +73,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = {n = '<Plug>'}
 on_if = 'isdirectory(bufname("%"))'
 hook_add = '''
   nnoremap <silent> <Leader>fe
@@ -102,7 +102,7 @@ hook_source = 'source ~/.vim/rc/plugins/vim-gitgutter.rc.vim'
 [[plugins]]
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_source = '''
   nmap K <Plug>(ref-keyword)
   source ~/.vim/rc/plugins/vim-ref.rc.vim
@@ -114,7 +114,7 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 depends = 'vim-repeat'
-on_map = [ [ 'nxo', '<Plug>' ] ]
+on_map = { nxo = '<Plug>' }
 hook_add = '''
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_enter_jump_first = 1
@@ -143,7 +143,7 @@ hook_add = '''
 [[plugins]]
 repo = 'tyru/caw.vim'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   nmap gc <Plug>(caw:prefix)
   xmap gc <Plug>(caw:prefix)
@@ -170,7 +170,7 @@ repo = 'kana/vim-operator-user'
 [[plugins]]
 repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   map R <Plug>(operator-replace)
   xmap p <Plug>(operator-replace)
@@ -179,7 +179,7 @@ hook_add = '''
 [[plugins]]
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_add = '''
   map <silent> ra <Plug>(operator-surround-append)
   map <silent> rd <Plug>(operator-surround-delete)
@@ -273,13 +273,13 @@ hook_add = '''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_add = 'nmap <silent> <Leader>r <Plug>(quickrun)'
 
 [[plugins]]
 repo = 'haya14busa/vim-operator-flashy'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
   map y <Plug>(operator-flashy)
@@ -335,7 +335,7 @@ if = '!has("nvim")'
 
 [[plugins]]
 repo = 'lambdalisue/vim-gista'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 if = 0
 hook_add = '''
   let g:gista#github_user = 'yyotti'
@@ -388,7 +388,7 @@ hook_source = '''
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 normalized_name = 'openbrowser'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   nmap gb <Plug>(openbrowser-open)
   vmap gb <Plug>(openbrowser-open)
@@ -399,38 +399,29 @@ hook_add = '''
 [[plugins]]
 repo = 'AndrewRadev/linediff.vim'
 
+[[plugins]]
+repo = 'adoy/vim-php-refactoring-toolbox'
+on_ft = [ 'php' ]
+hook_add = '''
+  let g:vim_php_refactoring_use_default_mapping = 0
+'''
+hook_post_source = '''
+  nnoremap <silent> rflv :call PhpRenameLocalVariable()<CR>
+  nnoremap <silent> rfcv :call PhpRenameClassVariable()<CR>
+  nnoremap <silent> rfrm :call PhpRenameMethod()<CR>
+  nnoremap <silent> rfdu :call PhpDetectUnusedUseStatements()<CR>
+  nnoremap <silent> rfec :call PhpExtractClassProperty()<CR>
+  nnoremap <silent> rfeu :call PhpExtractUse()<CR>
+
+  vnoremap <silent> rfem :call PhpExtractMethod()<CR>
+  vnoremap <silent> <Leader>== :call PhpAlignAssigns()<CR>
+'''
+
 # 以下、家PC用
 [[plugins]]
 repo = 'kannokanno/previm'
 depends = 'open-browser.vim'
 on_cmd = 'PrevimOpen'
-if = 'IsHomePC()'
-
-[[plugins]]
-repo = 'itchyny/vim-haskell-indent'
-on_ft = 'haskell'
-if = 'IsHomePC()'
-
-[[plugins]]
-repo = 'eagletmt/ghcmod-vim'
-depends = 'vimproc.vim'
-on_ft = 'haskell'
-if = 'executable("ghc-mod")'
-hook_add = '''
-  autocmd MyAutocmd FileType haskell
-        \ nnoremap <buffer> <Leader>tt :GhcModType<CR>
-  autocmd MyAutocmd FileType haskell
-        \ nnoremap <buffer> <Leader>tc :GhcModTypeClear<CR>
-'''
-
-[[plugins]]
-repo = 'derekwyatt/vim-scala'
-on_ft = [ 'scala', 'sbt' ]
-if = 'IsHomePC()'
-
-[[plugins]]
-repo = 'gre/play2vim'
-on_ft = [ 'play2-conf', 'play2-routes' ]
 if = 'IsHomePC()'
 
 [[plugins]]

@@ -1,8 +1,6 @@
 "-----------------------------------------------------------------------------
 " deoplete.nvim:
 "
-set completeopt+=noinsert
-
 inoremap <expr> <C-h> deoplete#mappings#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS> deoplete#mappings#smart_close_popup() . "\<C-h>"
 
@@ -23,6 +21,7 @@ call deoplete#custom#set(
       \     'converter_remove_overlap',
       \     'converter_truncate_abbr',
       \     'converter_truncate_menu',
+      \     'converter_auto_delimiter',
       \   ]
       \ )
 
@@ -34,6 +33,6 @@ let g:deoplete#omni#functions = {}
 let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.python = ''
 
-let g:deoplete#enable_refresh_always = 1
+" let g:deoplete#enable_refresh_always = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_smart_case = 1
