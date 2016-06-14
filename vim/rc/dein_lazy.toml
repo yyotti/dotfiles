@@ -73,7 +73,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
-on_map = {n = '<Plug>'}
+on_map = { n = '<Plug>' }
 on_if = 'isdirectory(bufname("%"))'
 hook_add = '''
   nnoremap <silent> <Leader>fe
@@ -103,8 +103,10 @@ hook_source = 'source ~/.vim/rc/plugins/vim-gitgutter.rc.vim'
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
 on_map = { n = '<Plug>' }
-hook_source = '''
+hook_add = '''
   nmap K <Plug>(ref-keyword)
+'''
+hook_source = '''
   source ~/.vim/rc/plugins/vim-ref.rc.vim
 '''
 
