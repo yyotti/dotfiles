@@ -27,3 +27,15 @@ if dein#tap('vim-vimlparser') && dein#tap('vim-vimlint')
   unlet s:vimlparser
   unlet s:vimlint
 endif
+
+if executable('coffeelint')
+  if !exists('g:lintexec#checker_cmd')
+    let g:lintexec#checker_cmd = {}
+  endif
+  if !has_key(g:lintexec#checker_cmd, 'coffee')
+    let g:lintexec#checker_cmd.coffee = {}
+  endif
+  let g:lintexec#checker_cmd.coffee.exec = 'coffeelint'
+  let g:lintexec#checker_cmd.coffee.args = [ '--reporter', 'csv' ]
+  let g:lintexec#checker_cmd.coffee.errfmt = '%f\,%l\,%*\,%trror\,%m'
+endif
