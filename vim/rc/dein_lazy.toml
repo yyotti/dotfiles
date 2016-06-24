@@ -427,8 +427,8 @@ on_cmd = 'PrevimOpen'
 if = 'IsHomePC()'
 
 [[plugins]]
-repo = 'groenewege/vim-less'
-on_ft = [ 'less' ]
+repo = 'cakebaker/scss-syntax.vim'
+on_ft = [ 'scss' ]
 if = 'IsHomePC()'
 
 [[plugins]]
