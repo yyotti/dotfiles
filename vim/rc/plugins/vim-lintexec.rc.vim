@@ -39,3 +39,15 @@ if executable('coffeelint')
   let g:lintexec#checker_cmd.coffee.args = [ '--reporter', 'csv' ]
   let g:lintexec#checker_cmd.coffee.errfmt = '%f\,%l\,%*\,%trror\,%m'
 endif
+
+if executable('scss-lint')
+  if !exists('g:lintexec#checker_cmd')
+    let g:lintexec#checker_cmd = {}
+  endif
+  if !has_key(g:lintexec#checker_cmd, 'scss')
+    let g:lintexec#checker_cmd.scss = {}
+  endif
+  let g:lintexec#checker_cmd.scss.exec = 'scss-lint'
+  let g:lintexec#checker_cmd.scss.args = []
+  let g:lintexec#checker_cmd.scss.errfmt = '%f:%l\ [%t]\ %m'
+endif
