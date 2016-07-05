@@ -419,6 +419,13 @@ hook_source = '''
   vnoremap <silent> <Leader>== :call PhpAlignAssigns()<CR>
 '''
 
+[[plugins]]
+repo = 'mattn/emmet-vim'
+on_ft = [ 'html', 'blade', 'smarty' ]
+hook_add = '''
+  let g:user_emmet_leader_key = '<C-t>'
+'''
+
 # 以下、家PC用
 [[plugins]]
 repo = 'kannokanno/previm'
