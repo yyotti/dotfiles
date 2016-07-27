@@ -9,6 +9,7 @@ augroup MyAutocmd
   autocmd FileType javascript,css setlocal shiftwidth=4
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
         \ setlocal filetype=markdown
+  autocmd FileType json setlocal shiftwidth=4 conceallevel=0
 
   " Update filetype
   autocmd BufWritePost *
