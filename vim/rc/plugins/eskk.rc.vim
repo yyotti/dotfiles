@@ -27,11 +27,6 @@ endif
 let g:eskk#debug = 0
 let g:eskk#show_annotation = 1
 
-if !exists('$NVIM_GUI') && !has('gui_running')
-  let g:eskk#marker_henkan = '<>'
-  let g:eskk#marker_henkan_select = '>>'
-endif
-
 autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
 function! s:eskk_initial_pre() abort "{{{
   let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
