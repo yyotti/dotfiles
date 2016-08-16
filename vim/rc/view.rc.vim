@@ -19,6 +19,7 @@ set laststatus=2
 set cmdheight=2
 
 set showcmd
+set ambiwidth=double
 
 set title
 set titlelen=95
