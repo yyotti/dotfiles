@@ -33,6 +33,6 @@ let g:deoplete#omni#functions = {}
 let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.python = ''
 
-" let g:deoplete#enable_refresh_always = 1
+let g:deoplete#enable_refresh_always = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_smart_case = 1

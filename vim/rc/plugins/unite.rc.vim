@@ -2,6 +2,7 @@
 " unite.vim:
 "
 let g:unite_enable_auto_select = 0
+let g:unite_restore_alternate_file = 1
 
 call unite#custom#profile('default', 'context', {
       \   'start_insert': 1,
@@ -27,6 +28,14 @@ call unite#custom#source(
       \   [ 'converter_file_directory' ]
       \ )
 call unite#filters#sorter_default#use([ 'sorter_rank' ])
+
+" Custom source highlight.
+function! s:rec_on_syntax(...) abort "{{{
+  syntax match uniteSource__FileRecFileName /\[.\+\]/ contained containedin=uniteSource__FileRec
+  highlight default link uniteSource__FileRecFileName Type
+endfunction "}}}
+call unite#custom#source('file_rec', 'syntax', 'uniteSource__FileRec')
+call unite#custom#source('file_rec', 'on_syntax', function('s:rec_on_syntax'))
 
 autocmd MyAutocmd FileType unite call <SID>unite_settings()
 function! s:unite_settings() abort "{{{
