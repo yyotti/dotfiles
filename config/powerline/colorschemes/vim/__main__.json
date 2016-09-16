@@ -13,7 +13,6 @@
 		"watchdogs": "error",
 		"eskk": "mode",
 		"gitgutter_hunks": "branch",
-		"anzu_search_status": "background",
 		"unite:status_string": "file_name",
 		"vimfiler:status_string": "file_directory",
 		"fugitive:repos_dir": "file_directory",
