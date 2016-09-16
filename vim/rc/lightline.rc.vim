@@ -27,7 +27,6 @@ let g:lightline = {
       \     'right': [
       \       [ 'syntaxcheck', 'lineinfo' ],
       \       [ 'fileformat', 'fileencoding', 'filetype' ],
-      \       [ 'anzu' ],
       \     ],
       \   },
       \   'inactive': {
@@ -39,7 +38,6 @@ let g:lightline = {
       \     'right': [
       \       [ 'syntaxcheck', 'lineinfo' ],
       \       [ 'fileformat', 'fileencoding', 'filetype' ],
-      \       [ 'anzu' ],
       \     ],
       \   },
       \   'component': {
@@ -48,7 +46,6 @@ let g:lightline = {
       \     'fileformat': '%{'.s:SID_PREFIX().'fileinfo_visible()?&fileformat:""}',
       \     'filetype': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&filetype)?&filetype:"no ft"):""}',
       \     'fileencoding': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&fileencoding)?&fileencoding:&encoding):""}',
-      \     'anzu': '%{'.s:SID_PREFIX().'anzu_visible()?'.s:SID_PREFIX().'anzu():""}',
       \   },
       \   'component_function': {
       \     'mode': s:SID_PREFIX().'mode',
@@ -67,7 +64,6 @@ let g:lightline = {
       \     'filetype': s:SID_PREFIX().'fileinfo_visible()',
       \     'fileencoding': s:SID_PREFIX().'fileinfo_visible()',
       \     'gitinfo': s:SID_PREFIX().'gitinfo_visible()',
-      \     'anzu': s:SID_PREFIX().'anzu_visible()',
       \   },
       \   'component_type': {
       \     'syntaxcheck': 'error',
@@ -150,16 +146,6 @@ endfunction "}}}
 
 function! s:fileinfo_visible() abort "{{{
   return &filetype !=# 'unite' && &filetype !=# 'vimfiler' && winwidth(0) > 70
-endfunction "}}}
-
-function! s:anzu_visible() abort "{{{
-  return exists('*anzu#search_status') &&
-        \ !empty(anzu#search_status()) &&
-        \ winwidth(0) > 70
-endfunction "}}}
-
-function! s:anzu() abort "{{{
-  return anzu#search_status()
 endfunction "}}}
 
 function! s:error_count() abort "{{{

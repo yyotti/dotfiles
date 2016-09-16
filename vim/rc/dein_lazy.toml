@@ -139,7 +139,7 @@ hook_add = '''
   map 'F <Plug>(easymotion-Fln)
   map 'T <Plug>(easymotion-Tln)
 
-  map 's <Plug>(easymotion-sn)
+  map / <Plug>(easymotion-sn)
 '''
 
 [[plugins]]
@@ -149,21 +149,6 @@ on_map = [ [ 'nx', '<Plug>' ] ]
 hook_add = '''
   nmap gc <Plug>(caw:prefix)
   xmap gc <Plug>(caw:prefix)
-'''
-
-[[plugins]]
-repo = 'osyo-manga/vim-anzu'
-on_map = '<Plug>'
-on_func = 'anzu#'
-hook_add = '''
-  nmap n <Plug>(anzu-n)zvzz
-  nmap N <Plug>(anzu-N)zvzz
-  nmap * <Plug>(anzu-star)zvzz
-  nmap # <Plug>(anzu-sharp)zvzz
-'''
-hook_post_source = '''
-  autocmd MyAutocmd CursorHold,CursorHoldI,WinLeave,TabLeave *
-        \ call anzu#clear_search_status()
 '''
 
 [[plugins]]

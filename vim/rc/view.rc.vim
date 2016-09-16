@@ -26,15 +26,13 @@ set titlelen=95
 let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
       \ . '%< (%{'.s:SID_PREFIX().'strwidthpart('
       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
-      \ . "substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),"
+      \ . "substitute(b:vimfiler.current_dir,'.\\zs/$','',''):getcwd(),':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
 
 if !IsPowerlineEnabled()
   let &statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
-        \ . "%{exists('*anzu#search_status')&&!empty(anzu#search_status())?"
-        \ . "anzu#search_status():''}"
         \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?"
         \ . "'['.(&filetype!=''?&filetype.',':'')"
         \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"

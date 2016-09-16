@@ -30,6 +30,8 @@ nnoremap gk k
 xnoremap gj j
 xnoremap gk k
 
+nnoremap n nzz
+nnoremap N Nzz
 nnoremap * *<C-o>zvzz
 nnoremap g* g*<C-o>zvzz
 nnoremap # #<C-o>zvzz
