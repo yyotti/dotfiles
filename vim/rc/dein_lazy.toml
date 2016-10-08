@@ -48,27 +48,49 @@ hook_source = 'source ~/.vim/rc/plugins/neosnippet-additional.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
+on_source = [ 'unite.vim', 'denite.nvim' ]
 
 [[plugins]]
 repo = 'Shougo/unite.vim'
-depends = 'neomru.vim'
+on_source = 'denite.vim'
+# if = 'has("nvim") || v:version < 800'
 hook_add = '''
   nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
-  nnoremap <silent> <Leader>uf
-        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
-        \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
-        \     buffer_tab:- file file/new<CR>
-  nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
-  nnoremap <silent> <Leader>ug
-        \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
-  nnoremap <silent> <Leader>ur
-        \ :<C-u>UniteResume -buffer-name=grep
-        \   -no-start-insert -no-empty grep<CR>
+  " nnoremap <silent> <Leader>uf
+  "       \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+  "       \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
+  "       \     buffer_tab:- file file/new<CR>
+  " nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
+  " nnoremap <silent> <Leader>ug
+  "       \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
+  " nnoremap <silent> <Leader>ur
+  "       \ :<C-u>UniteResume -buffer-name=grep
+  "       \   -no-start-insert -no-empty grep<CR>
   nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
 
   let g:unite_force_overwrite_statusline = 0
 '''
 hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+if = 'has("nvim") || v:version >= 800'
+# on_cmd = 'Denite'
+hook_add = '''
+  " nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_mru<CR>
+  nnoremap <silent> <Leader>uf
+        \ :<C-u>Denite -buffer-name=files file_rec<CR>
+  nnoremap <silent> <Leader>ul :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>ug
+        \ :<C-u>Denite grep -buffer-name=grep -mode=normal -no-empty<CR>
+  nnoremap <silent> <Leader>ur
+        \ :<C-u>Denite -resume -buffer-name=grep
+        \   -mode=normal -no-empty grep<CR>
+  " nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
+  "
+  " let g:unite_force_overwrite_statusline = 0
+'''
+hook_source = 'source ~/.vim/rc/plugins/denite.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
@@ -410,6 +432,11 @@ on_ft = [ 'html', 'blade', 'smarty' ]
 hook_add = '''
   let g:user_emmet_leader_key = '<C-t>'
 '''
+
+[[plugins]]
+repo = 'nixprime/cpsm'
+on_source = 'denite.nvim'
+build = 'env PY3=ON ./install.sh'
 
 # 以下、家PC用
 [[plugins]]
