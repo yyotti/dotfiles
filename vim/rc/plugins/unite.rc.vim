@@ -65,8 +65,8 @@ endfunction "}}}
 " priorities: rg > ag > pt > git > grep
 if executable('rg')
   let g:unite_source_grep_command = 'rg'
-  let g:unite_source_grep_default_opts = '--smart-case --no-heading'
-        \ . ' --line-number'
+  " TODO Segmentation fault occured when '--smart-case'
+  let g:unite_source_grep_default_opts = '--line-number --color=never --no-heading'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ag')
   let g:unite_source_grep_command = 'ag'
