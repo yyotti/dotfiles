@@ -62,24 +62,23 @@ function! s:unite_settings() abort "{{{
 endfunction "}}}
 
 " Grep command.
-" priorities: hw > pt > ag > git > grep  (`pt` can manipulate Japanese)
-" However, `hw` is unstable.
-" if executable('hw')
-"   " https://github.com/tkengo/highway
-"   let g:unite_source_grep_command = 'hw'
-"   let g:unite_source_grep_default_opts = '--no-group --no-color -n -a -i'
-"   let g:unite_source_grep_recursive_opt = ''
-if executable('pt')
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --smart-case'
+" priorities: rg > ag > pt > git > grep
+if executable('rg')
+  let g:unite_source_grep_command = 'rg'
+  let g:unite_source_grep_default_opts = '--smart-case --no-heading'
+        \ . ' --line-number'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ag')
   let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '-i --nocolor --nogroup'
+  let g:unite_source_grep_default_opts = '--smart-case --nocolor --nogroup'
         \ . " --ignore '.hg'"
         \ . " --ignore '.svn'"
         \ . " --ignore '.git'"
-        \ . "--ignore '.bzr'"
+        \ . " --ignore '.bzr'"
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --smart-case'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('git')
   let g:unite_source_grep_command = 'git'
