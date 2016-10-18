@@ -2,11 +2,6 @@ scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " View:
 "
-" Anywhere SID
-function! s:SID_PREFIX() abort "{{{
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction "}}}
-
 set number
 set list
 if IsWindows()
@@ -24,7 +19,7 @@ set ambiwidth=double
 set title
 set titlelen=95
 let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
-      \ . '%< (%{'.s:SID_PREFIX().'strwidthpart('
+      \ . '%< (%{WidthPart('
       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
       \ . "substitute(b:vimfiler.current_dir,'.\\zs/$','',''):getcwd(),':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
@@ -105,7 +100,7 @@ set ttyfast
 
 set display=lastline
 
-function! s:strwidthpart(str, width) abort "{{{
+function! WidthPart(str, width) abort "{{{
   if a:width <= 0
     return ''
   endif
@@ -121,16 +116,7 @@ function! s:strwidthpart(str, width) abort "{{{
   return ret
 endfunction "}}}
 
-if v:version >= 703
-  set conceallevel=2
-  set concealcursor=niv
+set conceallevel=2
+set concealcursor=niv
 
-  set colorcolumn=79
-  function! s:wcswidth(str) abort "{{{
-    return strwidth(a:str)
-  endfunction "}}}
-else
-  function! s:wcswidth(str) abort "{{{
-    return len(a:str)
-  endfunction "}}}
-endif
+set colorcolumn=79

@@ -8,13 +8,10 @@ if !dein#load_state(s:path)
   finish
 endif
 
-let s:toml_path = '~/.vim/rc/dein.toml'
-let s:toml_lazy_path = '~/.vim/rc/dein_lazy.toml'
+call dein#begin(s:path, expand('<sfile>'))
 
-call dein#begin(s:path, [ expand('<sfile>'), s:toml_path, s:toml_lazy_path ])
-
-call dein#load_toml(s:toml_path, { 'lazy': 0 })
-call dein#load_toml(s:toml_lazy_path, { 'lazy': 1 })
+call dein#load_toml('~/.vim/rc/dein.toml', { 'lazy': 0 })
+call dein#load_toml('~/.vim/rc/dein_lazy.toml', { 'lazy': 1 })
 
 if IsHomePC()
   " Load develop version

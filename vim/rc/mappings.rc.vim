@@ -10,9 +10,6 @@ nnoremap < <<
 xnoremap > >gv
 xnoremap < <gv
 
-xnoremap <TAB> >
-xnoremap <S-TAB> <
-
 " Disable dangerous mappings
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>

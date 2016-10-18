@@ -5,8 +5,6 @@ tnoremap <ESC> <C-\><C-n>
 
 nnoremap <Leader>t :<C-u>terminal<CR>
 
-set mouse=
-
 autocmd MyAutocmd CursorHold * if exists(':rshada') | rshada | wshada | endif
 
 if exists('$NVIM_GUI')

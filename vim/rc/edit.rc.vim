@@ -41,8 +41,6 @@ set matchpairs+=<:>
 
 set hidden
 
-set infercase
-
 " Folding
 set foldmethod=marker
 set foldcolumn=1
@@ -69,15 +67,8 @@ set nobackup
 set noswapfile
 set backupdir-=.
 
-if v:version >= 703
-  set undofile
-  let &undodir=&directory
-endif
-
-if v:version < 703 || v:version == 7.3 && !has('patch336')
-  " Vim's bug
-  set notagbsearch
-endif
+set undofile
+let &g:undodir=&directory
 
 set virtualedit=block
 

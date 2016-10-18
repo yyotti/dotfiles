@@ -9,22 +9,11 @@ if has('vim_starting') && &encoding !=# 'utf-8'
   endif
 endif
 
-if !has('gui_running')
-  if $ENV_ACCESS ==# 'linux'
-    set termencoding=euc-jp
-  elseif $ENV_ACCESS ==# 'colinux'
-    set termencoding=utf-8
-  else
-    " Same as 'encoding'
-    set termencoding=
-  endif
-elseif IsWindows()
+if !has('gui_running') && IsWindows()
   set termencoding=cp932
 endif
 
-if has('kaoriya')
-  set fileencodings=guess
-elseif !exists('g:did_encoding_settings') && has('iconv')
+if !exists('did_encoding_settings')
   let &fileencodings = join(
         \   [ 'ucs-bom', 'iso-2022-jp-3', 'utf-8', 'euc-jp', 'cp932' ], ','
         \ )
