@@ -40,6 +40,8 @@ endif
 
 " Clear hlsearch
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
+
+nnoremap <silent> U viwU
 "}}}
 
 " Insert mode mappings: "{{{
