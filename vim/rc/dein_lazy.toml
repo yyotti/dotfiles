@@ -160,8 +160,6 @@ hook_add = '''
   map 't <Plug>(easymotion-tln)
   map 'F <Plug>(easymotion-Fln)
   map 'T <Plug>(easymotion-Tln)
-
-  map / <Plug>(easymotion-sn)
 '''
 
 [[plugins]]
