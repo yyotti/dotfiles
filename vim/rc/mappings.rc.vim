@@ -42,6 +42,14 @@ endif
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
 
 nnoremap <silent> U viwU
+
+" Smart <C-f>/<C-b>
+nnoremap <expr> <C-f>
+      \ max([winheight(0) - 2, 1]) . "\<C-d>" .
+      \   (line('.') > line('$') - winheight(0) ? 'L' : 'H')
+nnoremap <expr> <C-b>
+      \ max([winheight(0) - 2, 1]) . "\<C-u>" .
+      \   (line('.') < 1 + winheight(0) ? 'H' : 'L')
 "}}}
 
 " Insert mode mappings: "{{{
@@ -142,15 +150,5 @@ nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
 "}}}
 
 " Others "{{{
-" Toggle background
-nmap <expr> <C-b> <SID>toggle_background()
-function! s:toggle_background() abort "{{{
-  if &background ==# 'light'
-    set background=dark
-  else
-    set background=light
-  endif
-endfunction "}}}
-
 nnoremap x "_x
 "}}}
