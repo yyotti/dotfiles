@@ -425,13 +425,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'mattn/emmet-vim'
-on_ft = [ 'html', 'blade', 'smarty' ]
-hook_add = '''
-  let g:user_emmet_leader_key = '<C-t>'
-'''
-
-[[plugins]]
 repo = 'nixprime/cpsm'
 on_source = 'denite.nvim'
 build = 'env PY3=ON ./install.sh'
