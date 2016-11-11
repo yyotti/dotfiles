@@ -35,8 +35,8 @@ endif
 
 set backspace=indent,eol,start
 
-set showmatch
-set matchtime=1
+" set showmatch
+" set matchtime=1
 set matchpairs+=<:>
 
 set hidden

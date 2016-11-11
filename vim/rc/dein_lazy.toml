@@ -429,6 +429,22 @@ repo = 'nixprime/cpsm'
 on_source = 'denite.nvim'
 build = 'env PY3=ON ./install.sh'
 
+[[plugins]]
+repo = 'itchyny/vim-parenmatch'
+on_event = 'VimEnter'
+if = 'v:version == 704 && has("patch786") || v:version >= 705 || has("nvim")'
+hook_add = '''
+  let g:loaded_matchparen = 1
+  let g:parenmatch_highlight = 0
+'''
+hook_source = '''
+  autocmd MyAutocmd VimEnter,Colorscheme *
+        \   highlight ParenMatch
+        \                        guifg=#1d1f21 ctermfg=234
+        \                        guibg=#5F5F87 ctermbg=60
+        \                        gui=underline cterm=underline term=underline
+'''
+
 # 以下、家PC用
 [[plugins]]
 repo = 'kannokanno/previm'
