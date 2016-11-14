@@ -442,7 +442,6 @@ hook_source = '''
         \   highlight ParenMatch
         \                        guifg=#1d1f21 ctermfg=234
         \                        guibg=#5F5F87 ctermbg=60
-        \                        gui=underline cterm=underline term=underline
 '''
 
 # 以下、家PC用
