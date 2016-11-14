@@ -29,9 +29,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'itchyny/vim-cursorword'
-
-[[plugins]]
 repo = 'thinca/vim-themis'
 if = 'IsHomePC()'
 hook_add = 'source ~/.vim/rc/plugins/vim-themis.rc.vim'
