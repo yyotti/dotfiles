@@ -22,6 +22,16 @@ repo = 'itchyny/lightline.vim'
 if = '!IsPowerlineEnabled()'
 
 [[plugins]]
+repo = 'itchyny/vim-parenmatch'
+if = 'v:version == 704 && has("patch786") || v:version >= 705 || has("nvim")'
+hook_add = '''
+  let g:loaded_matchparen = 1
+'''
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+[[plugins]]
 repo = 'thinca/vim-themis'
 if = 'IsHomePC()'
 hook_add = 'source ~/.vim/rc/plugins/vim-themis.rc.vim'
