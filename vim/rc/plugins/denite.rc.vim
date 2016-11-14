@@ -5,14 +5,24 @@
 "-----------------------------------------------------------------------------
 " mappings:
 "
+
+" All mode mappings
 call denite#custom#map('_', '<C-g>', 'quit')
-call denite#custom#map('insert', '<C-g>', 'quit')
 call denite#custom#map('_', '<C-n>', 'move_to_next_line')
 call denite#custom#map('_', '<C-p>', 'move_to_prev_line')
 call denite#custom#map('_', '<Tab>', 'choose_action')
+
+" Insert mode mappings
+call denite#custom#map('insert', '<C-g>', 'quit')
 call denite#custom#map('insert', '<Tab>', 'choose_action')
-call denite#custom#map('normal', 'a', 'enter_mode:insert')
 call denite#custom#map('insert', '<C-t>', 'paste_from_register')
+call denite#custom#map('insert', '<C-d>', 'scroll_window_downwards')
+call denite#custom#map('insert', '<C-u>', 'scroll_window_upwards')
+call denite#custom#map('insert', '<C-f>', 'scroll_page_forwards')
+call denite#custom#map('insert', '<C-b>', 'scroll_page_backwards')
+
+" Normal mode mappings
+call denite#custom#map('normal', 'a', 'enter_mode:insert')
 
 call denite#custom#source(
       \  'file_mru', 'matchers', [ 'matcher_fuzzy', 'matcher_project_files' ]
