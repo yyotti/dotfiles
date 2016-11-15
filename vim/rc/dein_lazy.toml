@@ -66,7 +66,7 @@ hook_add = '''
   " nnoremap <silent> <Leader>ur
   "       \ :<C-u>UniteResume -buffer-name=grep
   "       \   -no-start-insert -no-empty grep<CR>
-  nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
+  " nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
 
   let g:unite_force_overwrite_statusline = 0
 '''
@@ -75,7 +75,6 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 if = 'has("nvim") || v:version >= 800'
-# on_cmd = 'Denite'
 hook_add = '''
   " nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_mru<CR>
   nnoremap <silent> <Leader>uf
@@ -86,8 +85,8 @@ hook_add = '''
   nnoremap <silent> <Leader>ur
         \ :<C-u>Denite -resume -buffer-name=grep
         \   -mode=normal -no-empty grep<CR>
-  " nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
-  "
+  nnoremap <silent> <Leader>ue :<C-u>Denite menu:_<CR>
+
   " let g:unite_force_overwrite_statusline = 0
 '''
 hook_source = 'source ~/.vim/rc/plugins/denite.rc.vim'

@@ -116,4 +116,97 @@ endif
 "-----------------------------------------------------------------------------
 " menu:
 "
-" TODO
+let s:items = []
+
+function! s:separator(title) abort "{{{
+  let ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
+  let wt = len(a:title)
+
+  let abbr = printf('===== [%s] %s', a:title, repeat('=', ww - wt - 10))
+  return [ abbr, '' ]
+endfunction "}}}
+
+function! s:menu_line(item, width) abort "{{{
+  let fmt = printf('%%-%ds : %%s', a:width)
+  return [
+        \   printf(fmt, a:item.title, fnamemodify(a:item.path, ':~')),
+        \   a:item.path
+        \ ]
+endfunction "}}}
+
+function! s:is_valid_item(item) abort "{{{
+  return type(a:item) ==# type({}) &&
+        \ has_key(a:item, 'title') &&
+        \ has_key(a:item, 'path') &&
+        \ (isdirectory(a:item.path) || filereadable(a:item.path))
+endfunction "}}}
+
+function! s:add_items(title, items) abort "{{{
+  let items = map(
+        \   filter(a:items, 's:is_valid_item(v:val)'),
+        \   "extend(copy(v:val), { 'is_separator': 0 }, 'force')"
+        \ )
+  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + items
+endfunction "}}}
+
+function! s:build_menu() abort "{{{
+  let title_len_max = max(
+        \   map(
+        \     filter(copy(s:items), '!v:val.is_separator'),
+        \     'len(v:val.title)'
+        \   )
+        \ )
+
+  let menus = {
+        \   'file_candidates': map(
+        \     s:items,
+        \     'v:val.is_separator ?
+        \       s:separator(v:val.title) : s:menu_line(v:val, title_len_max)'
+        \   ),
+        \ }
+
+  call denite#custom#var('menu', 'menus', menus)
+endfunction "}}}
+
+function! s:simple_items(...) abort "{{{
+  return map(
+        \   copy(a:000),
+        \   '{' .
+        \     "'title': v:val," .
+        \     "'path': fnamemodify(resolve(expand(v:val)), ':p')," .
+        \   '}'
+        \ )
+endfunction "}}}
+
+function! s:vimrc_items() abort "{{{
+  let prefix = expand('~/.vim/rc/')
+
+  return map(
+      \   filter(glob(prefix . '**', 0, 1), '!isdirectory(v:val)'),
+      \   '{' .
+      \     "'title': strpart(v:val, strlen(prefix))," .
+      \     "'path': fnamemodify(v:val, ':p')," .
+      \   '}'
+      \ )
+endfunction "}}}
+
+function! s:dein_items() abort "{{{
+  return map(
+        \   values(dein#get()),
+        \   '{' .
+        \     "'title': get(v:val, 'local', 0) ? " .
+        \       "'yyotti/' . fnamemodify(v:val.path, ':t') : v:val.repo," .
+        \     "'path': fnamemodify(v:val.path, ':p')," .
+        \   '}'
+        \ )
+endfunction "}}}
+
+call s:add_items('vim', s:vimrc_items())
+call s:add_items('dein', s:dein_items())
+call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
+call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
+call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
+
+call s:build_menu()
+
+unlet s:items
