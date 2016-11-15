@@ -1,5 +1,8 @@
 # Created by newuser for 5.0.2
 
+# TERMの指定
+[[ $TMUX = "" ]] && export TERM=xterm-256color
+
 if command -v vim > /dev/null; then
   # エディタをvimに設定
   export EDITOR=vim

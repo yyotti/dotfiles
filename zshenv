@@ -1,6 +1,3 @@
-# TERMの指定
-export TERM=xterm-256color
-
 export GOROOT=/usr/local/go
 
 # go getのためにGOPATHを設定
