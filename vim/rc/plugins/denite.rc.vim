@@ -165,7 +165,7 @@ function! s:build_menu() abort "{{{
         \   ),
         \ }
 
-  call denite#custom#var('menu', 'menus', menus)
+  call denite#custom#var('menu', 'menus', { '_': menus })
 endfunction "}}}
 
 function! s:simple_items(...) abort "{{{
