@@ -60,6 +60,17 @@ if executable('rg')
         \     '--no-heading',
         \   ]
         \ )
+
+  call denite#custom#var(
+        \   'file_rec',
+        \   'command',
+        \   [
+        \     'rg',
+        \     '--files',
+        \     '--glob',
+        \     '!.git' 
+        \   ]
+        \ )
 elseif executable('ag')
   call denite#custom#var('grep', 'command', [ 'ag' ])
   call denite#custom#var('grep', 'recursive_opts', [])
@@ -75,6 +86,19 @@ elseif executable('ag')
         \     '--ignore', '..bzr',
         \   ]
         \ )
+
+  call denite#custom#var(
+        \   'file_rec',
+        \   'command',
+        \   [
+        \     'ag',
+        \     '--follow',
+        \     '--nocolor',
+        \     '--nogroup',
+        \     '-g',
+        \     '',
+        \   ]
+        \ )
 elseif executable('pt')
   call denite#custom#var('grep', 'command', [ 'pt' ])
   call denite#custom#var('grep', 'recursive_opts', [])
@@ -87,6 +111,20 @@ elseif executable('pt')
         \     '--nogroup',
         \     '--nocolor',
         \     '--smart-case',
+        \   ]
+        \ )
+
+  call denite#custom#var(
+        \   'file_rec',
+        \   'command',
+        \   [
+        \     'pt',
+        \     '--follow',
+        \     '--nocolor',
+        \     '--nogroup',
+        \     '--hidden',
+        \     '-g',
+        \     '',
         \   ]
         \ )
 elseif executable('git')
