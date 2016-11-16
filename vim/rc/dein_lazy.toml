@@ -55,7 +55,7 @@ repo = 'Shougo/unite.vim'
 on_source = 'denite.vim'
 # if = 'has("nvim") || v:version < 800'
 hook_add = '''
-  nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
+  " nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
   " nnoremap <silent> <Leader>uf
   "       \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
   "       \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
@@ -76,7 +76,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 repo = 'Shougo/denite.nvim'
 if = 'has("nvim") || v:version >= 800'
 hook_add = '''
-  " nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_mru<CR>
+  nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_mru<CR>
   nnoremap <silent> <Leader>uf
         \ :<C-u>Denite -buffer-name=files file_rec<CR>
   nnoremap <silent> <Leader>ul :<C-u>Denite line<CR>
@@ -86,8 +86,6 @@ hook_add = '''
         \ :<C-u>Denite -resume -buffer-name=grep
         \   -mode=normal -no-empty grep<CR>
   nnoremap <silent> <Leader>ue :<C-u>Denite menu:_<CR>
-
-  " let g:unite_force_overwrite_statusline = 0
 '''
 hook_source = 'source ~/.vim/rc/plugins/denite.rc.vim'
 
