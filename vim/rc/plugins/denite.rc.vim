@@ -68,7 +68,7 @@ if executable('rg')
         \     'rg',
         \     '--files',
         \     '--glob',
-        \     '!.git' 
+        \     '!.git',
         \   ]
         \ )
 elseif executable('ag')
@@ -83,7 +83,7 @@ elseif executable('ag')
         \     '--ignore', '.hg',
         \     '--ignore', '.svn',
         \     '--ignore', '.git',
-        \     '--ignore', '..bzr',
+        \     '--ignore', '.bzr',
         \   ]
         \ )
 
@@ -150,6 +150,11 @@ endif
 " nnoremap <silent> <Leader>n :UniteNext<CR>
 " nnoremap <silent> <Leader>p :UnitePrevious<CR>
 "}}}
+
+"-----------------------------------------------------------------------------
+" highlight:
+"
+highlight link deniteMatched WarningMsg
 
 "-----------------------------------------------------------------------------
 " menu:
