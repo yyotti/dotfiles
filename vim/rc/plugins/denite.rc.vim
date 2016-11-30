@@ -35,9 +35,12 @@ call denite#custom#source(
       \   'file_mru', 'converters', [ 'converter_relative_word' ]
       \ )
 
+" call denite#custom#var('file_rec/git', 'command',
+"       \ [ 'git', 'ls-files', '-co', '--exclude-standard' ])
+call denite#custom#var('file_rec', 'command',
+      \ [ 'rg', '--files', '--glob', '!.git' ])
+
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
-      \ [ 'git', 'ls-files', '-co', '--exclude-standard' ])
 
 call denite#custom#option('default', 'prompt', '>')
 
