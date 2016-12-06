@@ -6,23 +6,25 @@
 " mappings:
 "
 
-" All mode mappings
-call denite#custom#map('_', '<C-g>', 'quit')
-call denite#custom#map('_', '<C-n>', 'move_to_next_line')
-call denite#custom#map('_', '<C-p>', 'move_to_prev_line')
-call denite#custom#map('_', '<Tab>', 'choose_action')
-
 " Insert mode mappings
-call denite#custom#map('insert', '<C-g>', 'quit')
-call denite#custom#map('insert', '<Tab>', 'choose_action')
-call denite#custom#map('insert', '<C-t>', 'paste_from_register')
-call denite#custom#map('insert', '<C-d>', 'scroll_window_downwards')
-call denite#custom#map('insert', '<C-u>', 'scroll_window_upwards')
-call denite#custom#map('insert', '<C-f>', 'scroll_page_forwards')
-call denite#custom#map('insert', '<C-b>', 'scroll_page_backwards')
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>')
+call denite#custom#map('insert', '<C-g>', '<denite:quit>', 'noremap')
+call denite#custom#map('insert', '<C-t>', '<denite:paste_from_register>', 'noremap')
+call denite#custom#map('insert', '<C-d>', '<denite:scroll_window_downwards>', 'noremap')
+call denite#custom#map('insert', '<C-u>', '<denite:scroll_window_upwards>', 'noremap')
+call denite#custom#map('insert', '<C-f>', '<denite:scroll_page_forwards>', 'noremap')
+call denite#custom#map('insert', '<C-b>', '<denite:scroll_page_backwards>', 'noremap')
+call denite#custom#map('insert', '<C-a>', '<denite:move_caret_to_head>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:delete_text_after_caret>', 'noremap')
+call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('insert', '<C-s>', '<denite:do_action:split>', 'noremap')
 
 " Normal mode mappings
-call denite#custom#map('normal', 'a', 'enter_mode:insert')
+call denite#custom#map('normal', 'a', '<denite:enter_mode:insert>', 'noremap')
+call denite#custom#map('normal', '<C-g>', '<denite:quit>', 'noremap')
+call denite#custom#map('normal', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('normal', '<C-s>', '<denite:do_action:split>', 'noremap')
 
 call denite#custom#source(
       \  'file_mru', 'matchers', [ 'matcher_fuzzy', 'matcher_project_files' ]
@@ -35,8 +37,6 @@ call denite#custom#source(
       \   'file_mru', 'converters', [ 'converter_relative_word' ]
       \ )
 
-" call denite#custom#var('file_rec/git', 'command',
-"       \ [ 'git', 'ls-files', '-co', '--exclude-standard' ])
 call denite#custom#var('file_rec', 'command',
       \ [ 'rg', '--files', '--glob', '!.git' ])
 
@@ -157,7 +157,7 @@ endif
 "-----------------------------------------------------------------------------
 " highlight:
 "
-highlight link deniteMatched WarningMsg
+highlight link deniteMatchedChar WarningMsg
 
 "-----------------------------------------------------------------------------
 " menu:
