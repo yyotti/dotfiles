@@ -6,10 +6,9 @@ augroup MyAutocmd
 
   autocmd BufReadPost *.tpl set filetype=smarty.html
   autocmd FileType haskell setlocal shiftwidth=2
-  autocmd FileType javascript,css setlocal shiftwidth=4
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*}
         \ setlocal filetype=markdown
-  autocmd FileType json setlocal shiftwidth=4 conceallevel=0
+  autocmd FileType json setlocal conceallevel=0
 
   " Update filetype
   autocmd BufWritePost *
