@@ -26,10 +26,9 @@ call denite#custom#map('normal', '<C-g>', '<denite:quit>', 'noremap')
 call denite#custom#map('normal', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
 call denite#custom#map('normal', '<C-s>', '<denite:do_action:split>', 'noremap')
 
-call denite#custom#source(
-      \  'file_mru', 'matchers', [ 'matcher_fuzzy', 'matcher_project_files' ]
-      \ )
-call denite#custom#source('file_rec,grep', 'matchers', [ 'matcher_cpsm' ])
+call denite#custom#source('file_mru', 'matchers', [ 'matcher_cpsm' ])
+call denite#custom#source('file_mru', 'sorters', [])
+call denite#custom#source('file_rec', 'matchers', [ 'matcher_cpsm' ])
 call denite#custom#source(
       \   'grep', 'matchers', [ 'matcher_ignore_globs', 'matcher_cpsm' ]
       \ )
