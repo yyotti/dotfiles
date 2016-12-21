@@ -149,12 +149,13 @@ endfunction "}}}
 
 function! s:error_count() abort "{{{
   if has('nvim') || v:version >= 800
+    " FIXME
     if !exists('*neomake#statusline#LoclistCounts')
-      return ''
+      return '%{""}'
     endif
 
-    return '%{join(values(map(copy(neomake#statusline#LoclistCounts()), "printf(''%s(%d)'', v:key, v:val)")))}'
-    " return join(values(map(copy(neomake#statusline#LoclistCounts()), "printf('%s(%d)', v:key, v:val)")))
+    return '%{join(values(map(copy(neomake#statusline#LoclistCounts()),'
+          \ . '"printf(''%s(%d)'', v:key, v:val)")))}'
   else
     return exists('*qfstatusline#Update') ? qfstatusline#Update() : ''
   endif
