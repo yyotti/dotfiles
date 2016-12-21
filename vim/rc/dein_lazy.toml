@@ -236,10 +236,34 @@ on_ft = [ 'smarty', 'html', 'css', 'php' ]
 hook_add = 'let g:colorizer_nomap = 1'
 
 [[plugins]]
-repo = 'yyotti/vim-lintexec.nvim'
-if = 'has("nvim")'
-hook_add = 'autocmd MyAutocmd BufWritePost * call lintexec#run()'
-hook_source = 'source ~/.vim/rc/plugins/vim-lintexec.rc.vim'
+repo = 'neomake/neomake'
+if = 'has("nvim") || v:version >= 800'
+hook_add = '''
+  autocmd MyAutocmd BufWritePost * Neomake | call lightline#update()
+
+  let g:neomake_scss_scsslint_maker = {
+        \   'exe': 'scss-lint',
+        \   'errorformat': '%A%f:%l [%t] %m',
+        \ }
+
+  " Vimscript
+  let g:neomake_vim_enabled_makers = [ 'vimlint' ]
+  let g:neomake_vim_vimlint_maker = {
+        \   'exe': expand('~/.vim/script/vimlint.sh'),
+        \   'args': [ '-u' ],
+        \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
+        \ }
+
+  " TOML
+  let g:neomake_toml_enabled_makers = [ 'tomlv' ]
+  let g:neomake_toml_tomlv_maker = {
+        \   'exe': 'tomlv',
+        \   'errorformat': 'Error\ in\ ''%f'':\ Near\ line\ %l\ %m',
+        \ }
+'''
+hook_post_source = '''
+  highlight link NeomakeErrorSign ErrorMsg
+'''
 
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
@@ -248,7 +272,7 @@ if = '!has("nvim")'
 [[plugins]]
 repo = 'osyo-manga/vim-watchdogs'
 depends = [ 'vim-quickrun', 'vimproc.vim', 'shabadou.vim' ]
-if = '!has("nvim")'
+if = '!has("nvim") && v:version < 800'
 on_path = '.*'
 hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
 hook_post_source = 'call watchdogs#setup(g:quickrun_config)'

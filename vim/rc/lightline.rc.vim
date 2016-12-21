@@ -149,13 +149,13 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if has('nvim')
-    if !exists('*lintexec#count_errors()')
+  if has('nvim') || v:version >= 800
+    if !exists('*neomake#statusline#LoclistCounts')
       return ''
     endif
 
-    let cnt = lintexec#count_errors()
-    return cnt == 0 ? '' : printf('E(%d)', cnt)
+    return '%{join(values(map(copy(neomake#statusline#LoclistCounts()), "printf(''%s(%d)'', v:key, v:val)")))}'
+    " return join(values(map(copy(neomake#statusline#LoclistCounts()), "printf('%s(%d)', v:key, v:val)")))
   else
     return exists('*qfstatusline#Update') ? qfstatusline#Update() : ''
   endif
