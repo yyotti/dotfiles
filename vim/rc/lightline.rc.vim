@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " lightline.vim:
 "
@@ -11,12 +10,12 @@ set noshowmode
 
 let g:lightline = {
       \   'separator': {
-      \     'left': '⮀',
-      \     'right': '⮂',
+      \     'left': "\u2b80",
+      \     'right': "\u2b82",
       \   },
       \   'subseparator': {
-      \     'left': '⮁',
-      \     'right': '⮃',
+      \     'left': "\u2b81",
+      \     'right': "\u2b83",
       \   },
       \   'active': {
       \     'left': [
@@ -42,7 +41,7 @@ let g:lightline = {
       \   },
       \   'component': {
       \     'inactivemode': '%{"INACTIVE"}',
-      \     'lineinfo': '⭡ %v:%l/%L',
+      \     'lineinfo': "\u2b61 %v:%l/%L",
       \     'fileformat': '%{'.s:SID_PREFIX().'fileinfo_visible()?&fileformat:""}',
       \     'filetype': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&filetype)?&filetype:"no ft"):""}',
       \     'fileencoding': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&fileencoding)?&fileencoding:&encoding):""}',
@@ -78,7 +77,7 @@ function! s:mode() abort "{{{
 endfunction "}}}
 
 function! s:readonly() abort "{{{
-  return &filetype !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
+  return &filetype !~? 'help\|vimfiler' && &readonly ? "\u2b64" : ''
 endfunction "}}}
 
 function! s:modified() abort "{{{
@@ -114,7 +113,7 @@ function! s:branch_visible() abort "{{{
 endfunction "}}}
 
 function! s:branch() abort "{{{
-  return s:branch_visible() ? '⭠ ' . fugitive#head() : ''
+  return s:branch_visible() ? "\u2b60 " . fugitive#head() : ''
 endfunction "}}}
 
 function! s:gitinfo_visible() abort "{{{

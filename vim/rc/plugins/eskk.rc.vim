@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " eskk.vim:
 "
@@ -30,10 +29,10 @@ let g:eskk#show_annotation = 1
 autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
 function! s:eskk_initial_pre() abort "{{{
   let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
-  call t.add_map('z ', '　')
-  call t.add_map('z(', '（')
-  call t.add_map('z)', '）')
-  call t.add_map('~', '〜')
+  call t.add_map('z ', "\u3000")
+  call t.add_map('z(', "\uff08")
+  call t.add_map('z)', "\uff09")
+  call t.add_map('~', "\u301c")
   call eskk#register_mode_table('hira', t)
   unlet t
 endfunction "}}}

@@ -1,4 +1,3 @@
-scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " View:
 "
@@ -7,7 +6,12 @@ set list
 if IsWindows()
   set listchars=tab:>-,extends:<,trail:-
 else
-  set listchars=tab:»\ ,extends:<,trail:-
+  execute "set listchars=tab:\u00bb\\ "
+  execute "set listchars+=eol:\u21b2"
+  execute "set listchars+=nbsp:\u2423"
+  execute "set listchars+=trail:-"
+  execute "set listchars+=extends:\u27e9"
+  execute "set listchars+=precedes:\u27e8"
 endif
 
 set laststatus=2
@@ -36,7 +40,7 @@ if !IsPowerlineEnabled()
 endif
 
 set linebreak
-set showbreak=\
+execute "set showbreak=\u21aa\\ "
 set breakat=\ \	;:,!?
 set whichwrap+=h,l,<,>,[,],b,s,~
 if exists('+breakindent')
