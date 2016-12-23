@@ -75,6 +75,12 @@ endif
 set showfulltag
 set wildoptions=tagfile
 
+if has('nvim')
+  set shada=!,'300,<50,s10,h
+else
+  set viminfo=!,'300,<50,s10,h
+endif
+
 " Disable menu
 let g:did_install_default_menus = 1
 

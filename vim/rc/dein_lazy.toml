@@ -48,10 +48,10 @@ hook_source = 'source ~/.vim/rc/plugins/neosnippet-additional.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
-on_source = [ 'unite.vim', 'denite.nvim' ]
 
 [[plugins]]
 repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
 on_source = 'denite.vim'
 # if = 'has("nvim") || v:version < 800'
 hook_add = '''
@@ -76,7 +76,7 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 repo = 'Shougo/denite.nvim'
 if = 'has("nvim") || v:version >= 800'
 hook_add = '''
-  nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_mru<CR>
+  nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_old<CR>
   nnoremap <silent> <Leader>uf
         \ :<C-u>Denite -buffer-name=files file_rec<CR>
   nnoremap <silent> <Leader>ul :<C-u>Denite line<CR>
