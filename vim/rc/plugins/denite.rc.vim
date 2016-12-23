@@ -42,6 +42,7 @@ call denite#custom#var('file_rec', 'command',
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 
 call denite#custom#option('default', 'prompt', '>')
+call denite#custom#option('default', 'highlight_matched_char', 'WarningMsg')
 
 "-----------------------------------------------------------------------------
 " grep:
@@ -152,11 +153,6 @@ endif
 " nnoremap <silent> <Leader>n :UniteNext<CR>
 " nnoremap <silent> <Leader>p :UnitePrevious<CR>
 "}}}
-
-"-----------------------------------------------------------------------------
-" highlight:
-"
-highlight link deniteMatchedChar WarningMsg
 
 "-----------------------------------------------------------------------------
 " menu:
