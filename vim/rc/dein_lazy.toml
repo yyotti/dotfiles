@@ -77,8 +77,7 @@ repo = 'Shougo/denite.nvim'
 if = 'has("nvim") || v:version >= 800'
 hook_add = '''
   nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_old<CR>
-  nnoremap <silent> <Leader>uf
-        \ :<C-u>Denite -buffer-name=files file_rec<CR>
+  nnoremap <silent> <Leader>uf :<C-u>Denite file_rec<CR>
   nnoremap <silent> <Leader>ul :<C-u>Denite line<CR>
   nnoremap <silent> <Leader>ug
         \ :<C-u>Denite grep -mode=normal -no-empty<CR>
