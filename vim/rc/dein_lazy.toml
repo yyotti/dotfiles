@@ -53,20 +53,21 @@ repo = 'Shougo/neomru.vim'
 repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
 on_source = 'denite.vim'
-# if = 'has("nvim") || v:version < 800'
 hook_add = '''
-  " nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
-  " nnoremap <silent> <Leader>uf
-  "       \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
-  "       \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
-  "       \     buffer_tab:- file file/new<CR>
-  " nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
-  " nnoremap <silent> <Leader>ug
-  "       \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
-  " nnoremap <silent> <Leader>ur
-  "       \ :<C-u>UniteResume -buffer-name=grep
-  "       \   -no-start-insert -no-empty grep<CR>
-  " nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
+  if !has('nvim') && v:version < 800
+    nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
+    nnoremap <silent> <Leader>uf
+          \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+          \   `finddir('.git', ';') !=# '' ? 'file_rec/git' : ''`
+          \     buffer_tab:- file file/new<CR>
+    nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
+    nnoremap <silent> <Leader>ug
+          \ :<C-u>Unite grep -buffer-name=grep -no-start-insert -no-empty<CR>
+    nnoremap <silent> <Leader>ur
+          \ :<C-u>UniteResume -buffer-name=grep
+          \   -no-start-insert -no-empty grep<CR>
+    nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
+  endif
 
   let g:unite_force_overwrite_statusline = 0
 '''
