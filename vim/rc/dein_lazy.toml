@@ -293,13 +293,13 @@ if = '!has("nvim")'
 on_source = 'vim-watchdogs'
 hook_source = 'source ~/.vim/rc/plugins/vim-qfsigns.rc.vim'
 
-[[plugins]]
-repo = 'osyo-manga/unite-quickfix'
-on_source = 'unite.vim'
-hook_add = '''
-  nnoremap <silent> <Leader>uq
-        \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
-'''
+# [[plugins]]
+# repo = 'osyo-manga/unite-quickfix'
+# on_source = 'unite.vim'
+# hook_add = '''
+#   nnoremap <silent> <Leader>uq
+#         \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
+# '''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -363,17 +363,17 @@ repo = 'vim-jp/vimdoc-ja'
 on_ft = 'help'
 if = '!has("nvim")'
 
-[[plugins]]
-repo = 'lambdalisue/vim-gista'
-on_map = [ [ 'n', '<Plug>' ] ]
-if = 0
-hook_add = '''
-  let g:gista#github_user = 'yyotti'
-  let g:gista#post_private = 1
-  let g:gista#directory = expand('$CACHE/gista')
-
-  nnoremap <Leader>ua :<C-u>Unite gista<CR>
-'''
+# [[plugins]]
+# repo = 'lambdalisue/vim-gista'
+# on_map = [ [ 'n', '<Plug>' ] ]
+# if = 0
+# hook_add = '''
+#   let g:gista#github_user = 'yyotti'
+#   let g:gista#post_private = 1
+#   let g:gista#directory = expand('$CACHE/gista')
+#
+#   nnoremap <Leader>ua :<C-u>Unite gista<CR>
+# '''
 
 [[plugins]]
 repo = 'syngan/vim-vimlint'
