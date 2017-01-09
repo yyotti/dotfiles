@@ -13,17 +13,6 @@ function! IsWindows() abort "{{{
   return s:is_windows
 endfunction "}}}
 
-function! IsPowerlineEnabled() abort "{{{
-  if has('nvim')
-    " TODO Enable when powerline implement neovim feature
-    return 0
-  endif
-
-  let has_python = has('python') && executable('python')
-  let has_python3 = has('python3') && executable('python3')
-  return (has_python3 || has_python) && executable('powerline-daemon')
-endfunction "}}}
-
 function! IsHomePC() abort "{{{
   return isdirectory(s:vimdev_dir)
 endfunction "}}}
@@ -99,15 +88,6 @@ endif
 
 if !has('nvim') && has('gui_running')
   call s:source_rc('gui.rc.vim')
-endif
-
-"-----------------------------------------------------------------------------
-" Statusline:
-"
-if IsPowerlineEnabled()
-  call s:source_rc('powerline.rc.vim')
-elseif dein#is_sourced('lightline.vim')
-  call s:source_rc('lightline.rc.vim')
 endif
 
 "-----------------------------------------------------------------------------

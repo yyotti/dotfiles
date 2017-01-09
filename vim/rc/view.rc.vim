@@ -28,7 +28,7 @@ let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
       \ . "substitute(b:vimfiler.current_dir,'.\\zs/$','',''):getcwd(),':~'),"
       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
 
-if !IsPowerlineEnabled()
+if !exists('*lightline#update')
   let &statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
