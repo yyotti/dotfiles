@@ -4,19 +4,5 @@
 			"~/.config/powerline"
 		],
 		"log_file": "/tmp/powerline.log"
-	},
-	"ext": {
-		"vim": {
-			"colorscheme": "default",
-			"theme": "custom",
-
-			"local_themes": {
-				"ext.matchers.vim.plugin.unite.unite": "plugin_unite",
-				"ext.matchers.vim.plugin.vimfiler.vimfiler": "plugin_vimfiler",
-				"ext.matchers.vim.plugin.fugitive.gitcommit": "plugin_fugitive-gitcommit",
-				"ext.matchers.vim.plugin.fugitive.revision": "plugin_fugitive-revision",
-				"ext.matchers.vim.plugin.merginal.merginal": "plugin_merginal"
-			}
-		}
 	}
 }
