@@ -80,14 +80,16 @@ hook_add = '''
   nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_old<CR>
   nnoremap <silent> <Leader>uf :<C-u>Denite file_rec<CR>
   nnoremap <silent> <Leader>ul :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>ug :<C-u>Denite grep
-          \ -buffer-name=grep -no-empty<CR>
-  nnoremap <silent> <Leader>ur :<C-u>Denite -resume
-          \ -buffer-name=grep -no-empty grep<CR>
+  nnoremap <silent> <Leader>ug
+        \ :<C-u>Denite grep -mode=normal -no-empty -buffer-name=grep<CR>
+  nnoremap <silent> <Leader>ur
+        \ :<C-u>Denite -resume -mode=normal -no-empty -buffer-name=grep<CR>
   nnoremap <silent> <Leader>ue :<C-u>Denite menu:_<CR>
 
-  nnoremap <silent> <Leader>n :<C-u>Denite -resume -select=+1 -immediately<CR>
-  nnoremap <silent> <Leader>p :<C-u>Denite -resume -select=-1 -immediately<CR>
+  nnoremap <silent> <Leader>n
+        \ :<C-u>Denite -resume -select=+1 -immediately -buffer-name=grep<CR>
+  nnoremap <silent> <Leader>p
+        \ :<C-u>Denite -resume -select=-1 -immediately -buffer-name=grep<CR>
 '''
 hook_source = 'source ~/.vim/rc/plugins/denite.rc.vim'
 
