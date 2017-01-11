@@ -42,8 +42,10 @@ call denite#custom#var('file_rec', 'command',
 
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
 
-call denite#custom#option('default', 'prompt', '>')
-call denite#custom#option('default', 'highlight_matched_char', 'WarningMsg')
+call denite#custom#option('default,grep', 'prompt', '>')
+call denite#custom#option(
+      \   'default,grep', 'highlight_matched_char', 'WarningMsg'
+      \ )
 call denite#custom#option(
       \   'default,grep', 'highlight_mode_normal', 'CursorLine'
       \ )
