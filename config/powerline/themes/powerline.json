@@ -10,12 +10,11 @@
 		}
 	},
 	"segment_data": {
-		"time": {
-			"before": ""
-		},
-
 		"powerline.segments.common.net.hostname": {
 			"before": ""
+		},
+		"ext.segments.common.mail.email_imap_alert": {
+			"before": "\u2709 "
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
-import commands
+# import commands
 import multiprocessing
 import psutil
 import re

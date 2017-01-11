@@ -1,9 +1,4 @@
 {
-	"segment_data": {
-		"ext.segments.common.mail.email_imap_alert": {
-			"before": "✉ "
-		}
-	},
 	"segments": {
 		"right": [
 			{
@@ -50,17 +45,7 @@
 			{
 				"function": "powerline.segments.common.time.date",
 				"args": {
-					"format": "%Y年%-m月%-d日(%a)",
-					"istime": true
-				}
-			},
-			{
-				"function": "powerline.segments.common.time.date",
-				"name": "time",
-				"draw_soft_divider": false,
-				"before": " ",
-				"args": {
-					"format": "%H:%M",
+					"format": "%Y/%m/%d %H:%M",
 					"istime": true
 				}
 			},

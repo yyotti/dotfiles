@@ -1,8 +1,11 @@
 {
 	"common": {
-		"paths":[
+		"paths": [
 			"~/.config/powerline"
 		],
-		"log_file": "/tmp/powerline.log"
+		"log_file": [
+			"/tmp/powerline.log"
+		],
+                "default_top_theme": "powerline"
 	}
 }
