@@ -10,12 +10,12 @@ set noshowmode
 
 let g:lightline = {
       \   'separator': {
-      \     'left': "\u2b80",
-      \     'right': "\u2b82",
+      \     'left': IsWindows() ? "" : "\u2b80",
+      \     'right': IsWindows() ? "" : "\u2b82",
       \   },
       \   'subseparator': {
-      \     'left': "\u2b81",
-      \     'right': "\u2b83",
+      \     'left': IsWindows() ? "" : "\u2b81",
+      \     'right': IsWindows() ? "" : "\u2b83",
       \   },
       \   'active': {
       \     'left': [
@@ -41,7 +41,7 @@ let g:lightline = {
       \   },
       \   'component': {
       \     'inactivemode': '%{"INACTIVE"}',
-      \     'lineinfo': "\u2b61 %v:%l/%L",
+      \     'lineinfo': (IsWindows() ? ' ' : "\u2b61 ") . '%v:%l/%L',
       \     'fileformat': '%{'.s:SID_PREFIX().'fileinfo_visible()?&fileformat:""}',
       \     'filetype': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&filetype)?&filetype:"no ft"):""}',
       \     'fileencoding': '%{'.s:SID_PREFIX().'fileinfo_visible()?(!empty(&fileencoding)?&fileencoding:&encoding):""}',
@@ -77,7 +77,7 @@ function! s:mode() abort "{{{
 endfunction "}}}
 
 function! s:readonly() abort "{{{
-  return &filetype !~? 'help\|vimfiler' && &readonly ? "\u2b64" : ''
+  return &filetype !~? 'help\|vimfiler' && &readonly ? (IsWindows() ? '[R]' : "\u2b64") : ''
 endfunction "}}}
 
 function! s:modified() abort "{{{
@@ -113,7 +113,7 @@ function! s:branch_visible() abort "{{{
 endfunction "}}}
 
 function! s:branch() abort "{{{
-  return s:branch_visible() ? "\u2b60 " . fugitive#head() : ''
+  return s:branch_visible() ? (IsWindows() ? '' : "\u2b60 ") . fugitive#head() : ''
 endfunction "}}}
 
 function! s:gitinfo_visible() abort "{{{

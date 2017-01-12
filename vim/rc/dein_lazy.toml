@@ -196,6 +196,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'vim-scripts/sudo.vim'
+if = '!IsWindows()'
 on_path = 'sudo:.*'
 
 [[plugins]]
@@ -249,6 +250,7 @@ hook_add = '''
         \ }
 
   " Vimscript
+  " TODO Windows batch
   let g:neomake_vim_enabled_makers = [ 'vimlint' ]
   let g:neomake_vim_vimlint_maker = {
         \   'exe': expand('~/.vim/script/vimlint.sh'),
@@ -451,6 +453,7 @@ hook_source = '''
 
 [[plugins]]
 repo = 'nixprime/cpsm'
+if = '!IsWindows()'
 on_source = 'denite.nvim'
 build = 'env PY3=ON ./install.sh'
 

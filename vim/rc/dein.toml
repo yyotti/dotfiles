@@ -4,6 +4,7 @@ hook_add = 'source ~/.vim/rc/plugins/dein.rc.vim'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
+if = '!IsWindows()'
 build = 'make'
 
 # colorschemeはLazyできないようなのでこっち

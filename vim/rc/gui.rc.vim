@@ -7,8 +7,11 @@
 "
 set ambiwidth=double
 
-set guifontwide=Ricty\ for\ Powerline\ 11
-set guifont=Ricty\ for\ Powerline\ 11
+if !IsWindows()
+  set guifontwide=Ricty\ for\ Powerline\ 11
+  set guifont=Ricty\ for\ Powerline\ 11
+endif
+
 if has('win32') || has('win64')
   " Windows
   set linespace=2
