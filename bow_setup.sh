@@ -65,7 +65,8 @@ sudo apt-get -y install \
   cmake \
   libicu-dev \
   rcm \
-  php5.6
+  php5.6 \
+  xsel
 
 chsh -s /bin/zsh
 
