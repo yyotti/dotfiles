@@ -9,7 +9,7 @@ smap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
 xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
 
 let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#enable_complete_done = 1
+let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#expand_word_boundary = 1
 
 if !exists('g:neosnippet#snippets_directory')
