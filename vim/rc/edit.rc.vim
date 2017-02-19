@@ -139,15 +139,15 @@ if executable('git')
     if !isdirectory(buf_path)
       return
     endif
-    execute 'lcd' buf_path
+    execute 'lcd' escape(buf_path, ' ')
 
     let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
     if in_git_dir !=# 'true'
-      execute 'lcd' dir
+      execute 'lcd' escape(dir, ' ')
       return
     endif
 
     let git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' git_root
+    execute 'lcd' escape(git_root, ' ')
   endfunction "}}}
 endif
