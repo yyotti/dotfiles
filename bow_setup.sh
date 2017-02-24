@@ -66,6 +66,9 @@ sudo apt-get -y install \
   libicu-dev \
   rcm \
   php5.6 \
+  php5.6-zip \
+  php5.6-mbstring \
+  php5.6-xml \
   xsel
 
 chsh -s /bin/zsh
