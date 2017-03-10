@@ -50,6 +50,9 @@ hook_source = '''
   if !s:found
     let g:neosnippet#snippets_directory = join(add(s:dirs, s:snippets_dir), ',')
   endif
+
+  unlet s:dirs
+  unlet s:snippets_dir
 '''
 
 [[plugins]]
@@ -64,15 +67,19 @@ hook_source = '''
   let s:snippets_dir =
         \ expand(dein#get('neosnippet-additional').path . '/snippets/')
   let s:dirs = split(g:neosnippet#snippets_directory, ',')
+  let s:found = 0
   for s:dir in s:dirs
     if s:dir ==# s:snippets_dir
-      finish
+      let s:found = 1
     endif
 
     unlet s:dir
   endfor
 
-  let g:neosnippet#snippets_directory = join(add(s:dirs, s:snippets_dir), ',')
+  if !s:found
+    let g:neosnippet#snippets_directory =
+          \ join(add(s:dirs, s:snippets_dir), ',')
+  endif
 
   unlet s:dirs
   unlet s:snippets_dir

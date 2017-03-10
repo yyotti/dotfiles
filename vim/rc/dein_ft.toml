@@ -21,14 +21,15 @@ hook_add = '''
         \ ]
 
   " Folding
+  " TODO
   " let g:php_folding = 1
   " let g:xml_syntax_folding = 1
 
   " Update filetype
   autocmd MyAutocmd BufWritePost * nested
-        \ if &l:filetype ==# '' || exists('b:ftdetect')
-        \   unlet! b:ftdetect
-        \   filetype detect
+        \ if &l:filetype ==# '' || exists('b:ftdetect') |
+        \   unlet! b:ftdetect |
+        \   filetype detect |
         \ endif
 '''
 
@@ -61,16 +62,17 @@ _ = '''
 
 python = '''
   setlocal foldmethod=indent
+  setlocal textwidth=80
+  setlocal smarttab
+  setlocal expandtab
+  setlocal nosmartindent
 '''
 
 html = '''
   setlocal path+=./;/
 '''
 
-# TODO Smarty,phpの場合に path に追加する処理をvimrc_localに書く
-
 vim = '''
-  echomsg 'called'
   setlocal foldmethod=indent
 '''
 
@@ -81,5 +83,42 @@ toml = '''
 help = '''
   setlocal iskeyword+=:
   setlocal iskeyword+=#
+  setlocal iskeyword+=-
+
+  nnoremap <silent> <buffer> q :q<CR>
+'''
+
+php = '''
+  setlocal colorcolumn=
+  setlocal nowrap
+'''
+
+smarty = '''
+  setlocal colorcolumn=
+  setlocal nowrap
+'''
+
+# TODO Smarty,phpの場合に path に追加する処理をvimrc_localに書く
+
+sql = '''
+  if executable('sql-formatter')
+    setlocal formatexpr=
+    setlocal formatprg=sql-formatter
+  endif
+'''
+
+markdown = '''
+  let b:not_del_last_whitespaces = 1
+
+  setlocal colorcolumn=
+  setlocal wrap
+'''
+
+scss = '''
+  setlocal shiftwidth=2
+  setlocal iskeyword+=-
+'''
+
+css = '''
   setlocal iskeyword+=-
 '''
