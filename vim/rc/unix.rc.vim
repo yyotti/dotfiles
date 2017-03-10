@@ -1,12 +1,9 @@
 "-----------------------------------------------------------------------------
 " For Unix:
 "
-if exists('$WINDIR') || !executable('zsh')
-  " Cygwin
-  set shell=bash
-else
-  set shell=zsh
-endif
+
+" Use sh (It is faster)
+set shell=sh
 
 let $PATH = expand('~/bin') . ':/usr/local/bin/:' . $PATH
 
@@ -17,7 +14,13 @@ endif
 "-----------------------------------------------------------------------------
 " For CUI:
 "
+set t_Co=256
+
 if !has('nvim')
+  set term=xterm-256color
   set t_ut=
-  set t_Co=256
+endif
+
+if exists('+termguicolors')
+  set termguicolors
 endif

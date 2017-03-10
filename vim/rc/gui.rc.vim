@@ -7,17 +7,12 @@
 "
 set ambiwidth=double
 
-if !IsWindows()
-  set guifontwide=Ricty\ for\ Powerline\ 11
-  set guifont=Ricty\ for\ Powerline\ 11
-endif
+set guifontwide=Ricty\ for\ Powerline\ 11
+set guifont=Ricty\ for\ Powerline\ 11
 
-if has('win32') || has('win64')
+if IsWindows()
   " Windows
   set linespace=2
-  if has('patch-7.4.394')
-    set renderoptions=type:directx
-  endif
 
   if has('kaoriya')
     set ambiwidth=auto
@@ -27,7 +22,7 @@ endif
 "-----------------------------------------------------------------------------
 " Window:
 "
-if has('win32') || has('win64')
+if IsWindows()
   set columns=220
   set lines=55
 else
@@ -40,12 +35,14 @@ else
 endif
 
 "-----------------------------------------------------------------------------
-" Menu:
+" Options:
 "
+set mouse=
+set mousemodel=
+set nomousefocus
+set mousehide
+
 set guioptions=Mc
 
-"-----------------------------------------------------------------------------
-" View:
-"
 set guicursor&
 set guicursor+=a:blinkon0

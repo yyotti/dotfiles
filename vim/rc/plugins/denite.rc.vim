@@ -7,31 +7,47 @@
 "
 
 " Insert mode mappings
-call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>')
-call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>')
-call denite#custom#map('insert', '<C-g>', '<denite:quit>', 'noremap')
-call denite#custom#map('insert', '<C-t>', '<denite:paste_from_register>', 'noremap')
-call denite#custom#map('insert', '<C-d>', '<denite:scroll_window_downwards>', 'noremap')
-call denite#custom#map('insert', '<C-u>', '<denite:scroll_window_upwards>', 'noremap')
-call denite#custom#map('insert', '<C-f>', '<denite:scroll_page_forwards>', 'noremap')
-call denite#custom#map('insert', '<C-b>', '<denite:scroll_page_backwards>', 'noremap')
-call denite#custom#map('insert', '<C-a>', '<denite:move_caret_to_head>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:delete_text_after_caret>', 'noremap')
-call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('insert', '<C-s>', '<denite:do_action:split>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-n>', '<denite:move_to_next_line>')
+call denite#custom#map('insert',
+      \ '<C-p>', '<denite:move_to_previous_line>')
+call denite#custom#map('insert',
+      \ '<C-g>', '<denite:quit>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-t>', '<denite:paste_from_register>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-d>', '<denite:scroll_window_downwards>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-u>', '<denite:scroll_window_upwards>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-f>', '<denite:scroll_page_forwards>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-b>', '<denite:scroll_page_backwards>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-a>', '<denite:move_caret_to_head>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-k>', '<denite:delete_text_after_caret>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-x>', '<denite:do_action:split>', 'noremap')
 
 " Normal mode mappings
-call denite#custom#map('normal', 'a', '<denite:enter_mode:insert>', 'noremap')
-call denite#custom#map('normal', '<C-g>', '<denite:quit>', 'noremap')
-call denite#custom#map('normal', '<C-v>', '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('normal', '<C-s>', '<denite:do_action:split>', 'noremap')
+call denite#custom#map('normal',
+      \ 'a', '<denite:enter_mode:insert>', 'noremap')
+call denite#custom#map('normal',
+      \ '<C-g>', '<denite:quit>', 'noremap')
+call denite#custom#map('normal',
+      \ '<C-v>', '<denite:do_action:vsplit>', 'noremap')
+call denite#custom#map('normal',
+      \ '<C-s>', '<denite:do_action:split>', 'noremap')
 
-call denite#custom#source('file_old', 'matchers', [ 'matcher_cpsm' ])
-call denite#custom#source('file_old', 'sorters', [])
-call denite#custom#source('file_rec', 'matchers', [ 'matcher_cpsm' ])
-call denite#custom#source(
-      \   'file_old', 'converters', [ 'converter_relative_word' ]
-      \ )
+call denite#custom#source('file_old', 'matchers', [ 'matcher_fuzzy' ])
+if has('nvim')
+  call denite#custom#source('file_rec,grep', 'matchers', [ 'matcher_cpsm' ])
+endif
+call denite#custom#source('file_old', 'converters',
+      \ [ 'converter_relative_word' ])
 
 call denite#custom#source(
       \   'grep', 'matchers', [ 'matcher_ignore_globs', 'matcher_cpsm' ]
@@ -41,6 +57,8 @@ call denite#custom#var('file_rec', 'command',
       \ [ 'rg', '--files', '--glob', '!.git' ])
 
 call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+      \ [ 'git', 'ls-files', '-co', '--exclude-standard' ])
 
 call denite#custom#option('default,grep', 'prompt', '>')
 call denite#custom#option(

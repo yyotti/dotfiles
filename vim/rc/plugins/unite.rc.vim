@@ -3,6 +3,7 @@
 "
 let g:unite_enable_auto_select = 0
 let g:unite_restore_alternate_file = 1
+let g:unite_force_overwrite_statusline = 0
 
 call unite#custom#profile('default', 'context', {
       \   'start_insert': 1,
@@ -23,9 +24,14 @@ call unite#custom#source(
       \   ]
       \ )
 call unite#custom#source(
-      \   'buffer,file_rec,file_rec/async,file_rec/git,file_mru',
+      \   'file_rec,file_rec/async,file_rec/git,file_mru',
       \   'converters',
-      \   [ 'converter_file_directory' ]
+      \   [ 'converter_uniq_word' ]
+      \ )
+call unite#custom#source(
+      \   'buffer',
+      \   'converters',
+      \   [ 'converter_uniq_word', 'converter_word_abbr' ]
       \ )
 call unite#filters#sorter_default#use([ 'sorter_rank' ])
 
@@ -58,7 +64,7 @@ function! s:unite_settings() abort "{{{
     nnoremap <silent> <buffer> <expr> r unite#do_action('rename')
   endif
 
-  nmap <buffer> x     <Plug>(unite_quick_match_jump)
+  nmap <buffer> x <Plug>(unite_quick_match_jump)
 endfunction "}}}
 
 " Grep command.
@@ -86,6 +92,8 @@ elseif executable('git')
         \ 'grep --no-index --no-color --exclude-standard -I --line-number -i'
   let g:unite_source_grep_recursive_opt = ''
 endif
+
+let g:unite_source_rec_max_cache_files = -1
 
 nnoremap <silent> <Leader>n :UniteNext<CR>
 nnoremap <silent> <Leader>p :UnitePrevious<CR>

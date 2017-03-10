@@ -1,47 +1,37 @@
 "-----------------------------------------------------------------------------
 " Initialize:
 "
-let s:is_windows = has('win16') || has('win32') || has('win64')
+
+" Delete all my autocmd
+augroup MyAutocmd
+  autocmd!
+augroup END
+
 let s:is_cygwin = has('win32unix')
-let s:vimdev_dir = resolve(expand('~/vim_dev'))
 
 function! s:source_rc(path) abort "{{{
   execute 'source' fnameescape('~/.vim/rc/' . a:path)
 endfunction "}}}
 
-function! IsWindows() abort "{{{
-  return s:is_windows
-endfunction "}}}
-
-function! IsHomePC() abort "{{{
-  return isdirectory(s:vimdev_dir)
-endfunction "}}}
-
-function! VimDevDir() abort "{{{
-  return s:vimdev_dir
-endfunction "}}}
-
-call s:source_rc('init.rc.vim')
+if has('vim_starting')
+  call s:source_rc('init.rc.vim')
+endif
 
 call s:source_rc('dein.rc.vim')
 
-if IsHomePC()
-  " Load develop version settings
-  let s:vimrc_dev = s:vimdev_dir . '/vimrc'
-  if filereadable(s:vimrc_dev)
-    execute 'source' s:vimrc_dev
-  endif
-
-  unlet s:vimrc_dev
-endif
-
-if !has('vim_starting')
+if has('vim_starting')
+  " TODO Check timing
+  silent! filetype plugin indent on
+  syntax enable
+  filetype detect
+else
   call dein#call_hook('source')
   call dein#call_hook('post_source')
+
+  filetype plugin indent on
+  syntax enable
 endif
 
-filetype plugin indent on
-syntax enable
 
 "-----------------------------------------------------------------------------
 " Encoding:
@@ -49,24 +39,9 @@ syntax enable
 call s:source_rc('encoding.rc.vim')
 
 "-----------------------------------------------------------------------------
-" Search:
+" Options:
 "
-call s:source_rc('search.rc.vim')
-
-"-----------------------------------------------------------------------------
-" Edit:
-"
-call s:source_rc('edit.rc.vim')
-
-"-----------------------------------------------------------------------------
-" View:
-"
-call s:source_rc('view.rc.vim')
-
-"-----------------------------------------------------------------------------
-" FileType:
-"
-call s:source_rc('filetype.rc.vim')
+call s:source_rc('options.rc.vim')
 
 "-----------------------------------------------------------------------------
 " Mappings:
@@ -105,5 +80,6 @@ if filereadable(expand('~/.nvimrc_local'))
   execute 'source' expand('~/.nvimrc_local')
 endif
 
-set helplang& helplang=en,ja
+set helplang&
+set helplang=en,ja
 set secure

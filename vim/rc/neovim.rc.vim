@@ -1,21 +1,17 @@
 "-----------------------------------------------------------------------------
 " Neovim:
 "
-tnoremap <ESC> <C-\><C-n>
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
 
-nnoremap <Leader>t :<C-u>terminal<CR>
+if exists('&inccommand')
+  set inccommand=nosplit
+endif
+
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
+tnoremap <ESC> <C-\><C-n>
 
 set mouse=
 
 autocmd MyAutocmd CursorHold * if exists(':rshada') | rshada | wshada | endif
-
-if exists('$NVIM_GUI')
-  autocmd MyAutocmd BufEnter * call <SID>init_{$NVIM_GUI}()
-  function! s:init_pynvim() abort "{{{
-    if exists('g:loaded_pynvim')
-      return
-    endif
-
-    let g:loaded_pynvim = 1
-  endfunction "}}}
-endif

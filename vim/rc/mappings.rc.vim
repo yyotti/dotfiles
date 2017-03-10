@@ -42,6 +42,7 @@ endif
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
 
 nnoremap <silent> U viwU
+nnoremap <silent> gU viwu
 
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
@@ -147,8 +148,17 @@ nnoremap <Leader>J <C-w>J
 nnoremap <silent> <Leader>o :<C-u>only<CR>
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
+nnoremap <silent> <Leader>H :<C-u>hide<CR>
 "}}}
 
 " Others "{{{
 nnoremap x "_x
+
+function! ToggleOption(option_name) abort "{{{
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction "}}}
+
+nnoremap <Leader>w :<C-u>call ToggleOption('wrap')<CR>
+nnoremap <Leader>N :<C-u>call ToggleOption('number')<CR>
 "}}}
