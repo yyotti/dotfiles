@@ -38,6 +38,9 @@ if &runtimepath !~# '/dein.vim'
   unlet s:dein_dir
 endif
 
+" Disable packpath
+set packpath=
+
 " Disable default plugins {{{
 let g:loaded_2html_plugin = 1
 " let g:loaded_LogiPat = 1

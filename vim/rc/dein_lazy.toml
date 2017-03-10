@@ -96,7 +96,7 @@ hook_source = 'source ~/.vim/rc/plugins/denite.rc.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = 'unite.vim'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 on_if = 'isdirectory(bufname("%"))'
 hook_add = '''
   nnoremap <silent> <Leader>fe
@@ -125,7 +125,7 @@ hook_source = 'source ~/.vim/rc/plugins/vim-gitgutter.rc.vim'
 [[plugins]]
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_add = '''
   nmap K <Plug>(ref-keyword)
 '''
@@ -139,7 +139,7 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 depends = 'vim-repeat'
-on_map = [ [ 'nxo', '<Plug>' ] ]
+on_map = { nxo = '<Plug>' }
 hook_add = '''
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_enter_jump_first = 1
@@ -178,7 +178,7 @@ repo = 'kana/vim-operator-user'
 [[plugins]]
 repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   map R <Plug>(operator-replace)
   xmap p <Plug>(operator-replace)
@@ -187,7 +187,7 @@ hook_add = '''
 [[plugins]]
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_add = '''
   map <silent> ra <Plug>(operator-surround-append)
   map <silent> rd <Plug>(operator-surround-delete)
@@ -297,23 +297,15 @@ if = '!has("nvim")'
 on_source = 'vim-watchdogs'
 hook_source = 'source ~/.vim/rc/plugins/vim-qfsigns.rc.vim'
 
-# [[plugins]]
-# repo = 'osyo-manga/unite-quickfix'
-# on_source = 'unite.vim'
-# hook_add = '''
-#   nnoremap <silent> <Leader>uq
-#         \ :<C-u>Unite -no-quit -no-start-insert quickfix<CR>
-# '''
-
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-on_map = [ [ 'n', '<Plug>' ] ]
+on_map = { n = '<Plug>' }
 hook_add = 'nmap <silent> <Leader>r <Plug>(quickrun)'
 
 [[plugins]]
 repo = 'haya14busa/vim-operator-flashy'
 depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
   map y <Plug>(operator-flashy)
@@ -356,9 +348,7 @@ on_source = [ 'vital.vim' ]
 
 [[plugins]]
 repo = 'benjifisher/matchit.zip'
-on_map = [
-  [ 'nxo', '%', 'g%' ],
-]
+on_map = { nxo = [ '%', 'g%' ] }
 hook_source = 'unlet g:loaded_matchit'
 hook_post_source = 'source ~/.vim/rc/plugins/matchit.zip.rc.vim'
 
@@ -367,18 +357,6 @@ repo = 'vim-jp/vimdoc-ja'
 on_ft = 'help'
 if = '!has("nvim")'
 
-# [[plugins]]
-# repo = 'lambdalisue/vim-gista'
-# on_map = [ [ 'n', '<Plug>' ] ]
-# if = 0
-# hook_add = '''
-#   let g:gista#github_user = 'yyotti'
-#   let g:gista#post_private = 1
-#   let g:gista#directory = expand('$CACHE/gista')
-#
-#   nnoremap <Leader>ua :<C-u>Unite gista<CR>
-# '''
-
 [[plugins]]
 repo = 'syngan/vim-vimlint'
 depends = [ 'vim-vimlparser' ]
@@ -386,24 +364,6 @@ on_source = 'vim-watchdogs'
 
 [[plugins]]
 repo = 'ynkdir/vim-vimlparser'
-
-[[plugins]]
-repo = 'rickhowe/diffchar.vim'
-on_cmd = [ 'SDChar' ]
-on_map = [ '<Plug>ToggleDiffCharAllLines', '<Plug>ToggleDiffCharCurrentLine' ]
-hook_add = '''
-  autocmd MyAutocmd FilterWritePre *
-        \ if &diff
-        \|  nmap <buffer> dc <Plug>ToggleDiffCharAllLines
-        \|  nmap <buffer> dC <Plug>ToggleDiffCharCurrentLine
-        \|endif
-'''
-hook_post_source = '''
-  if hasmapto("<Plug>JumpDiffCharPrevStart", 'n') | execute 'unmap [b' | endif
-  if hasmapto("<Plug>JumpDiffCharNextStart", 'n') | execute 'unmap ]b' | endif
-  if hasmapto("<Plug>JumpDiffCharPrevEnd", 'n') | execute 'unmap [e' | endif
-  if hasmapto("<Plug>JumpDiffCharNextEnd", 'n') | execute 'unmap ]e' | endif
-'''
 
 [[plugins]]
 repo = 'thinca/vim-prettyprint'
@@ -422,7 +382,7 @@ hook_source = '''
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 normalized_name = 'openbrowser'
-on_map = [ [ 'nx', '<Plug>' ] ]
+on_map = { nx = '<Plug>' }
 hook_add = '''
   nmap gb <Plug>(openbrowser-open)
   vmap gb <Plug>(openbrowser-open)
@@ -456,6 +416,10 @@ repo = 'nixprime/cpsm'
 if = '!IsWindows()'
 on_source = 'denite.nvim'
 build = 'env PY3=ON ./install.sh'
+
+[[plugins]]
+repo = 'othree/html5.vim'
+on_ft = [ 'html' ]
 
 # 以下、家PC用
 [[plugins]]
