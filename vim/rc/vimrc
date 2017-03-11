@@ -26,8 +26,6 @@ endif
 
 filetype plugin indent on
 syntax enable
-filetype detect
-
 
 "-----------------------------------------------------------------------------
 " Encoding:
@@ -77,5 +75,5 @@ if filereadable(expand('~/.nvimrc_local'))
 endif
 
 set helplang&
-set helplang=en,ja
+set helplang=ja,en
 set secure

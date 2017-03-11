@@ -214,30 +214,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'tyru/caw.vim'
-depends = 'vim-operator-user'
-on_map = [ [ 'nx', '<Plug>' ] ]
-hook_add = '''
-  function! InitCaw() abort "{{{
-    if !&l:modifiable
-      silent! nunmap <buffer> gc
-      silent! xunmap <buffer> gc
-      silent! nunmap <buffer> gcc
-      silent! xunmap <buffer> gcc
-    else
-      nmap <buffer> gc <Plug>(caw:prefix)
-      xmap <buffer> gc <Plug>(caw:prefix)
-      nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-      xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-    endif
-
-  endfunction "}}}
-
-  autocmd MyAutocmd FileType * call InitCaw()
-  call InitCaw()
-'''
-
-[[plugins]]
 repo = 'tyru/eskk.vim'
 on_map = { ic = '<Plug>' }
 hook_add = '''
@@ -517,8 +493,7 @@ hook_post_source = '''
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
-# TODO ↓これは無くても動きそう
-# on_path = '.*'
+on_path = '.*'
 hook_add = '''
   autocmd MyAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
         \ call autoupload#init(0)

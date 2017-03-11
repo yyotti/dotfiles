@@ -122,3 +122,7 @@ scss = '''
 css = '''
   setlocal iskeyword+=-
 '''
+
+json = '''
+  setlocal conceallevel=0
+'''

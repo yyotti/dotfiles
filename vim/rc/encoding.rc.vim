@@ -10,7 +10,7 @@ function! s:re_check_fenc() abort "{{{
   endif
 endfunction "}}}
 
-set fileformat=unix
+" set fileformat=unix
 set fileformats=unix,dos,mac
 
 " TODO in init.rc.vim?
