@@ -52,10 +52,6 @@ repo = 'Shougo/neosnippet-snippets'
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
-# TODO
-# [[plugins]]
-# repo = 'Shougo/neco-syntax'
-
 [[plugins]]
 repo = 'nixprime/cpsm'
 if = '!IsWindows()'

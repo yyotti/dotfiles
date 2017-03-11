@@ -21,27 +21,6 @@ set modelines=0
 set nomodeline
 
 " Clipboard
-" TODO Check
-" if has('clipboard')
-"   set clipboard&
-"   if has('nvim')
-"     set clipboard+=unnamedplus
-"   else
-"
-"   endif
-" endif
-" if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
-"   set clipboard&
-"   if has('nvim')
-"     set clipboard+=unnamedplus
-"   else
-"     if has('unnamedplus')
-"       set clipboard=unnamedplus
-"     else
-"       set clipboard=unnamed
-"     endif
-"   endif
-" endif
 if (has('nvim') || $DISPLAY != '') && has('clipboard')
   set clipboard&
   if has('unnamedplus')
@@ -64,7 +43,6 @@ set fillchars=vert:\|
 set commentstring=%s
 
 " FastFold
-" TODO Check
 autocmd MyAutocmd TextChangedI,TextChanged *
       \ if &l:foldenable && &l:foldmethod !=# 'manual' |
       \   let b:foldmethod_save = &l:foldmethod |
@@ -203,31 +181,11 @@ endif
 set laststatus=2
 set cmdheight=2
 
-" TODO Check
-" set showcmd
 set noshowcmd
 set ambiwidth=double
 
 set title
 set titlelen=95
-
-" TODO Check
-" let &titlestring = "%{expand('%:p:~:.')}%(%m%r%w%)"
-"       \ . '%< (%{WidthPart('
-"       \ . "fnamemodify(&filetype ==# 'vimfiler' ?"
-"       \ . "substitute(b:vimfiler.current_dir,'.\\zs/$','',''):getcwd(),':~'),"
-"       \ . "&columns-len(expand('%:p:.:~')))}\) - VIM"
-"
-" if !exists('*lightline#update')
-"   let &statusline = "%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-"         \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-"         \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
-"         \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?"
-"         \ . "'['.(&filetype!=''?&filetype.',':'')"
-"         \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
-"         \ . "%m%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
-"         \ . "%{exists('*qfstatusline#Update')?qfstatusline#Update():''}"
-" endif
 
 set linebreak
 execute "set showbreak=\u21aa\\ "

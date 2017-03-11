@@ -90,7 +90,7 @@ repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
 on_source = 'denite.vim'
 hook_add = '''
-  " TODO 確認
+  " TODO 本当にこれは必要か？
   if !has('nvim') && v:version < 800
     nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
     nnoremap <silent> <Leader>uf
@@ -482,13 +482,12 @@ repo = 'haya14busa/vim-operator-flashy'
 depends = 'vim-operator-user'
 on_map = { nx = '<Plug>' }
 hook_add = '''
-  let g:operator#flashy#flash_time = exists('$NVIM_GUI') ? 100 : 300
+  let g:operator#flashy#flash_time = 300
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 '''
 hook_post_source = '''
-  " TODO Vim8だとエラーが出るので対応
-  highlight Flashy ctermbg=8 guibg=#666
+  highlight Flashy ctermbg=8 guibg=#666666
 '''
 
 [[plugins]]
@@ -501,30 +500,13 @@ hook_add = '''
         \ call autoupload#upload(0)
 '''
 
-# TODO
-# [[plugins]]
-# repo = 'vim-jp/vital.vim'
-
-# TODO
-# [[plugins]]
-# repo = 'lambdalisue/vital-VCS-Git'
-# depends = [ 'vital.vim' ]
-# on_source = [ 'vital.vim' ]
-
-# TODO
-# [[plugins]]
-# repo = 'lambdalisue/vital-ArgumentParser'
-# depends = [ 'vital.vim' ]
-# on_source = [ 'vital.vim' ]
-
-# TODO ↓これが無いとどうなる？HTMLで困るだけ？
-# [[plugins]]
-# repo = 'benjifisher/matchit.zip'
-# on_map = { nxo = [ '%', 'g%' ] }
-# hook_source = 'unlet g:loaded_matchit'
-# hook_post_source = '''
-#   silent! execute 'doautocmd FileType' &filetype
-# '''
+[[plugins]]
+repo = 'benjifisher/matchit.zip'
+on_map = { nxo = [ '%', 'g%' ] }
+hook_source = 'unlet g:loaded_matchit'
+hook_post_source = '''
+  silent! execute 'doautocmd FileType' &filetype
+'''
 
 [[plugins]]
 repo = 'syngan/vim-vimlint'
@@ -533,11 +515,6 @@ on_source = 'vim-watchdogs'
 
 [[plugins]]
 repo = 'ynkdir/vim-vimlparser'
-
-# TODO
-# [[plugins]]
-# repo = 'thinca/vim-prettyprint'
-# on_func = [ 'PP' ]
 
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
@@ -573,16 +550,13 @@ hook_source = '''
 # TODO vimrc_local に移す
 # [[plugins]]
 # repo = 'thinca/vim-themis'
-# if = 'IsHomePC()'
 # hook_add = 'source ~/.vim/rc/plugins/vim-themis.rc.vim'
 
 # [[plugins]]
 # repo = 'kannokanno/previm'
 # depends = 'open-browser.vim'
 # on_cmd = 'PrevimOpen'
-# if = 'IsHomePC()'
 
 # [[plugins]]
 # repo = 'kchmck/vim-coffee-script'
 # on_ft = [ 'coffee', 'markdown' ]
-# if = 'IsHomePC()'

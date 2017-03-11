@@ -32,9 +32,6 @@ if command -v tmux > /dev/null; then
   alias tsp='tmux new-session \; split-window -h -d'
   alias tvsp='tmux new-session \; split-window -d'
 fi
-if command -v pynvim > /dev/null; then
-  alias gnvim='NVIM_GUI=pynvim pynvim -f "Ricty for Powerline" 11'
-fi
 if command -v tig > /dev/null; then
   alias tiga='tig --all'
 fi
