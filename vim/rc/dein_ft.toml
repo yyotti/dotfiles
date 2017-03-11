@@ -73,7 +73,7 @@ html = '''
 '''
 
 vim = '''
-  setlocal foldmethod=indent
+  " setlocal foldmethod=marker
 '''
 
 toml = '''
