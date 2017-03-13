@@ -95,9 +95,6 @@ endif
 
 let g:unite_source_rec_max_cache_files = -1
 
-nnoremap <silent> <Leader>n :UniteNext<CR>
-nnoremap <silent> <Leader>p :UnitePrevious<CR>
-
 "-----------------------------------------------------------------------------
 " menu:
 "

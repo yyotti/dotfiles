@@ -21,9 +21,8 @@ hook_add = '''
         \ ]
 
   " Folding
-  " TODO
-  " let g:php_folding = 1
-  " let g:xml_syntax_folding = 1
+  let g:php_folding = 1
+  let g:xml_syntax_folding = 1
 
   " Update filetype
   autocmd MyAutocmd BufWritePost * nested
@@ -44,11 +43,10 @@ _ = '''
     setlocal textwidth=0
   endif
 
-  " TODO
   " Use foldCCtext()
-  " if &filetype !=# 'help'
-  "   setlocal foldtext=FoldCCtext()
-  " endif
+  if &filetype !=# 'help'
+    setlocal foldtext=FoldCCtext()
+  endif
 
   if !&l:modifiable
     setlocal nofoldenable
@@ -98,8 +96,6 @@ smarty = '''
   setlocal nowrap
 '''
 
-# TODO Smarty,phpの場合に path に追加する処理をvimrc_localに書く
-
 sql = '''
   if executable('sql-formatter')
     setlocal formatexpr=
@@ -121,10 +117,6 @@ scss = '''
 
 css = '''
   setlocal iskeyword+=-
-'''
-
-json = '''
-  setlocal conceallevel=0
 '''
 
 blade = '''

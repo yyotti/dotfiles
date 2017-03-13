@@ -21,30 +21,23 @@ hook_add = 'source ~/.vim/rc/plugins/lightline.rc.vim'
 repo = 'itchyny/vim-parenmatch'
 if = 'v:version == 704 && has("patch786") || v:version >= 705 || has("nvim")'
 
-# TODO
-# [[plugins]]
-# repo = 'shawncplus/phpcomplete.vim'
-
 [[plugins]]
 repo = 'cespare/vim-toml'
 
-# TODO
-# [[plugins]]
-# repo = 'elzr/vim-json'
+[[plugins]]
+repo = 'elzr/vim-json'
+hook_add = '''
+  let g:vim_json_syntax_conceal = 0
+'''
 
 [[plugins]]
 repo = 'kana/vim-operator-user'
 
-# TODO
-# [[plugins]]
-# repo = 'kana/vim-textobj-user'
-
 [[plugins]]
 repo = 'tpope/vim-repeat'
 
-# TODO
-# [[plugins]]
-# repo = 'rcmdnk/vim-markdown'
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'

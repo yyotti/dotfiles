@@ -90,7 +90,6 @@ repo = 'Shougo/unite.vim'
 depends = 'neomru.vim'
 on_source = 'denite.vim'
 hook_add = '''
-  " TODO 本当にこれは必要か？
   if !has('nvim') && v:version < 800
     nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
     nnoremap <silent> <Leader>uf
@@ -104,6 +103,9 @@ hook_add = '''
           \ :<C-u>UniteResume -buffer-name=grep
           \   -no-start-insert -no-empty grep<CR>
     nnoremap <silent> <Leader>ue :<C-u>Unite menu:_<CR>
+
+    nnoremap <silent> <Leader>n :<C-u>UniteNext<CR>
+    nnoremap <silent> <Leader>p :<C-u>UnitePrevious<CR>
   endif
 '''
 hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
@@ -181,11 +183,10 @@ on_ft = 'vim'
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 on_ft = 'vim'
-# TODO 確認
-# hook_add = '''
-#   let g:foldCCtext_enable_autofdc_adjuster = 1
-#   set foldtext=FoldCCtext()
-# '''
+hook_add = '''
+  let g:foldCCtext_enable_autofdc_adjuster = 1
+  set foldtext=FoldCCtext()
+'''
 
 [[plugins]]
 repo = 'thinca/vim-ref'
@@ -200,8 +201,6 @@ hook_source = '''
   if IsWindows()
     let g:ref_refe_encoding = 'cp932'
   endif
-
-  " TODO Set path to text browse for Windows
 
   let g:ref_lynx_use_cache = 1
   let g:ref_lynx_start_linenumber = 0
@@ -371,13 +370,14 @@ hook_add = '''
         \ }
 
   " Vimscript
-  " TODO Windows batch
-  let g:neomake_vim_enabled_makers = [ 'vimlint' ]
-  let g:neomake_vim_vimlint_maker = {
-        \   'exe': expand('~/.vim/script/vimlint.sh'),
-        \   'args': [ '-u' ],
-        \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
-        \ }
+  if !IsWindows()
+    let g:neomake_vim_enabled_makers = [ 'vimlint' ]
+    let g:neomake_vim_vimlint_maker = {
+          \   'exe': expand('~/.vim/script/vimlint.sh'),
+          \   'args': [ '-u' ],
+          \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
+          \ }
+  endif
 
   " TOML
   let g:neomake_toml_enabled_makers = [ 'tomlv' ]
