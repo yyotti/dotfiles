@@ -75,14 +75,10 @@ repo = 'cakebaker/scss-syntax.vim'
 
 [[plugins]]
 repo = 'jwalton512/vim-blade'
-hook_add = '''
-  autocmd MyAutocmd FileType blade
-        \ let b:caw_wrap_oneline_comment = [ '{{--', '--}}' ]
-'''
 
 [[plugins]]
 repo = 'tyru/caw.vim'
-depends = 'vim-operator-user'
+depends = [ 'vim-operator-user', 'vim-repeat' ]
 hook_add = '''
   function! InitCaw() abort "{{{
     if !&l:modifiable
@@ -101,4 +97,6 @@ hook_add = '''
 
   autocmd MyAutocmd FileType * call InitCaw()
   call InitCaw()
+
+  let g:caw_operator_keymappings = 1
 '''

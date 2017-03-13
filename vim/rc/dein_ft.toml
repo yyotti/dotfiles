@@ -126,3 +126,7 @@ css = '''
 json = '''
   setlocal conceallevel=0
 '''
+
+blade = '''
+  let b:caw_wrap_oneline_comment = [ '{{--', '--}}' ]
+'''
