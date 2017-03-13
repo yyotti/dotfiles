@@ -68,28 +68,3 @@ repo = 'cakebaker/scss-syntax.vim'
 
 [[plugins]]
 repo = 'jwalton512/vim-blade'
-
-[[plugins]]
-repo = 'tyru/caw.vim'
-depends = [ 'vim-operator-user', 'vim-repeat' ]
-hook_add = '''
-  function! InitCaw() abort "{{{
-    if !&l:modifiable
-      silent! nunmap <buffer> gc
-      silent! xunmap <buffer> gc
-      silent! nunmap <buffer> gcc
-      silent! xunmap <buffer> gcc
-    else
-      nmap <buffer> gc <Plug>(caw:prefix)
-      xmap <buffer> gc <Plug>(caw:prefix)
-      nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-      xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-    endif
-
-  endfunction "}}}
-
-  autocmd MyAutocmd FileType * call InitCaw()
-  call InitCaw()
-
-  let g:caw_operator_keymappings = 1
-'''

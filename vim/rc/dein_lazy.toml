@@ -503,7 +503,11 @@ hook_add = '''
 [[plugins]]
 repo = 'benjifisher/matchit.zip'
 on_map = { nxo = [ '%', 'g%' ] }
-hook_source = 'unlet g:loaded_matchit'
+hook_source = '''
+  if exists('g:loaded_matchit')
+    unlet g:loaded_matchit
+  endif
+'''
 hook_post_source = '''
   silent! execute 'doautocmd FileType' &filetype
 '''
@@ -545,6 +549,35 @@ hook_source = '''
 
   vnoremap <silent> rfem :call PhpExtractMethod()<CR>
   vnoremap <silent> <Leader>== :call PhpAlignAssigns()<CR>
+'''
+
+[[plugins]]
+repo = 'tyru/caw.vim'
+depends = [ 'vim-operator-user', 'vim-repeat' ]
+on_map = { nx = '<Plug>' }
+hook_add = '''
+  function! InitCaw() abort "{{{
+    if !&l:modifiable
+      silent! nunmap <buffer> gc
+      silent! xunmap <buffer> gc
+      silent! nunmap <buffer> gcc
+      silent! xunmap <buffer> gcc
+    else
+      nmap <buffer> gc <Plug>(caw:prefix)
+      xmap <buffer> gc <Plug>(caw:prefix)
+      nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+      xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+    endif
+
+  endfunction "}}}
+
+  autocmd MyAutocmd FileType * call InitCaw()
+  call InitCaw()
+
+  let g:caw_operator_keymappings = 1
+'''
+hook_source = '''
+  silent! execute 'doautocmd FileType' &filetype
 '''
 
 # TODO vimrc_local に移す
