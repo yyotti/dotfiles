@@ -21,7 +21,6 @@ hook_add = '''
         \ ]
 
   " Folding
-  let g:php_folding = 1
   let g:xml_syntax_folding = 1
 
   " Update filetype

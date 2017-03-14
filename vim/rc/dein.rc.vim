@@ -20,7 +20,7 @@ call dein#load_toml('~/.vim/rc/dein_ft.toml')
 let s:dein_local = resolve(expand('~/.dein_local.toml'))
 if filereadable(s:dein_local)
   " Load develop version
-  call dein#load_toml(s:dein_local, { 'frozen': 1, 'merged': 0 })
+  call dein#load_toml(s:dein_local, { 'frozen': 1, 'merged': 0, 'local': 1 })
 endif
 unlet s:dein_local
 

@@ -579,17 +579,3 @@ hook_add = '''
 hook_source = '''
   silent! execute 'doautocmd FileType' &filetype
 '''
-
-# TODO vimrc_local に移す
-# [[plugins]]
-# repo = 'thinca/vim-themis'
-# hook_add = 'source ~/.vim/rc/plugins/vim-themis.rc.vim'
-
-# [[plugins]]
-# repo = 'kannokanno/previm'
-# depends = 'open-browser.vim'
-# on_cmd = 'PrevimOpen'
-
-# [[plugins]]
-# repo = 'kchmck/vim-coffee-script'
-# on_ft = [ 'coffee', 'markdown' ]
