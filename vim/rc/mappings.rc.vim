@@ -60,6 +60,10 @@ inoremap <C-t> <C-v><TAB>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 
+" Move cursor
+inoremap <C-f> <C-g>U<Right>
+inoremap <C-b> <C-g>U<Left>
+
 if has('gui_running')
   inoremap <ESC> <ESC>
 endif

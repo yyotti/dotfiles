@@ -42,8 +42,8 @@ call neocomplete#custom#source(
       \   ]
       \ )
 
-inoremap <expr> <C-f> pumvisible() ? "\<PageDown>" : "\<Right>"
-inoremap <expr> <C-b> pumvisible() ? "\<PageUp>" : "\<Left>"
+" inoremap <expr> <C-f> pumvisible() ? "\<PageDown>" : "\<Right>"
+" inoremap <expr> <C-b> pumvisible() ? "\<PageUp>" : "\<Left>"
 " inoremap <expr> <C-h> neocomplete#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS> neocomplete#smart_close_popup() . "\<C-h>"
 inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"

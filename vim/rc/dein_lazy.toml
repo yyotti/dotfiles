@@ -579,3 +579,12 @@ hook_add = '''
 hook_source = '''
   silent! execute 'doautocmd FileType' &filetype
 '''
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+on_event = 'InsertEnter'
+hook_post_source = '''
+  if exists('*lexima#insmode#leave')
+    inoremap <C-f> <C-r>=lexima#insmode#leave(1, '<LT>C-G>U<LT>RIGHT>')<CR>
+  endif
+'''
