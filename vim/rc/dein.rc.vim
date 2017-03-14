@@ -17,10 +17,15 @@ if has('nvim')
 endif
 call dein#load_toml('~/.vim/rc/dein_ft.toml')
 
-let s:dein_local = resolve(expand('~/.dein_local.toml'))
-if filereadable(s:dein_local)
+let s:dein_local = findfile('dein_local.vim', '.;')
+if s:dein_local !=# '' && filereadable(s:dein_local)
   " Load develop version
-  call dein#load_toml(s:dein_local, { 'frozen': 1, 'merged': 0, 'local': 1 })
+  call dein#local(fnamemodify(s:dein_local, ':h'),
+        \ { 'frozen': 1, 'merged': 0 }, [ 'vim*' ])
+  if has('nvim')
+    call dein#local(fnamemodify(s:dein_local, ':h'),
+          \ { 'frozen': 1, 'merged': 0 }, [ 'nvim*' ])
+  endif
 endif
 unlet s:dein_local
 

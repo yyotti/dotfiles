@@ -4,6 +4,11 @@
 nmap <C-Space> <C-@>
 cmap <C-Space> <C-@>
 
+function! ToggleOption(option_name) abort "{{{
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction "}}}
+
 " Normal/Visual mode mappings: "{{{
 nnoremap > >>
 nnoremap < <<
@@ -38,6 +43,11 @@ if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
 
+nnoremap x "_x
+
+nnoremap <Leader>w :<C-u>call ToggleOption('wrap')<CR>
+nnoremap <Leader>N :<C-u>call ToggleOption('number')<CR>
+
 " Clear hlsearch
 nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
 
@@ -51,6 +61,8 @@ nnoremap <expr> <C-f>
 nnoremap <expr> <C-b>
       \ max([winheight(0) - 2, 1]) . "\<C-u>" .
       \   (line('.') < 1 + winheight(0) ? 'H' : 'L')
+
+nnoremap Y y$
 "}}}
 
 " Insert mode mappings: "{{{
@@ -63,6 +75,9 @@ inoremap <C-u> <C-g>u<C-u>
 " Move cursor
 inoremap <C-f> <C-g>U<Right>
 inoremap <C-b> <C-g>U<Left>
+
+" Toggle paste
+inoremap <C-\> <C-o>:call ToggleOption('paste')<CR>
 
 if has('gui_running')
   inoremap <ESC> <ESC>
@@ -153,16 +168,4 @@ nnoremap <silent> <Leader>o :<C-u>only<CR>
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
 nnoremap <silent> <Leader>H :<C-u>hide<CR>
-"}}}
-
-" Others "{{{
-nnoremap x "_x
-
-function! ToggleOption(option_name) abort "{{{
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction "}}}
-
-nnoremap <Leader>w :<C-u>call ToggleOption('wrap')<CR>
-nnoremap <Leader>N :<C-u>call ToggleOption('number')<CR>
 "}}}
