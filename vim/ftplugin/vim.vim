@@ -11,6 +11,8 @@ let b:undo_ftplugin .= 'setlocal modeline<'
 setlocal shiftwidth=2
 setlocal softtabstop=2
 
+setlocal iskeyword+=:,#
+
 let &path = join(map(split(&runtimepath, ','), "v:val.'/autoload'"), ',')
 setlocal suffixesadd=.vim
 setlocal includeexpr=fnamemodify(substitute(v:fname,'#','/','g'),':h')
