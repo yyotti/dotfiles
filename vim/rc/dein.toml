@@ -68,3 +68,6 @@ repo = 'cakebaker/scss-syntax.vim'
 
 [[plugins]]
 repo = 'jwalton512/vim-blade'
+
+[[plugins]]
+repo = 'dag/vim-fish'

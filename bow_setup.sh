@@ -40,6 +40,8 @@ sudo mv -f /tmp/sources.list /etc/apt/sources.list
 sudo add-apt-repository -y ppa:git-core/ppa
 sudo add-apt-repository -y ppa:martin-frost/thoughtbot-rcm
 sudo add-apt-repository -y ppa:ondrej/php
+sudo add-apt-repository -y ppa:fish-shell/release-2
+sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -47,6 +49,7 @@ sudo apt-get -y autoremove
 
 sudo apt-get -y install \
   zsh \
+  fish \
   git \
   build-essential \
   autoconf \
@@ -69,10 +72,14 @@ sudo apt-get -y install \
   php5.6-zip \
   php5.6-mbstring \
   php5.6-xml \
-  xsel
+  xsel \
+  golang
 
-chsh -s /bin/zsh
+# chsh -s /bin/zsh
+chsh -s /usr/bin/fish
 
+# TODO ghq入れて管理する
+# TODO fzfをインストールするのは [./install --key-bindings --completion --no-update-rc] を実行
 if test ! -e "$SRC_DIR"; then
   sudo mkdir -p "$SRC_DIR"
 fi
@@ -171,6 +178,10 @@ cd /tmp
 wget https://github.com/BurntSushi/ripgrep/releases/download/0.4.0/$RIPGREP.tar.gz
 tar xzf $RIPGREP.tar.gz
 mv $RIPGREP $OPT_DIR/ripgrep
+
+mkdir -p $HOME/bin
+cd $HOME/bin
+curl -L https://raw.githubusercontent.com/junegunn/fzf/master/install | bash -s -- --bin
 
 echo "Setup finished."
 read a

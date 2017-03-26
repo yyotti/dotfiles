@@ -1,4 +1,4 @@
-export GOROOT=/usr/local/go
+# export GOROOT=/usr/local/go
 
 # go getのためにGOPATHを設定
 export GOPATH=$HOME/.go

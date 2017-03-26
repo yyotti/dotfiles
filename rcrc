@@ -1,4 +1,4 @@
 DOTFILES_DIRS="$HOME/git/dotfiles"
 COPY_ALWAYS="fonts/*"
-EXCLUDES="README.md install *template.json wiki *:vim:refs minttyrc"
-SYMLINK_DIRS="*:config:powerline *:vim"
+EXCLUDES="README.md install *template.json wiki *:vim:refs minttyrc bow_setup.sh"
+SYMLINK_DIRS="*:config:powerline *:vim *:config:fish:functions"
