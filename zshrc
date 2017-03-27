@@ -296,6 +296,14 @@ precmd() {
 }
 
 # fzf
+if [ -e $HOME/.fzf.zsh ]; then
+  export FZF_TMUX=1
+  # TODO ag があるとかないとかで場合分けする
+  export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | cut -b3-"
+  export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+  source $HOME/.fzf.zsh
+fi
+
 [[ -e $HOME/.fzf.zsh ]] && source $HOME/.fzf.zsh
 
 if type tmux > /dev/null && test -z "$TMUX"; then

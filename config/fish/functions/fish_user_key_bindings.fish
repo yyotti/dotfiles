@@ -2,23 +2,18 @@ function fish_user_key_bindings -d 'Custom key bindings'
     # Use vi mode
     fish_vi_key_bindings
 
+    # disable bindings
+    bind -e -M insert \cv
+    bind -e -M insert \cx
+
     # fzf key binding
-    if functions -q fzf_key_bindings
+    if functions -q fzf_key_bindings; and command -s fzf > /dev/null
+        set -g FZF_TMUX 1
+        set -g FZF_CTRL_T_COMMAND "command find -L \$dir -mindepth 1 -path \$dir'*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | cut -b3-"
+        set -g FZF_ALT_C_COMMAND "command find -L \$dir -mindepth 1 -path \$dir'*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+
         fzf_key_bindings
-
-        function fzf-bind-widget -d "Show key bindings"
-            set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
-            begin
-                set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
-                bind | eval (__fzfcmd) -q '(commandline)' | read -l result
-                and commandline -- $result
-            end
-            commandline -f repaint
-        end
-
-        # fzf
-        bind \eb fzf-bind-widget
-        bind -M insert \eb fzf-bind-widget
+        fzf_user_key_bindings
     end
 
     # cursor moving

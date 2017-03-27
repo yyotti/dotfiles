@@ -98,7 +98,7 @@ set fish_color_user_root brred
 #=============================================================================
 # tmux
 #
-if command -s tmux > /dev/null; and not set -q TMUX
+if status -i; and command -s tmux > /dev/null; and not set -q TMUX
     set -l id (tmux list-sessions ^ /dev/null)
     if test -z "$id"
         tmux new-session

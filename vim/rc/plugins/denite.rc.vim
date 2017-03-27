@@ -273,6 +273,7 @@ call s:add_items('vim', s:vimrc_items())
 call s:add_items('dein', s:dein_items())
 call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
 call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
+call s:add_items('fish', s:simple_items('~/.config/fish/config.fish'))
 call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
 
 call s:build_menu()
