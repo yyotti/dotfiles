@@ -24,11 +24,19 @@ if test -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH"; then
   export HOME
 fi
 
-echo -n "Source directory ([/usr/local/src]):"
-read SRC_DIR
-if test -z "$SRC_DIR"; then
-  SRC_DIR=/usr/local/src
+echo -n "Golang home directory ([$HOME/.go]):"
+read GOPATH
+if test -z "$GOPATH"; then
+  GOPATH=$HOME/.go
 fi
+
+echo -n "GHQ_ROOT directory ([$GOPATH/src]):"
+read GHQ_ROOT
+if test -z "$GHQ_ROOT"; then
+  GHQ_ROOT=$GOPATH/src
+fi
+
+echo $GHQ_ROOT
 
 sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 
@@ -36,6 +44,9 @@ sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' /etc/apt/sources.list >
 sed -e 's%deb %deb-src %g' /tmp/sources.list >> /tmp/sources.list
 sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
 sudo mv -f /tmp/sources.list /etc/apt/sources.list
+
+# TODO 各種インストールを別ファイルに分ける
+# ex) apt-get-install.sh, git-install.sh, etc..
 
 # Git
 sudo add-apt-repository -y ppa:git-core/ppa
@@ -82,27 +93,35 @@ sudo apt-get -y install \
   xsel \
   golang
 
-# chsh -s /bin/zsh
-chsh -s /usr/bin/fish
-
-# TODO ghq入れて管理する
-# TODO fzfをインストールするのは [./install --key-bindings --completion --no-update-rc] を実行
-if test ! -e "$SRC_DIR"; then
-  sudo mkdir -p "$SRC_DIR"
+FISH_PATH=`which fish`
+if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
+  echo $FISH_PATH | sudo tee -a /etc/shells
 fi
-sudo chmod a+w "$SRC_DIR"
+# chsh -s /bin/zsh
+chsh -s $FISH_PATH
 
-mkdir -p $HOME/git
-cd $HOME/git
-git clone https://github.com/yyotti/dotfiles.git
-cd $HOME
-RCRC=$HOME/git/dotfiles/rcrc rcup -v
-cd $HOME/git/dotfiles
+# ghq
+go get github.com/motemen/ghq
+PATH=$GOPATH/bin:$PATH
+
+# fzf
+REPO=junegunn/fzf
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
+./install --key-bindings --completion --no-update-rc
+
+# dotfiles
+REPO=yyotti/dotfiles
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 git remote set-url origin git@github.com:yyotti/dotfiles.git
+cd $HOME
+RCRC=$GHQ_ROOT/$REPO/rcrc rcup -v
 
-cd $SRC_DIR
-git clone https://github.com/koron/cmigemo.git
-cd cmigemo
+# cmigemo
+REPO=koron/cmigemo
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 ./configure
 make -j2 gcc
 make -j2 gcc-dict
@@ -110,28 +129,28 @@ sudo make gcc-install
 echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
 sudo /sbin/ldconfig
 
-cd $SRC_DIR
-git clone https://github.com/koron/guilt.git
-cd guilt
+# guilt
+REPO=koron/guilt
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 sudo make install
 
-cd $SRC_DIR
-git clone https://github.com/koron/vim-kaoriya.git
-cd vim-kaoriya
-git submodule init
-git submodule update
-
-cd vim
+# vim-kaoriya
+REPO=koron/vim-kaoriya
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
+# TODO ↓必要か調査
+# git submodule init
+# git submodule update
+cd ./vim
 VER=`git log --oneline -n 1 | awk '{{print $3}}'`
-git checkout -b $VER
-git config guilt.patchesdir $SRC_DIR/vim-kaoriya/patches
-cp -rf $SRC_DIR/vim-kaoriya/patches/master $SRC_DIR/vim-kaoriya/patches/$VER
+git checkout -b v$VER
+git config guilt.patchesdir $GHQ_ROOT/vim-kaoriya/patches
+cp -rf $GHQ_ROOT/vim-kaoriya/patches/master $GHQ_ROOT/vim-kaoriya/patches/$VER
 guilt init
 guilt push -a
-
-cd src
+cd ./src
 make autoconf
-
 cd ../
 LIBS="-lmigemo" ./configure \
   --with-features=huge \
@@ -145,50 +164,51 @@ LIBS="-lmigemo" ./configure \
   --enable-fontset \
   --enable-migemo \
   --enable-fail-if-missing
-
 make -j2
 sudo make install
 
-cd $SRC_DIR
-git clone https://github.com/tmux/tmux.git
-cd tmux
+# tmux
+REPO=tmux/tmux
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 VER=`git tag | tail -n 1`
-git checkout -b $VER $VER
+git checkout -b v$VER $VER
 sh autogen.sh
 ./configure
 make -j2
 sudo make install
 
-cd $SRC_DIR
-git clone https://github.com/jonas/tig.git
-cd tig
+# tig
+REPO=jonas/tig
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 VER=`git tag | tail -n 1`
-git checkout -b $VER $VER
+git checkout -b v$VER $VER
 ./autoge.sh
 ./configure --without-ncurses
 make prefix=/usr/local
 sudo make install prefix=/usr/local
 
-OPT_DIR=$HOME/opt
-mkdir -p $OPT_DIR
-cd $OPT_DIR
-git clone https://github.com/powerline/powerline.git
-
+# powerline
+REPO=powerline/powerline
+ghq get $REPO
+cd $GHQ_ROOT/github.com/$REPO
 pip3 install --user psutil
-pip3 install --user --editable=$OPT_DIR/powerline
+pip3 install --user --editable=$GHQ_ROOT/github.com/$REPO
 
-sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
-sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
-
+# ripgrep
+# TODO Cargoをインストールしてビルドする？
+# TODO ↑をやるならghq管理にする
 RIPGREP=ripgrep-0.4.0-x86_64-unknown-linux-musl
 cd /tmp
 wget https://github.com/BurntSushi/ripgrep/releases/download/0.4.0/$RIPGREP.tar.gz
 tar xzf $RIPGREP.tar.gz
-mv $RIPGREP $OPT_DIR/ripgrep
+mkdir -p $HOME/opt
+mv $RIPGREP $HOME/opt/ripgrep
 
-mkdir -p $HOME/bin
-cd $HOME/bin
-curl -L https://raw.githubusercontent.com/junegunn/fzf/master/install | bash -s -- --bin
+sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
+sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 50
 
 echo "Setup finished."
 read a
