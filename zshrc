@@ -1,5 +1,8 @@
 # Created by newuser for 5.0.2
 
+# TODO Check login shell
+# TODO Check interactive shell
+
 # TERMの指定
 [[ $TMUX = "" ]] && export TERM=xterm-256color
 
@@ -292,29 +295,27 @@ precmd() {
   esac
 }
 
-if [ -z "$TMUX" -a -z "$STY" ]; then
-  if type tmuxx >/dev/null 2>&1; then
-    tmuxx
-  elif type tmux >/dev/null 2>&1; then
-    if [[ `tmux -V` == *2.2* ]]; then
-      if type wcwidth-cjk >/dev/null 2>&1; then
-        if tmux has-session && tmux list-sessions | egrep -q '.*]$'; then
-          # デタッチ済みセッションが存在する
-          wcwidth-cjk tmux attach && echo "tmux attached session"
-        else
-          wcwidth-cjk tmux new-session && echo "tmux created new session"
-        fi
-      fi
+# fzf
+[[ -e $HOME/.fzf.zsh ]] && source $HOME/.fzf.zsh
+
+if type tmux > /dev/null && test -z "$TMUX"; then
+  ID="`tmux list-sessions 2>/dev/null`"
+  if [[ -z "$ID" ]]; then
+    tmux new-session
+  else
+    # TODO Check fzf,peco,percol,...
+    create_new_session="Create New Session"
+    ID="$ID\n${create_new_session}:"
+    SEL_ID="`echo $ID | fzf | cut -d: -f1`"
+    if [ "$SEL_ID" = "$create_new_session" ]; then
+      tmux new-session
     else
-      if tmux has-session && tmux list-sessions | egrep -q '.*]$'; then
-        # デタッチ済みセッションが存在する
-        tmux attach && echo "tmux attached session"
+      if [ -n "$SEL_ID" ]; then
+        tmux attach-session -t "$SEL_ID"
       else
-        tmux new-session && echo "tmux created new session"
+        : # Start normally
       fi
     fi
-  elif type screen >/dev/null 2>&1; then
-    screen -rx || screen -D -RR
   fi
 fi
 
