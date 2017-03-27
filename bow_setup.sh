@@ -37,11 +37,18 @@ sed -e 's%deb %deb-src %g' /tmp/sources.list >> /tmp/sources.list
 sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
 sudo mv -f /tmp/sources.list /etc/apt/sources.list
 
+# Git
 sudo add-apt-repository -y ppa:git-core/ppa
+# rcm
 sudo add-apt-repository -y ppa:martin-frost/thoughtbot-rcm
+# php5.6
 sudo add-apt-repository -y ppa:ondrej/php
+# fish
 sudo add-apt-repository -y ppa:fish-shell/release-2
+# go
 sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
+# python3.5
+sudo add-apt-repository -y ppa:fkrull/deadsnakes
 
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -59,8 +66,8 @@ sudo apt-get -y install \
   liblua5.1-0-dev \
   luajit \
   libluajit-5.1-dev \
-  python3 \
-  libpython3-dev \
+  python3.5 \
+  libpython3.5-dev \
   python3-pip \
   libevent-2.0-5 \
   libevent-dev \
