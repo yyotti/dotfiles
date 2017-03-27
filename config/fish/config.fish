@@ -1,3 +1,6 @@
+# TODO Check login shell
+# TODO Check interactive shell
+
 #=============================================================================
 # PATH
 #
@@ -96,9 +99,22 @@ set fish_color_user_root brred
 # tmux
 #
 if command -s tmux > /dev/null; and not set -q TMUX
-    if tmux has-session; and tmux list-sessions | egrep -q '.*]$'
-        tmux attach; and echo tmux attached session
+    set -l id (tmux list-sessions ^ /dev/null)
+    if test -z "$id"
+        tmux new-session
     else
-        tmux new-session; and echo tmux created new session
+        # TODO Check fzf,peco,percol,...
+        set -l create_new_session "Create New Session"
+        set id $id "$create_new_session:"
+        set -l selected_id (for i in $id; echo $i; end | fzf | cut -d: -f1)
+        if test "$selected_id" = "$create_new_session"
+            tmux new-session
+        else
+            if test -n "$selected_id"
+                tmux attach-session -t "$selected_id"
+            else
+                # Start normally
+            end
+        end
     end
 end
