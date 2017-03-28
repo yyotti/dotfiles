@@ -16,10 +16,6 @@ set shiftround
 set autoindent
 set smartindent
 
-" Disable modeline
-set modelines=0
-set nomodeline
-
 " Clipboard
 if (has('nvim') || $DISPLAY != '') && has('clipboard')
   set clipboard&
