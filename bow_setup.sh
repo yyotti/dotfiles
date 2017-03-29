@@ -58,8 +58,6 @@ sudo add-apt-repository -y ppa:ondrej/php
 sudo add-apt-repository -y ppa:fish-shell/release-2
 # go
 sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
-# python3.5
-sudo add-apt-repository -y ppa:fkrull/deadsnakes
 
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -77,8 +75,8 @@ sudo apt-get -y install \
   liblua5.1-0-dev \
   luajit \
   libluajit-5.1-dev \
-  python3.5 \
-  libpython3.5-dev \
+  python3 \
+  libpython3-dev \
   python3-pip \
   libevent-2.0-5 \
   libevent-dev \
@@ -139,14 +137,13 @@ sudo make install
 REPO=koron/vim-kaoriya
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
-# TODO ↓必要か調査
-# git submodule init
-# git submodule update
+git submodule init
+git submodule update
 cd ./vim
 VER=`git log --oneline -n 1 | awk '{{print $3}}'`
 git checkout -b v$VER
 git config guilt.patchesdir $GHQ_ROOT/vim-kaoriya/patches
-cp -rf $GHQ_ROOT/vim-kaoriya/patches/master $GHQ_ROOT/vim-kaoriya/patches/$VER
+cp -rf $GHQ_ROOT/github.com/$REPO/patches/master $GHQ_ROOT/github.com/$REPO/patches/v$VER
 guilt init
 guilt push -a
 cd ./src
@@ -208,7 +205,6 @@ mv $RIPGREP $HOME/opt/ripgrep
 
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 50
 
 echo "Setup finished."
 read a

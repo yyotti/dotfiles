@@ -1,15 +1,14 @@
 function fzf_user_key_bindings
 
   function fzf-environment-variables-widget -d "Show environment variables"
-    set -l prefix (commandline -t)
-    set prefix (string trim --left --chars='$' "$prefix")
+    set -l query (commandline -t)
+    set query (string trim --left --chars='$' "$query")
     set -l has_daller $status
-    echo $prefix
 
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort"
-      set --names $argv | eval (__fzfcmd)" -q '$prefix'" | read -l result
+      set --names $argv | eval (__fzfcmd)" -q '$query'" | read -l result
       if [ -z "$result" ]
         commandline -f repaint
         return
@@ -20,21 +19,31 @@ function fzf_user_key_bindings
       end
       commandline -i "$result"
     end
+
     commandline -f repaint
   end
 
   bind -M insert \cv fzf-environment-variables-widget
   bind -M insert \cx 'fzf-environment-variables-widget -x'
-  bind -M insert \cg 'fzf-environment-variables-widget -g'
   # Ctrl+U
   bind -M insert \u0095 'fzf-environment-variables-widget -U'
 
-  function fzf-git-branches -d "Show Git Branches"
-  end
-  bind -M insert \cb fzf-git-branches
+  function fzf-ghq-widget -d "Show Git Repositories"
+    set -l query (commandline -t)
 
-  function fzf-git-branches-all -d "Show Git Branches (include remote)"
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+    begin
+      set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort"
+      ghq list --full-path | eval (__fzfcmd)" -q '$query'" | read -l result
+      if [ -n "$result" ]
+        commandline -t "$result"
+      end
+    end
+
+    commandline -f repaint
   end
+
+  bind -M insert \cg fzf-ghq-widget
 end
 
 # vim:set sw=2:
