@@ -28,4 +28,13 @@ function fzf_user_key_bindings
   bind -M insert \cg 'fzf-environment-variables-widget -g'
   # Ctrl+U
   bind -M insert \u0095 'fzf-environment-variables-widget -U'
+
+  function fzf-git-branches -d "Show Git Branches"
+  end
+  bind -M insert \cb fzf-git-branches
+
+  function fzf-git-branches-all -d "Show Git Branches (include remote)"
+  end
 end
+
+# vim:set sw=2:

@@ -50,9 +50,8 @@ repo = 'nixprime/cpsm'
 if = '!IsWindows()'
 build = 'env PY3=ON ./install.sh'
 
-# TODO
-# [[plugins]]
-# repo = 'chemzqm/denite-git'
+[[plugins]]
+repo = 'chemzqm/denite-git'
 
 [[plugins]]
 repo = 'vim-scripts/smarty-syntax'

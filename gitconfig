@@ -18,6 +18,6 @@
 	st = status
 	co = checkout
 	l = log --all --graph --pretty=format:'%C(yellow)%h%Creset -%C(bold blue)%d%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
-	ft = fetch
+	ft = fetch --prune
 [ghq]
 	root = ~/.go/src
