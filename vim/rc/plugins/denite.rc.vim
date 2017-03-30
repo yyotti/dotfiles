@@ -269,11 +269,28 @@ function! s:dein_items() abort "{{{
         \ )
 endfunction "}}}
 
+function! s:fish_items() abort "{{{
+  let prefix = expand('~/.config/fish/')
+
+  return map(
+      \   filter(
+      \     glob(prefix . '**', 0, 1),
+      \     '!isdirectory(v:val)' .
+      \     ' && fnamemodify(v:val, ":t") !=# "fzf_key_bindings.fish"' .
+      \     ' && fnamemodify(v:val, ":t") !~# "fishd\\.[0-9a-f]\\+"'
+      \   ),
+      \   '{' .
+      \     "'title': strpart(v:val, strlen(prefix))," .
+      \     "'path': fnamemodify(v:val, ':p')," .
+      \   '}'
+      \ )
+endfunction "}}}
+
 call s:add_items('vim', s:vimrc_items())
 call s:add_items('dein', s:dein_items())
 call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
 call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
-call s:add_items('fish', s:simple_items('~/.config/fish/config.fish'))
+call s:add_items('fish', s:fish_items())
 call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
 
 call s:build_menu()
