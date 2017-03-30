@@ -57,8 +57,8 @@ set fish_prompt_pwd_dir_length 0
 #
 # Dirtyを表示
 set __fish_git_prompt_showdirtystate 1
-set __fish_git_prompt_char_dirtystate '+'
-set __fish_git_prompt_char_stagedstate '-'
+set __fish_git_prompt_char_dirtystate '-'
+set __fish_git_prompt_char_stagedstate '+'
 set __fish_git_prompt_char_untrackedfiles '?'
 # Untrackedを表示
 set __fish_git_prompt_showuntrackedfiles 1
