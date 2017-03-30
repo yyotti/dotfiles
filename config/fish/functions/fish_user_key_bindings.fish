@@ -9,8 +9,8 @@ function fish_user_key_bindings -d 'Custom key bindings'
     # fzf key binding
     if functions -q fzf_key_bindings; and command -s fzf > /dev/null
         set -g FZF_TMUX 1
-        set -g FZF_CTRL_T_COMMAND "command find -L \$dir -mindepth 1 -path \$dir'*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | cut -b3-"
-        set -g FZF_ALT_C_COMMAND "command find -L \$dir -mindepth 1 -path \$dir'*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+        set -g FZF_CTRL_T_COMMAND "command find -L \$dir -mindepth 1 -path \$dir'*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null"
+        set -g FZF_ALT_C_COMMAND "command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null"
 
         fzf_key_bindings
         fzf_user_key_bindings
