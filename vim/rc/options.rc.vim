@@ -206,7 +206,7 @@ else
         \ highlight Question guifg=bg guibg=bg
 endif
 if has('patch-7.4.1570')
-  set shortmess+=F
+  " set shortmess+=F
 endif
 
 set t_vb=

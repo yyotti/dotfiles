@@ -47,8 +47,7 @@ autocmd MyAutocmd FileType unite call <SID>unite_settings()
 function! s:unite_settings() abort "{{{
   call unite#custom#alias('file', 'h', 'left')
 
-  if exists('*vimfiler#start') ||
-        \ exists('*dein#get') && !empty(dein#get('vimfiler.vim'))
+  if exists('*vimfiler#start') || !empty(packages#get('Shougo/vimfiler.vim'))
     call unite#custom#default_action('directory', 'open')
   else
     call unite#custom#default_action('directory', 'narrow')
@@ -188,20 +187,7 @@ function! s:vimrc_items() abort "{{{
       \ )
 endfunction "}}}
 
-function! s:dein_items() abort "{{{
-  return map(
-        \   values(dein#get()),
-        \   '{' .
-        \     "'title': get(v:val, 'local', 0) ? " .
-        \       "'yyotti/' . fnamemodify(v:val.path, ':t') : v:val.repo," .
-        \     "'path': fnamemodify(v:val.path, ':p')," .
-        \     "'repo': v:val.repo," .
-        \   '}'
-        \ )
-endfunction "}}}
-
 call s:add_items('vim', s:vimrc_items())
-call s:add_items('dein', s:dein_items())
 call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
 call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
 call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
@@ -225,7 +211,6 @@ function! s:input(...) abort "{{{
 endfunction "}}}
 
 function! s:delete(path) abort "{{{
-  " Refer to dein#install#_rm()
   if !isdirectory(a:path) && !filereadable(a:path)
     return
   endif
@@ -286,7 +271,7 @@ function! s:menu_open_browser.func(candidates) abort "{{{
     endif
 
     if exists('*openbrowser#open') ||
-          \ exists('*dein#get') && !empty(dein#get('open-browser.vim'))
+          \ !empty(packages#get('tyru/open-browser.vim'))
       call openbrowser#open(url)
     else
       let url = shellescape(url)

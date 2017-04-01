@@ -50,27 +50,6 @@ if IsWindows()
   set shellslash
 endif
 
-" Create cache directory
-let $CACHE = expand('~/.cache')
-if !isdirectory($CACHE)
-  call mkdir($CACHE, 'p')
-endif
-
-" Load dein.vim
-if &runtimepath !~# '/dein.vim'
-  let s:dein_dir = expand('$CACHE/dein') . '/repos/github.com/Shougo/dein.vim'
-  if !isdirectory(s:dein_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
-  endif
-
-  execute 'set runtimepath^='
-        \   . substitute(fnamemodify(s:dein_dir, ':p'), '/$', '', '')
-  unlet s:dein_dir
-endif
-
-" Disable packpath
-set packpath=
-
 " Disable default plugins {{{
 let g:loaded_2html_plugin = 1
 let g:loaded_logiPat = 1

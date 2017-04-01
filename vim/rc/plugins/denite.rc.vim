@@ -258,17 +258,6 @@ function! s:vimrc_items() abort "{{{
       \ )
 endfunction "}}}
 
-function! s:dein_items() abort "{{{
-  return map(
-        \   values(dein#get()),
-        \   '{' .
-        \     "'title': get(v:val, 'local', 0) ? " .
-        \       "'yyotti/' . fnamemodify(v:val.path, ':t') : v:val.repo," .
-        \     "'path': fnamemodify(v:val.path, ':p')," .
-        \   '}'
-        \ )
-endfunction "}}}
-
 function! s:fish_items() abort "{{{
   let prefix = expand('~/.config/fish/')
 
@@ -287,7 +276,6 @@ function! s:fish_items() abort "{{{
 endfunction "}}}
 
 call s:add_items('vim', s:vimrc_items())
-call s:add_items('dein', s:dein_items())
 call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
 call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
 call s:add_items('fish', s:fish_items())

@@ -5,25 +5,6 @@ options     head
   ${0:TARGET}
   "}}}
 
-snippet     tap
-abbr        if dein#tap(...) "{{{ ... endif "}}}
-options     head
-  if dein#tap(${1:#:plugin_name}) "{{{
-    ${0:TARGET}
-  endif "}}}
-
-snippet     on_source
-abbr        autocmd User dein#source#plugin_name ...
-options     head
-  autocmd MyAutocmd User dein#source#${1:#:plugin_name}
-        \ ${0:#:cmd}
-
-snippet     on_post_source
-abbr        autocmd User dein#post_source#plugin_name ...
-options     head
-  autocmd MyAutocmd User dein#post_source#${1:#:plugin_name}
-        \ ${0:#:cmd}
-
 snippet     title
 abbr        " Title:
 options     head
