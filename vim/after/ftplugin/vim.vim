@@ -20,11 +20,7 @@ setlocal softtabstop=2
 setlocal iskeyword+=:,#
 
 let &path = join(
-      \   map(
-      \     split(&runtimepath, ','),
-      \     { _, p -> p . '/autoload' }
-      \   ),
-      \   ','
+      \   map(split(&runtimepath, ','), { _, p -> p . '/autoload' }), ','
       \ )
 
 setlocal suffixesadd=.vim

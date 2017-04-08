@@ -7,6 +7,7 @@ let s:available_plugins = []
 let s:default_options = {
       \   'condition': 1,
       \   'depends': [],
+      \   'path': '',
       \ }
 
 function! packages#begin(packpath) abort "{{{
@@ -42,8 +43,11 @@ function! packages#add(plugin, ...) abort "{{{
   let options =
         \ extend(copy(s:default_options), s:check_options(a:000), 'force')
 
-  let options['rtp'] = 
-        \ resolve(expand(split(&packpath, ',')[0])) . '/' . a:plugin
+  let options['rtp'] = s:join_path(
+        \   resolve(expand(split(&packpath, ',')[0])),
+        \   a:plugin,
+        \   options['path']
+        \ )
 
   if has_key(s:plugin_options, a:plugin)
     let s:plugin_options[a:plugin] =
@@ -106,6 +110,11 @@ function! s:check_options(options) abort "{{{
     endif
   endif
 
+  if has_key(op, 'path')
+        \ && (type(op['path']) !=# type('') || empty(op['path']))
+    unlet op['depends']
+  endif
+
   return op
 endfunction "}}}
 
@@ -143,6 +152,20 @@ function! s:call_hook(plugin, hook) abort "{{{
     endif
     unlet s:hook
   endif
+endfunction "}}}
+
+function! s:join_path(base, ...) abort "{{{
+  let paths = filter(
+        \   map(
+        \     map(
+        \       copy(a:000),
+        \       'type(v:val) !=# type("") ? string(v:val) : v:val'
+        \     ),
+        \     'join(filter(split(v:val, "/"), "!empty(v:val)"), "/")'
+        \   ),
+        \   '!empty(v:val)'
+        \ )
+  return empty(paths) ? a:base : a:base . '/' . join(paths, '/')
 endfunction "}}}
 
 let &cpoptions = s:save_cpo

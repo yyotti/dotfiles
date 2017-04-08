@@ -36,8 +36,6 @@ if test -z "$GHQ_ROOT"; then
   GHQ_ROOT=$GOPATH/src
 fi
 
-echo $GHQ_ROOT
-
 sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 
 sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' /etc/apt/sources.list > /tmp/sources.list
@@ -56,8 +54,6 @@ sudo add-apt-repository -y ppa:martin-frost/thoughtbot-rcm
 sudo add-apt-repository -y ppa:ondrej/php
 # fish
 sudo add-apt-repository -y ppa:fish-shell/release-2
-# go
-sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
 
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -88,8 +84,20 @@ sudo apt-get -y install \
   php5.6-zip \
   php5.6-mbstring \
   php5.6-xml \
-  xsel \
-  golang
+  xsel
+
+# Golang
+GO_VER=`curl -s https://api.github.com/repos/golang/go/branches | grep 'release-branch.go' | sed 's/.*"name": "release-branch\.\(go.\+\)".*/\1/' | tail -n 1`
+archi=`uname -sm`
+case "$archi" in
+    Linux\ *64) ARCHIVE_NAME=$GO_VER.linux-amd64.tar.gz ;;
+    Linux\ *86) ARCHIVE_NAME=$GO_VER.linux-386.tar.gz ;;
+    *) echo "Unknown OS: $archi"; exit 1 ;;
+esac
+cd /tmp
+curl -LO https://storage.googleapis.com/golang/$ARCHIVE_NAME
+sudo tar -C /usr/local -xzf /tmp/$ARCHIVE_NAME
+PATH=/usr/local/go/bin:$PATH
 
 FISH_PATH=`which fish`
 if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
@@ -202,6 +210,13 @@ wget https://github.com/BurntSushi/ripgrep/releases/download/0.4.0/$RIPGREP.tar.
 tar xzf $RIPGREP.tar.gz
 mkdir -p $HOME/opt
 mv $RIPGREP $HOME/opt/ripgrep
+
+# golint
+# ghqだとインストールまでやってくれないのでgoで取ってくる
+go get github.com/golang/lint/golint
+
+# vimlparser(golang)
+go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50

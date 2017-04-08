@@ -512,12 +512,34 @@ function! s:plugin.init() abort "{{{
 
   " Vimscript
   if !IsWindows()
-    let g:neomake_vim_enabled_makers = [ 'vimlint' ]
-    let g:neomake_vim_vimlint_maker = {
-          \   'exe': expand('~/.vim/script/vimlint.sh'),
-          \   'args': [ '-u' ],
-          \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
-          \ }
+    if !executable('vimlparser')
+      let g:neomake_vim_enabled_makers = [ 'vimlint' ]
+      let g:neomake_vim_vimlint_maker = {
+            \   'exe': expand('~/.vim/script/vimlint.sh'),
+            \   'args': [ '-u' ],
+            \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
+            \ }
+    else
+      function! s:post_vimlparser(entry) abort "{{{
+        if a:entry.text =~? '^ *vimlparser: *'
+          let a:entry.type = 'E'
+          let a:entry.text = 
+                \ substitute(a:entry.text, '^ *vimlparser: *', '', '')
+        else
+          let a:entry.valid = -1
+        endif
+      endfunction "}}}
+
+      let g:neomake_vim_enabled_makers = [ 'vimlparser' ]
+      let g:neomake_vim_vimlparser_maker = {
+            \   'exe': 'vimlparser',
+            \   'errorformat': '%f:%l:%c: %m',
+            \   'postprocess': function('s:post_vimlparser'),
+            \ }
+      if has('nvim')
+        let g:neomake_vim_vimlparser_maker['args'] = [ '-neovim' ]
+      endif
+    endif
   endif
 endfunction "}}}
 function! s:plugin.post_add() abort "{{{
@@ -638,10 +660,13 @@ endfunction "}}}
 unlet s:plugin
 
 call packages#add('syngan/vim-vimlint', {
+      \   'condition': !executable('vimlparser'),
       \   'depends': 'ynkdir/vim-vimlparser',
       \ })
 
-call packages#add('ynkdir/vim-vimlparser')
+call packages#add('ynkdir/vim-vimlparser', {
+      \   'condition': !executable('vimlparser'),
+      \ })
 
 let s:plugin = packages#add('osyo-manga/vim-precious', {
       \   'depends': [ 'Shougo/context_filetype.vim' ],
@@ -678,6 +703,13 @@ function! s:plugin.init() abort "{{{
   set nomodeline
 endfunction "}}}
 unlet s:plugin
+
+" TODO Installed to $GOPATH
+call packages#add('nsf/gocode', { 'path': 'vim' })
+
+" TODO Execute :GoInstallBinaries after install
+"        or :GoUpdateBinaries after update
+call packages#add('fatih/vim-go', { 'condition': executable('go') })
 
 call packages#end()
 
