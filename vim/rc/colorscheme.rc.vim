@@ -2,15 +2,13 @@
 " Colorscheme:
 "
 function! s:exists_colorscheme(name) abort "{{{
-  let color_files = split(globpath(&runtimepath, 'colors/*.vim'), '\n')
-  for c in color_files
-    let f = fnamemodify(c, ':t:r')
-    if f ==# a:name
-      return 1
-    endif
-  endfor
-
-  return 0
+  return index(
+        \   map(
+        \     globpath(&runtimepath, 'colors/*.vim', 0, 1),
+        \     { _, c -> fnamemodify(c, ':t:r') }
+        \   ),
+        \   a:name
+        \ ) >= 0
 endfunction "}}}
 
 if s:exists_colorscheme('hybrid')

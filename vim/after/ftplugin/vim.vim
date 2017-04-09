@@ -12,8 +12,6 @@ endif
 let b:undo_ftplugin .= 'setlocal shiftwidth< softtabstop< iskeyword< suffixesadd< includeexpr< path<'
 let b:undo_ftplugin .= ' | unlet! b:did_vim_ftplugin'
 
-let b:not_del_last_whitespaces = 1
-
 setlocal shiftwidth=2
 setlocal softtabstop=2
 

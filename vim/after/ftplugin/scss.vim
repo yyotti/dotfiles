@@ -12,7 +12,5 @@ endif
 let b:undo_ftplugin .= 'setlocal shiftwidth< iskeyword<'
 let b:undo_ftplugin .= ' | unlet! b:did_scss_ftplugin'
 
-let b:not_del_last_whitespaces = 1
-
 setlocal shiftwidth=2
 setlocal iskeyword+=-
