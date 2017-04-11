@@ -12,15 +12,29 @@ let s:default_options = {
 function! packages#begin(...) abort "{{{
   let s:plugins = {}
 
-  let packpaths = split(&packpath, ',')
-  let s:packpath = get(a:000, 0, get(packpaths, 0, ''))
-  if empty(s:packpath) || type(s:packpath) !=# v:t_string
-        \ || index(packpaths, s:packpath) < 0
+  if v:version < 800 || !has('patch-8.0.308')
+    let &runtimepath = join(
+          \   map(
+          \     split(&runtimepath, ','),
+          \     { _, p -> resolve(fnamemodify(p, ':p')) }
+          \   ),
+          \   ','
+          \ )
+    let &packpath = join(
+          \   map(
+          \     split(&packpath, ','),
+          \     { _, p -> resolve(fnamemodify(p, ':p')) }
+          \   ),
+          \   ','
+          \ )
+  endif
+
+  let s:packpath = get(a:000, 0, get(split(&packpath, ','), 0, ''))
+  if empty(s:packpath)
     echomsg 'Invalid packpath: ' . s:packpath
     return 0
   endif
-
-  let s:packpath = resolve(fnamemodify(s:packpath, ':p'))
+  execute 'set packpath+=' . s:packpath
 
   if exists('g:did_load_filetypes') || has('nvim')
     filetype off
@@ -44,6 +58,12 @@ function! packages#end() abort "{{{
 endfunction "}}}
 
 function! packages#add(plugin, ...) abort "{{{
+  if a:plugin !~# '[^/]\+/[^/]\+'
+    return {}
+  endif
+
+  let name = split(a:plugin, '/')[1]
+
   let options =
         \ extend(copy(s:default_options), s:check_options(a:000), 'force')
 
@@ -53,14 +73,13 @@ function! packages#add(plugin, ...) abort "{{{
         \   options['path']
         \ )
 
-  if has_key(s:plugins, a:plugin)
-    let s:plugins[a:plugin] =
-          \ extend(copy(s:plugins[a:plugin]), options, 'force')
+  if has_key(s:plugins, name)
+    let s:plugins[name] = extend(copy(s:plugins[name]), options, 'force')
   else
-    let s:plugins[a:plugin] = options
+    let s:plugins[name] = options
   endif
 
-  return s:plugins[a:plugin]
+  return s:plugins[name]
 endfunction "}}}
 
 function! packages#post_add() abort "{{{
