@@ -23,6 +23,7 @@ endif
 
 let g:neocomplete#sources#omni#input_patterns.python =
       \ '[^. *\t]\.\w*\|\h\w*'
+let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
 
 " Define keyword pattern
 if !exists('g:neocomplete#keyword_patterns')

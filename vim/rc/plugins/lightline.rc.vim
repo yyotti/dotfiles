@@ -108,7 +108,7 @@ endfunction "}}}
 
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ !empty(packages#get('tpope/vim-fugitive')) && !empty(fugitive#head())
+        \ !empty(packages#get('vim-fugitive')) && !empty(fugitive#head())
 endfunction "}}}
 
 function! s:branch() abort "{{{

@@ -162,10 +162,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('Shougo/neosnippet.vim', {
-      \   'depends': [
-      \     'neosnippet-snippets',
-      \     'Shougo/context_filetype.vim',
-      \   ],
+      \   'depends': [ 'neosnippet-snippets', 'context_filetype.vim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
@@ -211,7 +208,7 @@ function! s:plugin.post_add() abort "{{{
   endif
 
   let s:snippets_dir =
-        \ packages#get('yyotti/neosnippet-additional').rtp . '/snippets/'
+        \ packages#get('neosnippet-additional').rtp . '/snippets/'
   let s:dirs = split(g:neosnippet#snippets_directory, ',')
   let s:found = 0
   for s:dir in s:dirs
@@ -701,7 +698,8 @@ function! s:plugin.pre_add() abort "{{{
   let g:go_fmt_fail_silently = 1
 endfunction "}}}
 function! s:plugin.post_add() abort "{{{
-  " TODO packadd nsf/gocode/vim
+  execute 'set runtimepath+='
+        \ . globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
 endfunction "}}}
 unlet s:plugin
 
