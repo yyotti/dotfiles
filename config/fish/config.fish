@@ -22,6 +22,10 @@ __add_user_paths \
     $GOPATH/bin \
     $HOME/.composer/vendor/bin
 
+if test -d /usr/local/go/bin
+    __add_user_paths /usr/local/go/bin
+end
+
 functions -e __add_user_paths
 
 #=============================================================================

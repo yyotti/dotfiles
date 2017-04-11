@@ -502,6 +502,8 @@ function! s:plugin.pre_add() abort "{{{
         \ |   call lightline#update()
         \ | endif
 
+  let g:neomake_remove_invalid_entries = 1
+
   let g:neomake_scss_scsslint_maker = {
         \   'exe': 'scss-lint',
         \   'errorformat': '%A%f:%l [%t] %m',
@@ -517,26 +519,22 @@ function! s:plugin.pre_add() abort "{{{
             \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
             \ }
     else
-      function! s:post_vimlparser(entry) abort "{{{
-        if a:entry.text =~? '^ *vimlparser: *'
-          let a:entry.type = 'E'
-          let a:entry.text =
-                \ substitute(a:entry.text, '^ *vimlparser: *', '', '')
-        else
-          let a:entry.valid = -1
-        endif
-      endfunction "}}}
-
       let g:neomake_vim_enabled_makers = [ 'vimlparser' ]
       let g:neomake_vim_vimlparser_maker = {
             \   'exe': 'vimlparser',
-            \   'errorformat': '%f:%l:%c: %m',
-            \   'postprocess': function('s:post_vimlparser'),
+            \   'errorformat': '%f:%l:%c: vimlparser: %m',
             \ }
       if has('nvim')
         let g:neomake_vim_vimlparser_maker['args'] = [ '-neovim' ]
       endif
     endif
+  endif
+
+  if executable('golint')
+    let g:neomake_go_enabled_makers = [ 'go', 'golint' ]
+    let g:neomake_go_golint_maker = {
+          \   'errorformat': '%E%f:%l:%c: %m,%-G%.%#'
+          \ }
   endif
 endfunction "}}}
 function! s:plugin.post_add() abort "{{{
@@ -704,6 +702,9 @@ unlet s:plugin
 " TODO Execute :GoInstallBinaries after install('build' option)
 "           or :GoUpdateBinaries after update('build' option)
 let s:plugin = packages#add('fatih/vim-go', { 'condition': executable('go') })
+function! s:plugin.pre_add() abort "{{{
+  let g:go_fmt_fail_silently = 1
+endfunction "}}}
 function! s:plugin.post_add() abort "{{{
   " TODO packadd nsf/gocode/vim
 endfunction "}}}
