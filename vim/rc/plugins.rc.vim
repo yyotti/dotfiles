@@ -175,59 +175,13 @@ function! s:plugin.pre_add() abort "{{{
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#enable_completed_snippet = 1
   let g:neosnippet#expand_word_boundary = 1
-endfunction "}}}
-function! s:plugin.post_add() abort "{{{
-  if !exists('g:neosnippet#snippets_directory')
-    let g:neosnippet#snippets_directory = ''
-  endif
-
-  let s:snippets_dir = '~/.vim/snippets'
-  let s:dirs = split(g:neosnippet#snippets_directory, ',')
-  let s:found = 0
-  for s:dir in s:dirs
-    if s:dir ==# s:snippets_dir
-      let s:found = 1
-    endif
-  endfor
-
-  if !s:found
-    let g:neosnippet#snippets_directory = join(add(s:dirs, s:snippets_dir), ',')
-  endif
-
-  unlet s:dirs
-  unlet s:snippets_dir
+  let g:neosnippet#snippets_directory = '~/.vim/snippets'
 endfunction "}}}
 unlet s:plugin
 
-let s:plugin = packages#add('yyotti/neosnippet-additional', {
+call packages#add('yyotti/neosnippet-additional', {
       \   'depends': [ 'neosnippet.vim' ],
       \ })
-function! s:plugin.post_add() abort "{{{
-  if !exists('g:neosnippet#snippets_directory')
-    let g:neosnippet#snippets_directory = ''
-  endif
-
-  let s:snippets_dir =
-        \ packages#get('neosnippet-additional').rtp . '/snippets/'
-  let s:dirs = split(g:neosnippet#snippets_directory, ',')
-  let s:found = 0
-  for s:dir in s:dirs
-    if s:dir ==# s:snippets_dir
-      let s:found = 1
-    endif
-
-    unlet s:dir
-  endfor
-
-  if !s:found
-    let g:neosnippet#snippets_directory =
-          \ join(add(s:dirs, s:snippets_dir), ',')
-  endif
-
-  unlet s:dirs
-  unlet s:snippets_dir
-endfunction "}}}
-unlet s:plugin
 
 let s:plugin = packages#add('Shougo/unite.vim', {
       \   'depends': 'neomru.vim',
@@ -512,7 +466,8 @@ function! s:plugin.pre_add() abort "{{{
       let g:neomake_vim_vimlint_maker = {
             \   'exe': expand('~/.vim/script/vimlint.sh'),
             \   'args': [ '-u' ],
-            \   'errorformat': '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
+            \   'errorformat':
+            \     '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
             \ }
     else
       let g:neomake_vim_enabled_makers = [ 'vimlparser' ]
@@ -558,7 +513,11 @@ function! s:plugin.pre_add() abort "{{{
   if !has_key(g:quickrun_config, 'watchdogs_checker/_')
     let g:quickrun_config['watchdogs_checker/_'] = {}
   endif
-  let g:quickrun_config['watchdogs_checker/_']['hook/close_quickfix/enable_exit'] = 1
+  let config = {
+        \   'hook/close_quickfix/enable_exit': 1,
+        \ }
+  let g:quickrun_config['watchdogs_checker/_'] =
+        \ extend(g:quickrun_config['watchdogs_checker/_'], config, 'force')
 endfunction "}}}
 function! s:plugin.post_add() abort "{{{
   call watchdogs#setup(g:quickrun_config)
@@ -576,10 +535,14 @@ function! s:plugin.pre_add() abort "{{{
   if !has_key(g:quickrun_config, 'watchdogs_checker/_')
     let g:quickrun_config['watchdogs_checker/_'] = {}
   endif
-  let g:quickrun_config['watchdogs_checker/_']['hook/back_window/enable_exit'] = 0
-  let g:quickrun_config['watchdogs_checker/_']['hook/back_window/priority_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 2
+  let config = {
+        \   'hook/back_window/enable_exit': 0,
+        \   'hook/back_window/priority_exit': 1,
+        \   'hook/qfstatusline_update/enable_exit': 1,
+        \   'hook/qfstatusline_update/priority_exit': 2,
+        \ }
+  let g:quickrun_config['watchdogs_checker/_'] =
+        \ extend(g:quickrun_config['watchdogs_checker/_'], config, 'force')
 
   let g:Qfstatusline#Text = 0
 endfunction "}}}
@@ -600,10 +563,14 @@ function! s:plugin.pre_add() abort "{{{
   if !has_key(g:quickrun_config, 'watchdogs_checker/_')
     let g:quickrun_config['watchdogs_checker/_'] = {}
   endif
-  let g:quickrun_config['watchdogs_checker/_']['hook/back_window/enable_exit'] = 0
-  let g:quickrun_config['watchdogs_checker/_']['hook/back_window/priority_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/enable_exit'] = 1
-  let g:quickrun_config['watchdogs_checker/_']['hook/qfstatusline_update/priority_exit'] = 2
+  let config = {
+        \   'hook/back_window/enable_exit': 0,
+        \   'hook/back_window/priority_exit': 1,
+        \   'hook/qfstatusline_update/enable_exit': 1,
+        \   'hook/qfstatusline_update/priority_exit': 2,
+        \ }
+  let g:quickrun_config['watchdogs_checker/_'] =
+        \ extend(g:quickrun_config['watchdogs_checker/_'], config, 'force')
 
   let g:Qfstatusline#Text = 0
 endfunction "}}}
