@@ -1,0 +1,18 @@
+snippet ifelse
+options head
+	{if ${1:#:condition}}
+	${2:TARGET}
+	{else}
+	${3:#:code...}
+	{/if}
+	${0}
+
+snippet if
+options head
+	{if ${1:#:condition}}
+	${0:TARGET}
+	{/if}
+
+snippet $
+options word
+	{$${1:#:expr}}${0}
