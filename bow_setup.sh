@@ -2,9 +2,9 @@
 
 echo -n "Alternative home directory ([$HOME]):"
 read HOME_PATH
-if test -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH"; then
-  if test -d "$HOME_PATH" -a -r "$HOME_PATH"; then
-    if test ! -e /etc/passwd.org; then
+if [ -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH" ]; then
+  if [ -d "$HOME_PATH" -a -r "$HOME_PATH" ]; then
+    if [ ! -e /etc/passwd.org ]; then
       sudo cp /etc/passwd /etc/passwd.org
     fi
 
@@ -16,7 +16,7 @@ if test -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH"; then
 
   echo -n 'Copy dotfiles? [y/N]:'
   read COPY
-  if test "$COPY" = "y" -o "$COPY" = "Y"; then
+  if [ "$COPY" = "y" -o "$COPY" = "Y" ]; then
     cp $HOME/.* $HOME_PATH/
   fi
 
@@ -26,13 +26,13 @@ fi
 
 echo -n "Golang home directory ([$HOME/.go]):"
 read GOPATH
-if test -z "$GOPATH"; then
+if [ -z "$GOPATH" ]; then
   GOPATH=$HOME/.go
 fi
 
 echo -n "GHQ_ROOT directory ([$GOPATH/src]):"
 read GHQ_ROOT
-if test -z "$GHQ_ROOT"; then
+if [ -z "$GHQ_ROOT" ]; then
   GHQ_ROOT=$GOPATH/src
 fi
 
@@ -84,20 +84,27 @@ sudo apt-get -y install \
   php5.6-zip \
   php5.6-mbstring \
   php5.6-xml \
-  xsel
+  xsel \
+  jq
 
 # Golang
-GO_VER=`curl -s https://api.github.com/repos/golang/go/branches | grep 'release-branch.go' | sed 's/.*"name": "release-branch\.\(go.\+\)".*/\1/' | tail -n 1`
-archi=`uname -sm`
-case "$archi" in
+GO_VER=`curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//'`
+if [ -n "$GO_VER" ]; then
+  archi=`uname -sm`
+  case "$archi" in
     Linux\ *64) ARCHIVE_NAME=$GO_VER.linux-amd64.tar.gz ;;
     Linux\ *86) ARCHIVE_NAME=$GO_VER.linux-386.tar.gz ;;
     *) echo "Unknown OS: $archi"; exit 1 ;;
-esac
-cd /tmp
-curl -LO https://storage.googleapis.com/golang/$ARCHIVE_NAME
-sudo tar -C /usr/local -xzf /tmp/$ARCHIVE_NAME
-PATH=/usr/local/go/bin:$PATH
+  esac
+  cd /tmp
+  curl -LO https://storage.googleapis.com/golang/$ARCHIVE_NAME
+  sudo tar -C /usr/local -xzf $ARCHIVE_NAME
+  PATH=/usr/local/go/bin:$PATH
+fi
+
+# pt
+# TODO ripgrepを入れるなら不要か？
+go get github.com/monochromegane/the_platinum_searcher/cmd/pt
 
 FISH_PATH=`which fish`
 if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
@@ -204,12 +211,23 @@ pip3 install --user --editable=$GHQ_ROOT/github.com/$REPO
 # ripgrep
 # TODO Cargoをインストールしてビルドする？
 # TODO ↑をやるならghq管理にする
-RIPGREP=ripgrep-0.4.0-x86_64-unknown-linux-musl
-cd /tmp
-wget https://github.com/BurntSushi/ripgrep/releases/download/0.4.0/$RIPGREP.tar.gz
-tar xzf $RIPGREP.tar.gz
-mkdir -p $HOME/opt
-mv $RIPGREP $HOME/opt/ripgrep
+archi=`uname -sm`
+case "$archi" in
+  Linux\ *64) ARCHI=x86_64 ;;
+  Linux\ *86) ARCHI=i686 ;;
+  *) echo "Unknown OS: $archi"; exit 1 ;;
+esac
+RIPGREP_DOWNLOAD_URL=`curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url'`
+if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
+  ARCHIVE_NAME=`basename "$RIPGREP_DOWNLOAD_URL"`
+  DIRNAME=`basename "$ARCHIVE_NAME" .tar.gz`
+  cd /tmp
+  curl -LO "$RIPGREP_DOWNLOAD_URL"
+  mkdir -p $HOME/opt
+  rm -fr $HOME/opt/ripgrep
+  tar -xzf $ARCHIVE_NAME
+  mv $DIRNAME $HOME/opt/ripgrep
+fi
 
 # golint
 # ghqだとインストールまでやってくれないのでgoで取ってくる
@@ -223,3 +241,5 @@ sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
 echo "Setup finished."
 read a
+
+# vim:set sw=2:
