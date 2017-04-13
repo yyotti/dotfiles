@@ -12,7 +12,7 @@ endif
 let b:undo_ftplugin .= 'setlocal tabstop<'
 let b:undo_ftplugin .= ' | unlet! b:did_go_ftplugin'
 
-" highlight default link goErr WarningMsg
-" match goErr /\<err\>/
+highlight default link goErr WarningMsg
+match goErr /\<err\>/
 
 setlocal tabstop=4

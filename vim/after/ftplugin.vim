@@ -3,8 +3,8 @@ if exists('g:did_loaded_after_ftplugin')
 endif
 let g:did_load_after_ftplugin = 1
 
-autocmd filetypeplugin FileType * call s:AfterFTPlugin()
-function! s:AfterFTPlugin()
+autocmd filetypeplugin FileType * nested call s:after_ftplugin()
+function! s:after_ftplugin()
   " Disable automatically insert comment
   setlocal formatoptions-=ro
   setlocal formatoptions+=mMBl

@@ -37,6 +37,9 @@ let g:markdown_fenced_languages = [
 " Folding
 let g:xml_syntax_folding = 1
 
+" Disable PHP formatoptions
+let g:PHP_autoformatcomment = 0
+
 " Update filetype
 autocmd MyAutocmd BufWritePost * nested
       \ if &l:filetype ==# '' || exists('b:ftdetect') |
