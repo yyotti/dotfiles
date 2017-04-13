@@ -673,4 +673,14 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
+" TODO Require Python 3.5 or later
+" let s:plugin = packages#add('Jagua/vim-denite-ghq', {
+"       \   'condition': executable('ghq'),
+"       \   'depends': [ 'denite.nvim' ],
+"       \ })
+" function! s:plugin.post_add() abort "{{{
+"   nnoremap <silent> <Leader>uq :<C-u>DeniteGhq<CR>
+" endfunction "}}}
+" unlet s:plugin
+
 call packages#end()

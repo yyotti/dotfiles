@@ -15,10 +15,11 @@ function add-vim-plugin --description 'Add vim plugin'
             set url "$url.git"
         end
 
-        set repo (echo $url | sed -e 's#https://github.com/\(.*\)\.git#\1#')
-        echo $repo
+        set -l repo (echo $url | sed -e 's#https://github.com/\(.*\)\.git#\1#')
+        echo Install $repo
 
-        git clone "$url" "pack/bundle/opt/$repo"
+        set -l plugin_name (echo $repo | sed -e 's#.\+/\(.\+\)#\1#')
+        git clone "$url" "pack/bundle/opt/$plugin_name"
     end
 
     popd
