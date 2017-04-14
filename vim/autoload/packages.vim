@@ -67,7 +67,7 @@ function! packages#add(plugin, ...) abort "{{{
   let options =
         \ extend(copy(s:default_options), s:check_options(a:000), 'force')
 
-  let options['rtp'] = s:join_path(
+  let options['rtp'] = utils#join_path(
         \   resolve(expand(split(&packpath, ',')[0])),
         \   a:plugin,
         \   options['path']
@@ -128,7 +128,8 @@ function! s:packadd(name, bang, ...) abort "{{{
     return
   endif
 
-  execute 'packadd' . (a:bang ? '!' : '') s:join_path(a:name, plugin['path'])
+  execute 'packadd' . (a:bang ? '!' : '')
+        \ utils#join_path(a:name, plugin['path'])
 
   if !a:bang
     call s:plugin_loaded(a:name, a:000)
@@ -233,21 +234,6 @@ function! s:call_hook(plugin, hook) abort "{{{
     endif
     unlet s:hook
   endif
-endfunction "}}}
-
-function! s:join_path(base, ...) abort "{{{
-  let paths = filter(
-        \   map(
-        \     map(
-        \       copy(a:000),
-        \       { _, part -> type(part) !=# v:t_string ? string(part) : part }
-        \     ),
-        \     { _, val ->
-        \       join(filter(split(val, '/'), { _, val -> !empty(val) }), '/') }
-        \   ),
-        \   { _, val -> !empty(val) }
-        \ )
-  return empty(paths) ? a:base : join([ a:base ] + paths, '/')
 endfunction "}}}
 
 let &cpoptions = s:save_cpo

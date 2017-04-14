@@ -37,7 +37,8 @@ call unite#filters#sorter_default#use([ 'sorter_rank' ])
 
 " Custom source highlight.
 function! s:rec_on_syntax(...) abort "{{{
-  syntax match uniteSource__FileRecFileName /\[.\+\]/ contained containedin=uniteSource__FileRec
+  syntax match uniteSource__FileRecFileName /\[.\+\]/
+        \ contained containedin=uniteSource__FileRec
   highlight default link uniteSource__FileRecFileName Type
 endfunction "}}}
 call unite#custom#source('file_rec', 'syntax', 'uniteSource__FileRec')
@@ -70,8 +71,8 @@ endfunction "}}}
 " priorities: rg > ag > pt > git > grep
 if executable('rg')
   let g:unite_source_grep_command = 'rg'
-  " TODO Segmentation fault occured when '--smart-case'
-  let g:unite_source_grep_default_opts = '--line-number --color=never --no-heading'
+  let g:unite_source_grep_default_opts =
+        \ '--line-number --color=never --no-heading --smart-case'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ag')
   let g:unite_source_grep_command = 'ag'

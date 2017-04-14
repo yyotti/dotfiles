@@ -147,8 +147,7 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if has('nvim') || v:version >= 800
-    " FIXME
+  if !empty(packages#get('neomake'))
     if !exists('*neomake#statusline#LoclistCounts')
       return '%{""}'
     endif

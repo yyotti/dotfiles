@@ -44,7 +44,7 @@ sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
 sudo mv -f /tmp/sources.list /etc/apt/sources.list
 
 # TODO 各種インストールを別ファイルに分ける
-# ex) apt-get-install.sh, git-install.sh, etc..
+# ex) apt-install.sh, git-install.sh, etc..
 
 # Git
 sudo add-apt-repository -y ppa:git-core/ppa
@@ -55,11 +55,11 @@ sudo add-apt-repository -y ppa:ondrej/php
 # fish
 sudo add-apt-repository -y ppa:fish-shell/release-2
 
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y autoremove
+sudo apt -y update
+sudo apt -y upgrade
+# sudo apt-get -y autoremove
 
-sudo apt-get -y install \
+sudo apt -y install \
   zsh \
   fish \
   git \

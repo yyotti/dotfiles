@@ -48,6 +48,25 @@ autocmd MyAutocmd BufWritePost * nested
       \ endif
 "}}}
 
+" Python3 version "{{{
+if exists(':python3') ==# 2
+  let s:python3_version =
+        \ matchstr(
+        \   execute(
+        \     'python3 import platform; print(platform.python_version())',
+        \     'silent!'
+        \   ),
+        \   '\d\+\.\d\+\.\d\+'
+        \ )
+  let s:has_python35 =
+        \ !empty(s:python3_version) && s:python3_version >=# '3.5.0'
+
+  unlet s:python3_version
+else
+  let s:has_python35 = 0
+endif
+"}}}
+
 if !packages#begin()
   finish
 endif
@@ -136,7 +155,7 @@ call packages#add('jwalton512/vim-blade')
 call packages#add('dag/vim-fish')
 
 let s:plugin = packages#add('Shougo/deoplete.nvim', {
-      \   'condition': has('nvim'),
+      \   'condition': has('nvim') && has('python3'),
       \   'depends': [ 'context_filetype.vim' ],
       \   'post_add': '~/.vim/rc/plugins/deoplete.rc.vim'
       \ })
@@ -144,6 +163,31 @@ function! s:plugin.pre_add() abort "{{{
   let g:deoplete#enable_at_startup = 1
 endfunction "}}}
 unlet s:plugin
+
+" TODO add 'build' attribute
+" TODO Error occured
+" let s:plugin = packages#add('zchee/deoplete-go', {
+"       \   'condition': executable('go'),
+"       \   'depends': [ 'deoplete.nvim' ],
+"       \ })
+" function! s:plugin.pre_add() abort "{{{
+"   let g:deoplete#sources#go#gocode_binary =
+"         \ utils#join_path($GOPATH, 'bin' , 'gocode')
+"   let g:deoplete#sources#go#sort_class = [
+"         \   'package',
+"         \   'func',
+"         \   'type',
+"         \   'var',
+"         \   'const',
+"         \ ]
+"   let g:deoplete#sources#go#use_cache = 1
+"   let g:deoplete#sources#go#json_directory =
+"         \ utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
+"   if !isdirectory(g:deoplete#sources#go#json_directory)
+"     call mkdir(g:deoplete#sources#go#json_directory, 'p')
+"   endif
+" endfunction "}}}
+" unlet s:plugin
 
 call packages#add('Shougo/neomru.vim')
 
@@ -191,7 +235,7 @@ let s:plugin = packages#add('Shougo/unite.vim', {
       \   'post_add': '~/.vim/rc/plugins/unite.rc.vim',
       \ })
 function! s:plugin.pre_add() abort "{{{
-  if !has('nvim') && v:version < 800
+  if empty(packages#get('denite.nvim'))
     nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
     nnoremap <silent> <Leader>uf
           \ :<C-u>Unite -buffer-name=files
@@ -213,7 +257,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('Shougo/denite.nvim', {
-      \   'condition': has("nvim") || v:version >= 800,
+      \   'condition': has('nvim') || v:version >= 800 && has('python3'),
       \   'post_add': '~/.vim/rc/plugins/denite.rc.vim',
       \ })
 function! s:plugin.pre_add() abort "{{{
@@ -444,9 +488,8 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO >=7.4.503
 let s:plugin = packages#add('neomake/neomake', {
-      \   'condition': has('nvim') || v:version >= 800,
+      \   'condition': has('nvim') || v:version >= 800 || has('patch-7.4.503'),
       \ })
 function! s:plugin.pre_add() abort "{{{
   autocmd MyAutocmd BufWritePost *
@@ -496,14 +539,11 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO <7.4.503
 call packages#add('osyo-manga/shabadou.vim', {
-      \   'condition': !has('nvim') && v:version < 800,
+      \   'condition': empty(packages#get('neomake')),
       \ })
 
-" TODO <7.4.503
 let s:plugin = packages#add('osyo-manga/vim-watchdogs', {
-      \   'condition': !has('nvim') && v:version < 800,
       \   'depends': [ 'vim-quickrun', 'vimproc.vim', 'shabadou.vim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
@@ -527,9 +567,8 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO <7.4.503
 let s:plugin = packages#add('KazuakiM/vim-qfstatusline', {
-      \   'condition': !has('nvim') && v:version < 800,
+      \   'depends': [ 'vim-watchdogs' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   if !exists('g:quickrun_config')
@@ -555,9 +594,8 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO <7.4.503
 let s:plugin = packages#add('KazuakiM/vim-qfsigns', {
-      \   'condition': !has('nvim') && v:version < 800,
+      \   'depends': [ 'vim-watchdogs' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   if !exists('g:quickrun_config')
@@ -639,16 +677,18 @@ let s:plugin = packages#add('adoy/vim-php-refactoring-toolbox')
 function! s:plugin.pre_add() abort "{{{
   let g:vim_php_refactoring_use_default_mapping = 0
 
-  " TODO map only *.php
-  nnoremap <silent> rflv :call PhpRenameLocalVariable()<CR>
-  nnoremap <silent> rfcv :call PhpRenameClassVariable()<CR>
-  nnoremap <silent> rfrm :call PhpRenameMethod()<CR>
-  nnoremap <silent> rfdu :call PhpDetectUnusedUseStatements()<CR>
-  nnoremap <silent> rfec :call PhpExtractClassProperty()<CR>
-  nnoremap <silent> rfeu :call PhpExtractUse()<CR>
+  function! InitPhpRefactoringToolbox() abort "{{{
+    nnoremap <buffer> <silent> rflv :call PhpRenameLocalVariable()<CR>
+    nnoremap <buffer> <silent> rfcv :call PhpRenameClassVariable()<CR>
+    nnoremap <buffer> <silent> rfrm :call PhpRenameMethod()<CR>
+    nnoremap <buffer> <silent> rfdu :call PhpDetectUnusedUseStatements()<CR>
+    nnoremap <buffer> <silent> rfec :call PhpExtractClassProperty()<CR>
+    nnoremap <buffer> <silent> rfeu :call PhpExtractUse()<CR>
 
-  vnoremap <silent> rfem :call PhpExtractMethod()<CR>
-  vnoremap <silent> <Leader>== :call PhpAlignAssigns()<CR>
+    vnoremap <buffer> <silent> rfem :call PhpExtractMethod()<CR>
+    vnoremap <buffer> <silent> <Leader>== :call PhpAlignAssigns()<CR>
+  endfunction "}}}
+  autocmd MyAutocmd FileType php call InitPhpRefactoringToolbox()
 endfunction "}}}
 unlet s:plugin
 
@@ -675,11 +715,21 @@ unlet s:plugin
 
 " TODO Require Python 3.5 or later
 " let s:plugin = packages#add('Jagua/vim-denite-ghq', {
-"       \   'condition': executable('ghq'),
+"       \   'condition': executable('ghq') && s:has_python35,
 "       \   'depends': [ 'denite.nvim' ],
 "       \ })
 " function! s:plugin.post_add() abort "{{{
 "   nnoremap <silent> <Leader>uq :<C-u>DeniteGhq<CR>
+" endfunction "}}}
+" unlet s:plugin
+
+" TODO Require Python 3.5 or later
+" let s:plugin = packages#add('chemzqm/denite-git', {
+"       \   'condition': s:has_python35,
+"       \   'depends': [ 'denite.nvim' ],
+"       \ })
+" function! s:plugin.post_add() abort "{{{
+"   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
 " endfunction "}}}
 " unlet s:plugin
 

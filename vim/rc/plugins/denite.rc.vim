@@ -80,7 +80,6 @@ if executable('rg')
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'final_opts', [])
   call denite#custom#var('grep', 'separator', [ '--' ])
-  " TODO Segmentation fault occured when '--smart-case'
   call denite#custom#var(
         \   'grep',
         \   'default_opts',
@@ -88,6 +87,7 @@ if executable('rg')
         \     '--line-number',
         \     '--color=never',
         \     '--no-heading',
+        \     '--smart-case',
         \   ]
         \ )
 
@@ -177,8 +177,6 @@ elseif executable('git')
         \ )
 endif
 
-" nnoremap <silent> <Leader>n :UniteNext<CR>
-" nnoremap <silent> <Leader>p :UnitePrevious<CR>
 "}}}
 
 "-----------------------------------------------------------------------------
