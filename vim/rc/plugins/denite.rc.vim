@@ -245,18 +245,25 @@ function! s:simple_items(...) abort "{{{
 endfunction "}}}
 
 function! s:vimrc_items() abort "{{{
-  let prefix = expand('~/.vim/rc/')
+  let path = resolve(expand('~/.vim'))
+  if !isdirectory(path)
+    return []
+  endif
+
+  let command =
+        \ 'git -C ' . shellescape(path) . ' ls-files -co --exclude-standard'
 
   return map(
-      \   filter(glob(prefix . '**', 0, 1), '!isdirectory(v:val)'),
-      \   '{' .
-      \     "'title': strpart(v:val, strlen(prefix))," .
-      \     "'path': fnamemodify(v:val, ':p')," .
-      \   '}'
-      \ )
+        \   sort(systemlist(command)),
+        \   '{' .
+        \     "'title': v:val," .
+        \     "'path': utils#join_path(path, v:val)," .
+        \   '}'
+        \ )
 endfunction "}}}
 
 function! s:fish_items() abort "{{{
+  " TODO show vimrc_items
   let prefix = expand('~/.config/fish/')
 
   return map(
