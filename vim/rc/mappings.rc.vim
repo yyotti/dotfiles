@@ -165,7 +165,7 @@ nnoremap <Leader>J <C-w>J
 
 " Operate buffer "{{{
 nnoremap <silent> <Leader>o :<C-u>only<CR>
+nnoremap <silent> <Leader>O :<C-u>hide<CR>
 nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
 nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
-nnoremap <silent> <Leader>H :<C-u>hide<CR>
 "}}}
