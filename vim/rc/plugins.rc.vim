@@ -75,7 +75,9 @@ autocmd plugin-packages User post-plugins-loaded nested
       \ source ~/.vim/rc/colorscheme.rc.vim
 
 let s:plugin = packages#add('tyru/caw.vim', {
-      \   'depends': [ 'vim-operator-user', 'vim-repeat' ],
+      \   'depends': [
+      \     'kana/vim-operator-user',
+      \     'tpope/vim-repeat' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   function! InitCaw() abort "{{{
@@ -139,8 +141,10 @@ call packages#add('Shougo/neosnippet-snippets')
 
 call packages#add('vim-jp/vimdoc-ja')
 
-" TODO add 'build' attribute
-call packages#add('nixprime/cpsm', { 'condition': !IsWindows() })
+call packages#add('nixprime/cpsm', {
+      \   'condition': !IsWindows(),
+      \   'build': 'env PY3=ON bash install.sh',
+      \ })
 
 call packages#add('vim-scripts/smarty-syntax')
 
@@ -156,7 +160,7 @@ call packages#add('dag/vim-fish')
 
 let s:plugin = packages#add('Shougo/deoplete.nvim', {
       \   'condition': has('nvim') && has('python3'),
-      \   'depends': [ 'context_filetype.vim' ],
+      \   'depends': [ 'Shougo/context_filetype.vim' ],
       \   'post_add': '~/.vim/rc/plugins/deoplete.rc.vim'
       \ })
 function! s:plugin.pre_add() abort "{{{
@@ -164,11 +168,10 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO add 'build' attribute
-" TODO Error occured
 " let s:plugin = packages#add('zchee/deoplete-go', {
 "       \   'condition': executable('go'),
-"       \   'depends': [ 'deoplete.nvim' ],
+"       \   'depends': [ 'Shougo/deoplete.nvim' ],
+"       \   'build': '',
 "       \ })
 " function! s:plugin.pre_add() abort "{{{
 "   let g:deoplete#sources#go#gocode_binary =
@@ -191,16 +194,16 @@ unlet s:plugin
 
 call packages#add('Shougo/neomru.vim')
 
-" TODO add 'build' attribute
 call packages#add('Shougo/vimproc.vim', {
       \   'condition': !IsWindows(),
+      \   'build': 'make',
       \ })
 
 call packages#add('Shougo/context_filetype.vim')
 
 let s:plugin = packages#add('Shougo/neocomplete.vim', {
       \   'condition': has('lua'),
-      \   'depends': [ 'context_filetype.vim' ],
+      \   'depends': [ 'Shougo/context_filetype.vim' ],
       \   'post_add': '~/.vim/rc/plugins/neocomplete.rc.vim'
       \ })
 function! s:plugin.pre_add() abort "{{{
@@ -209,7 +212,10 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('Shougo/neosnippet.vim', {
-      \   'depends': [ 'neosnippet-snippets', 'context_filetype.vim' ],
+      \   'depends': [
+      \     'Shougo/neosnippet-snippets',
+      \     'Shougo/context_filetype.vim'
+      \   ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
@@ -227,15 +233,15 @@ endfunction "}}}
 unlet s:plugin
 
 call packages#add('yyotti/neosnippet-additional', {
-      \   'depends': [ 'neosnippet.vim' ],
+      \   'depends': [ 'Shougo/neosnippet.vim' ],
       \ })
 
 let s:plugin = packages#add('Shougo/unite.vim', {
-      \   'depends': 'neomru.vim',
+      \   'depends': 'Shougo/neomru.vim',
       \   'post_add': '~/.vim/rc/plugins/unite.rc.vim',
       \ })
 function! s:plugin.pre_add() abort "{{{
-  if empty(packages#get('denite.nvim'))
+  if empty(packages#get('Shougo/denite.nvim'))
     nnoremap <silent> <Leader>ub :<C-u>Unite buffer file_mru<CR>
     nnoremap <silent> <Leader>uf
           \ :<C-u>Unite -buffer-name=files
@@ -279,7 +285,7 @@ unlet s:plugin
 
 " TODO Use Vaffle or defx
 let s:plugin = packages#add('Shougo/vimfiler.vim', {
-      \   'depends': [ 'unite.vim' ],
+      \   'depends': [ 'Shougo/unite.vim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -invisible<CR>
@@ -312,7 +318,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('Shougo/junkfile.vim', {
-      \   'depends': [ 'unite.vim' ],
+      \   'depends': [ 'Shougo/unite.vim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>
@@ -397,7 +403,7 @@ unlet s:plugin
 call packages#add('tyru/open-browser.vim')
 
 let s:plugin = packages#add('kana/vim-operator-replace', {
-      \   'depends': [ 'vim-operator-user' ],
+      \   'depends': [ 'kana/vim-operator-user' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   map R <Plug>(operator-replace)
@@ -406,7 +412,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('rhysd/vim-operator-surround', {
-      \   'depends': [ 'vim-operator-user' ],
+      \   'depends': [ 'kana/vim-operator-user' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   map <silent> ra <Plug>(operator-surround-append)
@@ -431,7 +437,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('easymotion/vim-easymotion', {
-      \   'depends': [ 'vim-repeat' ],
+      \   'depends': [ 'tpope/vim-repeat' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   let g:EasyMotion_smartcase = 1
@@ -540,11 +546,15 @@ endfunction "}}}
 unlet s:plugin
 
 call packages#add('osyo-manga/shabadou.vim', {
-      \   'condition': empty(packages#get('neomake')),
+      \   'condition': empty(packages#get('neomake/neomake')),
       \ })
 
 let s:plugin = packages#add('osyo-manga/vim-watchdogs', {
-      \   'depends': [ 'vim-quickrun', 'vimproc.vim', 'shabadou.vim' ],
+      \   'depends': [
+      \     'thinca/vim-quickrun',
+      \     'Shougo/vimproc.vim',
+      \     'osyo-manga/shabadou.vim'
+      \   ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   let g:watchdogs_check_BufWritePost_enable = 1
@@ -568,7 +578,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('KazuakiM/vim-qfstatusline', {
-      \   'depends': [ 'vim-watchdogs' ],
+      \   'depends': [ 'osyo-manga/vim-watchdogs' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   if !exists('g:quickrun_config')
@@ -595,7 +605,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('KazuakiM/vim-qfsigns', {
-      \   'depends': [ 'vim-watchdogs' ],
+      \   'depends': [ 'osyo-manga/vim-watchdogs' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   if !exists('g:quickrun_config')
@@ -624,7 +634,7 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = packages#add('haya14busa/vim-operator-flashy', {
-      \   'depends': [ 'vim-operator-user' ],
+      \   'depends': [ 'kana/vim-operator-user' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   let g:operator#flashy#flash_time = 300
@@ -656,7 +666,7 @@ unlet s:plugin
 
 call packages#add('syngan/vim-vimlint', {
       \   'condition': !executable('vimlparser'),
-      \   'depends': [ 'vim-vimlparser' ],
+      \   'depends': [ 'ynkdir/vim-vimlparser' ],
       \ })
 
 call packages#add('ynkdir/vim-vimlparser', {
@@ -664,7 +674,7 @@ call packages#add('ynkdir/vim-vimlparser', {
       \ })
 
 let s:plugin = packages#add('osyo-manga/vim-precious', {
-      \   'depends': [ 'context_filetype.vim' ],
+      \   'depends': [ 'Shougo/context_filetype.vim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
   let g:precious_enable_switch_CursorMoved = { '*': 0 }
@@ -720,7 +730,7 @@ unlet s:plugin
 " TODO Require Python 3.5 or later
 " let s:plugin = packages#add('chemzqm/denite-git', {
 "       \   'condition': s:has_python35,
-"       \   'depends': [ 'denite.nvim', 'vim-easygit' ],
+"       \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
 "       \ })
 " function! s:plugin.post_add() abort "{{{
 "   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>

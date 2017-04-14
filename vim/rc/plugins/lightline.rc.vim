@@ -108,7 +108,7 @@ endfunction "}}}
 
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ !empty(packages#get('vim-fugitive')) && !empty(fugitive#head())
+        \ !empty(packages#get('tpope/vim-fugitive')) && !empty(fugitive#head())
 endfunction "}}}
 
 function! s:branch() abort "{{{
@@ -147,7 +147,7 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if !empty(packages#get('neomake'))
+  if !empty(packages#get('neomake/neomake'))
     if !exists('*neomake#statusline#LoclistCounts')
       return '%{""}'
     endif

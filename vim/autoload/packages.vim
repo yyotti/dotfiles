@@ -9,6 +9,8 @@ let s:default_options = {
       \   'path': '',
       \ }
 
+let s:jobs = {}
+
 function! packages#begin(...) abort "{{{
   let s:plugins = {}
 
@@ -31,6 +33,7 @@ function! packages#begin(...) abort "{{{
 
   let s:packpath = get(a:000, 0, get(split(&packpath, ','), 0, ''))
   if empty(s:packpath)
+    " TODO ErrMsg
     echomsg 'Invalid packpath: ' . s:packpath
     return 0
   endif
@@ -54,7 +57,7 @@ function! packages#begin(...) abort "{{{
 endfunction "}}}
 
 function! packages#end() abort "{{{
-  let s:plugins = s:remove_disabled_plugins(s:plugins)
+  " Do nothing
 endfunction "}}}
 
 function! packages#add(plugin, ...) abort "{{{
@@ -67,19 +70,26 @@ function! packages#add(plugin, ...) abort "{{{
   let options =
         \ extend(copy(s:default_options), s:check_options(a:000), 'force')
 
+  let options['name'] = name
+  let options['fullname'] = a:plugin
+
   let options['rtp'] = utils#join_path(
-        \   resolve(expand(split(&packpath, ',')[0])),
-        \   a:plugin,
+        \   resolve(expand(s:packpath)),
+        \   'pack/bundle/opt',
+        \   name,
         \   options['path']
         \ )
 
-  if has_key(s:plugins, name)
-    let s:plugins[name] = extend(copy(s:plugins[name]), options, 'force')
+  let options['url'] = utils#join_path('https://github.com', a:plugin) . '.git'
+
+  if has_key(s:plugins, a:plugin)
+    let s:plugins[a:plugin] =
+          \ extend(copy(s:plugins[a:plugin]), options, 'force')
   else
-    let s:plugins[name] = options
+    let s:plugins[a:plugin] = options
   endif
 
-  return s:plugins[name]
+  return s:plugins[a:plugin]
 endfunction "}}}
 
 function! packages#post_add() abort "{{{
@@ -93,6 +103,10 @@ function! packages#get(plugin) abort "{{{
 endfunction "}}}
 
 function! packages#load_plugins(...) abort "{{{
+  let s:plugins = s:remove_disabled_plugins(s:plugins)
+
+  call packages#install(0)
+
   for plugin in keys(s:plugins)
     call s:call_hook(plugin, 'pre_add')
   endfor
@@ -104,7 +118,7 @@ function! packages#load_plugins(...) abort "{{{
         \   )
         \ )
   for plugin in dependencies
-    execute 'packadd!' plugin
+    execute 'packadd!' s:plugins[plugin]['name']
   endfor
 
   let s:loding_plugins = {}
@@ -122,14 +136,70 @@ function! packages#filetype_on(...) abort "{{{
   endif
 endfunction "}}}
 
+function! packages#install(force, ...) abort "{{{
+  if a:0 ==# 0
+    let plugins = keys(s:plugins)
+  else
+    let plugins = filter(copy(a:000), { _, val -> has_key(s:plugins, val) })
+  endif
+
+  if !a:force
+    let plugins =
+          \ filter(plugins, { _, val -> !isdirectory(s:plugins[val]['rtp']) })
+  endif
+
+  let cnt = len(plugins)
+  if cnt == 0
+    return 0
+  endif
+
+  let mode = a:force ? 'Reinstall' : 'Install'
+  echomsg mode cnt 'plugins'
+
+  let idx = 0
+  for p in plugins
+    let idx += 1
+    echomsg printf('(%d/%d) %s [%s]', idx, cnt, mode . 'ing', p)
+    if a:force && delete(s:plugins[p]['rtp']) < 0
+      " TODO ErrMsg
+      echomsg 'Cannot delete [' . s:plugins[p]['rtp'] . '].'
+      continue
+    endif
+
+    let cmd = [
+          \   'git',
+          \   'clone',
+          \   '--quiet',
+          \   s:plugins[p]['url'],
+          \   s:plugins[p]['rtp'],
+          \ ]
+    let options = {
+          \   'on_stderr': function('s:on_stderr'),
+          \   'on_exit': function('s:on_exit'),
+          \ }
+    let job_id = packages#job#start(cmd, options)
+    if job_id > 0
+      let s:jobs[job_id] = p
+      while !packages#job#is_exited(job_id)
+        sleep 1m
+      endwhile
+    else
+      let s:plugins[p]['condition'] = 0
+    endif
+  endfor
+
+  let s:plugins = s:remove_disabled_plugins(s:plugins)
+endfunction "}}}
+
 function! s:packadd(name, bang, ...) abort "{{{
   let plugin = get(s:plugins, a:name, {})
   if empty(plugin)
     return
   endif
 
+  " TODO Check path exists
   execute 'packadd' . (a:bang ? '!' : '')
-        \ utils#join_path(a:name, plugin['path'])
+        \ utils#join_path(plugin['name'], plugin['path'])
 
   if !a:bang
     call s:plugin_loaded(a:name, a:000)
@@ -198,6 +268,11 @@ function! s:check_options(options) abort "{{{
     unlet op['depends']
   endif
 
+  if has_key(op, 'build')
+        \ && index([ v:t_func, v:t_string ], type(op['build'])) < 0
+    unlet op['build']
+  endif
+
   return op
 endfunction "}}}
 
@@ -221,18 +296,57 @@ function! s:remove_disabled_plugins(options) abort "{{{
 endfunction "}}}
 
 function! s:call_hook(plugin, hook) abort "{{{
-  if has_key(s:plugins[a:plugin], a:hook)
-    " Because of:
-    "   E704: Funcref variable name must start with a capital: init
-    let s:hook = s:plugins[a:plugin][a:hook]
-    if type(s:hook) ==# v:t_string
-      if !empty(s:hook)
-        execute 'source' fnameescape(s:hook)
-      endif
-    else
-      call call(s:hook, [], s:plugins[a:plugin])
+  if !has_key(s:plugins[a:plugin], a:hook)
+    return
+  endif
+
+  let Hook = s:plugins[a:plugin][a:hook]
+  if type(Hook) ==# v:t_string
+    if !empty(Hook)
+      execute 'source' fnameescape(Hook)
     endif
-    unlet s:hook
+  else
+    call call(Hook, [], s:plugins[a:plugin])
+  endif
+endfunction "}}}
+
+function! s:on_stderr(job_id, lines) abort "{{{
+  for l in a:lines
+    " TODO ErrMsg
+    echomsg l
+  endfor
+endfunction "}}}
+
+function! s:on_exit(job_id, status) abort "{{{
+  let plugin = s:jobs[a:job_id]
+  if a:status !=# 0
+    " Disable plugin
+    let s:plugins[plugin]['condition'] = 0
+  else
+    if has_key(s:plugins[plugin], 'build')
+      let pwd = getcwd()
+      try
+        execute 'lcd' s:plugins[plugin]['rtp']
+        call s:build(plugin)
+      finally
+        execute 'lcd' pwd
+      endtry
+    endif
+  endif
+endfunction "}}}
+
+function! s:build(plugin) abort "{{{
+  if !has_key(s:plugins[a:plugin], 'build')
+    return
+  endif
+
+  let Build = s:plugins[a:plugin]['build']
+  if type(Build) ==# v:t_string
+    if !empty(Build)
+      execute '!' . Build
+    endif
+  else
+    call call(Build, [], s:plugins[a:plugin])
   endif
 endfunction "}}}
 
