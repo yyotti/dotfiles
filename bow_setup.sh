@@ -36,7 +36,10 @@ if [ -z "$GHQ_ROOT" ]; then
   GHQ_ROOT=$GOPATH/src
 fi
 
-sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
+UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
+if [ "$UBUNTU_VERSION" != "16" ]; then
+  sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
+fi
 
 sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' /etc/apt/sources.list > /tmp/sources.list
 sed -e 's%deb %deb-src %g' /tmp/sources.list >> /tmp/sources.list
