@@ -1,44 +1,9 @@
 #!/bin/sh
 
-# echo -n "Alternative home directory ([$HOME]):"
-# read HOME_PATH
-# if [ -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH" ]; then
-#   if [ -d "$HOME_PATH" -a -r "$HOME_PATH" ]; then
-#     if [ ! -e /etc/passwd.org ]; then
-#       sudo cp /etc/passwd /etc/passwd.org
-#     fi
-# 
-#     sudo sed -i -e "s%/home/$USER%/mnt/d/home/$USER%g" /etc/passwd
-#   else
-#     echo "Invalid path."
-#     exit
-#   fi
-# 
-#   echo -n 'Copy dotfiles? [y/N]:'
-#   read COPY
-#   if [ "$COPY" = "y" -o "$COPY" = "Y" ]; then
-#     cp $HOME/.* $HOME_PATH/
-#   fi
-# 
-#  HOME=$HOME_PATH
-#   export HOME
-# fi
-
-# echo -n "Golang home directory ([$HOME/.go]):"
-# read GOPATH
-# if [ -z "$GOPATH" ]; then
-#   GOPATH=$HOME/.go
-# fi
 export GOPATH="$HOME/.go"
 if [ ! -d "$GOPATH" ]; then
   mkdir -p "$GOPATH"
 fi
-
-# echo -n "GHQ_ROOT directory ([$GOPATH/src]):"
-# read GHQ_ROOT
-# if [ -z "$GHQ_ROOT" ]; then
-#   GHQ_ROOT=$GOPATH/src
-# fi
 
 UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
 if [ "$UBUNTU_VERSION" != "16" ]; then
@@ -137,16 +102,17 @@ if [ -n "$GO_VER" ]; then
 fi
 echo ''
 
+# ghq
+echo 'Install GHQ.'
+go get github.com/motemen/ghq
+GHQ_ROOT="`ghq root`"
+
+echo ''
+
 # pt
 # TODO ripgrepを入れるなら不要か？
 echo 'Install The Platinum Searcher.'
 go get github.com/monochromegane/the_platinum_searcher/cmd/pt
-
-echo ''
-
-# ghq
-echo 'Install GHQ.'
-go get github.com/motemen/ghq
 
 echo ''
 
@@ -293,6 +259,5 @@ sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
 echo "Setup finished."
-read a
 
 # vim:set sw=2:
