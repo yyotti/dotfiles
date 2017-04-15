@@ -113,8 +113,10 @@ FISH_PATH=`which fish`
 if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
   echo $FISH_PATH | sudo tee -a /etc/shells
 fi
-# chsh -s /bin/zsh
-chsh -s $FISH_PATH
+if [ -e $HOME/.bashrc -a -z "`cat $HOME/.bashrc | grep 'if \[ -t 1 \]; then'`" ]; then
+  mv $HOME/.bashrc $HOME/.bashrc_org
+  echo "if [ -t 1 ]; then SHELL=$FISH_PATH exec $FISH_PATH; fi" > $HOME/.bashrc
+fi
 
 # ghq
 go get github.com/motemen/ghq
