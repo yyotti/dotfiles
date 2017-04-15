@@ -162,17 +162,17 @@ cd "$GHQ_ROOT/github.com/$REPO"
 
 echo ''
 
-# cmigemo
-echo 'Install C/Migemo.'
-REPO=koron/cmigemo
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-./configure
-make -j2 gcc
-make -j2 gcc-dict
-sudo make gcc-install
-echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
-sudo /sbin/ldconfig
+# # cmigemo
+# echo 'Install C/Migemo.'
+# REPO=koron/cmigemo
+# ghq get $REPO
+# cd "$GHQ_ROOT/github.com/$REPO"
+# ./configure
+# make -j2 gcc
+# make -j2 gcc-dict
+# sudo make gcc-install
+# echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
+# sudo /sbin/ldconfig
 
 echo ''
 
@@ -212,7 +212,7 @@ LIBS="-lmigemo" ./configure \
   --with-lua-prefix=/usr \
   --with-luajit \
   --enable-fontset \
-  --enable-migemo \
+#   --enable-migemo \
   --enable-fail-if-missing
 make -j2
 sudo make install
@@ -289,7 +289,7 @@ go get github.com/golang/lint/golint
 echo ''
 
 # vimlparser(golang)
-echo 'Install vimlparser(Golang ver).
+echo 'Install vimlparser(Golang ver).'
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
