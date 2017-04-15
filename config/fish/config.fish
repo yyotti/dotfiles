@@ -102,7 +102,7 @@ set fish_color_user_root brred
 #=============================================================================
 # fresco
 #
-if not functions -q fresco
+if status -i; and not functions -q fresco
     curl https://raw.githubusercontent.com/masa0x80/fresco/master/install | fish
     source $HOME/.config/fish/conf.d/fresco.fish
 end
