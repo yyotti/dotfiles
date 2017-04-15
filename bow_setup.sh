@@ -30,7 +30,6 @@
 #   GOPATH=$HOME/.go
 # fi
 export GOPATH="$HOME/.go"
-echo "GOPATH=$GOPATH"
 if [ ! -d "$GOPATH" ]; then
   mkdir -p "$GOPATH"
 fi
@@ -40,8 +39,6 @@ fi
 # if [ -z "$GHQ_ROOT" ]; then
 #   GHQ_ROOT=$GOPATH/src
 # fi
-export GHQ_ROOT="$GOPATH/src"
-echo "GHQ_ROOT=$GHQ_ROOT"
 
 UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
 if [ "$UBUNTU_VERSION" != "16" ]; then
