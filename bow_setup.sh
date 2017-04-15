@@ -136,7 +136,7 @@ echo ''
 # sudo make gcc-install
 # echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
 # sudo /sbin/ldconfig
-# 
+#
 # echo ''
 
 # guilt
@@ -165,7 +165,7 @@ guilt push -a
 cd ./src
 make autoconf
 cd ../
-LIBS="-lmigemo" ./configure \
+./configure \
   --with-features=huge \
   --disable-selinux \
   --enable-gui=no \
@@ -175,7 +175,6 @@ LIBS="-lmigemo" ./configure \
   --with-lua-prefix=/usr \
   --with-luajit \
   --enable-fontset \
-#   --enable-migemo \
   --enable-fail-if-missing
 make -j2
 sudo make install
