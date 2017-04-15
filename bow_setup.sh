@@ -1,40 +1,47 @@
 #!/bin/sh
 
-echo -n "Alternative home directory ([$HOME]):"
-read HOME_PATH
-if [ -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH" ]; then
-  if [ -d "$HOME_PATH" -a -r "$HOME_PATH" ]; then
-    if [ ! -e /etc/passwd.org ]; then
-      sudo cp /etc/passwd /etc/passwd.org
-    fi
+# echo -n "Alternative home directory ([$HOME]):"
+# read HOME_PATH
+# if [ -n "$HOME_PATH" -a "$HOME" != "$HOME_PATH" ]; then
+#   if [ -d "$HOME_PATH" -a -r "$HOME_PATH" ]; then
+#     if [ ! -e /etc/passwd.org ]; then
+#       sudo cp /etc/passwd /etc/passwd.org
+#     fi
+# 
+#     sudo sed -i -e "s%/home/$USER%/mnt/d/home/$USER%g" /etc/passwd
+#   else
+#     echo "Invalid path."
+#     exit
+#   fi
+# 
+#   echo -n 'Copy dotfiles? [y/N]:'
+#   read COPY
+#   if [ "$COPY" = "y" -o "$COPY" = "Y" ]; then
+#     cp $HOME/.* $HOME_PATH/
+#   fi
+# 
+#  HOME=$HOME_PATH
+#   export HOME
+# fi
 
-    sudo sed -i -e "s%/home/$USER%/mnt/d/home/$USER%g" /etc/passwd
-  else
-    echo "Invalid path."
-    exit
-  fi
-
-  echo -n 'Copy dotfiles? [y/N]:'
-  read COPY
-  if [ "$COPY" = "y" -o "$COPY" = "Y" ]; then
-    cp $HOME/.* $HOME_PATH/
-  fi
-
-  HOME=$HOME_PATH
-  export HOME
+# echo -n "Golang home directory ([$HOME/.go]):"
+# read GOPATH
+# if [ -z "$GOPATH" ]; then
+#   GOPATH=$HOME/.go
+# fi
+export GOPATH="$HOME/.go"
+echo "GOPATH=$GOPATH"
+if [ ! -d "$GOPATH" ]; then
+  mkdir -p "$GOPATH"
 fi
 
-echo -n "Golang home directory ([$HOME/.go]):"
-read GOPATH
-if [ -z "$GOPATH" ]; then
-  GOPATH=$HOME/.go
-fi
-
-echo -n "GHQ_ROOT directory ([$GOPATH/src]):"
-read GHQ_ROOT
-if [ -z "$GHQ_ROOT" ]; then
-  GHQ_ROOT=$GOPATH/src
-fi
+# echo -n "GHQ_ROOT directory ([$GOPATH/src]):"
+# read GHQ_ROOT
+# if [ -z "$GHQ_ROOT" ]; then
+#   GHQ_ROOT=$GOPATH/src
+# fi
+export GHQ_ROOT="$GOPATH/src"
+echo "GHQ_ROOT=$GHQ_ROOT"
 
 UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
 if [ "$UBUNTU_VERSION" != "16" ]; then
@@ -90,7 +97,34 @@ sudo apt -y install \
   xsel \
   jq
 
+echo ''
+
+echo 'Change default shell.'
+FISH_PATH=`which fish`
+if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
+  echo $FISH_PATH | sudo tee -a /etc/shells
+fi
+if [ -e $HOME/.bashrc -a -z "`cat $HOME/.bashrc | grep 'if \[ -t 1 \]; then'`" ]; then
+  if [ ! -f $HOME/.bashrc_org ]; then
+    mv  $HOME/.bashrc $HOME/.bashrc_org
+  fi
+  echo "if [ -t 1 ]; then SHELL=$FISH_PATH exec $FISH_PATH; fi" > $HOME/.bashrc
+fi
+
+echo ''
+
+# dotfiles
+echo 'Install my dotfiles.'
+git clone https://github.com/yyotti/dotfiles.git $HOME/.dotfiles
+cd $HOME/.dotfiles
+git remote set-url origin git@github.com:yyotti/dotfiles.git
+cd $HOME
+RCRC=$HOME/.dotfiles/rcrc rcup -v
+
+echo ''
+
 # Golang
+echo 'Install Golang.'
 GO_VER=`curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//'`
 if [ -n "$GO_VER" ]; then
   archi=`uname -sm`
@@ -102,41 +136,34 @@ if [ -n "$GO_VER" ]; then
   cd /tmp
   curl -LO https://storage.googleapis.com/golang/$ARCHIVE_NAME
   sudo tar -C /usr/local -xzf $ARCHIVE_NAME
-  PATH=/usr/local/go/bin:$PATH
+  export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 fi
+echo ''
 
 # pt
 # TODO ripgrepを入れるなら不要か？
+echo 'Install The Platinum Searcher.'
 go get github.com/monochromegane/the_platinum_searcher/cmd/pt
 
-FISH_PATH=`which fish`
-if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
-  echo $FISH_PATH | sudo tee -a /etc/shells
-fi
-if [ -e $HOME/.bashrc -a -z "`cat $HOME/.bashrc | grep 'if \[ -t 1 \]; then'`" ]; then
-  mv $HOME/.bashrc $HOME/.bashrc_org
-  echo "if [ -t 1 ]; then SHELL=$FISH_PATH exec $FISH_PATH; fi" > $HOME/.bashrc
-fi
+echo ''
 
 # ghq
+echo 'Install GHQ.'
 go get github.com/motemen/ghq
-PATH=$GOPATH/bin:$PATH
+
+echo ''
 
 # fzf
+echo 'Install Fuzzy Finder.'
 REPO=junegunn/fzf
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
 ./install --key-bindings --completion --no-update-rc
 
-# dotfiles
-REPO=yyotti/dotfiles
-ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
-git remote set-url origin git@github.com:yyotti/dotfiles.git
-cd $HOME
-RCRC=$GHQ_ROOT/$REPO/rcrc rcup -v
+echo ''
 
 # cmigemo
+echo 'Install C/Migemo.'
 REPO=koron/cmigemo
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
@@ -147,13 +174,19 @@ sudo make gcc-install
 echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
 sudo /sbin/ldconfig
 
+echo ''
+
 # guilt
+echo 'Install guilt.'
 REPO=koron/guilt
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
 sudo make install
 
+echo ''
+
 # vim-kaoriya
+echo 'Install Vim.'
 REPO=koron/vim-kaoriya
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
@@ -184,7 +217,10 @@ LIBS="-lmigemo" ./configure \
 make -j2
 sudo make install
 
+echo ''
+
 # tmux
+echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
@@ -195,7 +231,10 @@ sh autogen.sh
 make -j2
 sudo make install
 
+echo ''
+
 # tig
+echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
@@ -206,16 +245,22 @@ git checkout -b v$VER $VER
 make prefix=/usr/local
 sudo make install prefix=/usr/local
 
+echo ''
+
 # powerline
+echo 'Install Powerline.'
 REPO=powerline/powerline
 ghq get $REPO
 cd $GHQ_ROOT/github.com/$REPO
 pip3 install --user psutil
 pip3 install --user --editable=$GHQ_ROOT/github.com/$REPO
 
+echo ''
+
 # ripgrep
 # TODO Cargoをインストールしてビルドする？
 # TODO ↑をやるならghq管理にする
+echo 'Install Ripgrep.'
 archi=`uname -sm`
 case "$archi" in
   Linux\ *64) ARCHI=x86_64 ;;
@@ -234,11 +279,17 @@ if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
   mv $DIRNAME $HOME/opt/ripgrep
 fi
 
+echo ''
+
 # golint
 # ghqだとインストールまでやってくれないのでgoで取ってくる
+echo 'Install golint.'
 go get github.com/golang/lint/golint
 
+echo ''
+
 # vimlparser(golang)
+echo 'Install vimlparser(Golang ver).
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
