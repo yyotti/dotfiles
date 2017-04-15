@@ -6,7 +6,7 @@ if [ ! -d "$GOPATH" ]; then
 fi
 
 UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
-if [ "$UBUNTU_VERSION" != "16" ]; then
+if [ -n "$UBUNTU_VERSION" -a "$UBUNTU_VERSION" != "16" ]; then
   sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 fi
 
@@ -136,8 +136,8 @@ echo ''
 # sudo make gcc-install
 # echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
 # sudo /sbin/ldconfig
-
-echo ''
+# 
+# echo ''
 
 # guilt
 echo 'Install guilt.'
