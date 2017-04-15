@@ -104,11 +104,11 @@ FISH_PATH=`which fish`
 if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
   echo $FISH_PATH | sudo tee -a /etc/shells
 fi
-if [ -e $HOME/.bashrc -a -z "`cat $HOME/.bashrc | grep 'if \[ -t 1 \]; then'`" ]; then
-  if [ ! -f $HOME/.bashrc_org ]; then
-    mv  $HOME/.bashrc $HOME/.bashrc_org
+if [ -e "$HOME/.bashrc" -a -z "`cat "$HOME/.bashrc" | grep 'if \[ -t 1 \]; then'`" ]; then
+  if [ ! -f "$HOME/.bashrc_org" ]; then
+    mv "$HOME/.bashrc" "$HOME/.bashrc_org"
   fi
-  echo "if [ -t 1 ]; then SHELL=$FISH_PATH exec $FISH_PATH; fi" > $HOME/.bashrc
+  echo "if [ -t 1 ]; then SHELL="$FISH_PATH" exec "$FISH_PATH"; fi" > "$HOME/.bashrc"
 fi
 
 echo ''
@@ -116,10 +116,10 @@ echo ''
 # dotfiles
 echo 'Install my dotfiles.'
 git clone https://github.com/yyotti/dotfiles.git $HOME/.dotfiles
-cd $HOME/.dotfiles
+cd "$HOME/.dotfiles"
 git remote set-url origin git@github.com:yyotti/dotfiles.git
-cd $HOME
-RCRC=$HOME/.dotfiles/rcrc rcup -v
+cd "$HOME"
+RCRC="$HOME/.dotfiles/rcrc" rcup -v
 
 echo ''
 
@@ -129,14 +129,14 @@ GO_VER=`curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|se
 if [ -n "$GO_VER" ]; then
   archi=`uname -sm`
   case "$archi" in
-    Linux\ *64) ARCHIVE_NAME=$GO_VER.linux-amd64.tar.gz ;;
-    Linux\ *86) ARCHIVE_NAME=$GO_VER.linux-386.tar.gz ;;
+    Linux\ *64) ARCHIVE_NAME="$GO_VER.linux-amd64.tar.gz" ;;
+    Linux\ *86) ARCHIVE_NAME="$GO_VER.linux-386.tar.gz" ;;
     *) echo "Unknown OS: $archi"; exit 1 ;;
   esac
   cd /tmp
-  curl -LO https://storage.googleapis.com/golang/$ARCHIVE_NAME
-  sudo tar -C /usr/local -xzf $ARCHIVE_NAME
-  export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+  curl -LO "https://storage.googleapis.com/golang/$ARCHIVE_NAME"
+  sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
+  export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 fi
 echo ''
 
@@ -157,7 +157,7 @@ echo ''
 echo 'Install Fuzzy Finder.'
 REPO=junegunn/fzf
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 ./install --key-bindings --completion --no-update-rc
 
 echo ''
@@ -166,7 +166,7 @@ echo ''
 echo 'Install C/Migemo.'
 REPO=koron/cmigemo
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 ./configure
 make -j2 gcc
 make -j2 gcc-dict
@@ -180,7 +180,7 @@ echo ''
 echo 'Install guilt.'
 REPO=koron/guilt
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 sudo make install
 
 echo ''
@@ -189,14 +189,14 @@ echo ''
 echo 'Install Vim.'
 REPO=koron/vim-kaoriya
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 git submodule init
 git submodule update
 cd ./vim
 VER=`git log --oneline -n 1 | awk '{{print $3}}'`
 git checkout -b v$VER
-git config guilt.patchesdir $GHQ_ROOT/vim-kaoriya/patches
-cp -rf $GHQ_ROOT/github.com/$REPO/patches/master $GHQ_ROOT/github.com/$REPO/patches/v$VER
+git config guilt.patchesdir "$GHQ_ROOT/vim-kaoriya/patches"
+cp -rf "$GHQ_ROOT/github.com/$REPO/patches/master" "$GHQ_ROOT/github.com/$REPO/patches/v$VER"
 guilt init
 guilt push -a
 cd ./src
@@ -223,7 +223,7 @@ echo ''
 echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 VER=`git tag | tail -n 1`
 git checkout -b v$VER $VER
 sh autogen.sh
@@ -237,7 +237,7 @@ echo ''
 echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 VER=`git tag | tail -n 1`
 git checkout -b v$VER $VER
 ./autoge.sh
@@ -251,9 +251,9 @@ echo ''
 echo 'Install Powerline.'
 REPO=powerline/powerline
 ghq get $REPO
-cd $GHQ_ROOT/github.com/$REPO
+cd "$GHQ_ROOT/github.com/$REPO"
 pip3 install --user psutil
-pip3 install --user --editable=$GHQ_ROOT/github.com/$REPO
+pip3 install --user --editable="$GHQ_ROOT/github.com/$REPO"
 
 echo ''
 
@@ -273,10 +273,10 @@ if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
   DIRNAME=`basename "$ARCHIVE_NAME" .tar.gz`
   cd /tmp
   curl -LO "$RIPGREP_DOWNLOAD_URL"
-  mkdir -p $HOME/opt
-  rm -fr $HOME/opt/ripgrep
-  tar -xzf $ARCHIVE_NAME
-  mv $DIRNAME $HOME/opt/ripgrep
+  mkdir -p "$HOME/opt"
+  rm -fr "$HOME/opt/ripgrep"
+  tar -xzf "$ARCHIVE_NAME"
+  mv "$DIRNAME" "$HOME/opt/ripgrep"
 fi
 
 echo ''
