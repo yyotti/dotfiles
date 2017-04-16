@@ -254,6 +254,18 @@ echo ''
 echo 'Install vimlparser(Golang ver).'
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
+# git-now
+# FIXME shebangを bash 指定してやらないとエラーが発生する
+echo 'Install git-now.'
+REPO=iwata/git-now
+ghq get $REPO
+cd "$GHQ_ROOT/github.com/$REPO"
+VER=`git tag | tail -n 1`
+git checkout -b v$VER $VER
+git submodule init
+git submodule update
+sudo make install
+
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
