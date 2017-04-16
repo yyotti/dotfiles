@@ -202,8 +202,8 @@ ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
 VER=`git tag | tail -n 1`
 git checkout -b v$VER $VER
-./autoge.sh
-./configure --without-ncurses
+./autogen.sh
+./configure
 make prefix=/usr/local
 sudo make install prefix=/usr/local
 
