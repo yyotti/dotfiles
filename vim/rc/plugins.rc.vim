@@ -701,13 +701,15 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO Execute :GoInstallBinaries after install('build' option)
-"           or :GoUpdateBinaries after update('build' option)
 let s:plugin = packages#add('fatih/vim-go', { 'condition': executable('go') })
 function! s:plugin.pre_add() abort "{{{
   let g:go_fmt_fail_silently = 1
 endfunction "}}}
 function! s:plugin.post_add() abort "{{{
+  if !executable('gocode')
+    GoInstallBinaries
+  endif
+
   execute 'set runtimepath+='
         \ . globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
 endfunction "}}}
