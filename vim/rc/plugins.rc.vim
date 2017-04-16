@@ -715,20 +715,12 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" TODO Require Python 3.5 or later
-" let s:plugin = packages#add('Jagua/vim-denite-ghq', {
-"       \   'condition': executable('ghq') && s:has_python35,
-"       \   'depends': [ 'denite.nvim' ],
-"       \ })
-" function! s:plugin.post_add() abort "{{{
-"   nnoremap <silent> <Leader>uq :<C-u>DeniteGhq<CR>
-" endfunction "}}}
-" unlet s:plugin
-
+" call packages#add('chemzqm/vim-easygit')
+"
 " TODO Require Python 3.5 or later
 " let s:plugin = packages#add('chemzqm/denite-git', {
 "       \   'condition': s:has_python35,
-"       \   'depends': [ 'denite.nvim' ],
+"       \   'depends': [ 'denite.nvim', 'vim-easygit' ],
 "       \ })
 " function! s:plugin.post_add() abort "{{{
 "   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
