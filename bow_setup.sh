@@ -24,7 +24,6 @@ sudo mv -f /tmp/sources.list /etc/apt/sources.list
 #=============================================================================
 # Add PPA
 #
-
 # Git
 sudo add-apt-repository -y ppa:git-core/ppa
 # rcm
@@ -185,6 +184,7 @@ cd ../
   --enable-fail-if-missing
 make
 sudo make install
+sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 
 echo ''
 
@@ -201,6 +201,7 @@ sh autogen.sh
 ./configure
 make
 sudo make install
+sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
 echo ''
 
@@ -278,22 +279,13 @@ go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 #=============================================================================
 # Install git-now
 #
-# FIXME shebangを bash 指定してやらないとエラーが発生する
 echo 'Install git-now.'
 REPO=iwata/git-now
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=`git tag | tail -n 1`
-git checkout -b v$VER $VER
 git submodule init
 git submodule update
 sudo make install
-
-#=============================================================================
-# Update default commands
-#
-sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
-sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
 echo "Setup finished."
 
