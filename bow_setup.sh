@@ -29,7 +29,6 @@ sudo add-apt-repository -y ppa:fish-shell/release-2
 
 sudo apt -y update
 sudo apt -y upgrade
-# sudo apt-get -y autoremove
 
 sudo apt -y install \
   zsh \
@@ -57,7 +56,8 @@ sudo apt -y install \
   php5.6-mbstring \
   php5.6-xml \
   xsel \
-  jq
+  jq \
+  lynx
 
 echo ''
 
