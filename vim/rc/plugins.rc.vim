@@ -143,7 +143,7 @@ call packages#add('vim-jp/vimdoc-ja')
 
 call packages#add('nixprime/cpsm', {
       \   'condition': !IsWindows(),
-      \   'build': 'env PY3=ON bash install.sh',
+      \   'build': 'env PY3=ON ./install.sh',
       \ })
 
 call packages#add('vim-scripts/smarty-syntax')
@@ -275,6 +275,7 @@ function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>ur
         \ :<C-u>Denite -resume -mode=normal -no-empty -buffer-name=grep<CR>
   nnoremap <silent> <Leader>ue :<C-u>Denite menu:_<CR>
+  nnoremap <silent> <Leader>uc :<C-u>Denite command_history command<CR>
 
   nnoremap <silent> <Leader>n
         \ :<C-u>Denite -resume -select=+1 -immediately -buffer-name=grep<CR>
