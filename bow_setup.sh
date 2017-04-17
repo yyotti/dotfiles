@@ -10,6 +10,9 @@ if [ -n "$UBUNTU_VERSION" -a "$UBUNTU_VERSION" != "16" ]; then
   sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 fi
 
+#=============================================================================
+# Replace source url
+#
 sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' /etc/apt/sources.list > /tmp/sources.list
 sed -e 's%deb %deb-src %g' /tmp/sources.list >> /tmp/sources.list
 sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
@@ -17,6 +20,10 @@ sudo mv -f /tmp/sources.list /etc/apt/sources.list
 
 # TODO 各種インストールを別ファイルに分ける
 # ex) apt-install.sh, git-install.sh, etc..
+
+#=============================================================================
+# Add PPA
+#
 
 # Git
 sudo add-apt-repository -y ppa:git-core/ppa
@@ -27,9 +34,15 @@ sudo add-apt-repository -y ppa:ondrej/php
 # fish
 sudo add-apt-repository -y ppa:fish-shell/release-2
 
+#=============================================================================
+# Update apt packages
+#
 sudo apt -y update
 sudo apt -y upgrade
 
+#=============================================================================
+# Install required packages
+#
 sudo apt -y install \
   zsh \
   fish \
@@ -61,12 +74,15 @@ sudo apt -y install \
 
 echo ''
 
+#=============================================================================
+# Change default shell
+#
 echo 'Change default shell.'
 FISH_PATH=`which fish`
 if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
   echo $FISH_PATH | sudo tee -a /etc/shells
 fi
-if [ -e "$HOME/.bashrc" -a -z "`cat "$HOME/.bashrc" | grep 'if \[ -t 1 \]; then'`" ]; then
+if [ -f "$HOME/.bashrc" -a -z "`cat "$HOME/.bashrc" | grep 'if \[ -t 1 \]; then'`" ]; then
   if [ ! -f "$HOME/.bashrc_org" ]; then
     mv "$HOME/.bashrc" "$HOME/.bashrc_org"
   fi
@@ -75,8 +91,10 @@ fi
 
 echo ''
 
-# dotfiles
-echo 'Install my dotfiles.'
+#=============================================================================
+# Install dotfiles
+#
+echo 'Install dotfiles.'
 git clone https://github.com/yyotti/dotfiles.git $HOME/.dotfiles
 cd "$HOME/.dotfiles"
 git remote set-url origin git@github.com:yyotti/dotfiles.git
@@ -85,7 +103,9 @@ RCRC="$HOME/.dotfiles/rcrc" rcup -v
 
 echo ''
 
-# Golang
+#=============================================================================
+# Install Golang
+#
 echo 'Install Golang.'
 GO_VER=`curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//'`
 if [ -n "$GO_VER" ]; then
@@ -96,27 +116,24 @@ if [ -n "$GO_VER" ]; then
     *) echo "Unknown OS: $archi"; exit 1 ;;
   esac
   cd /tmp
-  curl -LO "https://storage.googleapis.com/golang/$ARCHIVE_NAME"
+  curl -sLO "https://storage.googleapis.com/golang/$ARCHIVE_NAME"
   sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 fi
 echo ''
 
-# ghq
+#=============================================================================
+# Install GHQ
+#
 echo 'Install GHQ.'
 go get github.com/motemen/ghq
 GHQ_ROOT="`ghq root`"
 
 echo ''
 
-# pt
-# TODO ripgrepを入れるなら不要か？
-echo 'Install The Platinum Searcher.'
-go get github.com/monochromegane/the_platinum_searcher/cmd/pt
-
-echo ''
-
-# fzf
+#=============================================================================
+# Install FuzzyFinder
+#
 echo 'Install Fuzzy Finder.'
 REPO=junegunn/fzf
 ghq get $REPO
@@ -125,21 +142,9 @@ cd "$GHQ_ROOT/github.com/$REPO"
 
 echo ''
 
-# # cmigemo
-# echo 'Install C/Migemo.'
-# REPO=koron/cmigemo
-# ghq get $REPO
-# cd "$GHQ_ROOT/github.com/$REPO"
-# ./configure
-# make -j2 gcc
-# make -j2 gcc-dict
-# sudo make gcc-install
-# echo /usr/local/lib | sudo tee -a /etc/ld.so.conf
-# sudo /sbin/ldconfig
+#=============================================================================
+# Install guilt
 #
-# echo ''
-
-# guilt
 echo 'Install guilt.'
 REPO=koron/guilt
 ghq get $REPO
@@ -148,7 +153,9 @@ sudo make install
 
 echo ''
 
-# vim-kaoriya
+#=============================================================================
+# Install Vim-kaoriya
+#
 echo 'Install Vim.'
 REPO=koron/vim-kaoriya
 ghq get $REPO
@@ -176,12 +183,14 @@ cd ../
   --with-luajit \
   --enable-fontset \
   --enable-fail-if-missing
-make -j2
+make
 sudo make install
 
 echo ''
 
-# tmux
+#=============================================================================
+# Install tmux
+#
 echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
@@ -190,12 +199,14 @@ VER=`git tag | tail -n 1`
 git checkout -b v$VER $VER
 sh autogen.sh
 ./configure
-make -j2
+make
 sudo make install
 
 echo ''
 
-# tig
+#=============================================================================
+# Install tig
+#
 echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
@@ -209,7 +220,9 @@ sudo make install prefix=/usr/local
 
 echo ''
 
-# powerline
+#=============================================================================
+# Install Powerline
+#
 echo 'Install Powerline.'
 REPO=powerline/powerline
 ghq get $REPO
@@ -219,7 +232,9 @@ pip3 install --user --editable="$GHQ_ROOT/github.com/$REPO"
 
 echo ''
 
-# ripgrep
+#=============================================================================
+# Install Ripgrep
+#
 # TODO Cargoをインストールしてビルドする？
 # TODO ↑をやるならghq管理にする
 echo 'Install Ripgrep.'
@@ -234,7 +249,7 @@ if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
   ARCHIVE_NAME=`basename "$RIPGREP_DOWNLOAD_URL"`
   DIRNAME=`basename "$ARCHIVE_NAME" .tar.gz`
   cd /tmp
-  curl -LO "$RIPGREP_DOWNLOAD_URL"
+  curl -sLO "$RIPGREP_DOWNLOAD_URL"
   mkdir -p "$HOME/opt"
   rm -fr "$HOME/opt/ripgrep"
   tar -xzf "$ARCHIVE_NAME"
@@ -245,18 +260,24 @@ fi
 
 echo ''
 
-# golint
+#=============================================================================
+# Install golint
+#
 # ghqだとインストールまでやってくれないのでgoで取ってくる
 echo 'Install golint.'
 go get github.com/golang/lint/golint
 
 echo ''
 
-# vimlparser(golang)
-echo 'Install vimlparser(Golang ver).'
+#=============================================================================
+# Install vimlparser (Gokang version)
+#
+echo 'Install vimlparser(Golang version).'
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
-# git-now
+#=============================================================================
+# Install git-now
+#
 # FIXME shebangを bash 指定してやらないとエラーが発生する
 echo 'Install git-now.'
 REPO=iwata/git-now
@@ -268,6 +289,9 @@ git submodule init
 git submodule update
 sudo make install
 
+#=============================================================================
+# Update default commands
+#
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
