@@ -5,8 +5,6 @@ set noshowmode
 
 set runtimepath+=~/git/powerline/powerline/bindings/vim
 
-nnoremap <silent> <Leader>pr :<C-u>python powerline.reload()<CR>
-
 autocmd MyAutocmd ColorScheme * call <SID>change_powerline_colorscheme()
 
 function! s:change_powerline_colorscheme() abort "{{{

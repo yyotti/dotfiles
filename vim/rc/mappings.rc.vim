@@ -45,11 +45,11 @@ endif
 
 nnoremap x "_x
 
-nnoremap <Leader>w :<C-u>call ToggleOption('wrap')<CR>
-nnoremap <Leader>N :<C-u>call ToggleOption('number')<CR>
+nnoremap <Space>w :<C-u>call ToggleOption('wrap')<CR>
+nnoremap <Space>N :<C-u>call ToggleOption('number')<CR>
 
 " Clear hlsearch
-nnoremap <silent> <C-h> :<C-u>nohlsearch<CR>
+nnoremap <silent> H :<C-u>nohlsearch<CR>
 
 nnoremap <silent> U viwU
 nnoremap <silent> gU viwu
@@ -144,28 +144,28 @@ xnoremap id i"
 
 " Edit config files "{{{
 " reload vimrc
-nnoremap <silent> <Leader>;r
+nnoremap <silent> <Space>;r
       \ :<C-u>source $MYVIMRC<CR> \| :echo "source " . $MYVIMRC<CR>
 "}}}
 
 " Move cursor between windows "{{{
-nnoremap <Leader>h <C-w>h
-nnoremap <Leader>l <C-w>l
-nnoremap <Leader>k <C-w>k
-nnoremap <Leader>j <C-w>j
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
 
-nnoremap <Leader>x <C-w>x
-nnoremap <Leader>= <C-w>=
+nnoremap <Space>x <C-w>x
+nnoremap <Space>= <C-w>=
 
-nnoremap <Leader>H <C-w>H
-nnoremap <Leader>L <C-w>L
-nnoremap <Leader>K <C-w>K
-nnoremap <Leader>J <C-w>J
+nnoremap <Space>H <C-w>H
+nnoremap <Space>L <C-w>L
+nnoremap <Space>K <C-w>K
+nnoremap <Space>J <C-w>J
 "}}}
 
 " Operate buffer "{{{
-nnoremap <silent> <Leader>o :<C-u>only<CR>
-nnoremap <silent> <Leader>O :<C-u>hide<CR>
-nnoremap <silent> <Leader>d :<C-u>bdelete<CR>
-nnoremap <silent> <Leader>D :<C-u>bdelete!<CR>
+nnoremap <silent> <Space>o :<C-u>only<CR>
+nnoremap <silent> <Space>h :<C-u>hide<CR>
+nnoremap <silent> <Space>d :<C-u>bdelete<CR>
+nnoremap <silent> <Space>D :<C-u>bdelete!<CR>
 "}}}
