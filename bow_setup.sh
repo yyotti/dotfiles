@@ -239,6 +239,8 @@ if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
   rm -fr "$HOME/opt/ripgrep"
   tar -xzf "$ARCHIVE_NAME"
   mv "$DIRNAME" "$HOME/opt/ripgrep"
+  mkdir -p "$HOME/bin"
+  ln -s "$HOME/opt/ripgrep/rg" "$HOME/bin/rg"
 fi
 
 echo ''
