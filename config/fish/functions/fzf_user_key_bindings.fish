@@ -23,12 +23,9 @@ function fzf_user_key_bindings
     commandline -f repaint
   end
 
-  bind -M insert \cv fzf-environment-variables-widget
-  bind -M insert \cx 'fzf-environment-variables-widget -x'
-  # Ctrl+U
-  bind -M insert \u0095 'fzf-environment-variables-widget -U'
+  bind -M insert \cx fzf-environment-variables-widget
 
-  function fzf-ghq-widget -d "Show Git Repositories"
+  function fzf-ghq-widget -d "Show GHQ Repositories"
     set -l query (commandline -t)
 
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
@@ -44,6 +41,24 @@ function fzf_user_key_bindings
   end
 
   bind -M insert \cg fzf-ghq-widget
+
+  function fzf-vim-plugins-widget -d "Show installed Vim plugins"
+    set -l query (commandline -t)
+
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+    begin
+      set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort"
+      find ~/.vim/pack/bundle/opt -maxdepth 1 -type d | eval (__fzfcmd)" -q '$query'" | read -l result
+      if [ -n "$result" ]
+        commandline -t "$result"
+      end
+    end
+
+    commandline -f repaint
+  end
+
+  # Ctrl+V
+  bind -M insert \cv fzf-vim-plugins-widget
 end
 
 # vim:set sw=2:
