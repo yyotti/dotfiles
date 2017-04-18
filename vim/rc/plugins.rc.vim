@@ -726,16 +726,16 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" call packages#add('chemzqm/vim-easygit')
-"
-" TODO Require Python 3.5 or later
-" let s:plugin = packages#add('chemzqm/denite-git', {
-"       \   'condition': s:has_python35,
-"       \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
-"       \ })
-" function! s:plugin.post_add() abort "{{{
-"   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
-" endfunction "}}}
-" unlet s:plugin
+call packages#add('chemzqm/vim-easygit')
+
+let s:plugin = packages#add('chemzqm/denite-git', {
+      \   'condition': s:has_python35,
+      \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
+      \   'build': 'sh ~/.vim/script/denite-git-patch.sh'
+      \ })
+function! s:plugin.post_add() abort "{{{
+  nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
+endfunction "}}}
+unlet s:plugin
 
 call packages#end()
