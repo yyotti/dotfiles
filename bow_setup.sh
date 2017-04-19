@@ -70,7 +70,8 @@ sudo apt -y install \
   php5.6-gd \
   xsel \
   jq \
-  lynx
+  lynx \
+  shellcheck
 
 echo ''
 
