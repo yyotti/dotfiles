@@ -1,20 +1,52 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+# TODO スクリプト内変数の命名を直す
+
+set -eu
+
+function on-error()
+{
+  local status=$?
+  local script=$0
+  local line=$1
+  shift
+
+  local args=
+  for i in "$@";
+  do
+    args+="\"$i\" "
+  done
+
+  {
+    echo ""
+    echo "--------------------------------------------------"
+    echo "Error occured on $script [Line $line]: Status $status"
+    echo ""
+    echo "Status: $status"
+    echo "Commandline: $script $args"
+    echo "--------------------------------------------------"
+    echo ""
+  } >&2
+}
 
 export GOPATH="$HOME/.go"
-if [ ! -d "$GOPATH" ]; then
+if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
 
-UBUNTU_VERSION=`cat /etc/lsb-release | grep DISTRIB_RELEASE | cut -f2 -d= | cut -f1 -d.`
-if [ -n "$UBUNTU_VERSION" -a "$UBUNTU_VERSION" != "16" ]; then
+UBUNTU_VERSION=$(grep DISTRIB_RELEASE </etc/lsb-release | sed 's/.*=\([0-9]\+\)\..*/\1/')
+if [[ $UBUNTU_VERSION != "" && $UBUNTU_VERSION -lt 16 ]]; then
   sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 fi
 
 #=============================================================================
 # Replace source url
 #
-sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' /etc/apt/sources.list > /tmp/sources.list
-sed -e 's%deb %deb-src %g' /tmp/sources.list >> /tmp/sources.list
+sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list >/tmp/sources.list.tmp
+{
+  cat /tmp/sources.list.tmp
+  sed -e 's%deb %deb-src %g' </tmp/sources.list.tmp
+} >/tmp/sources.list
 sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
 sudo mv -f /tmp/sources.list /etc/apt/sources.list
 
@@ -79,15 +111,15 @@ echo ''
 # Change default shell
 #
 echo 'Change default shell.'
-FISH_PATH=`which fish`
-if [ -z `cat /etc/shells | grep "$FISH_PATH"` ]; then
-  echo $FISH_PATH | sudo tee -a /etc/shells
+FISH_PATH=$(which fish)
+if ! grep -q "$FISH_PATH" </etc/shells; then
+  echo "$FISH_PATH" | sudo tee -a /etc/shells
 fi
-if [ -f "$HOME/.bashrc" -a -z "`cat "$HOME/.bashrc" | grep 'if \[ -t 1 \]; then'`" ]; then
-  if [ ! -f "$HOME/.bashrc_org" ]; then
+if [[ -f $HOME/.bashrc ]] && ! grep -q 'if \[[ -t 1 \]]; then' <"$HOME/.bashrc"; then
+  if [[ ! -f $HOME/.bashrc_org ]]; then
     mv "$HOME/.bashrc" "$HOME/.bashrc_org"
   fi
-  echo "if [ -t 1 ]; then SHELL="$FISH_PATH" exec "$FISH_PATH"; fi" > "$HOME/.bashrc"
+  echo "if [[ -t 1 ]]; then SHELL=\"$FISH_PATH\" exec \"$FISH_PATH\"; fi" >"$HOME/.bashrc"
 fi
 
 echo ''
@@ -96,7 +128,7 @@ echo ''
 # Install dotfiles
 #
 echo 'Install dotfiles.'
-git clone https://github.com/yyotti/dotfiles.git $HOME/.dotfiles
+git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
 cd "$HOME/.dotfiles"
 git remote set-url origin git@github.com:yyotti/dotfiles.git
 cd "$HOME"
@@ -108,9 +140,9 @@ echo ''
 # Install Golang
 #
 echo 'Install Golang.'
-GO_VER=`curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//'`
-if [ -n "$GO_VER" ]; then
-  archi=`uname -sm`
+GO_VER=$(curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//')
+if [[ $GO_VER != "" ]]; then
+  archi=$(uname -sm)
   case "$archi" in
     Linux\ *64) ARCHIVE_NAME="$GO_VER.linux-amd64.tar.gz" ;;
     Linux\ *86) ARCHIVE_NAME="$GO_VER.linux-386.tar.gz" ;;
@@ -128,7 +160,7 @@ echo ''
 #
 echo 'Install GHQ.'
 go get github.com/motemen/ghq
-GHQ_ROOT="`ghq root`"
+GHQ_ROOT="$(ghq root)"
 
 echo ''
 
@@ -164,8 +196,8 @@ cd "$GHQ_ROOT/github.com/$REPO"
 git submodule init
 git submodule update
 cd ./vim
-VER=`git log --oneline -n 1 | awk '{{print $3}}'`
-git checkout -b v$VER
+VER=$(git log --oneline -n 1 | awk '{{print $3}}')
+git checkout -b "v$VER"
 git config guilt.patchesdir "$GHQ_ROOT/vim-kaoriya/patches"
 cp -rf "$GHQ_ROOT/github.com/$REPO/patches/master" "$GHQ_ROOT/github.com/$REPO/patches/v$VER"
 guilt init
@@ -197,8 +229,8 @@ echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=`git tag | tail -n 1`
-git checkout -b v$VER $VER
+VER=$(git tag | tail -n 1)
+git checkout -b "v$VER" "$VER"
 sh autogen.sh
 ./configure
 make
@@ -214,8 +246,8 @@ echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=`git tag | tail -n 1`
-git checkout -b v$VER $VER
+VER=$(git tag | tail -n 1)
+git checkout -b "v$VER" "$VER"
 ./autogen.sh
 ./configure
 make prefix=/usr/local
@@ -241,16 +273,16 @@ echo ''
 # TODO Cargoをインストールしてビルドする？
 # TODO ↑をやるならghq管理にする
 echo 'Install Ripgrep.'
-archi=`uname -sm`
+archi=$(uname -sm)
 case "$archi" in
   Linux\ *64) ARCHI=x86_64 ;;
   Linux\ *86) ARCHI=i686 ;;
   *) echo "Unknown OS: $archi"; exit 1 ;;
 esac
-RIPGREP_DOWNLOAD_URL=`curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url'`
-if [ -n "$RIPGREP_DOWNLOAD_URL" ]; then
-  ARCHIVE_NAME=`basename "$RIPGREP_DOWNLOAD_URL"`
-  DIRNAME=`basename "$ARCHIVE_NAME" .tar.gz`
+RIPGREP_DOWNLOAD_URL=$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url')
+if [[ $RIPGREP_DOWNLOAD_URL != "" ]]; then
+  ARCHIVE_NAME=$(basename "$RIPGREP_DOWNLOAD_URL")
+  DIRNAME=$(basename "$ARCHIVE_NAME" .tar.gz)
   cd /tmp
   curl -sLO "$RIPGREP_DOWNLOAD_URL"
   mkdir -p "$HOME/opt"
