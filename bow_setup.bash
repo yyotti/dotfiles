@@ -42,12 +42,10 @@ fi
 #=============================================================================
 # Replace source url
 #
-sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list >/tmp/sources.list.tmp
-{
-  cat /tmp/sources.list.tmp
-  sed -e 's%deb %deb-src %g' </tmp/sources.list.tmp
-} >/tmp/sources.list
-sudo mv -f /etc/apt/sources.list /etc/apt/sources.list.org
+sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list | tee >(sed -e 's%deb %deb-src %g') | cat >/tmp/sources.list
+if [[ ! -e /etc/apt/sources.list.org ]]; then
+  sudo cp /etc/apt/sources.list /etc/apt/sources.list.org
+fi
 sudo mv -f /tmp/sources.list /etc/apt/sources.list
 
 # TODO 各種インストールを別ファイルに分ける
