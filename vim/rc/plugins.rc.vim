@@ -738,4 +738,9 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
+call packages#add('Jagua/vim-denite-ghq', {
+      \   'condition': executable('ghq'),
+      \   'depends': [ 'Shougo/denite.nvim' ],
+      \ })
+
 call packages#end()
