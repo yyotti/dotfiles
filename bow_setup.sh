@@ -33,8 +33,8 @@ if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
 
-UBUNTU_VERSION=$(grep DISTRIB_RELEASE </etc/lsb-release | sed 's/.*=\([0-9]\+\)\..*/\1/')
-if [[ $UBUNTU_VERSION != "" && $UBUNTU_VERSION -lt 16 ]]; then
+UBUNTU_VERSION=$(grep DISTRIB_RELEASE </etc/lsb-release | sed 's/.*=\([0-9.]\+\)/\1/')
+if [[ $UBUNTU_VERSION != "" && $(echo "$UBUNTU_VERSION < 16.04" | bc) -eq 1 ]]; then
   sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
 fi
 
