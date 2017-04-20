@@ -196,6 +196,65 @@ function! packages#install(force, ...) abort "{{{
   let s:plugins = s:remove_disabled_plugins(s:plugins)
 endfunction "}}}
 
+function! packages#update(...) abort "{{{
+  if a:0 ==# 0
+    let plugins = keys(s:plugins)
+  else
+    let plugins = filter(copy(a:000), { _, val -> has_key(s:plugins, val) })
+  endif
+
+  let plugins = filter(
+        \   plugins,
+        \   { _, val ->
+        \     isdirectory(utils#join_path(s:plugins[val]['rtp'], '.git')) }
+        \ )
+
+  let cnt = len(plugins)
+  if cnt == 0
+    return 0
+  endif
+
+  echomsg 'Update' cnt 'plugins'
+
+  let idx = 0
+  for p in plugins
+    let idx += 1
+    echomsg printf('(%d/%d) %s [%s]', idx, cnt, 'Updaing', p)
+
+    let rtp = s:plugins[p]['rtp']
+    " TODO master only...
+    let cmd = [
+          \   'git',
+          \   '--git-dir=' . utils#join_path(rtp, '.git'),
+          \   '--work-tree=' . rtp,
+          \   'pull',
+          \   '--ff',
+          \   '--ff-only',
+          \   '--rebase',
+          \   'origin',
+          \   'master:master',
+          \ ]
+    let options = {
+          \   'on_stderr': function('s:on_stderr'),
+          \   'on_exit': function('s:on_exit'),
+          \ }
+    let job_id = packages#job#start(cmd, options)
+    if job_id > 0
+      let s:jobs[job_id] = p
+      while !packages#job#is_exited(job_id)
+        sleep 1m
+      endwhile
+
+      let doc_path = utils#join_path(s:plugins[p]['rtp'], 'doc')
+      if isdirectory(doc_path) && filewritable(doc_path) ==# 2
+        execute 'helptags' fnameescape(doc_path)
+      endif
+    else
+      let s:plugins[p]['condition'] = 0
+    endif
+  endfor
+endfunction "}}}
+
 function! s:packadd(name, bang, ...) abort "{{{
   let plugin = get(s:plugins, a:name, {})
   if empty(plugin)
