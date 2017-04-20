@@ -733,7 +733,7 @@ let s:plugin = packages#add('chemzqm/denite-git', {
       \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
       \   'build': 'sh ~/.vim/script/denite-git-patch.sh'
       \ })
-function! s:plugin.post_add() abort "{{{
+function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
 endfunction "}}}
 unlet s:plugin
