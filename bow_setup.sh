@@ -12,8 +12,7 @@ function on-error()
   shift
 
   local args=
-  for i in "$@";
-  do
+  for i in "$@"; do
     args+="\"$i\" "
   done
 
