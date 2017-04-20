@@ -1,9 +1,9 @@
 #!/bin/sh
 
 #=============================================================================
-# Apply patch for python3.5
+# Apply patch for file_old
 #
-# WARNING: Change current directory to 'denite-git' dir.
+# WARNING: Change current directory to 'denite.nvim' dir.
 #
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -16,23 +16,8 @@ if [ "$CURRENT_BRANCH" = "patched" ] || git branch | grep -q patched; then
   exit 0
 fi
 
-PYCMD=$(which python3)
-if [ -z "$PYCMD" ]; then
-  PYCMD=$(which python)
-  if [ -z "$PYCMD" ]; then
-    # 'python' command is not found.
-    exit 1
-  fi
-fi
-
-PYVER=$("$PYCMD" --version 2>&1 | sed 's/.*\([0-9]\+\.[0-9]\+\)\.[0-9]\+/\1/')
-if [ "$(echo "$PYVER > 3.5" | bc)" -eq 1 ]; then
-  # There is no need to patch. (Python 3.6 or higher)
-  exit 0
-fi
-
 # Check
-PATCH_FILE=$HOME/.vim/patches/denite-git.patch
+PATCH_FILE=$HOME/.vim/patches/denite.nvim.patch
 git apply --binary --check "$PATCH_FILE" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "Cannot apply patch [$PATCH_FILE]"

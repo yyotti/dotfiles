@@ -1,0 +1,15 @@
+diff --git a/rplugin/python3/denite/source/file_old.py b/rplugin/python3/denite/source/file_old.py
+index 1a0b3d8..732d745 100644
+--- a/rplugin/python3/denite/source/file_old.py
++++ b/rplugin/python3/denite/source/file_old.py
+@@ -22,7 +22,9 @@ class Source(Base):
+ 
+     def gather_candidates(self, context):
+         return [{'word': x, 'action__path': x}
+-                for x in self.vim.eval('v:oldfiles')
++                for x in map(lambda x:
++                    path.abspath(path.expanduser(x)),
++                    self.vim.eval('v:oldfiles'))
+                 if path.isfile(x) or self.vim.call('buflisted', x)]
+ 
+ 

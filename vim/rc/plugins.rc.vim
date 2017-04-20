@@ -265,6 +265,7 @@ unlet s:plugin
 let s:plugin = packages#add('Shougo/denite.nvim', {
       \   'condition': has('nvim') || v:version >= 800 && has('python3'),
       \   'post_add': '~/.vim/rc/plugins/denite.rc.vim',
+      \   'build': 'sh ~/.vim/script/denite.nvim.patch.sh'
       \ })
 function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_old<CR>
