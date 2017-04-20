@@ -160,7 +160,7 @@ function! packages#install(force, ...) abort "{{{
   for p in plugins
     let idx += 1
     echomsg printf('(%d/%d) %s [%s]', idx, cnt, mode . 'ing', p)
-    if a:force && delete(s:plugins[p]['rtp']) < 0
+    if a:force && delete(s:plugins[p]['rtp'], 'rf') < 0
       " TODO ErrMsg
       echomsg 'Cannot delete [' . s:plugins[p]['rtp'] . '].'
       continue
