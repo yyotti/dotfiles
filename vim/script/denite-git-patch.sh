@@ -16,15 +16,6 @@ if [ "$CURRENT_BRANCH" = "patched" ] || git branch | grep -q patched; then
   exit 0
 fi
 
-PYCMD=$(which python3)
-if [ -z "$PYCMD" ]; then
-  PYCMD=$(which python)
-  if [ -z "$PYCMD" ]; then
-    # 'python' command is not found.
-    exit 1
-  fi
-fi
-
 PYVER=$("$PYCMD" --version 2>&1 | sed 's/.*\([0-9]\+\.[0-9]\+\)\.[0-9]\+/\1/')
 if [ "$(echo "$PYVER > 3.5" | bc)" -eq 1 ]; then
   # There is no need to patch. (Python 3.6 or higher)
