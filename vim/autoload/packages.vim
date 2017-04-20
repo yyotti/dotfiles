@@ -183,6 +183,11 @@ function! packages#install(force, ...) abort "{{{
       while !packages#job#is_exited(job_id)
         sleep 1m
       endwhile
+
+      let doc_path = utils#join_path(s:plugins[p]['rtp'], 'doc')
+      if isdirectory(doc_path) && filewritable(doc_path) ==# 2
+        execute 'helptags' fnameescape(doc_path)
+      endif
     else
       let s:plugins[p]['condition'] = 0
     endif
