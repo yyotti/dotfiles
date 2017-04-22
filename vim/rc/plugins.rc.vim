@@ -359,33 +359,48 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-let s:plugin = packages#add('tyru/eskk.vim')
+let s:plugin = packages#add('tyru/eskk.vim', {
+      \   'build': 'sh ~/.vim/script/eskk.vim-patch.sh'
+      \ })
 function! s:plugin.pre_add() abort "{{{
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
 
-  let g:eskk#directory = expand('~/.skk')
-  let g:eskk#debug = 0
+  if !exists('g:eskk#directory')
+    let g:eskk#directory = expand('~/.eskk')
+  endif
   let g:eskk#show_annotation = 1
 
   " User dic
-  let g:eskk#dictionary = {
-        \   'path': g:eskk#directory . '/skk-jisyo.user',
-        \   'sorted': 0,
-        \   'encoding': 'utf-8',
-        \ }
+  let g:eskk#dictionary = g:eskk#directory . '/skk-jisyo'
 
-  let g:eskk#large_dictionary = {
-        \   'path': g:eskk#directory . '/SKK-JISYO.L',
-        \   'sorted': 1,
-        \   'encoding': 'euc-jp',
-        \ }
+  let large_dic = ''
+  if filereadable('/usr/share/skk/SKK-JISYO.L')
+    let large_dic = '/usr/share/skk/SKK-JISYO.L'
+  elseif filereadable('/usr/local/share/skk/SKK-JISYO.L')
+    let lerge_dic = '/usr/share/skk/SKK-JISYO.L'
+  endif
+
+  if !empty(large_dic)
+    let g:eskk#large_dictionary = {
+          \   'path': large_dic,
+          \   'sorted': 1,
+          \   'encoding': 'euc-jp',
+          \ }
+
+  endif
+
   " google-ime-skk
   if executable('google-ime-skk')
     let g:eskk#server = {
           \   'host': 'localhost',
           \   'port': 55100,
-          \   'type': 'dictionary',
+          \   'timeout': 200,
+          \ }
+  else
+    let g:eskk#server = {
+          \   'host': 'localhost',
+          \   'timeout': 200,
           \ }
   endif
 

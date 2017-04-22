@@ -100,7 +100,8 @@ sudo apt -y install \
   xsel \
   jq \
   lynx \
-  shellcheck
+  shellcheck \
+  skkdic
 
 echo ''
 
