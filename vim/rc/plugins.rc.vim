@@ -202,7 +202,7 @@ call packages#add('Shougo/vimproc.vim', {
 call packages#add('Shougo/context_filetype.vim')
 
 let s:plugin = packages#add('Shougo/neocomplete.vim', {
-      \   'condition': has('lua'),
+      \   'condition': has('lua') && !has('nvim'),
       \   'depends': [ 'Shougo/context_filetype.vim' ],
       \   'post_add': '~/.vim/rc/plugins/neocomplete.rc.vim'
       \ })
@@ -232,8 +232,9 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-call packages#add('yyotti/neosnippet-additional', {
+call packages#add('yyotti/neosnippet-php', {
       \   'depends': [ 'Shougo/neosnippet.vim' ],
+      \   'build': 'php install.php -d"$HOME/.vim/refs/php-chunked-xhtml"',
       \ })
 
 let s:plugin = packages#add('Shougo/unite.vim', {
@@ -747,10 +748,26 @@ call packages#add('chemzqm/vim-easygit')
 let s:plugin = packages#add('chemzqm/denite-git', {
       \   'condition': s:has_python35,
       \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
-      \   'build': 'sh ~/.vim/script/denite-git-patch.sh'
+      \   'build': 'sh ~/.vim/script/denite-git-patch.sh',
       \ })
 function! s:plugin.pre_add() abort "{{{
   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
+endfunction "}}}
+unlet s:plugin
+
+let s:plugin = packages#add('davidhalter/jedi-vim', {
+      \   'condition': (has('python') || has('python3'))
+      \                   && executable('python') && !has('nvim'),
+      \   'build': 'git submodule update --init',
+      \ })
+function! s:plugin.pre_add() abort "{{{
+  let g:jedi#auto_initialization = 0
+  let g:jedi#popup_select_first = 0
+  let g:jedi#popup_on_dot = 0
+  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#show_call_signatures = 0
+  let g:jedi#completions_enabled = 0
+  let g:jedi#smart_auto_mappings = 0
 endfunction "}}}
 unlet s:plugin
 

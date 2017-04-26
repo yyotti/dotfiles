@@ -101,7 +101,8 @@ sudo apt -y install \
   jq \
   lynx \
   shellcheck \
-  skkdic
+  skkdic \
+  zip
 
 echo ''
 

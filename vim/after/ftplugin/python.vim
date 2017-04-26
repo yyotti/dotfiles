@@ -9,7 +9,7 @@ if exists('b:undo_ftplugin')
 else
   let b:undo_ftplugin = ''
 endif
-let b:undo_ftplugin .= 'setlocal foldmethod< textwidth< smarttab< expandtab< smartindent<'
+let b:undo_ftplugin .= 'setlocal foldmethod< textwidth< smarttab< expandtab< smartindent< omnifunc< completeopt<'
 let b:undo_ftplugin .= ' | unlet! b:did_python_ftplugin'
 
 setlocal foldmethod=indent
@@ -17,3 +17,7 @@ setlocal textwidth=80
 setlocal smarttab
 setlocal expandtab
 setlocal nosmartindent
+
+if !empty(packages#get('davidhalter/jedi-vim'))
+  setlocal omnifunc=jedi#completions
+endif
