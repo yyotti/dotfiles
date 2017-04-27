@@ -39,18 +39,16 @@ set fillchars=vert:\|
 set commentstring=%s
 
 " FastFold
-" TODO Check and delete
-" autocmd MyAutocmd TextChangedI,TextChanged *
-"       \ if &l:foldenable && &l:foldmethod !=# 'manual' |
-"       \   let b:foldmethod_save = &l:foldmethod |
-"       \   let &l:foldmethod = 'manual' |
-"       \ endif
-" autocmd MyAutocmd BufWritePost *
-"       \ if &l:foldmethod ==# 'manual' && exists('b:foldmethod_save') |
-"       \   let &l:foldmethod = b:foldmethod_save |
-"       \   execute 'normal! zx' |
-"       \ endif
-autocmd MyAutocmd BufWritePost * execute 'normal! zx'
+autocmd MyAutocmd TextChangedI,TextChanged *
+      \ if &l:foldenable && &l:foldmethod !=# 'manual' |
+      \   let b:foldmethod_save = &l:foldmethod |
+      \   let &l:foldmethod = 'manual' |
+      \ endif
+autocmd MyAutocmd BufWritePost *
+      \ if &l:foldmethod ==# 'manual' && exists('b:foldmethod_save') |
+      \   let &l:foldmethod = b:foldmethod_save |
+      \   execute 'normal! zx' |
+      \ endif
 
 if exists('*FoldCCtext')
   set foldtext=FoldCCtext()

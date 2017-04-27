@@ -17,7 +17,7 @@ setlocal softtabstop=2
 
 setlocal iskeyword+=:,#
 
-let &path = join(
+let &l:path = join(
       \   map(split(&runtimepath, ','), { _, p -> p . '/autoload' }), ','
       \ )
 

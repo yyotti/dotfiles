@@ -768,6 +768,15 @@ function! s:plugin.pre_add() abort "{{{
   let g:jedi#show_call_signatures = 0
   let g:jedi#completions_enabled = 0
   let g:jedi#smart_auto_mappings = 0
+
+  if !empty(packages#get('Shougo/neocomplete.vim'))
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.python =
+          \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|' .
+          \ '^\s*from \|^\s*import \)\w*'
+  endif
 endfunction "}}}
 unlet s:plugin
 

@@ -63,6 +63,14 @@ nnoremap <expr> <C-b>
       \   (line('.') < 1 + winheight(0) ? 'H' : 'L')
 
 nnoremap Y y$
+
+" Folding
+nnoremap zj zjzx
+nnoremap zk zkzx
+
+" Swap 0/^
+nnoremap 0 ^
+nnoremap ^ 0
 "}}}
 
 " Insert mode mappings: "{{{
@@ -75,6 +83,9 @@ inoremap <C-u> <C-g>u<C-u>
 " Move cursor
 inoremap <C-f> <C-g>U<Right>
 inoremap <C-b> <C-g>U<Left>
+
+" Delete
+inoremap <C-d> <DEL>
 
 " Toggle paste
 inoremap <C-\> <C-o>:call ToggleOption('paste')<CR>
