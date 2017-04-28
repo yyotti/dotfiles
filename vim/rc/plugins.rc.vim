@@ -49,22 +49,22 @@ autocmd MyAutocmd BufWritePost * nested
 "}}}
 
 " Python3 version "{{{
-if exists(':python3') ==# 2
-  let s:python3_version =
-        \ matchstr(
-        \   execute(
-        \     'python3 import platform; print(platform.python_version())',
-        \     'silent!'
-        \   ),
-        \   '\d\+\.\d\+\.\d\+'
-        \ )
-  let s:has_python35 =
-        \ !empty(s:python3_version) && s:python3_version >=# '3.5.0'
-
-  unlet s:python3_version
-else
-  let s:has_python35 = 0
-endif
+" if exists(':python3') ==# 2
+"   let s:python3_version =
+"         \ matchstr(
+"         \   execute(
+"         \     'python3 import platform; print(platform.python_version())',
+"         \     'silent!'
+"         \   ),
+"         \   '\d\+\.\d\+\.\d\+'
+"         \ )
+"   let s:has_python35 =
+"         \ !empty(s:python3_version) && s:python3_version >=# '3.5.0'
+"
+"   unlet s:python3_version
+" else
+"   let s:has_python35 = 0
+" endif
 "}}}
 
 if !packages#begin()
@@ -743,17 +743,17 @@ function! s:plugin.post_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-call packages#add('chemzqm/vim-easygit')
-
-let s:plugin = packages#add('chemzqm/denite-git', {
-      \   'condition': s:has_python35,
-      \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
-      \   'build': 'sh ~/.vim/script/denite-git-patch.sh',
-      \ })
-function! s:plugin.pre_add() abort "{{{
-  nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
-endfunction "}}}
-unlet s:plugin
+" call packages#add('chemzqm/vim-easygit')
+"
+" let s:plugin = packages#add('chemzqm/denite-git', {
+"       \   'condition': s:has_python35,
+"       \   'depends': [ 'Shougo/denite.nvim', 'chemzqm/vim-easygit' ],
+"       \   'build': 'sh ~/.vim/script/denite-git-patch.sh',
+"       \ })
+" function! s:plugin.pre_add() abort "{{{
+"   nnoremap <silent> <Leader>Gs :<C-u>Denite gitstatus<CR>
+" endfunction "}}}
+" unlet s:plugin
 
 let s:plugin = packages#add('davidhalter/jedi-vim', {
       \   'condition': (has('python') || has('python3'))
