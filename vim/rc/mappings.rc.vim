@@ -83,6 +83,8 @@ inoremap <C-u> <C-g>u<C-u>
 " Move cursor
 inoremap <C-f> <C-g>U<Right>
 inoremap <C-b> <C-g>U<Left>
+inoremap <C-a> <C-g>U<Home>
+inoremap <C-e> <C-g>U<End>
 
 " Delete
 inoremap <C-d> <DEL>
