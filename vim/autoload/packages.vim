@@ -255,6 +255,30 @@ function! packages#update(...) abort "{{{
   endfor
 endfunction "}}}
 
+function! packages#clean(...) abort "{{{
+  let installed_plugins = map(
+        \   glob(utils#join_path(s:packpath, 'pack/bundle/opt/*'), 0, 1),
+        \   { _, val -> fnamemodify(val, ':t') }
+        \ )
+  let available_plugins =
+        \ map(values(s:plugins), { _, val -> fnamemodify(val['rtp'], ':t') })
+
+  let uninstall_plugins = filter(
+        \   installed_plugins, { _, val -> index(available_plugins, val) < 0 }
+        \ )
+  if empty(uninstall_plugins)
+    echo 'There are no plugins to delete.'
+    return
+  endif
+
+  for p in uninstall_plugins
+    let ans = utils#input(printf('Delete [%s]? [y/N]', p))
+    if type(ans) ==# v:t_string && ans =~? '^y\%[es]$'
+      call delete(utils#join_path(s:packpath, 'pack/bundle/opt', p), 'rf')
+    endif
+  endfor
+endfunction "}}}
+
 function! s:packadd(name, bang, ...) abort "{{{
   let plugin = get(s:plugins, a:name, {})
   if empty(plugin)
