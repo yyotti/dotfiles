@@ -16,5 +16,19 @@ function! utils#join_path(base, ...) abort "{{{
   return empty(paths) ? a:base : join([ a:base ] + paths, '/')
 endfunction "}}}
 
+function! utils#input(...) abort "{{{
+  new
+  cnoremap <buffer> <Esc> __CANCELED__<CR>
+  try
+    let input = call('input', a:000)
+    let input = input =~# '__CANCELED__$' ? 0 : input
+  catch /^Vim:Interrupt$/
+    let input = -1
+  finally
+    bwipeout!
+    return input
+  endtry
+endfunction "}}}
+
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
