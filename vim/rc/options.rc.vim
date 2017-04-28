@@ -114,7 +114,7 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
-  if &binary || &diff
+  if &binary || &diff || !&l:modified
     return
   endif
 
@@ -125,6 +125,9 @@ function! s:del_last_whitespaces() abort "{{{
   call setpos('.', cursor)
   unlet cursor
 endfunction "}}}
+
+" Auto reload *.vim files
+autocmd MyAutocmd BufWritePost *.vim,.vimrc_local execute 'source' expand('%')
 
 " lcd git root directory
 if executable('git')
