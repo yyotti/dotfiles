@@ -27,11 +27,6 @@ nnoremap k gk
 xnoremap j gj
 xnoremap k gk
 
-nnoremap gj j
-nnoremap gk k
-xnoremap gj j
-xnoremap gk k
-
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *<C-o>zvzz
@@ -71,6 +66,48 @@ nnoremap zk zkzx
 " Swap 0/^
 nnoremap 0 ^
 nnoremap ^ 0
+
+" Vertical gf
+function! OpenGF(direction) abort "{{{
+  if winnr('$') > 1
+    let winnr = winnr()
+    execute 'wincmd' a:direction
+    let winnr2 = winnr()
+
+    if winnr !=# winnr2
+      wincmd p
+      execute winnr2 . 'hide'
+    endif
+  endif
+
+  try
+    let vertical = ''
+    if a:direction ==# 'h' || a:direction ==# 'l'
+      let g:save_splitright = &splitright
+      let &splitright = a:direction ==# 'l'
+      let vertical = 'vertical'
+    else
+      let g:save_splitbelow = &splitbelow
+      let &splitbelow = a:direction ==# 'j'
+    endif
+    execute vertical 'wincmd F'
+  finally
+    if exists('g:save_splitright')
+      let &splitright = g:save_splitright
+      unlet g:save_splitright
+    endif
+    if exists('g:save_splitbelow')
+      let &splitbelow = g:save_splitbelow
+      unlet g:save_splitbelow
+    endif
+  endtry
+endfunction "}}}
+
+nnoremap gf gF
+nnoremap <silent> gh :<C-u>call OpenGF('h')<CR>
+nnoremap <silent> gl :<C-u>call OpenGF('l')<CR>
+nnoremap <silent> gj :<C-u>call OpenGF('j')<CR>
+nnoremap <silent> gk :<C-u>call OpenGF('k')<CR>
 "}}}
 
 " Insert mode mappings: "{{{
