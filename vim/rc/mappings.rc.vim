@@ -221,8 +221,34 @@ nnoremap ]e :<C-u>lnext<CR>
 "}}}
 
 " Operate buffer "{{{
+function! SmartBDelete(force) abort "{{{
+  let cur_bufnr = bufnr('%')
+
+  let buffers = {}
+  for buf in split(execute('ls'), "\n")
+    let [ _, bufnr, bufstatus; _] =
+          \ matchlist(buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
+    let buffers[bufnr] = bufstatus
+  endfor
+
+  if len(buffers) > winnr('$') && has_key(buffers, cur_bufnr)
+    let alt_bufnr = bufnr('#')
+    if !has_key(buffers, alt_bufnr) || buffers[alt_bufnr] =~# 'a'
+      " Alt buffer is active buffer or not listed
+      let next_bufnr =
+            \ keys(filter(copy(buffers), { _, val -> val !~# 'a' }))[0]
+    else
+      let next_bufnr = alt_bufnr
+    endif
+
+    execute 'buffer' next_bufnr
+  endif
+
+  execute 'bdelete' . (a:force ? '!' : '') cur_bufnr
+endfunction "}}}
+
 nnoremap <silent> <Space>o :<C-u>only<CR>
 nnoremap <silent> <Space>h :<C-u>hide<CR>
-nnoremap <silent> <Space>d :<C-u>bdelete<CR>
-nnoremap <silent> <Space>D :<C-u>bdelete!<CR>
+nnoremap <silent> <Space>d :<C-u>call SmartBDelete(0)<CR>
+nnoremap <silent> <Space>D :<C-u>call SmartBDelete(1)<CR>
 "}}}
