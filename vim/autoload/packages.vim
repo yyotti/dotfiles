@@ -33,8 +33,7 @@ function! packages#begin(...) abort "{{{
 
   let s:packpath = get(a:000, 0, get(split(&packpath, ','), 0, ''))
   if empty(s:packpath)
-    " TODO ErrMsg
-    echomsg 'Invalid packpath: ' . s:packpath
+    echoerr 'Invalid packpath: ' . s:packpath
     return 0
   endif
   execute 'set packpath+=' . s:packpath
@@ -161,8 +160,7 @@ function! packages#install(force, ...) abort "{{{
     let idx += 1
     echomsg printf('(%d/%d) %s [%s]', idx, cnt, mode . 'ing', p)
     if a:force && delete(s:plugins[p]['rtp'], 'rf') < 0
-      " TODO ErrMsg
-      echomsg 'Cannot delete [' . s:plugins[p]['rtp'] . '].'
+      echoerr 'Cannot delete [' . s:plugins[p]['rtp'] . '].'
       continue
     endif
 
@@ -400,8 +398,7 @@ endfunction "}}}
 
 function! s:on_stderr(job_id, lines) abort "{{{
   for l in a:lines
-    " TODO ErrMsg
-    echomsg l
+    echoerr l
   endfor
 endfunction "}}}
 
