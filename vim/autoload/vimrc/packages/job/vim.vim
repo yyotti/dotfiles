@@ -4,7 +4,7 @@ set cpoptions&vim
 let s:job_idx = 0
 let s:jobs = {}
 
-function! packages#job#vim#start(command, ...) abort "{{{
+function! vimrc#packages#job#vim#start(command, ...) abort "{{{
   let s:job_idx += 1
 
   let job_idx = s:job_idx
@@ -34,7 +34,7 @@ function! packages#job#vim#start(command, ...) abort "{{{
   return job_idx
 endfunction "}}}
 
-function! packages#job#vim#is_exited(job_id) abort "{{{
+function! vimrc#packages#job#vim#is_exited(job_id) abort "{{{
   if !has_key(s:jobs, a:job_id)
     return 1
   endif

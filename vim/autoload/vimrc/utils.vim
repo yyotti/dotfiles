@@ -1,7 +1,7 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-function! utils#join_path(base, ...) abort "{{{
+function! vimrc#utils#join_path(base, ...) abort "{{{
   let paths = filter(
         \   map(
         \     map(
@@ -16,7 +16,7 @@ function! utils#join_path(base, ...) abort "{{{
   return empty(paths) ? a:base : join([ a:base ] + paths, '/')
 endfunction "}}}
 
-function! utils#input(...) abort "{{{
+function! vimrc#utils#input(...) abort "{{{
   new
   cnoremap <buffer> <Esc> __CANCELED__<CR>
   try

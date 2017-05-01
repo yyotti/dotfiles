@@ -98,7 +98,7 @@ function! s:mkdir_as_necessary(dir, force) abort "{{{
     return
   endif
 
-  let ans = utils#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
+  let ans = vimrc#utils#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
   if type(ans) ==# v:t_string && ans =~? '^y\%[es]$'
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
   endif

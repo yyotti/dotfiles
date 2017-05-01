@@ -48,7 +48,7 @@ autocmd MyAutocmd FileType unite call <SID>unite_settings()
 function! s:unite_settings() abort "{{{
   call unite#custom#alias('file', 'h', 'left')
 
-  if exists('*vimfiler#start') || !empty(packages#get('Shougo/vimfiler.vim'))
+  if exists('*vimfiler#start') || !empty(vimrc#packages#get('Shougo/vimfiler.vim'))
     call unite#custom#default_action('directory', 'open')
   else
     call unite#custom#default_action('directory', 'narrow')
@@ -272,7 +272,7 @@ function! s:menu_open_browser.func(candidates) abort "{{{
     endif
 
     if exists('*openbrowser#open')
-          \ || !empty(packages#get('tyru/open-browser.vim'))
+          \ || !empty(vimrc#packages#get('tyru/open-browser.vim'))
       call openbrowser#open(url)
     else
       let url = shellescape(url)

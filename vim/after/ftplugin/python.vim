@@ -20,7 +20,7 @@ setlocal expandtab
 setlocal nosmartindent
 setlocal foldnestmax=1
 
-if !empty(packages#get('davidhalter/jedi-vim'))
+if !empty(vimrc#packages#get('davidhalter/jedi-vim'))
   setlocal omnifunc=jedi#completions
 
   function! JediRename() abort "{{{

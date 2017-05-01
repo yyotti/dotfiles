@@ -257,7 +257,7 @@ function! s:vimrc_items() abort "{{{
         \   sort(systemlist(command)),
         \   '{' .
         \     "'title': v:val," .
-        \     "'path': utils#join_path(path, v:val)," .
+        \     "'path': vimrc#utils#join_path(path, v:val)," .
         \   '}'
         \ )
 endfunction "}}}

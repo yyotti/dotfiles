@@ -11,7 +11,7 @@ let s:default_options = {
 
 let s:jobs = {}
 
-function! packages#begin(...) abort "{{{
+function! vimrc#packages#begin(...) abort "{{{
   let s:plugins = {}
 
   if v:version < 800 || !has('patch-8.0.308')
@@ -46,7 +46,7 @@ function! packages#begin(...) abort "{{{
   endif
 
   autocmd MyAutocmd VimEnter *
-        \ call timer_start(1, function('packages#load_plugins'))
+        \ call timer_start(1, function('vimrc#packages#load_plugins'))
 
   augroup plugin-packages
     autocmd!
@@ -55,11 +55,11 @@ function! packages#begin(...) abort "{{{
   return 1
 endfunction "}}}
 
-function! packages#end() abort "{{{
+function! vimrc#packages#end() abort "{{{
   " Do nothing
 endfunction "}}}
 
-function! packages#add(plugin, ...) abort "{{{
+function! vimrc#packages#add(plugin, ...) abort "{{{
   if a:plugin !~# '[^/]\+/[^/]\+'
     return {}
   endif
@@ -72,14 +72,14 @@ function! packages#add(plugin, ...) abort "{{{
   let options['name'] = name
   let options['fullname'] = a:plugin
 
-  let options['rtp'] = utils#join_path(
+  let options['rtp'] = vimrc#utils#join_path(
         \   resolve(expand(s:packpath)),
         \   'pack/bundle/opt',
         \   name,
         \   options['path']
         \ )
 
-  let options['url'] = utils#join_path('https://github.com', a:plugin) . '.git'
+  let options['url'] = vimrc#utils#join_path('https://github.com', a:plugin) . '.git'
 
   if has_key(s:plugins, a:plugin)
     let s:plugins[a:plugin] =
@@ -91,20 +91,20 @@ function! packages#add(plugin, ...) abort "{{{
   return s:plugins[a:plugin]
 endfunction "}}}
 
-function! packages#post_add() abort "{{{
+function! vimrc#packages#post_add() abort "{{{
   for plugin in keys(s:plugins)
     call s:call_hook(plugin, 'post_add')
   endfor
 endfunction "}}}
 
-function! packages#get(plugin) abort "{{{
+function! vimrc#packages#get(plugin) abort "{{{
   return get(s:plugins, a:plugin, {})
 endfunction "}}}
 
-function! packages#load_plugins(...) abort "{{{
+function! vimrc#packages#load_plugins(...) abort "{{{
   let s:plugins = s:remove_disabled_plugins(s:plugins)
 
-  call packages#install(0)
+  call vimrc#packages#install(0)
 
   for plugin in keys(s:plugins)
     call s:call_hook(plugin, 'pre_add')
@@ -127,7 +127,7 @@ function! packages#load_plugins(...) abort "{{{
   endfor
 endfunction "}}}
 
-function! packages#filetype_on(...) abort "{{{
+function! vimrc#packages#filetype_on(...) abort "{{{
   if execute('filetype') =~# 'OFF'
     filetype plugin indent on
     syntax enable
@@ -135,7 +135,7 @@ function! packages#filetype_on(...) abort "{{{
   endif
 endfunction "}}}
 
-function! packages#install(force, ...) abort "{{{
+function! vimrc#packages#install(force, ...) abort "{{{
   if a:0 ==# 0
     let plugins = keys(s:plugins)
   else
@@ -175,14 +175,14 @@ function! packages#install(force, ...) abort "{{{
           \   'on_stderr': function('s:on_stderr'),
           \   'on_exit': function('s:on_exit'),
           \ }
-    let job_id = packages#job#start(cmd, options)
+    let job_id = vimrc#packages#job#start(cmd, options)
     if job_id > 0
       let s:jobs[job_id] = p
-      while !packages#job#is_exited(job_id)
+      while !vimrc#packages#job#is_exited(job_id)
         sleep 1m
       endwhile
 
-      let doc_path = utils#join_path(s:plugins[p]['rtp'], 'doc')
+      let doc_path = vimrc#utils#join_path(s:plugins[p]['rtp'], 'doc')
       if isdirectory(doc_path) && filewritable(doc_path) ==# 2
         execute 'helptags' fnameescape(doc_path)
       endif
@@ -194,7 +194,7 @@ function! packages#install(force, ...) abort "{{{
   let s:plugins = s:remove_disabled_plugins(s:plugins)
 endfunction "}}}
 
-function! packages#update(...) abort "{{{
+function! vimrc#packages#update(...) abort "{{{
   if a:0 ==# 0
     let plugins = keys(s:plugins)
   else
@@ -204,7 +204,7 @@ function! packages#update(...) abort "{{{
   let plugins = filter(
         \   plugins,
         \   { _, val ->
-        \     isdirectory(utils#join_path(s:plugins[val]['rtp'], '.git')) }
+        \     isdirectory(vimrc#utils#join_path(s:plugins[val]['rtp'], '.git')) }
         \ )
 
   let cnt = len(plugins)
@@ -223,7 +223,7 @@ function! packages#update(...) abort "{{{
     " TODO master only...
     let cmd = [
           \   'git',
-          \   '--git-dir=' . utils#join_path(rtp, '.git'),
+          \   '--git-dir=' . vimrc#utils#join_path(rtp, '.git'),
           \   '--work-tree=' . rtp,
           \   'pull',
           \   '--ff',
@@ -236,14 +236,14 @@ function! packages#update(...) abort "{{{
           \   'on_stderr': function('s:on_stderr'),
           \   'on_exit': function('s:on_exit'),
           \ }
-    let job_id = packages#job#start(cmd, options)
+    let job_id = vimrc#packages#job#start(cmd, options)
     if job_id > 0
       let s:jobs[job_id] = p
-      while !packages#job#is_exited(job_id)
+      while !vimrc#packages#job#is_exited(job_id)
         sleep 1m
       endwhile
 
-      let doc_path = utils#join_path(s:plugins[p]['rtp'], 'doc')
+      let doc_path = vimrc#utils#join_path(s:plugins[p]['rtp'], 'doc')
       if isdirectory(doc_path) && filewritable(doc_path) ==# 2
         execute 'helptags' fnameescape(doc_path)
       endif
@@ -253,9 +253,9 @@ function! packages#update(...) abort "{{{
   endfor
 endfunction "}}}
 
-function! packages#clean(...) abort "{{{
+function! vimrc#packages#clean(...) abort "{{{
   let installed_plugins = map(
-        \   glob(utils#join_path(s:packpath, 'pack/bundle/opt/*'), 0, 1),
+        \   glob(vimrc#utils#join_path(s:packpath, 'pack/bundle/opt/*'), 0, 1),
         \   { _, val -> fnamemodify(val, ':t') }
         \ )
   let available_plugins =
@@ -270,9 +270,9 @@ function! packages#clean(...) abort "{{{
   endif
 
   for p in uninstall_plugins
-    let ans = utils#input(printf('Delete [%s]? [y/N]', p))
+    let ans = vimrc#utils#input(printf('Delete [%s]? [y/N]', p))
     if type(ans) ==# v:t_string && ans =~? '^y\%[es]$'
-      call delete(utils#join_path(s:packpath, 'pack/bundle/opt', p), 'rf')
+      call delete(vimrc#utils#join_path(s:packpath, 'pack/bundle/opt', p), 'rf')
     endif
   endfor
 endfunction "}}}
@@ -285,7 +285,7 @@ function! s:packadd(name, bang, ...) abort "{{{
 
   " TODO Check path exists
   execute 'packadd' . (a:bang ? '!' : '')
-        \ utils#join_path(plugin['name'], plugin['path'])
+        \ vimrc#utils#join_path(plugin['name'], plugin['path'])
 
   if !a:bang
     call s:plugin_loaded(a:name, a:000)
@@ -302,7 +302,7 @@ function! s:plugin_loaded(name, ...) abort "{{{
     call s:call_hook(plugin, 'post_add')
   endfor
 
-  call packages#filetype_on()
+  call vimrc#packages#filetype_on()
   doautocmd User post-plugins-loaded
 endfunction "}}}
 
