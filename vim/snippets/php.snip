@@ -1,9 +1,4 @@
 # vim:set expandtab:
-snippet     print
-abbr        int 文字列を出力する
-options     word
-    print $${1:arg};${0}
-
 snippet     print_d
 abbr        "<!-- xxx=[yyy] -->\n";
 options     head
@@ -16,14 +11,15 @@ options     head
 	print_r($$1);
 	print "-->\n";${0}
 
-snippet function
+snippet     function
 abbr public function () {}
+options     head
 	${1:public }function ${2:#:FunctionName}(${3}) {
 		${4:TARGET}
 	}
 
-snippet construct
-options head
+snippet     construct
+options     head
 	function __construct(${1}) {
 		${0:TARGET}
 	}
