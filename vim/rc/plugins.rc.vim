@@ -546,7 +546,7 @@ function! s:plugin.pre_add() abort "{{{
             \   'errorformat': '%f:%l:%c: vimlparser: %m',
             \ }
       if has('nvim')
-        let g:neomake_vim_vimlparser_maker['args'] = [ '-neovim' ]
+        let g:neomake_vim_vimlparser_maker.args = [ '-neovim' ]
       endif
     endif
   endif

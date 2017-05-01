@@ -16,3 +16,17 @@ options head
 snippet $
 options word
 	{$${1:#:expr}}${0}
+
+snippet     foreach
+options     head
+	{foreach from=${1:$list} item=${2:elem}}
+	${0:TARGET}
+	{/foreach}
+
+snippet     foreachelse
+options     head
+	{foreach from=${1:$list} item=${2:elem}}
+	${3:TARGET}
+        {foreachelse}
+        ${0:\{* ... *\}}
+	{/foreach}

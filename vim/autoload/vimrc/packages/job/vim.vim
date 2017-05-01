@@ -39,35 +39,35 @@ function! vimrc#packages#job#vim#is_exited(job_id) abort "{{{
     return 1
   endif
 
-  let job = s:jobs[a:job_id]['job']
+  let job = s:jobs[a:job_id].job
   return job_status(job) !=# 'run'
 endfunction "}}}
 
 function! s:out_cb(job_id, msg) abort "{{{
   if has_key(s:jobs, a:job_id)
-    let options = s:jobs[a:job_id]['options']
+    let options = s:jobs[a:job_id].options
     if has_key(options, 'on_stdout')
-          \ && type(options['on_stdout']) ==# v:t_func
-      call options['on_stdout'](a:job_id, split(a:msg, "\n", 1))
+          \ && type(options.on_stdout) ==# v:t_func
+      call options.on_stdout(a:job_id, split(a:msg, "\n", 1))
     endif
   endif
 endfunction "}}}
 
 function! s:err_cb(job_id, msg) abort "{{{
   if has_key(s:jobs, a:job_id)
-    let options = s:jobs[a:job_id]['options']
+    let options = s:jobs[a:job_id].options
     if has_key(options, 'on_stderr')
-          \ && type(options['on_stderr']) ==# v:t_func
-      call options['on_stderr'](a:job_id, split(a:msg, "\n", 1))
+          \ && type(options.on_stderr) ==# v:t_func
+      call options.on_stderr(a:job_id, split(a:msg, "\n", 1))
     endif
   endif
 endfunction "}}}
 
 function! s:exit_cb(job_id, status) abort "{{{
   if has_key(s:jobs, a:job_id)
-    let options = s:jobs[a:job_id]['options']
+    let options = s:jobs[a:job_id].options
     if has_key(options, 'on_exit')
-      call options['on_exit'](a:job_id, a:status)
+      call options.on_exit(a:job_id, a:status)
     endif
     call remove(s:jobs, a:job_id)
   endif

@@ -69,17 +69,18 @@ function! vimrc#packages#add(plugin, ...) abort "{{{
   let options =
         \ extend(copy(s:default_options), s:check_options(a:000), 'force')
 
-  let options['name'] = name
-  let options['fullname'] = a:plugin
+  let options.name = name
+  let options.fullname = a:plugin
 
-  let options['rtp'] = vimrc#utils#join_path(
+  let options.rtp = vimrc#utils#join_path(
         \   resolve(expand(s:packpath)),
         \   'pack/bundle/opt',
         \   name,
-        \   options['path']
+        \   options.path
         \ )
 
-  let options['url'] = vimrc#utils#join_path('https://github.com', a:plugin) . '.git'
+  let options.url =
+        \ vimrc#utils#join_path('https://github.com', a:plugin) . '.git'
 
   if has_key(s:plugins, a:plugin)
     let s:plugins[a:plugin] =
@@ -112,12 +113,12 @@ function! vimrc#packages#load_plugins(...) abort "{{{
 
   let dependencies = s:flatten(
         \   map(
-        \     filter(values(s:plugins), { _, op -> !empty(op['depends']) }),
-        \     { _, op -> op['depends'] }
+        \     filter(values(s:plugins), { _, op -> !empty(op.depends) }),
+        \     { _, op -> op.depends }
         \   )
         \ )
   for plugin in dependencies
-    execute 'packadd!' s:plugins[plugin]['name']
+    execute 'packadd!' s:plugins[plugin].name
   endfor
 
   let s:loding_plugins = {}
@@ -144,7 +145,7 @@ function! vimrc#packages#install(force, ...) abort "{{{
 
   if !a:force
     let plugins =
-          \ filter(plugins, { _, val -> !isdirectory(s:plugins[val]['rtp']) })
+          \ filter(plugins, { _, val -> !isdirectory(s:plugins[val].rtp) })
   endif
 
   let cnt = len(plugins)
@@ -159,8 +160,8 @@ function! vimrc#packages#install(force, ...) abort "{{{
   for p in plugins
     let idx += 1
     echomsg printf('(%d/%d) %s [%s]', idx, cnt, mode . 'ing', p)
-    if a:force && delete(s:plugins[p]['rtp'], 'rf') < 0
-      echoerr 'Cannot delete [' . s:plugins[p]['rtp'] . '].'
+    if a:force && delete(s:plugins[p].rtp, 'rf') < 0
+      echoerr 'Cannot delete [' . s:plugins[p].rtp . '].'
       continue
     endif
 
@@ -168,8 +169,8 @@ function! vimrc#packages#install(force, ...) abort "{{{
           \   'git',
           \   'clone',
           \   '--quiet',
-          \   s:plugins[p]['url'],
-          \   s:plugins[p]['rtp'],
+          \   s:plugins[p].url,
+          \   s:plugins[p].rtp,
           \ ]
     let options = {
           \   'on_stderr': function('s:on_stderr'),
@@ -182,12 +183,12 @@ function! vimrc#packages#install(force, ...) abort "{{{
         sleep 1m
       endwhile
 
-      let doc_path = vimrc#utils#join_path(s:plugins[p]['rtp'], 'doc')
+      let doc_path = vimrc#utils#join_path(s:plugins[p].rtp, 'doc')
       if isdirectory(doc_path) && filewritable(doc_path) ==# 2
         execute 'helptags' fnameescape(doc_path)
       endif
     else
-      let s:plugins[p]['condition'] = 0
+      let s:plugins[p].condition = 0
     endif
   endfor
 
@@ -204,7 +205,7 @@ function! vimrc#packages#update(...) abort "{{{
   let plugins = filter(
         \   plugins,
         \   { _, val ->
-        \     isdirectory(vimrc#utils#join_path(s:plugins[val]['rtp'], '.git')) }
+        \     isdirectory(vimrc#utils#join_path(s:plugins[val].rtp, '.git')) }
         \ )
 
   let cnt = len(plugins)
@@ -219,7 +220,7 @@ function! vimrc#packages#update(...) abort "{{{
     let idx += 1
     echomsg printf('(%d/%d) %s [%s]', idx, cnt, 'Updaing', p)
 
-    let rtp = s:plugins[p]['rtp']
+    let rtp = s:plugins[p].rtp
     " TODO master only...
     let cmd = [
           \   'git',
@@ -243,12 +244,12 @@ function! vimrc#packages#update(...) abort "{{{
         sleep 1m
       endwhile
 
-      let doc_path = vimrc#utils#join_path(s:plugins[p]['rtp'], 'doc')
+      let doc_path = vimrc#utils#join_path(s:plugins[p].rtp, 'doc')
       if isdirectory(doc_path) && filewritable(doc_path) ==# 2
         execute 'helptags' fnameescape(doc_path)
       endif
     else
-      let s:plugins[p]['condition'] = 0
+      let s:plugins[p].condition = 0
     endif
   endfor
 endfunction "}}}
@@ -259,7 +260,7 @@ function! vimrc#packages#clean(...) abort "{{{
         \   { _, val -> fnamemodify(val, ':t') }
         \ )
   let available_plugins =
-        \ map(values(s:plugins), { _, val -> fnamemodify(val['rtp'], ':t') })
+        \ map(values(s:plugins), { _, val -> fnamemodify(val.rtp, ':t') })
 
   let uninstall_plugins = filter(
         \   installed_plugins, { _, val -> index(available_plugins, val) < 0 }
@@ -285,7 +286,7 @@ function! s:packadd(name, bang, ...) abort "{{{
 
   " TODO Check path exists
   execute 'packadd' . (a:bang ? '!' : '')
-        \ vimrc#utils#join_path(plugin['name'], plugin['path'])
+        \ vimrc#utils#join_path(plugin.name, plugin.path)
 
   if !a:bang
     call s:plugin_loaded(a:name, a:000)
@@ -326,8 +327,8 @@ function! s:check_options(options) abort "{{{
 
   let op = copy(a:options[0])
 
-  if has_key(op, 'condition') && type(op['condition']) ==# v:t_func
-    let op['condition'] = op['condition']()
+  if has_key(op, 'condition') && type(op.condition) ==# v:t_func
+    let op.condition = op.condition()
   endif
 
   for key in [ 'init', 'post_add' ]
@@ -338,25 +339,25 @@ function! s:check_options(options) abort "{{{
   endfor
 
   if has_key(op, 'depends')
-    if index([ v:t_string, v:t_list ], type(op['depends'])) < 0
-          \ || empty(op['depends'])
-      unlet op['depends']
-    elseif type(op['depends']) ==# v:t_string
-      let op['depends'] = [ op['depends'] ]
+    if index([ v:t_string, v:t_list ], type(op.depends)) < 0
+          \ || empty(op.depends)
+      unlet op.depends
+    elseif type(op.depends) ==# v:t_string
+      let op.depends = [ op.depends ]
     endif
   endif
   if has_key(op, 'depends')
-    let op['depends'] = uniq(sort(copy(op['depends'])))
+    let op.depends = uniq(sort(copy(op.depends)))
   endif
 
   if has_key(op, 'path')
-        \ && (type(op['path']) !=# v:t_string || empty(op['path']))
-    unlet op['depends']
+        \ && (type(op.path) !=# v:t_string || empty(op.path))
+    unlet op.depends
   endif
 
   if has_key(op, 'build')
-        \ && index([ v:t_func, v:t_string ], type(op['build'])) < 0
-    unlet op['build']
+        \ && index([ v:t_func, v:t_string ], type(op.build)) < 0
+    unlet op.build
   endif
 
   return op
@@ -364,14 +365,14 @@ endfunction "}}}
 
 function! s:remove_disabled_plugins(options) abort "{{{
   " Available plugins
-  let options = filter(copy(a:options), { _, op -> op['condition'] })
+  let options = filter(copy(a:options), { _, op -> op.condition })
 
   let changed = 0
-  for plugin in keys(filter(copy(options), { _, op -> !empty(op['depends']) }))
-    let depends = options[plugin]['depends']
+  for plugin in keys(filter(copy(options), { _, op -> !empty(op.depends) }))
+    let depends = options[plugin].depends
     for p in depends
       if !has_key(options, p)
-        let options[plugin]['condition'] = 0
+        let options[plugin].condition = 0
         let changed = 1
         break
       endif
@@ -406,12 +407,12 @@ function! s:on_exit(job_id, status) abort "{{{
   let plugin = s:jobs[a:job_id]
   if a:status !=# 0
     " Disable plugin
-    let s:plugins[plugin]['condition'] = 0
+    let s:plugins[plugin].condition = 0
   else
     if has_key(s:plugins[plugin], 'build')
       let pwd = getcwd()
       try
-        execute 'lcd' s:plugins[plugin]['rtp']
+        execute 'lcd' s:plugins[plugin].rtp
         call s:build(plugin)
       finally
         execute 'lcd' pwd
@@ -425,7 +426,7 @@ function! s:build(plugin) abort "{{{
     return
   endif
 
-  let Build = s:plugins[a:plugin]['build']
+  let Build = s:plugins[a:plugin].build
   if type(Build) ==# v:t_string
     if !empty(Build)
       execute '!' . Build
