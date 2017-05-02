@@ -30,5 +30,13 @@ function! vimrc#utils#input(...) abort "{{{
   endtry
 endfunction "}}}
 
+function! vimrc#utils#error(msg) abort "{{{
+  let msg = index([ v:t_string, v:t_number ], type(a:msg)) < 0
+        \ ? string(a:msg) : a:msg
+  echohl ErrorMsg
+  echomsg msg
+  echohl None
+endfunction "}}}
+
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
