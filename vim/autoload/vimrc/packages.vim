@@ -11,6 +11,8 @@ let s:default_options = {
 
 let s:jobs = {}
 
+let s:default_max_thread_cnt = 2
+
 function! vimrc#packages#begin(...) abort "{{{
   let s:plugins = {}
 
@@ -156,12 +158,17 @@ function! vimrc#packages#install(force, ...) abort "{{{
   let mode = a:force ? 'Reinstall' : 'Install'
   echomsg mode cnt 'plugins'
 
+  let s:install_total = cnt
+  let s:jobs = {}
   let idx = 0
   for p in plugins
     let idx += 1
-    echomsg printf('(%d/%d) %s [%s]', idx, cnt, mode . 'ing', p)
     if a:force && delete(s:plugins[p].rtp, 'rf') < 0
-      echoerr 'Cannot delete [' . s:plugins[p].rtp . '].'
+      let s:jobs[idx * -1] = {
+            \   'plugin': p,
+            \   'status': 'error',
+            \   'msg': [ 'Cannot delete [' . s:plugins[p].rtp . '].' ],
+            \ }
       continue
     endif
 
@@ -178,19 +185,38 @@ function! vimrc#packages#install(force, ...) abort "{{{
           \ }
     let job_id = vimrc#packages#job#start(cmd, options)
     if job_id > 0
-      let s:jobs[job_id] = p
-      while !vimrc#packages#job#is_exited(job_id)
-        sleep 1m
-      endwhile
-
-      let doc_path = vimrc#utils#join_path(s:plugins[p].rtp, 'doc')
-      if isdirectory(doc_path) && filewritable(doc_path) ==# 2
-        execute 'helptags' fnameescape(doc_path)
-      endif
+      let s:jobs[job_id] = {
+            \   'plugin': p,
+            \   'status': 'running',
+            \   'msg': [],
+            \ }
     else
       let s:plugins[p].condition = 0
+      let s:jobs[idx * -1] = {
+            \   'plugin': p,
+            \   'status': 'error',
+            \   'msg': [ 'Cannot start job' ],
+            \ }
     endif
+
+    while len(filter(copy(s:jobs), { _, job -> job.status ==# 'running' }))
+          \ >= get(g:, 'max_thread_cnt', s:default_max_thread_cnt)
+      sleep 1m
+    endwhile
   endfor
+
+  while len(filter(copy(s:jobs), { _, job -> job.status ==# 'running' })) > 0
+    sleep 1m
+  endwhile
+
+  echohl ErrorMsg
+  for job in filter(values(s:jobs), { _, job -> job.status ==# 'error' })
+    echomsg printf('[%s]', job.plugin)
+    for line in job.msg
+      echomsg printf('  %s', line)
+    endfor
+  endfor
+  echohl None
 
   let s:plugins = s:remove_disabled_plugins(s:plugins)
 endfunction "}}}
@@ -398,17 +424,32 @@ function! s:call_hook(plugin, hook) abort "{{{
 endfunction "}}}
 
 function! s:on_stderr(job_id, lines) abort "{{{
+  let s:jobs[a:job_id].status = 'error'
   for l in a:lines
-    echoerr l
+    call add(s:jobs[a:job_id].msg, l)
   endfor
 endfunction "}}}
 
 function! s:on_exit(job_id, status) abort "{{{
-  let plugin = s:jobs[a:job_id]
+  let plugin = s:jobs[a:job_id].plugin
   if a:status !=# 0
     " Disable plugin
     let s:plugins[plugin].condition = 0
+    let s:jobs[a:job_id].status = 'error'
   else
+    let s:jobs[a:job_id].status = 'exit'
+  endif
+  let installed_cnt =
+        \ len(filter(copy(s:jobs), { _, j -> j.status !=# 'running' }))
+  echomsg printf(
+        \   '(%d/%d) [%s]',
+        \   installed_cnt, s:install_total, s:jobs[a:job_id].plugin
+        \ )
+  if a:status ==# 0
+    let doc_path = vimrc#utils#join_path(s:plugins[plugin].rtp, 'doc')
+    if isdirectory(doc_path) && filewritable(doc_path) ==# 2
+      execute 'helptags' fnameescape(doc_path)
+    endif
     if has_key(s:plugins[plugin], 'build')
       let pwd = getcwd()
       try
