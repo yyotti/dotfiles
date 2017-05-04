@@ -4,9 +4,9 @@
 inoremap <expr> <C-h> deoplete#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS> deoplete#smart_close_popup() . "\<C-h>"
 
-inoremap <expr> <C-l> deoplete#refresh()
+" inoremap <expr> <C-l> deoplete#refresh()
 
-inoremap <expr> ' pumvisible() ? deoplete#close_popup() : "'"
+" inoremap <expr> ' pumvisible() ? deoplete#close_popup() : "'"
 
 " Close popup and save indent
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -37,4 +37,4 @@ let g:deoplete#omni#input_patterns.python = ''
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_smart_case = 1
 
-let g:deoplete#slip_chars = [ '(', ')' ]
+let g:deoplete#skip_chars = [ '(', ')' ]

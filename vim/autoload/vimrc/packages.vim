@@ -2,6 +2,7 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 let s:plugins = {}
+let s:installed_plugins = []
 
 let s:default_options = {
       \   'condition': 1,
@@ -107,7 +108,7 @@ endfunction "}}}
 function! vimrc#packages#load_plugins(...) abort "{{{
   let s:plugins = s:remove_disabled_plugins(s:plugins)
 
-  call vimrc#packages#install(0)
+  let installed = vimrc#packages#install(0)
 
   for plugin in keys(s:plugins)
     call s:call_hook(plugin, 'pre_add')
@@ -160,6 +161,7 @@ function! vimrc#packages#install(force, ...) abort "{{{
 
   let s:jobs = {}
   let idx = 0
+  let s:installed_plugins = []
   for p in plugins
     let idx += 1
     if a:force && delete(s:plugins[p].rtp, 'rf') < 0
@@ -222,6 +224,8 @@ function! vimrc#packages#install(force, ...) abort "{{{
   endfor
 
   let s:plugins = s:remove_disabled_plugins(s:plugins)
+
+  return s:installed_plugins
 endfunction "}}}
 
 function! vimrc#packages#update(...) abort "{{{
@@ -350,6 +354,10 @@ function! s:plugin_loaded(name, ...) abort "{{{
     return
   endif
 
+  if has('nvim') && len(s:installed_plugins) > 0
+    UpdateRemotePlugins
+  endif
+
   for plugin in keys(s:plugins)
     call s:call_hook(plugin, 'post_add')
   endfor
@@ -465,6 +473,9 @@ function! s:on_exit(job_id, status) abort "{{{
     let s:jobs[a:job_id].status = 'error'
   else
     let s:jobs[a:job_id].status = 'exit'
+    if s:jobs[a:job_id].progress ==# 'install'
+      call add(s:installed_plugins, s:jobs[a:job_id].plugin)
+    endif
   endif
   let fin_cnt = len(filter(copy(s:jobs), { _, j -> j.status !=# 'running' }))
   echomsg printf(

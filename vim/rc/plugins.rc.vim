@@ -168,29 +168,29 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-" let s:plugin = vimrc#packages#add('zchee/deoplete-go', {
-"       \   'condition': executable('go'),
-"       \   'depends': [ 'Shougo/deoplete.nvim' ],
-"       \   'build': '',
-"       \ })
-" function! s:plugin.pre_add() abort "{{{
-"   let g:deoplete#sources#go#gocode_binary =
-"         \ vimrc#utils#join_path($GOPATH, 'bin' , 'gocode')
-"   let g:deoplete#sources#go#sort_class = [
-"         \   'package',
-"         \   'func',
-"         \   'type',
-"         \   'var',
-"         \   'const',
-"         \ ]
-"   let g:deoplete#sources#go#use_cache = 1
-"   let g:deoplete#sources#go#json_directory =
-"         \ vimrc#utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
-"   if !isdirectory(g:deoplete#sources#go#json_directory)
-"     call mkdir(g:deoplete#sources#go#json_directory, 'p')
-"   endif
-" endfunction "}}}
-" unlet s:plugin
+let s:plugin = vimrc#packages#add('zchee/deoplete-go', {
+      \   'condition': executable('go'),
+      \   'depends': [ 'Shougo/deoplete.nvim' ],
+      \   'build': '',
+      \ })
+function! s:plugin.pre_add() abort "{{{
+  let g:deoplete#sources#go#gocode_binary =
+        \ vimrc#utils#join_path($GOPATH, 'bin' , 'gocode')
+  let g:deoplete#sources#go#sort_class = [
+        \   'package',
+        \   'func',
+        \   'type',
+        \   'var',
+        \   'const',
+        \ ]
+  let g:deoplete#sources#go#use_cache = 1
+  let g:deoplete#sources#go#json_directory =
+        \ vimrc#utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
+  if !isdirectory(g:deoplete#sources#go#json_directory)
+    call mkdir(g:deoplete#sources#go#json_directory, 'p')
+  endif
+endfunction "}}}
+unlet s:plugin
 
 call vimrc#packages#add('Shougo/neomru.vim')
 
@@ -551,9 +551,7 @@ function! s:plugin.pre_add() abort "{{{
             \   'exe': 'vimlparser',
             \   'errorformat': '%f:%l:%c: vimlparser: %m',
             \ }
-      if has('nvim')
-        let g:neomake_vim_vimlparser_maker.args = [ '-neovim' ]
-      endif
+      let g:neomake_vim_vimlparser_maker.args = [ '-neovim' ]
     endif
   endif
 
@@ -782,6 +780,29 @@ function! s:plugin.pre_add() abort "{{{
     let g:neocomplete#force_omni_input_patterns.python =
           \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|' .
           \ '^\s*from \|^\s*import \)\w*'
+  endif
+endfunction "}}}
+unlet s:plugin
+
+let s:plugin = vimrc#packages#add('zchee/deoplete-jedi', {
+      \   'depends': [ 'Shougo/deoplete.nvim' ],
+      \   'build': 'git submodule update --init',
+      \ })
+function! s:plugin.pre_add() abort "{{{
+  let g:deoplete#sources#go#gocode_binary =
+        \ vimrc#utils#join_path($GOPATH, 'bin' , 'gocode')
+  let g:deoplete#sources#go#sort_class = [
+        \   'package',
+        \   'func',
+        \   'type',
+        \   'var',
+        \   'const',
+        \ ]
+  let g:deoplete#sources#go#use_cache = 1
+  let g:deoplete#sources#go#json_directory =
+        \ vimrc#utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
+  if !isdirectory(g:deoplete#sources#go#json_directory)
+    call mkdir(g:deoplete#sources#go#json_directory, 'p')
   endif
 endfunction "}}}
 unlet s:plugin
