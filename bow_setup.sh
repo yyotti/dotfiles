@@ -67,6 +67,7 @@ sudo add-apt-repository -y ppa:fish-shell/release-2
 #
 sudo apt -y update
 sudo apt -y upgrade
+sudo apt -y autoremove
 
 #=============================================================================
 # Install required packages
@@ -218,6 +219,26 @@ cd ../
 make
 sudo make install
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
+
+echo ''
+
+#=============================================================================
+# Install neovim
+#
+echo 'Install Neovim.'
+REPO=neovim/neovim
+ghq get $REPO
+cd "$GHQ_ROOT/github.com/$REPO"
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+
+echo ''
+
+#=============================================================================
+# Install neovim-python
+#
+echo 'Install neovim-python'
+sudo pip3 install neovim
 
 echo ''
 
