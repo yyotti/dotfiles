@@ -2,8 +2,6 @@
 
 # TODO スクリプト内変数の命名を直す
 
-set -eu
-
 function on-error()
 {
   local status=$?
@@ -16,17 +14,20 @@ function on-error()
     args+="\"$i\" "
   done
 
-  {
-    echo ""
-    echo "--------------------------------------------------"
-    echo "Error occured on $script [Line $line]: Status $status"
-    echo ""
-    echo "Status: $status"
-    echo "Commandline: $script $args"
-    echo "--------------------------------------------------"
-    echo ""
-  } >&2
+  cat <<_EOM_ >&2
+
+--------------------------------------------------
+Error occured on $script [Line $line]: Status $status
+
+Status: $status
+Commandline: $script $args
+--------------------------------------------------
+
+_EOM_
 }
+
+set -eu
+trap 'on-error $LINENO "$@"' ERR
 
 export GOPATH="$HOME/.go"
 if [[ ! -d $GOPATH ]]; then
@@ -41,7 +42,9 @@ fi
 #=============================================================================
 # Replace source url
 #
-sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list | tee >(sed -e 's%deb %deb-src %g') | cat >/tmp/sources.list
+sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list \
+  | tee >(sed -e 's%deb %deb-src %g') \
+  | cat >/tmp/sources.list
 if [[ ! -e /etc/apt/sources.list.org ]]; then
   sudo cp /etc/apt/sources.list /etc/apt/sources.list.org
 fi
@@ -140,7 +143,13 @@ echo ''
 # Install Golang
 #
 echo 'Install Golang.'
-GO_VER=$(curl -sL https://api.github.com/repos/golang/go/branches | jq -r '.[]|select(.name|startswith("release-branch.go")).name' | sort -r | head -n 1 | sed 's/release-branch\.//')
+GO_VER=$( \
+  curl -sL https://api.github.com/repos/golang/go/branches \
+  | jq -r '.[]|select(.name|startswith("release-branch.go")).name' \
+  | sort -r \
+  | head -n 1 \
+  | sed 's/release-branch\.//' \
+  )
 if [[ $GO_VER != "" ]]; then
   archi=$(uname -sm)
   case "$archi" in
@@ -299,7 +308,10 @@ case "$archi" in
   Linux\ *86) ARCHI=i686 ;;
   *) echo "Unknown OS: $archi"; exit 1 ;;
 esac
-RIPGREP_DOWNLOAD_URL=$(curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url')
+RIPGREP_DOWNLOAD_URL=$( \
+  curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
+  | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url' \
+  )
 if [[ $RIPGREP_DOWNLOAD_URL != "" ]]; then
   ARCHIVE_NAME=$(basename "$RIPGREP_DOWNLOAD_URL")
   DIRNAME=$(basename "$ARCHIVE_NAME" .tar.gz)
