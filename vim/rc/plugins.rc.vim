@@ -321,10 +321,16 @@ endfunction "}}}
 unlet s:plugin
 
 let s:plugin = vimrc#packages#add('Shougo/junkfile.vim', {
-      \   'depends': [ 'Shougo/unite.vim' ],
+      \   'condition': !empty(vimrc#packages#get('Shougo/denite.nvim'))
+      \     || !empty(vimrc#packages#get('Shougo/unite.vim')),
+      \   'depends': [ 'Shougo/denite.nvim' ],
       \ })
 function! s:plugin.pre_add() abort "{{{
-  nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>
+  if !empty(vimrc#packages#get('Shougo/denite.nvim'))
+    nnoremap <silent> <Leader>uj :<C-u>Denite junkfile:new junkfile<CR>
+  elseif !empty(vimrc#packages#get('Shougo/unite.vim'))
+    nnoremap <silent> <Leader>uj :<C-u>Unite junkfile/new junkfile<CR>
+  endif
 endfunction "}}}
 unlet s:plugin
 

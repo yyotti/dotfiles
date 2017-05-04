@@ -34,15 +34,6 @@ function! vimrc#packages#job#vim#start(command, ...) abort "{{{
   return job_idx
 endfunction "}}}
 
-function! vimrc#packages#job#vim#is_exited(job_id) abort "{{{
-  if !has_key(s:jobs, a:job_id)
-    return 1
-  endif
-
-  let job = s:jobs[a:job_id].job
-  return job_status(job) !=# 'run'
-endfunction "}}}
-
 function! s:out_cb(job_id, msg) abort "{{{
   if has_key(s:jobs, a:job_id)
     let options = s:jobs[a:job_id].options
