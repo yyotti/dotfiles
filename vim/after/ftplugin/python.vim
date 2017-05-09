@@ -18,7 +18,6 @@ setlocal textwidth=80
 setlocal smarttab
 setlocal expandtab
 setlocal nosmartindent
-setlocal foldnestmax=1
 
 if !empty(vimrc#packages#get('davidhalter/jedi-vim'))
   setlocal omnifunc=jedi#completions

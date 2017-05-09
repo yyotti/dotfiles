@@ -60,9 +60,6 @@ endif
 if filereadable(expand('~/.vimrc_local'))
   execute 'source' expand('~/.vimrc_local')
 endif
-if filereadable(expand('~/.nvimrc_local'))
-  execute 'source' expand('~/.nvimrc_local')
-endif
 
 set helplang&
 set helplang=ja,en

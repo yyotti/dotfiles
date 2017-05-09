@@ -171,25 +171,8 @@ unlet s:plugin
 let s:plugin = vimrc#packages#add('zchee/deoplete-go', {
       \   'condition': executable('go'),
       \   'depends': [ 'Shougo/deoplete.nvim' ],
-      \   'build': '',
+      \   'build': 'go get -u github.com/nsf/gocode && make',
       \ })
-function! s:plugin.pre_add() abort "{{{
-  let g:deoplete#sources#go#gocode_binary =
-        \ vimrc#utils#join_path($GOPATH, 'bin' , 'gocode')
-  let g:deoplete#sources#go#sort_class = [
-        \   'package',
-        \   'func',
-        \   'type',
-        \   'var',
-        \   'const',
-        \ ]
-  let g:deoplete#sources#go#use_cache = 1
-  let g:deoplete#sources#go#json_directory =
-        \ vimrc#utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
-  if !isdirectory(g:deoplete#sources#go#json_directory)
-    call mkdir(g:deoplete#sources#go#json_directory, 'p')
-  endif
-endfunction "}}}
 unlet s:plugin
 
 call vimrc#packages#add('Shougo/neomru.vim')
@@ -733,7 +716,9 @@ function! s:plugin.pre_add() abort "{{{
 endfunction "}}}
 unlet s:plugin
 
-let s:plugin = vimrc#packages#add('fatih/vim-go', { 'condition': executable('go') })
+let s:plugin = vimrc#packages#add('fatih/vim-go', {
+      \   'condition': executable('go')
+      \ })
 function! s:plugin.pre_add() abort "{{{
   let g:go_fmt_fail_silently = 1
 endfunction "}}}
@@ -788,23 +773,6 @@ let s:plugin = vimrc#packages#add('zchee/deoplete-jedi', {
       \   'depends': [ 'Shougo/deoplete.nvim' ],
       \   'build': 'git submodule update --init',
       \ })
-function! s:plugin.pre_add() abort "{{{
-  let g:deoplete#sources#go#gocode_binary =
-        \ vimrc#utils#join_path($GOPATH, 'bin' , 'gocode')
-  let g:deoplete#sources#go#sort_class = [
-        \   'package',
-        \   'func',
-        \   'type',
-        \   'var',
-        \   'const',
-        \ ]
-  let g:deoplete#sources#go#use_cache = 1
-  let g:deoplete#sources#go#json_directory =
-        \ vimrc#utils#join_path($HOME, '.cache', 'deoplete', 'go', 'cache')
-  if !isdirectory(g:deoplete#sources#go#json_directory)
-    call mkdir(g:deoplete#sources#go#json_directory, 'p')
-  endif
-endfunction "}}}
 unlet s:plugin
 
 call vimrc#packages#end()
