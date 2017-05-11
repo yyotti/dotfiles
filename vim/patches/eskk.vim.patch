@@ -1,105 +1,33 @@
 diff --git a/autoload/eskk/dictionary.vim b/autoload/eskk/dictionary.vim
-index 1903deb..1cb13ff 100644
+index 1903deb..9bbc609 100644
 --- a/autoload/eskk/dictionary.vim
 +++ b/autoload/eskk/dictionary.vim
-@@ -1248,47 +1248,57 @@ endfunction "}}}
- 
- " Initialize server.
- function! s:ServerDict_init() dict "{{{
--    if !eskk#util#has_vimproc()
--    \ || !vimproc#host_exists(self.host) || self.port <= 0
--        return
--    endif
-+  if !has('channel') || !vimproc#host_exists(self.host) || self.port <= 0
-+    return
-+  endif
- 
--    try
--        let self._socket = vimproc#socket_open(self.host, self.port)
--    catch
--        call eskk#logger#warn('server initialization failed.')
--    endtry
-+  try
-+    let self._channel = ch_open(self.host . ':' . self.port, { 'mode': 'raw' })
-+    if ch_status(self._channel) !=# 'open'
-+      let self._channel = {}
-+      call eskk#logger#warn('server initialization failed.')
-+    endif
-+  catch
-+    call eskk#logger#warn('server initialization failed.')
-+  endtry
- endfunction "}}}
- 
- function! s:ServerDict_request(command, key) dict "{{{
--    if empty(self._socket)
--        return ''
-+  if empty(self._channel)
-+    return ''
-+  endif
-+
-+  try
-+    let key = a:key
-+    if self.encoding !=# ''
-+      let key = iconv(key, &encoding, self.encoding)
-+    endif
-+    let result = ch_evalraw(
-+          \   self._channel,
-+          \   printf('%s%s%s',
-+          \     a:command, key, key[strlen(key)-1] !=# ' ' ? ' ' : ''),
-+          \   { 'timeout': self.timeout }
-+          \ )
-+    if self.encoding !=# ''
-+      let result = iconv(result, self.encoding, &encoding)
-     endif
- 
--    try
--        let key = a:key
--        if self.encoding != ''
--            let key = iconv(key, &encoding, self.encoding)
--        endif
+@@ -1270,8 +1270,9 @@ function! s:ServerDict_request(command, key) dict "{{{
+         if self.encoding != ''
+             let key = iconv(key, &encoding, self.encoding)
+         endif
 -        call self._socket.write(printf("%s%s%s\n",
 -        \ a:command, key, (key[strlen(key)-1] != ' ' ? ' ' : '')))
--        let result = self._socket.read_line(-1, self.timeout)
--        if self.encoding != ''
--            let result = iconv(result, self.encoding, &encoding)
--        endif
-+    if result ==# ''
-+      " Reset.
-+      call ch_evalraw(self._channel, '0')
-+      if ch_status(self._channel) ==# 'open'
-+        call ch_close(self._channel)
-+      endif
-+      call self.init()
-+    endif
-+  catch
-+    if ch_status(self._channel) ==# 'open'
-+      call ch_close(self._channel)
-+    endif
-+    return ''
-+  endtry
++        call self._socket.write(printf('%s%s%s%s',
++        \ a:command, key, (key[strlen(key)-1] != ' ' ? ' ' : ''),
++        \ self.last_cr ? "\n" : ''))
+         let result = self._socket.read_line(-1, self.timeout)
+         if self.encoding != ''
+             let result = iconv(result, self.encoding, &encoding)
+@@ -1279,7 +1280,7 @@ function! s:ServerDict_request(command, key) dict "{{{
  
--        if result == ''
--            " Reset.
+         if result == ''
+             " Reset.
 -            call self._socket.write("0\n")
--            call self._socket.close()
--            call self.init()
--        endif
--    catch
--        call self._socket.close()
--        return ''
--    endtry
--
--    return result == '' || result[0] ==# '4' ? '' : result[1:]
-+  return result == '' || result[0] ==# '4' ? '' : result[1:]
- endfunction "}}}
- function! s:ServerDict_lookup(key) dict "{{{
-     return self.request('1', a:key)
-@@ -1303,7 +1313,7 @@ function! s:ServerDict_search_candidate(key, okuri_rom) dict "{{{
- endfunction "}}}
- 
- let s:ServerDict = {
--\   '_socket': {},
-+\   '_channel': {},
- \   'host': '',
- \   'port': 1178,
++            call self._socket.write(printf('0%s', self.last_cr ? "\n" : ''))
+             call self._socket.close()
+             call self.init()
+         endif
+@@ -1309,6 +1310,7 @@ let s:ServerDict = {
  \   'encoding': 'euc-jp',
+ \   'timeout': 1000,
+ \   'type': 'dictionary',
++\   'last_cr': 1,
+ \
+ \   'init': eskk#util#get_local_funcref('ServerDict_init', s:SID_PREFIX),
+ \   'request': eskk#util#get_local_funcref('ServerDict_request', s:SID_PREFIX),
