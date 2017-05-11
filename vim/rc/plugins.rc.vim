@@ -270,36 +270,69 @@ endfunction "}}}
 unlet s:plugin
 
 " TODO Use Vaffle or defx
-let s:plugin = vimrc#packages#add('Shougo/vimfiler.vim', {
-      \   'depends': [ 'Shougo/unite.vim' ],
+" let s:plugin = vimrc#packages#add('Shougo/vimfiler.vim', {
+"       \   'depends': [ 'Shougo/unite.vim' ],
+"       \ })
+" function! s:plugin.pre_add() abort "{{{
+"   nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -invisible<CR>
+"
+"   let g:vimfiler_as_default_explorer = 1
+"   if IsWindows()
+"     let g:vimfiler_detect_drives = [
+"           \   'C:/', 'D:/', 'E:/', 'F:/', 'G:/',
+"           \   'H:/', 'I:/', 'J:/', 'K:/', 'L:/',
+"           \   'M:/', 'N:/',
+"           \ ]
+"
+"     let g:unite_kind_file_use_trashbox = 1
+"   endif
+"
+"   let g:vimfiler_force_overwrite_statusline = 0
+"
+"   autocmd MyAutocmd FileType vimfiler call <SID>vimfiler_settings()
+"   function! s:vimfiler_settings() abort "{{{
+"     call vimfiler#set_execute_file('vim', [ 'nvim', 'vim', 'notepad' ])
+"     call vimfiler#set_execute_file('txt', [ 'nvim', 'vim', 'notepad' ])
+"   endfunction "}}}
+" endfunction "}}}
+" function! s:plugin.post_add() abort "{{{
+"   call vimfiler#custom#profile('default', 'context', {
+"         \   'safe': 0,
+"         \   'parent': 0,
+"         \ })
+" endfunction "}}}
+" unlet s:plugin
+
+let s:plugin = vimrc#packages#add('cocopon/vaffle.vim', {
+      \   'condition': v:version >= 800 || has('nvim'),
       \ })
 function! s:plugin.pre_add() abort "{{{
-  nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -invisible<CR>
+  let g:vaffle_use_default_mappings = 0
 
-  let g:vimfiler_as_default_explorer = 1
-  if IsWindows()
-    let g:vimfiler_detect_drives = [
-          \   'C:/', 'D:/', 'E:/', 'F:/', 'G:/',
-          \   'H:/', 'I:/', 'J:/', 'K:/', 'L:/',
-          \   'M:/', 'N:/',
-          \ ]
+  nnoremap <silent> <Leader>fe :<C-u>Vaffle <C-r>=expand('%:h')<CR><CR>
 
-    let g:unite_kind_file_use_trashbox = 1
-  endif
+  " TODO Use Vaffle as default file explorer
 
-  let g:vimfiler_force_overwrite_statusline = 0
+  autocmd MyAutocmd FileType vaffle call <SID>vaffle_mappings()
+  function! s:vaffle_mappings() abort "{{{
+    nmap <buffer> h <Plug>(vaffle-open-parent)
+    nmap <buffer> l <Plug>(vaffle-open-current)
+    nmap <buffer> <CR> <Plug>(vaffle-open-selected)
 
-  autocmd MyAutocmd FileType vimfiler call <SID>vimfiler_settings()
-  function! s:vimfiler_settings() abort
-    call vimfiler#set_execute_file('vim', [ 'nvim', 'vim', 'notepad' ])
-    call vimfiler#set_execute_file('txt', [ 'nvim', 'vim', 'notepad' ])
-  endfunction
-endfunction "}}}
-function! s:plugin.post_add() abort "{{{
-  call vimfiler#custom#profile('default', 'context', {
-        \   'save': 0,
-        \   'parent': 0,
-        \ })
+    nmap <buffer> q <Plug>(vaffle-quit)
+    nmap <buffer> R <Plug>(vaffle-refresh)
+    nmap <buffer> . <Plug>(vaffle-toggle-hidden)
+
+    nmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
+    vmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
+    nmap <buffer> * <Plug>(vaffle-all)
+
+    nmap <buffer> K <Plug>(vaffle-mkdir)
+    nmap <buffer> N <Plug>(vaffle-new-file)
+    nmap <buffer> d <Plug>(vaffle-delete-selected)
+    nmap <buffer> m <Plug>(vaffle-move-selected)
+    nmap <buffer> r <Plug>(vaffle-rename-selected)
+  endfunction "}}}
 endfunction "}}}
 unlet s:plugin
 
@@ -391,6 +424,7 @@ function! s:plugin.pre_add() abort "{{{
     let g:eskk#server = {
           \   'host': 'localhost',
           \   'timeout': 200,
+          \   'last_cr': 0,
           \ }
   endif
 
@@ -459,6 +493,9 @@ function! s:plugin.pre_add() abort "{{{
   map t <Plug>(easymotion-tl)
   map F <Plug>(easymotion-Fl)
   map T <Plug>(easymotion-Tl)
+
+  map / <Plug>(easymotion-sn)
+  map # <Plug>(easymotion-sn)
 
   map ; <Plug>(easymotion-next)
   map , <Plug>(easymotion-prev)
