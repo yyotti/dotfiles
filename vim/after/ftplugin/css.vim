@@ -12,6 +12,5 @@ endif
 let b:undo_ftplugin .= 'setlocal iskeyword<'
 let b:undo_ftplugin .= ' | unlet! b:did_css_ftplugin'
 
-let b:not_del_last_whitespaces = 1
-
 setlocal iskeyword+=-
+setlocal iskeyword-=#

@@ -46,9 +46,6 @@ nnoremap <Space>N :<C-u>call ToggleOption('number')<CR>
 " Clear hlsearch
 nnoremap <silent> H :<C-u>nohlsearch<CR>
 
-nnoremap <silent> U viwU
-nnoremap <silent> gU viwu
-
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
       \ max([winheight(0) - 2, 1]) . "\<C-d>" .

@@ -43,7 +43,6 @@ let g:maplocalleader = ','
 " Disable mappings for some plugins
 nnoremap , <Nop>
 xnoremap , <Nop>
-nnoremap m <Nop>
 
 if IsWindows()
   " Change path separator
