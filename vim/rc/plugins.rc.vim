@@ -386,6 +386,8 @@ let s:plugin = vimrc#packages#add('tyru/eskk.vim', {
       \   'build': 'sh ~/.vim/script/eskk.vim-patch.sh'
       \ })
 function! s:plugin.pre_add() abort "{{{
+  let g:eskk#enable_completion = 0
+
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
 
@@ -579,6 +581,13 @@ function! s:plugin.pre_add() abort "{{{
     let g:neomake_go_enabled_makers = [ 'go', 'golint' ]
     let g:neomake_go_golint_maker = {
           \   'errorformat': '%E%f:%l:%c: %m,%-G%.%#'
+          \ }
+  endif
+
+  if executable('tomlv')
+    let g:neomake_toml_enabled_makers = [ 'tomlv' ]
+    let g:neomake_toml_tomlv_maker = {
+          \   'errorformat': "%trror in '%f': Near line %l %m"
           \ }
   endif
 endfunction "}}}
@@ -811,5 +820,7 @@ let s:plugin = vimrc#packages#add('zchee/deoplete-jedi', {
       \   'build': 'git submodule update --init',
       \ })
 unlet s:plugin
+
+call vimrc#packages#add('cespare/vim-toml')
 
 call vimrc#packages#end()
