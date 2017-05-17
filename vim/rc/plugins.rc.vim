@@ -319,19 +319,19 @@ function! s:plugin.pre_add() abort "{{{
     nmap <buffer> l <Plug>(vaffle-open-current)
     nmap <buffer> <CR> <Plug>(vaffle-open-selected)
 
-    nmap <buffer> q <Plug>(vaffle-quit)
-    nmap <buffer> R <Plug>(vaffle-refresh)
-    nmap <buffer> . <Plug>(vaffle-toggle-hidden)
+    nmap <buffer> <nowait> q <Plug>(vaffle-quit)
+    nmap <buffer> <nowait> R <Plug>(vaffle-refresh)
+    nmap <buffer> <nowait> . <Plug>(vaffle-toggle-hidden)
 
     nmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
     vmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
-    nmap <buffer> * <Plug>(vaffle-all)
+    nmap <buffer> <nowait> * <Plug>(vaffle-all)
 
-    nmap <buffer> K <Plug>(vaffle-mkdir)
-    nmap <buffer> N <Plug>(vaffle-new-file)
-    nmap <buffer> d <Plug>(vaffle-delete-selected)
-    nmap <buffer> m <Plug>(vaffle-move-selected)
-    nmap <buffer> r <Plug>(vaffle-rename-selected)
+    nmap <buffer> <nowait> K <Plug>(vaffle-mkdir)
+    nmap <buffer> <nowait> N <Plug>(vaffle-new-file)
+    nmap <buffer> <nowait> d <Plug>(vaffle-delete-selected)
+    nmap <buffer> <nowait> m <Plug>(vaffle-move-selected)
+    nmap <buffer> <nowait> r <Plug>(vaffle-rename-selected)
   endfunction "}}}
 endfunction "}}}
 unlet s:plugin
