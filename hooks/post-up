@@ -12,5 +12,5 @@ if [ ! -e "$PHP_MANUAL_DIR" ]; then
 fi
 
 if [ ! -e "$HOME/.config/nvim" ]; then
-    ln -s $HOME/.vim $HOME/.config/nvim
+    ln -s $(readlink $HOME/.vim) $HOME/.config/nvim
 fi

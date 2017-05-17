@@ -79,3 +79,8 @@ options head
 	for ($${1:i} = ${2:0}; $$1 ${3:<} ${4}; $$1++) {
 	    ${0:TARGET}
 	}
+
+snippet     fetchRow
+abbr        $cursor->fetchRow()
+options     word
+	$${1:cursor}->fetchRow()${0}
