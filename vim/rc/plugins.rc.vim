@@ -496,11 +496,10 @@ function! s:plugin.pre_add() abort "{{{
   map F <Plug>(easymotion-Fl)
   map T <Plug>(easymotion-Tl)
 
-  map / <Plug>(easymotion-sn)
-  map # <Plug>(easymotion-sn)
+  map g/ <Plug>(easymotion-sn)
+  map g# <Plug>(easymotion-sn)
 
   map ; <Plug>(easymotion-next)
-  map , <Plug>(easymotion-prev)
 
   map 'f <Plug>(easymotion-fln)
   map 't <Plug>(easymotion-tln)
