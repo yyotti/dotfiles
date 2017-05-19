@@ -147,16 +147,13 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if !empty(vimrc#packages#get('neomake/neomake'))
-    if !exists('*neomake#statusline#LoclistCounts')
-      return '%{""}'
-    endif
-
-    return '%{join(values(map(copy(neomake#statusline#LoclistCounts()),'
-          \ . '"printf(''%s(%d)'', v:key, v:val)")))}'
-  else
-    return exists('*qfstatusline#Update') ? qfstatusline#Update() : ''
+  if empty(vimrc#packages#get('neomake/neomake'))
+        \ || !exists('*neomake#statusline#LoclistCounts')
+    return ''
   endif
+
+  return '%{join(values(map(copy(neomake#statusline#LoclistCounts()),'
+        \ . '"printf(''%s(%d)'', v:key, v:val)")))}'
 endfunction "}}}
 
 autocmd MyAutocmd ColorScheme * call <SID>lightline_update()
