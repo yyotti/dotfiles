@@ -161,6 +161,8 @@ if [[ $GO_VER != "" ]]; then
   curl -sLO "https://storage.googleapis.com/golang/$ARCHIVE_NAME"
   sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
+
+  go get github.com/kr/godep
 fi
 echo ''
 
@@ -337,7 +339,7 @@ go get github.com/golang/lint/golint
 echo ''
 
 #=============================================================================
-# Install vimlparser (Gokang version)
+# Install vimlparser (Golang version)
 #
 echo 'Install vimlparser(Golang version).'
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
