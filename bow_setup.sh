@@ -181,18 +181,7 @@ cd "$GHQ_ROOT/github.com/$REPO"
 echo ''
 
 #=============================================================================
-# Install guilt
-#
-echo 'Install guilt.'
-REPO=koron/guilt
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-sudo make install
-
-echo ''
-
-#=============================================================================
-# Install Vim-kaoriya
+# Install Vim
 #
 echo 'Install Vim.'
 REPO=vim/vim
