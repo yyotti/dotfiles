@@ -34,11 +34,6 @@ if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
 
-UBUNTU_VERSION=$(grep DISTRIB_RELEASE </etc/lsb-release | sed 's/.*=\([0-9.]\+\)/\1/')
-if [[ $UBUNTU_VERSION != "" && $(echo "$UBUNTU_VERSION < 16.04" | bc) -eq 1 ]]; then
-  sudo sed -i -e "s/127.0.0.1 localhost/127.0.0.1 localhost $(hostname)/g" /etc/hosts
-fi
-
 #=============================================================================
 # Replace source url
 #
@@ -92,7 +87,6 @@ sudo apt -y install \
   python3-pip \
   libevent-2.0-5 \
   libevent-dev \
-  libboost-all-dev \
   cmake \
   libicu-dev \
   rcm \
@@ -207,7 +201,7 @@ cd "$GHQ_ROOT/github.com/$REPO"
 git submodule init
 git submodule update
 cd ./vim
-VER=$(git log --oneline -n 1 | awk '{{print $3}}')
+VER=$(git log --oneline -n 1 | awk '{{print $3}}' | sed 's/[^0-9.]//g')
 git checkout -b "v$VER"
 git config guilt.patchesdir "$GHQ_ROOT/vim-kaoriya/patches"
 cp -rf "$GHQ_ROOT/github.com/$REPO/patches/master" "$GHQ_ROOT/github.com/$REPO/patches/v$VER"
@@ -260,7 +254,7 @@ echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
+VER=$(git tag | tail -n 1 | sed 's/[^0-9.]//g')
 git checkout -b "v$VER" "$VER"
 sh autogen.sh
 ./configure
@@ -277,7 +271,7 @@ echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
+VER=$(git tag | tail -n 1 | sed 's/[^0-9.]//g')
 git checkout -b "v$VER" "$VER"
 ./autogen.sh
 ./configure
