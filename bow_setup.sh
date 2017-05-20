@@ -195,18 +195,11 @@ echo ''
 # Install Vim-kaoriya
 #
 echo 'Install Vim.'
-REPO=koron/vim-kaoriya
+REPO=vim/vim
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-git submodule init
-git submodule update
-cd ./vim
-VER=$(git log --oneline -n 1 | awk '{{print $3}}' | sed 's/[^0-9.]//g')
-git checkout -b "v$VER"
-git config guilt.patchesdir "$GHQ_ROOT/vim-kaoriya/patches"
-cp -rf "$GHQ_ROOT/github.com/$REPO/patches/master" "$GHQ_ROOT/github.com/$REPO/patches/v$VER"
-guilt init
-guilt push -a
+VER=$(git tag | tail -n 1)
+git checkout -b "v$VER" "$VER"
 cd ./src
 make autoconf
 cd ../
@@ -254,7 +247,7 @@ echo 'Install tmux.'
 REPO=tmux/tmux
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1 | sed 's/[^0-9.]//g')
+VER=$(git tag | tail -n 1)
 git checkout -b "v$VER" "$VER"
 sh autogen.sh
 ./configure
@@ -271,7 +264,7 @@ echo 'Install tig.'
 REPO=jonas/tig
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1 | sed 's/[^0-9.]//g')
+VER=$(git tag | tail -n 1)
 git checkout -b "v$VER" "$VER"
 ./autogen.sh
 ./configure
