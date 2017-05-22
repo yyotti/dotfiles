@@ -105,6 +105,16 @@ sudo apt -y install \
 echo ''
 
 #=============================================================================
+# Install pip packages
+#
+sudo pip3 install --upgrade pip
+sudo pip3 install \
+  psutil \
+  flake8 \
+  hacking \
+  pep8-naming
+
+#=============================================================================
 # Change default shell
 #
 echo 'Change default shell.'
@@ -266,11 +276,7 @@ echo ''
 # Install Powerline
 #
 echo 'Install Powerline.'
-REPO=powerline/powerline
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-pip3 install --user psutil
-pip3 install --user --editable="$GHQ_ROOT/github.com/$REPO"
+sudo pip3 install powerline-status
 
 echo ''
 
