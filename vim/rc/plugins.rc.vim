@@ -141,11 +141,6 @@ call vimrc#packages#add('Shougo/neosnippet-snippets')
 
 call vimrc#packages#add('vim-jp/vimdoc-ja')
 
-call vimrc#packages#add('nixprime/cpsm', {
-      \   'condition': !IsWindows(),
-      \   'build': 'env PY3=ON ./install.sh',
-      \ })
-
 call vimrc#packages#add('vim-scripts/smarty-syntax')
 
 call vimrc#packages#add('lambdalisue/vim-diffa')
@@ -709,7 +704,7 @@ unlet s:plugin
 
 let s:plugin = vimrc#packages#add('davidhalter/jedi-vim', {
       \   'condition': (has('python') || has('python3'))
-      \                   && executable('python') && !has('nvim'),
+      \                   && executable('python'),
       \   'build': 'git submodule update --init',
       \ })
 function! s:plugin.pre_add() abort "{{{

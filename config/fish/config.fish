@@ -18,7 +18,6 @@ end
 
 __add_user_paths \
     $HOME/bin \
-    $HOME/.local/bin \
     $GOPATH/bin \
     $HOME/.composer/vendor/bin
 

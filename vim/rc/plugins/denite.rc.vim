@@ -43,15 +43,10 @@ call denite#custom#map('normal',
       \ '<C-s>', '<denite:do_action:split>', 'noremap')
 
 call denite#custom#source('file_old', 'matchers', [ 'matcher_fuzzy' ])
-if has('nvim')
-  call denite#custom#source('file_rec,grep', 'matchers', [ 'matcher_cpsm' ])
-endif
 call denite#custom#source('file_old', 'converters',
       \ [ 'converter_relative_word' ])
 
-call denite#custom#source(
-      \   'grep', 'matchers', [ 'matcher_ignore_globs', 'matcher_cpsm' ]
-      \ )
+call denite#custom#source('grep', 'matchers', [ 'matcher_ignore_globs' ])
 
 call denite#custom#var('file_rec', 'command',
       \ [ 'rg', '--files', '--glob', '!.git' ])
