@@ -12,7 +12,7 @@ function fish_prompt --description 'Write out the prompt'
             if set -q fish_color_user_root
                 set color_user $fish_color_user_root
             else
-                set color_user $fish_color_user_root
+                set color_user $fish_color_user
             end
             set suffix '#'
         case '*'

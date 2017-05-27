@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO スクリプト内変数の命名を直す
+# TODO fish関連の部分を消す
 
 function on-error()
 {
@@ -121,12 +122,6 @@ echo 'Change default shell.'
 FISH_PATH=$(which fish)
 if ! grep -q "$FISH_PATH" </etc/shells; then
   echo "$FISH_PATH" | sudo tee -a /etc/shells
-fi
-if [[ -f $HOME/.bashrc ]] && ! grep -q 'if \[[ -t 1 \]]; then' <"$HOME/.bashrc"; then
-  if [[ ! -f $HOME/.bashrc_org ]]; then
-    mv "$HOME/.bashrc" "$HOME/.bashrc_org"
-  fi
-  echo "if [[ -t 1 ]]; then SHELL=\"$FISH_PATH\" exec \"$FISH_PATH\"; fi" >"$HOME/.bashrc"
 fi
 
 echo ''
