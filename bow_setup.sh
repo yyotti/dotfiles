@@ -161,7 +161,7 @@ if [[ $GO_VER != "" ]]; then
   sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 
-  go get github.com/kr/godep
+  go get -u github.com/kr/godep
 fi
 echo ''
 
@@ -169,7 +169,7 @@ echo ''
 # Install GHQ
 #
 echo 'Install GHQ.'
-go get github.com/motemen/ghq
+go get -u github.com/motemen/ghq
 GHQ_ROOT="$(ghq root)"
 
 echo ''
@@ -178,10 +178,8 @@ echo ''
 # Install FuzzyFinder
 #
 echo 'Install Fuzzy Finder.'
-REPO=junegunn/fzf
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-./install --key-bindings --completion --no-update-rc
+go get -u github.com/junegunn/fzf/src/fzf
+ln -s "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$GOPATH/bin/fzf-tmux"
 
 echo ''
 
@@ -309,9 +307,8 @@ echo ''
 #=============================================================================
 # Install golint
 #
-# ghqだとインストールまでやってくれないのでgoで取ってくる
 echo 'Install golint.'
-go get github.com/golang/lint/golint
+go get -u github.com/golang/lint/golint
 
 echo ''
 
@@ -319,7 +316,7 @@ echo ''
 # Install vimlparser (Golang version)
 #
 echo 'Install vimlparser(Golang version).'
-go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
+go get -u github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 #=============================================================================
 # Install git-now

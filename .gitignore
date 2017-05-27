@@ -6,3 +6,4 @@ config/powerline/mail_config.json
 vim/refs
 config/fish/functions/fzf_key_bindings.fish
 vim/pack/
+zsh/.*

@@ -1,16 +1,5 @@
-# go getのためにGOPATHを設定
-export GOPATH=$HOME/.go
+# zmodload zsh/zprof && zprof
 
-if [ -z $TMUX ]; then
-  # PATH設定
-  # パスの場所が存在しない可能性があるなら、末尾に(N-/)をつける
-  path=(
-  ~/bin(N-/)
-  ~/.local/bin(N-/)
-  $GOPATH/bin(N-/)
-  ~/.composer/vendor/bin(N-/)
-  $path
-  )
-fi
+export ZDOTDIR=$HOME/.zsh
 
-# vim:set ts=8 sts=2 sw=2 tw=0 expandtab foldmethod=marker:
+source $ZDOTDIR/zshenv

@@ -1,0 +1,907 @@
+# tmux {{{
+_use_tmux=${USE_TMUX:-true}
+if $_use_tmux && [[ $- == *i* && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
+  ID="$(tmux list-sessions 2>/dev/null)"
+  if [[ $ID == '' ]]; then
+    SHELL="$(which zsh 2>/dev/null)" tmux new-session
+  elif (( ${+commands[fzf]} )); then
+    # TODO Check fzf,peco,percol,...
+    create_new_session="Create New Session"
+    ID="${create_new_session}:\n$ID"
+    SEL_ID="$(echo "$ID" | fzf | cut -d: -f1)"
+    if [[ $SEL_ID == $create_new_session ]]; then
+      SHELL="$(which zsh 2>/dev/null)" tmux new-session
+    else
+      if [[ $SEL_ID != '' ]]; then
+        SHELL="$(which zsh 2>/dev/null)" tmux attach-session -t "$SEL_ID"
+      else
+        : # Start normally
+      fi
+    fi
+  else
+    : # Start normally
+  fi
+fi
+
+# }}}
+
+# Show the execution consumed resource
+# If the command takes over following sec.
+# REPORTTIME=5
+
+# options {{{
+
+# Changing Directories {{{
+
+# ディレクトリ名だけでcd
+setopt auto_cd
+
+# cdしたらpushd
+setopt auto_pushd
+
+# ディレクトリが無ければ先頭に'~'をつけて処理
+# setopt cdable_vars
+
+# リンク先を絶対参照して'..'を処理
+# setopt chase_dots
+
+# symlinkを追跡してオリジナルにcdする
+# setopt chase_links
+
+# よりPOSIX標準に準拠する
+setopt posix_cd
+
+# 同じディレクトリは2度pushdしない
+setopt pushd_ignore_dups
+
+# pushdの+と-の意味を交換
+# setopt pushd_minus
+
+# pushdやpopdで出力を行わない
+setopt pushd_silent
+
+# 引数なしのpushdは'pushd $HOME'とする
+setopt pushd_to_home
+
+# }}}
+
+# Completion {{{
+
+# 補完の出力を上書きしない
+# unsetopt always_last_prompt
+
+# 完全な補完をしたらカーソルを末尾へ移動
+setopt always_to_end
+
+# 曖昧な補完で候補をリストアップしない
+# unsetopt auto_list
+
+# Tabキーを連打しても選択を移動しない
+# unsetopt auto_menu
+
+# 変数がディレクトリの場合に変数名をディレクトリ名として使用
+# setopt auto_name_dirs
+
+# 変数名の賢い補完
+# unsetopt auto_param_keys
+
+# ディレクトリを補完した場合は最後にスラッシュをつける
+# unsetopt auto_param_slash
+
+# ディレクトリの補完で付いたスラッシュを自動的に削除
+# unsetopt auto_remove_slash
+
+# Tabを3回押すまでリスト表示しない（ただし menu_complete が優先）
+# setopt bash_auto_list
+
+# エイリアスを別のコマンド名として処理する
+# setopt complete_aliases
+
+# カーソル部分から補完を開始する
+# setopt complete_in_word
+
+# 補完のグロブを展開せずに適合ワードをサイクルする
+# setopt glob_complete
+
+# 最初のコマンド補完時に path の内容をハッシュしない
+# unsetopt hash_list_all
+
+# 補完候補が一意の場合もリスト表示
+# unsetopt list_ambiguous
+
+# Tabを押して補完が成功しない時のビープを抑制
+unsetopt list_beep
+
+# コンパクトに表示
+setopt list_packed
+
+# 選択時に横方向に移動する
+setopt list_rows_first
+
+# ファイルの末尾に種別の識別記号をつける
+# unsetopt list_types
+
+# リスト表示の時にはじめから1つ挿入する
+setopt menu_complete
+
+# 曖昧さが残っていても補完を終了する
+# unsetopt rec_exact
+
+# }}}
+
+# Expansion and Globbing {{{
+
+# 不正なパターン時にエラーメッセージを表示しない
+# unsetopt bad_pattern
+
+# グロブを適切に処理する
+# unsetopt bare_glob_qual
+
+# ブレース展開式がただの文字列の場合に1文字ずつ展開
+set brace_ccl
+
+# 大文字小文字を区別しない
+# unsetopt case_glob
+
+# 正規表現を使用しない
+# unsetopt case_match
+
+# csh形式のグロブを扱う
+# setopt csh_null_glob
+
+# =をグロブに使用できなくする
+# unsetopt equals
+
+# グロブに追加文字を使用する
+# setopt extended_glob
+
+# 数値計算を浮動小数点計算として扱う
+# setopt force_float
+
+# グロブを使用しない
+# unsetopt glob
+
+# 代入式の右辺で不明確なグロブ展開を使用する deprecated
+# setopt glob_assign
+
+# 明確な場合はファイル名先頭のドットを必要としない
+# setopt glob_dots
+
+# 変数の内容も展開に使用する
+# setopt glob_subst
+
+# sや&の展開修飾マッチングをパターンマッチにする
+setopt hist_subst_pattern
+
+# ブレース展開を無効にする
+# setopt ignore_braces
+
+# コマンド最初の閉じ大カッコ（}）が必要なくなる。ただし最後のコマンドに';'がないとエラーになる。
+# setopt ignore_close_braces
+
+# ksh形式のグロブを使用する
+# setopt ksh_glob
+
+# オプションの=以降の補完を可能にする
+setopt magic_equal_subst
+
+# グロブ展開後のディレクトリには末尾に'/'を付加
+setopt mark_dirs
+
+# マルチバイト文字を扱わない
+# unsetopt multibyte
+
+# ファイル生成パターンのエラーを表示しない
+# unsetopt no_match
+
+# エラーの表示の代わりにパターンを除去する
+# setopt null_glob
+
+# ファイル名生成を辞書順ではなく数値順にする
+# setopt numeric_glob_sort
+
+# 展開に含まれる配列を別々に展開する
+setopt rc_expand_param
+
+# 正規表現マッチング（param =~ regexp）でPCREを使用可能にする
+# unsetopt rematch_pcre
+
+# kshやshのグロブを使用する
+# setopt sh_glob
+
+# 定義されていない変数を空文字の変数として扱わない（エラーになる）
+# unsetopt unset
+
+# 関数内の変数がグローバルとして定義されていたら警告を出す
+# setopt warn_create_global
+
+# }}}
+
+# History {{{
+
+# ヒストリファイルをセッションごとに上書きする
+# unsetopt append_history
+
+# csh形式のヒストリ拡張を使用しない
+# unsetopt bang_hist
+
+# ヒストリにコマンド実行時刻を含める
+setopt extended_history
+
+# 書き込みリダイレクトで既存ファイルの上書きを許可する
+# setopt hist_allow_clobber
+
+# 存在しないヒストリの場合ビープで通知する
+unsetopt hist_beep
+
+# ヒストリが削られる場合、以前入力した同じものを先に削除する
+# setopt hist_expire_dups_fist
+
+# 書き込み中のヒストリファイルをロックする際に fcntl を使用する
+setopt hist_fcntl_lock
+
+# ヒストリ検索時に以前見たものを2度表示しない
+setopt hist_find_no_dups
+
+# 以前と同じコマンドはヒストリに保存しない
+setopt hist_ignore_all_dups
+
+# 直前のコマンドと同じコマンドはヒストリに保存しない
+setopt hist_ignore_dups
+
+# 行頭がスペースのコマンドはヒストリに保存しない
+setopt hist_ignore_space
+
+# ヒストリファイルの形式を変更する
+# setopt hist_lex_words
+
+# ヒストリから関数定義を除去する
+setopt hist_no_functions
+
+# ヒストリコマンドをヒストリから取り除く
+setopt hist_no_store
+
+# ヒストリ保存時に余分な空白を除去する
+setopt hist_reduce_blanks
+
+# ヒストリを一旦コピーファイルに保存しない
+# unsetopt hist_save_by_copy
+
+# ヒストリファイルに書き出すときに以前のコマンドと同じものを除去する
+setopt hist_save_no_dups
+
+# ヒストリコマンドを直接実行しない
+# setopt hist_verify
+
+# ヒストリをヒストリファイルに即座に書き込む
+setopt inc_append_history
+
+# ヒストリ書き込み時間をヒストリファイルに追加する
+# setopt inc_append_history_time
+
+# ヒストリの読み出しと書き込みを同時に行う
+setopt share_history
+
+# }}}
+
+# Initializations {{{
+
+# すべての変数を自動的にexportする
+# setopt all_export
+
+# エクスポートフラグ(-x)をもつ変数が自動的にグローバル(-g)にならない
+# unsetopt global_export
+
+# 起動時に /etc/zshenv を除く /etc 以下の設定ファイル群を読み込まない
+# unsetopt global_rcs
+
+# 起動時に /etc/zshenv を除く全ての設定ファイルを読み込まない
+# unsetopt rcs
+
+# }}}
+
+# Input/Output {{{
+
+# エイリアスを拡張しない
+# unsetopt aliases
+
+# リダイレクトによる入出力制御
+# unsetopt clobber
+
+# スペルミスの修正をする
+setopt correct
+
+# コマンド行の全ての引数に対してスペルミスの修正を行う
+# setopt correct_all
+
+# スペルミスの修正時にDvorak配列として修正する
+# setopt dvorak
+
+# フロー制御(Ctrl+S,Ctrl+Q)を無効化する
+unsetopt flow_control
+
+# EOFを読み込んでも終了しない
+# setopt ignore_eof
+
+# 対話的シェルでも#以降をコメントとみなす
+setopt interactive_comments
+
+# コマンドの場所をその場所の最初の実行時にハッシュしない
+# unsetopt hash_cmds
+
+# コマンドのハッシュ時にそれを含むディレクトリをハッシュしない
+# unsetopt hash_dirs
+
+# 実行権限が付与されているコマンド以外はハッシュしない
+setopt hash_executables_only
+
+# メールファイルにアクセスがあると警告を出す
+setopt mail_warning
+
+# コマンド名に/が含まれていてもそれを含めたパスの検索を行う
+setopt path_dirs
+
+# 効果不明
+# setopt path_script
+
+# マルチバイト文字を処理する
+# setopt print_eight_bit
+
+# 終了コード($?)を表示する
+# setopt print_exit_value
+
+# シングルクォート内のシングルクォートを許可する
+# setopt rc_quotes
+
+# 'rm *'の実行時に警告を表示しない
+# setopt rm_star_silent
+
+# 'rm *'の実行前に10秒間の猶予を与える
+# setopt rm_star_wait
+
+# 省略形式のループ(forなど)を許可しない
+# unsetopt short_loops
+
+# バッククォートの数が合わない場合に最後のバッククォートを無視する
+# setopt sun_keyboard_hack
+
+# }}}
+
+# Job Control {{{
+
+# disownコマンドでジョブテーブルから除去したjobに自動的にCONTシグナルを送信する
+setopt auto_continue
+
+# サスペンドしたjobをそのコマンド名で再開する
+setopt auto_resume
+
+# バックグラウンドのjobの優先度を下げない
+unsetopt bg_nice
+
+# バックグラウンドjobがある際にzshを終了しても何も警告しない
+# unsetopt check_jobs
+
+# 実行中のjobがある場合にzshを終了するとそのjobにHUPシグナルを送信しない（道連れにする）
+# unsetopt hup
+
+# jobsで表示されるjobリストを冗長にする
+# setopt long_list_jobs
+
+# jobコントロールを許可する（インタラクティブシェルではデフォルト）
+# setopt monitor
+
+# バックグラウンドjobが終了しても即座に通知しない
+# unsetopt notify
+
+# POSIX標準に準拠したjobコントロールを使用する
+# setopt posix_jobs
+
+# }}}
+
+# Prompting {{{
+
+# プロンプトで!を特殊文字として扱わない
+# unsetopt prompt_bang
+
+# プロンプトで改行コードの無い行を出力しない
+# unsetopt prompt_cr
+
+# prompt_crで出力されなかった行を反転文字で通知
+# unsetopt prompt_sp
+
+# プロンプトで%を特殊文字として扱わない
+# unsetopt prompt_percent
+
+# プロンプトで拡張変数などを利用する
+setopt prompt_subst
+
+# コマンド実行時に右プロンプトの表示を削除する
+setopt transient_rprompt
+
+# }}}
+
+# Scripts and Functions {{{
+# 互換性を考えるとこの種類のオプションを変更するのは好ましくないので省略
+# }}}
+
+# Shell Emulation {{{
+# 互換性を考えるとこの種類のオプションを変更するのは好ましくないので省略
+# }}}
+
+# Shell State {{{
+# 互換性を考えるとこの種類のオプションを変更するのは好ましくないので省略
+# }}}
+
+# Zsh Line Editor (ZLE) {{{
+
+# ZLEのエラー時にビープで通知しない
+unsetopt beep
+
+# 通常では使用されない特殊記号を正しく表示する
+# setopt combining_chars
+
+# Emacsのキーバインディングを使用する
+# setopt emacs
+
+# ZLEをOverstrikeモードで起動
+# setopt overstrike
+
+# シングルラインエディットにする
+# setopt single_line_zle
+
+# Viのキーバインディングを使用する
+setopt vi
+
+# ZLEを使用する（インタラクティブシェルではデフォルト）
+setopt zle
+
+# }}}
+
+# }}}
+
+# autoload {{{
+autoload -Uz compinit
+autoload -Uz history-search-end
+autoload -Uz colors
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+# }}}
+
+# Completions {{{
+compinit
+
+# git-now
+if (( ${+commands[git-now]} )) && [[ $GHQ_ROOT != '' ]]; then
+  fpath=($GHQ_ROOT/github.com/iwata/git-now/etc(N-/) $fpath)
+fi
+
+# 補完時に大文字小文字を区別しない
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# Shift+Tab : reverse menu
+bindkey '^[[Z' reverse-menu-complete
+# }}}
+
+# plugins {{{
+if [[ $_PLUGINS_DIR == '' ]]; then
+  readonly _PLUGINS_DIR=$ZDOTDIR/.plugins
+fi
+if [[ ! -d $_PLUGINS_DIR ]]; then
+  mkdir -p $_PLUGINS_DIR
+fi
+_PLUGIN_DIR=''
+_ZFUNC_DIR=''
+
+# zsh-completions {{{
+# Warning!! load before compinit
+# _PLUGIN_DIR=$_PLUGINS_DIR/zsh-completions
+# if [[ ! -d $_PLUGIN_DIR ]]; then
+#   git clone https://github.com/zsh-users/zsh-completions.git $_PLUGIN_DIR
+#   chmod 755 $_PLUGIN_DIR
+#   chmod 755 $_PLUGIN_DIR/src
+#   rm -f $ZDOTDIR/.zcompdump
+# fi
+# fpath=($_PLUGIN_DIR/src(N-/) $fpath)
+# }}}
+
+# pure {{{
+# _ZFUNC_DIR=$ZDOTDIR/zfunctions
+# if [[ ! -d $_ZFUNC_DIR ]]; then
+#   mkdir -p $_ZFUNC_DIR
+# fi
+# fpath=($_ZFUNC_DIR(N-/) $fpath)
+#
+# _PLUGIN_DIR=$_PLUGINS_DIR/pure
+# if [[ ! -d $_PLUGIN_DIR ]]; then
+#   git clone https://github.com/sindresorhus/pure.git $_PLUGIN_DIR
+#   ln -s $_PLUGIN_DIR/pure.zsh $_ZFUNC_DIR/prompt_pure_setup
+#   ln -s $_PLUGIN_DIR/async.zsh $_ZFUNC_DIR/async
+# fi
+# autoload -U promptinit
+# promptinit
+# prompt pure
+# }}}
+
+# zsh-syntax-highlighting {{{
+# _PLUGIN_DIR=$_PLUGINS_DIR/zsh-syntax-highlighting
+# if [[ ! -d $_PLUGIN_DIR ]]; then
+#   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $_PLUGIN_DIR
+# fi
+# source $_PLUGIN_DIR/zsh-syntax-highlighting.zsh
+# }}}
+
+# FuzzyFinder {{{
+_FZF_HOME="$GOPATH/src/github.com/junegunn/fzf"
+if [[ $- == *i* && -d $_FZF_HOME ]]; then
+  export FZF_TMUX=1
+
+  # # TODO agなどコマンドを分ける(like denite.nvim)
+  # export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | cut -b3-"
+  # export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+
+  # TODO プロンプトに入力している文字列であらかじめ絞りたい
+
+  source "$_FZF_HOME/shell/completion.zsh"
+  source "$_FZF_HOME/shell/key-bindings.zsh"
+
+  function fzf-ghq-widget()
+  {
+    setopt localoptions pipefail 2>/dev/null
+
+    local dir=( $(ghq list | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+    local ret=$?
+
+    if [[ $dir == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}${GHQ_ROOT}/${dir}"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+  }
+  zle -N fzf-ghq-widget
+  bindkey '^G' fzf-ghq-widget
+
+  function fzf-vim-plugins-widget()
+  {
+    local _vim_plugins_dir="$HOME/.vim/pack/bundle/opt"
+    local dir=''
+    local ret=0
+
+    if [[ -d $_vim_plugins_dir ]]; then
+      setopt localoptions pipefail 2>/dev/null
+
+      dir=( $(find "$_vim_plugins_dir" -mindepth 1 -maxdepth 1 -type d | sed "s#^${_vim_plugins_dir}/##" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+      ret=$?
+    fi
+
+    if [[ $dir == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}${_vim_plugins_dir}/${dir}"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+  }
+  zle -N fzf-vim-plugins-widget
+  bindkey '^V' fzf-vim-plugins-widget
+
+  # Change default keybinds
+  bindkey '^F' fzf-file-widget
+  bindkey '^T' fzf-cd-widget
+  bindkey -r '\ec'
+fi
+# }}}
+
+# }}}
+
+# aliases {{{
+alias ls='ls --color=auto'
+alias ll='ls -lF'
+alias la='ls -lA'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+if (( ${+commands[tig]} )); then
+  alias tiga='tig --all'
+fi
+# }}}
+
+# histories {{{
+HISTFILE=$ZDOTDIR/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+
+# Ctrl+P/N : history search
+bindkey '^P' history-beginning-search-backward-end
+bindkey '^N' history-beginning-search-forward-end
+# }}}
+
+# colors {{{
+
+# LS_COLORSが設定されているなら補完にも同じ色を設定する
+if [[ $LS_COLORS != '' ]]; then
+  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi
+
+# 256色のカラーコードを表示する
+function listcolors() # {{{
+{
+  echo standard colors:
+  for c in {000..015}; do
+    echo -n "\e[38;5;${c}m $c\e[0m"
+    [[ $((c%6)) == 5 ]] && echo
+  done
+  echo
+
+  echo
+
+  echo 256 colors:
+  for c in {016..255}; do
+    echo -n "\e[38;5;${c}m $c\e[0m"
+    [[ $(($((c-16))%6)) == 5 ]] && echo
+  done
+  echo
+}
+# }}}
+
+# }}}
+
+# prompt {{{
+function __is_root()
+{
+  [[ $UID == 0 ]]
+  return $?
+}
+
+# PROMPT
+if [[ $_VCS_INFO_FILE == '' ]]; then
+  readonly _VCS_INFO_FILE="$ZDOTDIR/.zsh_vcs_info"
+fi
+
+_VCS_INFO=''
+_root_prefix=''
+_root_suffix=''
+_color_cwd="${PROMPT_COLOR_CWD:-010}"
+_color_user="${PROMPT_COLOR_USER:-006}"
+_color_host="${PROMPT_COLOR_HOST:-012}"
+if __is_root; then
+  # for root
+  _root_prefix='%B'
+  _root_suffix='%b'
+  _color_cwd=${PROMPT_COLOR_CWD_ROOT:-$_color_cwd}
+  _color_user=${PROMPT_COLOR_USER_ROOT:-009}
+  _color_host=${PROMPT_COLOR_HOST_ROOT:-$_color_host}
+fi
+
+function __prompt()
+{
+  echo -e "${root_prefix}[%F{$_color_user}%n%f@%F{$_color_host}%m%f:%F{$_color_cwd}%1~%f]${root_suffix} ${_VCS_INFO}\n%# "
+}
+PROMPT='$(__prompt)'
+
+# PROMPT2
+function __prompt2()
+{
+  local _color_prompt2="${PROMPT2_COLOR:-006}"
+
+  if __is_root; then
+    # for root
+    _color_prompt2="${PROMPT2_COLOR:-$_color_prompt2}"
+  fi
+
+  echo "%F{$_color_prompt2}|> %f"
+}
+PROMPT2='$(__prompt2)'
+
+# SPROMPT
+_color_sprompt=${SPROMPT_COLOR:-011}
+SPROMPT="%F{$_color_sprompt}%r is correct?%f [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:"
+
+# RPROMPT
+RPROMPT="%~"
+
+# vcs_info {{{
+
+# 以下の3つのメッセージをエクスポートする
+#   $vcs_info_msg_0_: 通常メッセージ用(緑)
+#   $vcs_info_msg_1_: 警告メッセージ用(黄)
+#   $vcs_info_msg_2_: エラーメッセージ用(赤)
+zstyle ':vcs_info:*' max-exports 3
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' formats '(%b)' '%c%u %m'
+zstyle ':vcs_info:git:*' actionformats '(%b)' '%c%u %m' '<!%a>'
+zstyle ':vcs_info:git:*' check-for-changes true
+# TODO ステージ/アンステージの文字を調整
+zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
+zstyle ':vcs_info:git:*' unstagedstr "-" # %uで表示する文字列
+
+# }}}
+
+# hooks
+
+# formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+# のメッセージを設定する直前のフック関数
+# 今回の設定の場合はformatの時は2つ、actionformatsの時は3つメッセージがあるので
+# 各関数が最大3回呼び出される
+# TODO untrackedが遅い
+# TODO hookは全部1つにまとめる
+zstyle ':vcs_info:git+set-message:*' \
+  hooks \
+  git-hook-begin \
+  git-untracked \
+  git-push-status \
+  git-nomerge-branch \
+  git-stash-count
+
+# フックの最初の関数
+# gitの作業コピーのあるディレクトリのみフック関数を呼び出すようにする
+# (.gitディレクトリ内にいるときは呼び出さない)
+# .gitディレクトリ内では git status --porcelain などがエラーになるため
+function +vi-git-hook-begin() {
+  if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
+    # 0以外を返すとそれ以降のフック関数は呼び出されない
+    return 1
+  fi
+
+  return 0
+}
+
+# untrackedファイル表示
+#
+# untrackedファイルがある場合はunstaged(%u)に?を表示
+function +vi-git-untracked() {
+  # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+  if [[ $1 != '1' ]]; then
+    return 0
+  fi
+
+  # TODO どっちが速い？
+  if command git ls-files --others --exclude-standard --error-unmatch -- '*' >/dev/null 2>&1; then
+  # if command git status --porcelain 2>/dev/null | awk '{print $1}' | command grep -F '??' >/dev/null 2>&1 ; then
+    # unstaged(%u)に追加
+    hook_com[unstaged]+='?'
+  fi
+}
+
+# pushしていないコミットの件数表示
+#
+# リモートリポジトリにpushしていないコミットの件数を pN という形式でmisc(%m)に表示する
+function +vi-git-push-status() {
+  # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+  if [[ $1 != '1' ]]; then
+    return 0
+  fi
+
+  if [[ ${hook_com[branch]} != 'master' ]]; then
+    # masterブランチでなければ何もしない
+    return 0
+  fi
+
+  # pushしていないコミット数を取得
+  local ahead="$(command git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')"
+
+  if [[ $ahead -gt 0 ]]; then
+    # misc(%m)に追加
+    hook_com[misc]+="(p${ahead})"
+  fi
+}
+
+# マージしていない件数表示
+#
+# master以外のブランチにいる場合に、現在のブランチ上でまだmasterにマージしていないコミットの
+# 件数を(mN)という形式でmisc(%m)に表示
+function +vi-git-nomerge-branch() {
+  # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+  if [[ $1 != '1' ]]; then
+    return 0
+  fi
+
+  if [[ ${hook_com[branch]} == 'master' ]]; then
+    # masterブランチの場合は何もしない
+    return 0
+  fi
+
+  local nomerged="$(command git rev-list master.."${hook_com[branch]}" 2>/dev/null | wc -l | tr -d ' ')"
+
+  if [[ $nomerged -gt 0 ]]; then
+    # misc(%m)に追加
+    hook_com[misc]+="(m${nomerged})"
+  fi
+}
+
+# stash件数表示
+#
+# stashしている場合は:SNという形式でmisc(%m)に表示
+function +vi-git-stash-count()
+{
+  # zstyle formats, actionformatsの2番目のメッセージのみ対象にする
+  if [[ $1 != '1' ]]; then
+    return 0
+  fi
+
+  local stash="$(command git stash list 2>/dev/null | wc -l | tr -d ' ')"
+
+  if [[ $stash -gt 0 ]]; then
+    # misc(%m)に追加
+    hook_com[misc]+=":S${stash}"
+  fi
+}
+
+function __trim
+{
+  echo "$1" | sed -E 's/^\s*(.*)\s*$/\1/'
+}
+
+function __async()
+{
+  printf '%s' "$(__vcs_info)" >"$_VCS_INFO_FILE"
+  kill -s USR1 $$
+}
+
+function TRAPUSR1()
+{
+  _VCS_INFO=''
+  if [[ -f $_VCS_INFO_FILE ]]; then
+    _VCS_INFO="$(cat "$_VCS_INFO_FILE")"
+  fi
+  _ASYNC_PROC=0
+  zle && zle reset-prompt
+}
+
+function __vcs_info()
+{
+  local -a _messages
+  local _vcs_info=''
+
+  LANG=en_US.UTF-8 vcs_info
+
+  # TODO こんなことしなくてもいいように
+  # TODO なんならfishを参考にして自前で（zshのhookだけで）やってみる
+  local _msg0="$(__trim ${vcs_info_msg_0_})"
+  local _msg1="$(__trim ${vcs_info_msg_1_})"
+  local _msg2="$(__trim ${vcs_info_msg_2_})"
+
+  if [[ $_msg0 != '' ]]; then
+    # $vcs_info_msg_x_ をそれぞれ緑、黄、赤で表示
+    # TODO 色を変数にして設定
+    # TODO ここではなくて各メッセージの中で指定する
+    # TODO メッセージの形式をfishのプロンプトに合わせてみる
+    [[ $_msg0 != '' ]] && _messages+=( "%F{green}${_msg0}%f" )
+    [[ $_msg1 != '' ]] && _messages+=( "%F{yellow}${_msg1}%f" )
+    [[ $_msg2 != '' ]] && _messages+=( "%F{red}${_msg2}%f" )
+
+    # スペースで連結
+    _vcs_info="${(j: :)_messages}"
+  fi
+
+  echo "$_vcs_info"
+}
+
+_ASYNC_PROC=0
+function precmd()
+{
+  _VCS_INFO=''
+  zle && zle reset-prompt
+
+  if [[ $_ASYNC_PROC != 0 ]]; then
+    kill -s HUP $_ASYNC_PROC >/dev/null 2>&1 || :
+  fi
+
+  __async &!
+  _ASYNC_PROC=$!
+}
+
+# }}}
+
+if which zprof >/dev/null 2>&1; then
+  zprof | less
+fi
