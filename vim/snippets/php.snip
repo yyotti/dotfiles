@@ -80,7 +80,7 @@ options head
 	    ${0:TARGET}
 	}
 
-snippet     fetchRow
+snippet     fetch_row
 abbr        $cursor->fetchRow()
 options     word
-	$${1:cursor}->fetchRow()${0}
+	$${1:row} = $${2:cursor}->fetchRow()${0}
