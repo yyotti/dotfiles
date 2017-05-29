@@ -733,12 +733,6 @@ let s:plugin = vimrc#packages#add('zchee/deoplete-jedi', {
       \ })
 unlet s:plugin
 
-let s:plugin = vimrc#packages#add('bronson/vim-trailing-whitespace')
-function! s:plugin.pre_add() abort "{{{
-  let g:extra_whitespace_ignored_filetypes = [ 'markdown' ]
-endfunction "}}}
-unlet s:plugin
-
 call vimrc#packages#add('cespare/vim-toml')
 
 call vimrc#packages#end()
