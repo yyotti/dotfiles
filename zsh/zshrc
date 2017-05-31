@@ -676,60 +676,72 @@ function listcolors() # {{{
 # }}}
 
 # prompt {{{
-function __is_root()
+function __is_root() # {{{
 {
   [[ $UID == 0 ]]
   return $?
 }
+# }}}
 
-# PROMPT
-if [[ $_VCS_INFO_FILE == '' ]]; then
-  readonly _VCS_INFO_FILE="$ZDOTDIR/.zsh_vcs_info"
-fi
-
-_VCS_INFO=''
-_root_prefix=''
-_root_suffix=''
-_color_cwd="${PROMPT_COLOR_CWD:-010}"
-_color_user="${PROMPT_COLOR_USER:-006}"
-_color_host="${PROMPT_COLOR_HOST:-012}"
-if __is_root; then
-  # for root
-  _root_prefix='%B'
-  _root_suffix='%b'
-  _color_cwd=${PROMPT_COLOR_CWD_ROOT:-$_color_cwd}
-  _color_user=${PROMPT_COLOR_USER_ROOT:-009}
-  _color_host=${PROMPT_COLOR_HOST_ROOT:-$_color_host}
-fi
-
-function __prompt()
+function __init_color() # {{{
 {
-  echo -e "${root_prefix}[%F{$_color_user}%n%f@%F{$_color_host}%m%f:%F{$_color_cwd}%1~%f]${root_suffix} ${_VCS_INFO}\n%# "
-}
-PROMPT='$(__prompt)'
+  local _var_name=$1
+  local _default_color=$2
+  local _root_color=${3:-$_default_color}
 
-# PROMPT2
-function __prompt2()
-{
-  local _color_prompt2="${PROMPT2_COLOR:-006}"
-
-  if __is_root; then
-    # for root
-    _color_prompt2="${PROMPT2_COLOR:-$_color_prompt2}"
+  if [[ $_var_name == '' ]]; then
+    return
   fi
 
-  echo "%F{$_color_prompt2}|> %f"
+  if __is_root; then
+    eval ${_var_name}=$_root_color
+  else
+    eval ${_var_name}=$_default_color
+  fi
+
+  if [[ $(eval echo \$$_var_name) != '' ]]; then
+    eval ${_var_name}_start="%F{\$$_var_name}"
+    eval ${_var_name}_end='%f'
+  else
+    eval ${_var_name}_start=''
+    eval ${_var_name}_end=''
+  fi
 }
-PROMPT2='$(__prompt2)'
+# }}}
+
+# PROMPT
+__init_color prompt_color_cwd 010
+__init_color prompt_color_user 006 009
+__init_color prompt_color_host 012
+
+PROMPT=$(
+echo -en [
+echo -en "${prompt_color_user_start}%n${prompt_color_user_end}"
+echo -en @
+echo -en "${prompt_color_host_start}%m${prompt_color_host_end}"
+echo -en :
+echo -en "${prompt_color_cwd_start}%1~${prompt_color_cwd_end}"
+echo -en ]
+echo -en '${vcs_info}'
+echo
+echo -en '%# '
+)
+
+# PROMPT2
+__init_color prompt2_color 006
+
+PROMPT2="${prompt2_color_start}|>${prompt2_color_end} "
 
 # SPROMPT
-_color_sprompt=${SPROMPT_COLOR:-011}
-SPROMPT="%F{$_color_sprompt}%r is correct?%f [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:"
+__init_color sprompt_color 011
+SPROMPT="${sprompt_color_start}%r is correct?${sprompt_color_end} [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:"
 
 # RPROMPT
-RPROMPT="%~"
+__init_color rprompt_color
+RPROMPT="${rprompt_color_start}%~${rprompt_color_end}"
 
 # vcs_info {{{
+prompt_git_info_separator=' '
 
 # 以下の3つのメッセージをエクスポートする
 #   $vcs_info_msg_0_: 通常メッセージ用(緑)
@@ -738,14 +750,17 @@ RPROMPT="%~"
 zstyle ':vcs_info:*' max-exports 3
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '(%b)' '%c%u %m'
+zstyle ':vcs_info:git:*' formats '%b' '%c%u %m'
 zstyle ':vcs_info:git:*' actionformats '(%b)' '%c%u %m' '<!%a>'
 zstyle ':vcs_info:git:*' check-for-changes true
 # TODO ステージ/アンステージの文字を調整
 zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
-zstyle ':vcs_info:git:*' unstagedstr "-" # %uで表示する文字列
+zstyle ':vcs_info:git:*' unstagedstr "*" # %uで表示する文字列
 
 # }}}
+
+vcs_info_file=${PROMPT_VCS_INFO_FILE:-"/tmp/.zsh_vcs_info.$$"}
+vcs_info=''
 
 # hooks
 
@@ -755,6 +770,7 @@ zstyle ':vcs_info:git:*' unstagedstr "-" # %uで表示する文字列
 # 各関数が最大3回呼び出される
 # TODO untrackedが遅い
 # TODO hookは全部1つにまとめる
+# TODO リモートブランチも表示
 zstyle ':vcs_info:git+set-message:*' \
   hooks \
   git-hook-begin \
@@ -785,9 +801,7 @@ function +vi-git-untracked() {
     return 0
   fi
 
-  # TODO どっちが速い？
   if command git ls-files --others --exclude-standard --error-unmatch -- '*' >/dev/null 2>&1; then
-  # if command git status --porcelain 2>/dev/null | awk '{print $1}' | command grep -F '??' >/dev/null 2>&1 ; then
     # unstaged(%u)に追加
     hook_com[unstaged]+='?'
   fi
@@ -807,12 +821,13 @@ function +vi-git-push-status() {
     return 0
   fi
 
+  # TODO pull数も出す
   # pushしていないコミット数を取得
   local ahead="$(command git rev-list origin/master..master 2>/dev/null | wc -l | tr -d ' ')"
 
   if [[ $ahead -gt 0 ]]; then
     # misc(%m)に追加
-    hook_com[misc]+="(p${ahead})"
+    hook_com[misc]+="+${ahead}"
   fi
 }
 
@@ -835,7 +850,7 @@ function +vi-git-nomerge-branch() {
 
   if [[ $nomerged -gt 0 ]]; then
     # misc(%m)に追加
-    hook_com[misc]+="(m${nomerged})"
+    hook_com[misc]+="*${nomerged}"
   fi
 }
 
@@ -864,15 +879,15 @@ function __trim
 
 function __async()
 {
-  printf '%s' "$(__vcs_info)" >"$_VCS_INFO_FILE"
+  printf '%s' "$(__vcs_info)" >"$vcs_info_file"
   kill -s USR1 $$
 }
 
 function TRAPUSR1()
 {
-  _VCS_INFO=''
-  if [[ -f $_VCS_INFO_FILE ]]; then
-    _VCS_INFO="$(cat "$_VCS_INFO_FILE")"
+  vcs_info=''
+  if [[ -f $vcs_info_file ]]; then
+    vcs_info="$(cat "$vcs_info_file")"
   fi
   _ASYNC_PROC=0
   zle && zle reset-prompt
@@ -881,7 +896,7 @@ function TRAPUSR1()
 function __vcs_info()
 {
   local -a _messages
-  local _vcs_info=''
+  local vcs_info=''
 
   LANG=en_US.UTF-8 vcs_info
 
@@ -891,7 +906,7 @@ function __vcs_info()
   local _msg1="$(__trim ${vcs_info_msg_1_})"
   local _msg2="$(__trim ${vcs_info_msg_2_})"
 
-  if [[ $_msg0 != '' ]]; then
+  if [[ $vcs_info_msg_0_ != '' ]]; then
     # $vcs_info_msg_x_ をそれぞれ緑、黄、赤で表示
     # TODO 色を変数にして設定
     # TODO ここではなくて各メッセージの中で指定する
@@ -900,17 +915,16 @@ function __vcs_info()
     [[ $_msg1 != '' ]] && _messages+=( "%F{yellow}${_msg1}%f" )
     [[ $_msg2 != '' ]] && _messages+=( "%F{red}${_msg2}%f" )
 
-    # スペースで連結
-    _vcs_info="${(j: :)_messages}"
+    vcs_info="(${(j:|:)_messages})"
   fi
 
-  echo "$_vcs_info"
+  echo "$vcs_info"
 }
 
 _ASYNC_PROC=0
 function precmd()
 {
-  _VCS_INFO=''
+  vcs_info=''
   zle && zle reset-prompt
 
   if [[ $_ASYNC_PROC != 0 ]]; then
