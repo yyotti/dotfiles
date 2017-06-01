@@ -590,6 +590,27 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
   zle -N fzf-vim-plugins-widget
   bindkey '^V' fzf-vim-plugins-widget
 
+  function fzf-git-branch-widget()
+  {
+    setopt localoptions pipefail 2>/dev/null
+
+    local _branches=$(git branch -v 2>/dev/null)
+    local _branch=$(echo "$_branches" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd))
+    local _ret=$?
+
+    if [[ $_branch == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}$(echo "$_branch" | awk '{print $1}' | sed "s/.* //")"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $_ret
+  }
+  zle -N fzf-git-branch-widget
+  bindkey '^B' fzf-git-branch-widget
+
   # Change default keybinds
   bindkey '^F' fzf-file-widget
   bindkey '^T' fzf-cd-widget
