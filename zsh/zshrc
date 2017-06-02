@@ -467,21 +467,6 @@ autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 # }}}
 
-# Completions {{{
-compinit
-
-# git-now
-if (( ${+commands[git-now]} )) && [[ $GHQ_ROOT != '' ]]; then
-  fpath=($GHQ_ROOT/github.com/iwata/git-now/etc(N-/) $fpath)
-fi
-
-# 補完時に大文字小文字を区別しない
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-# Shift+Tab : reverse menu
-bindkey '^[[Z' reverse-menu-complete
-# }}}
-
 # plugins {{{
 if [[ $_PLUGINS_DIR == '' ]]; then
   readonly _PLUGINS_DIR=$ZDOTDIR/.plugins
@@ -494,14 +479,14 @@ _ZFUNC_DIR=''
 
 # zsh-completions {{{
 # Warning!! load before compinit
-# _PLUGIN_DIR=$_PLUGINS_DIR/zsh-completions
-# if [[ ! -d $_PLUGIN_DIR ]]; then
-#   git clone https://github.com/zsh-users/zsh-completions.git $_PLUGIN_DIR
-#   chmod 755 $_PLUGIN_DIR
-#   chmod 755 $_PLUGIN_DIR/src
-#   rm -f $ZDOTDIR/.zcompdump
-# fi
-# fpath=($_PLUGIN_DIR/src(N-/) $fpath)
+_PLUGIN_DIR=$_PLUGINS_DIR/zsh-completions
+if [[ ! -d $_PLUGIN_DIR ]]; then
+  git clone https://github.com/zsh-users/zsh-completions.git $_PLUGIN_DIR
+  chmod 755 $_PLUGIN_DIR
+  chmod 755 $_PLUGIN_DIR/src
+  rm -f $ZDOTDIR/.zcompdump
+fi
+fpath=($_PLUGIN_DIR/src(N-/) $fpath)
 # }}}
 
 # pure {{{
@@ -618,6 +603,21 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
 fi
 # }}}
 
+# }}}
+
+# Completions {{{
+compinit
+
+# git-now
+if (( ${+commands[git-now]} )) && [[ $GHQ_ROOT != '' ]]; then
+  fpath=($GHQ_ROOT/github.com/iwata/git-now/etc(N-/) $fpath)
+fi
+
+# 補完時に大文字小文字を区別しない
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# Shift+Tab : reverse menu
+bindkey '^[[Z' reverse-menu-complete
 # }}}
 
 # aliases {{{
