@@ -22,4 +22,5 @@
 	ft = fetch --prune
 	addignore = commit -m \"Add ignore files\"
 [ghq]
+	root = ~/.ghq
 	root = ~/.go/src

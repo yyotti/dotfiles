@@ -161,7 +161,8 @@ if [[ $GO_VER != "" ]]; then
   sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 
-  go get -u github.com/kr/godep
+  # TODO glide
+  # go get -u github.com/kr/godep
 fi
 echo ''
 
@@ -170,7 +171,7 @@ echo ''
 #
 echo 'Install GHQ.'
 go get -u github.com/motemen/ghq
-GHQ_ROOT="$(ghq root)"
+GHQ_ROOT="$GOPATH/src"
 
 echo ''
 
@@ -219,6 +220,8 @@ echo 'Install Neovim.'
 REPO=neovim/neovim
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
+VER=$(git tag | tail -n 1)
+git checkout -b "v$VER" "$VER"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 
@@ -325,6 +328,7 @@ echo 'Install git-now.'
 REPO=iwata/git-now
 ghq get $REPO
 cd "$GHQ_ROOT/github.com/$REPO"
+find . -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
 git submodule init
 git submodule update
 sudo make install

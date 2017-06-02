@@ -1,3 +1,5 @@
+typeset -U path cdpath fpath manpath
+
 # tmux {{{
 _use_tmux=${USE_TMUX:-true}
 if $_use_tmux && [[ $- == *i* && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
@@ -459,60 +461,39 @@ setopt zle
 
 # }}}
 
-# autoload {{{
-autoload -Uz compinit
-autoload -Uz history-search-end
-autoload -Uz colors
-autoload -Uz add-zsh-hook
-autoload -Uz vcs_info
-# }}}
-
 # plugins {{{
-if [[ $_PLUGINS_DIR == '' ]]; then
-  readonly _PLUGINS_DIR=$ZDOTDIR/.plugins
-fi
-if [[ ! -d $_PLUGINS_DIR ]]; then
-  mkdir -p $_PLUGINS_DIR
-fi
-_PLUGIN_DIR=''
-_ZFUNC_DIR=''
 
-# zsh-completions {{{
-# Warning!! load before compinit
-_PLUGIN_DIR=$_PLUGINS_DIR/zsh-completions
-if [[ ! -d $_PLUGIN_DIR ]]; then
-  git clone https://github.com/zsh-users/zsh-completions.git $_PLUGIN_DIR
-  chmod 755 $_PLUGIN_DIR
-  chmod 755 $_PLUGIN_DIR/src
-  rm -f $ZDOTDIR/.zcompdump
+# zplug {{{
+function __chmod_dir()
+{
+  find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
+}
+
+export ZPLUG_REPOS=$ZDOTDIR/plugins/repos
+export ZPLUG_HOME=$ZPLUG_REPOS/zplug/zplug
+if [[ ! -d $ZPLUG_HOME ]]; then
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+  __chmod_dir $ZPLUG_HOME
 fi
-fpath=($_PLUGIN_DIR/src(N-/) $fpath)
-# }}}
+source $ZPLUG_HOME/init.zsh
 
-# pure {{{
-# _ZFUNC_DIR=$ZDOTDIR/zfunctions
-# if [[ ! -d $_ZFUNC_DIR ]]; then
-#   mkdir -p $_ZFUNC_DIR
-# fi
-# fpath=($_ZFUNC_DIR(N-/) $fpath)
-#
-# _PLUGIN_DIR=$_PLUGINS_DIR/pure
-# if [[ ! -d $_PLUGIN_DIR ]]; then
-#   git clone https://github.com/sindresorhus/pure.git $_PLUGIN_DIR
-#   ln -s $_PLUGIN_DIR/pure.zsh $_ZFUNC_DIR/prompt_pure_setup
-#   ln -s $_PLUGIN_DIR/async.zsh $_ZFUNC_DIR/async
-# fi
-# autoload -U promptinit
-# promptinit
-# prompt pure
-# }}}
+zplug 'zplug/zplug', \
+  hook-build:'zplug --self-manage'
 
-# zsh-syntax-highlighting {{{
-# _PLUGIN_DIR=$_PLUGINS_DIR/zsh-syntax-highlighting
-# if [[ ! -d $_PLUGIN_DIR ]]; then
-#   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $_PLUGIN_DIR
-# fi
-# source $_PLUGIN_DIR/zsh-syntax-highlighting.zsh
+_REPO='zsh-users/zsh-completions'
+zplug $_REPO, \
+  hook-build:"__chmod_dir $ZPLUG_REPOS/$_REPO && rm -f $ZDOTDIR/.zcompdump"
+
+export ENHANCD_DIR=$ZDOTDIR/.enhancd
+_REPO='b4b4r07/enhancd'
+zplug $_REPO, \
+  use:init.sh
+
+if ! zplug check --verbose; then
+  zplug install
+fi
+
+zplug load
 # }}}
 
 # FuzzyFinder {{{
@@ -533,7 +514,7 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
   {
     setopt localoptions pipefail 2>/dev/null
 
-    local dir=( $(ghq list | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+    local dir=( $(ghq list --full-path | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
     local ret=$?
 
     if [[ $dir == '' ]]; then
@@ -541,7 +522,7 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
       return 0
     fi
 
-    LBUFFER="${LBUFFER}${GHQ_ROOT}/${dir}"
+    LBUFFER="${LBUFFER}${dir}"
     zle redisplay
     typeset -f zle-line-init >/dev/null && zle zle-line-init
     return $ret
@@ -605,12 +586,20 @@ fi
 
 # }}}
 
-# Completions {{{
-compinit
+# autoload {{{
+autoload -Uz compinit
+autoload -Uz history-search-end
+autoload -Uz colors
+autoload -Uz add-zsh-hook
+autoload -Uz vcs_info
+# }}}
 
+# Completions {{{
 # git-now
-if (( ${+commands[git-now]} )) && [[ $GHQ_ROOT != '' ]]; then
-  fpath=($GHQ_ROOT/github.com/iwata/git-now/etc(N-/) $fpath)
+if (( ${+commands[git-now]} )); then
+  for p in $(ghq root --all); do
+    fpath=($p/github.com/iwata/git-now/etc(N-/) $fpath)
+  done
 fi
 
 # 補完時に大文字小文字を区別しない
@@ -618,6 +607,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # Shift+Tab : reverse menu
 bindkey '^[[Z' reverse-menu-complete
+
+compinit
 # }}}
 
 # aliases {{{
@@ -630,6 +621,8 @@ alias mv='mv -i'
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
 fi
+
+alias -g F='| fzf'
 # }}}
 
 # histories {{{

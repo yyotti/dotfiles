@@ -716,6 +716,10 @@ function! s:plugin.pre_add() abort "{{{
   let g:jedi#completions_enabled = 0
   let g:jedi#smart_auto_mappings = 0
 
+  if has('python3')
+    let g:jedi#force_py_version = 3
+  endif
+
   if !empty(vimrc#packages#get('Shougo/neocomplete.vim'))
     if !exists('g:neocomplete#force_omni_input_patterns')
       let g:neocomplete#force_omni_input_patterns = {}
