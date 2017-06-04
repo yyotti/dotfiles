@@ -252,13 +252,13 @@ function! s:vimrc_items() abort "{{{
         \   sort(systemlist(command)),
         \   '{' .
         \     "'title': v:val," .
-        \     "'path': vimrc#utils#join_path(path, v:val)," .
+        \     "'path': vimrc#join_path(path, v:val)," .
         \   '}'
         \ )
 endfunction "}}}
 
+" TODO change to zsh
 function! s:fish_items() abort "{{{
-  " TODO show vimrc_items
   let prefix = expand('~/.config/fish/')
 
   return map(

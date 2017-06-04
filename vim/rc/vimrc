@@ -5,6 +5,9 @@
 " Delete all my autocmd
 augroup MyAutocmd
   autocmd!
+  autocmd FileType,ColorScheme,Syntax,BufNewFile,BufNew,BufRead *?
+        \ call vimrc#on_filetype()
+  autocmd CursorHold *.toml syntax sync minlines=300
 augroup END
 
 let s:is_cygwin = has('win32unix')
@@ -20,7 +23,12 @@ endif
 "-----------------------------------------------------------------------------
 " Plugin Settings:
 "
-call s:source_rc('plugins.rc.vim')
+call s:source_rc('dein.rc.vim')
+if has('vim_starting') && argc() > 0
+  call dein#call_hook('source')
+  call dein#call_hook('post_source')
+endif
+call vimrc#on_filetype()
 
 "-----------------------------------------------------------------------------
 " Encoding:
@@ -53,6 +61,11 @@ endif
 if !has('nvim') && has('gui_running')
   call s:source_rc('gui.rc.vim')
 endif
+
+"-----------------------------------------------------------------------------
+" Colorscheme:
+"
+call s:source_rc('colorscheme.rc.vim')
 
 "-----------------------------------------------------------------------------
 " Local Settings:

@@ -73,7 +73,6 @@ sudo apt -y autoremove
 #
 sudo apt -y install \
   zsh \
-  fish \
   git \
   build-essential \
   autoconf \
@@ -118,11 +117,13 @@ sudo pip3 install \
 #=============================================================================
 # Change default shell
 #
+# TODO 無意味？
 echo 'Change default shell.'
-FISH_PATH=$(which fish)
-if ! grep -q "$FISH_PATH" </etc/shells; then
-  echo "$FISH_PATH" | sudo tee -a /etc/shells
+ZSH_PATH=$(which zsh)
+if ! grep -q "$ZSH_PATH" </etc/shells; then
+  echo "$ZSH_PATH" | sudo tee -a /etc/shells
 fi
+# chsh -s "$ZSH_PATH"
 
 echo ''
 
@@ -171,7 +172,7 @@ echo ''
 #
 echo 'Install GHQ.'
 go get -u github.com/motemen/ghq
-GHQ_ROOT="$GOPATH/src"
+GHQ_ROOT="$HOME/.ghq"
 
 echo ''
 
@@ -332,6 +333,12 @@ find . -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
 git submodule init
 git submodule update
 sudo make install
+
+#=============================================================================
+# Install Lemonade
+#
+echo 'Install Lemonade.'
+go get -u github.com/pocke/lemonade
 
 echo "Setup finished."
 

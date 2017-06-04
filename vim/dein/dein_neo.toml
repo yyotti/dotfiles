@@ -1,0 +1,23 @@
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = 'has("nvim") && has("python3")'
+on_event = 'InsertEnter'
+depends = [ 'context_filetype.vim' ]
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+'''
+hook_source = 'source ~/.vim/rc/plugins/deoplete.rc.vim'
+
+[[plugis]]
+repo = 'zchee/deoplete-go'
+if = 'executable("go")'
+depends = [ 'deoplete.nvim' ]
+on_ft = 'go'
+build = 'go get -u github.com/nsf/gocode && make'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+if = '(has("python") || has("python3")) && executable("python")'
+depends = [ 'deoplete.nvim' ]
+on_ft = 'python'
+build = 'git submodule update --init'

@@ -1,3 +1,7 @@
+if [[ ! -f $ZDOTDIR/.zshrc.zwc || $ZDOTDIR/.zshrc -nt $ZDOTDIR/.zshrc.zwc ]]; then
+  zcompile $ZDOTDIR/.zshrc
+fi
+
 typeset -U path cdpath fpath manpath
 
 # tmux {{{
@@ -463,37 +467,33 @@ setopt zle
 
 # plugins {{{
 
-# zplug {{{
 function __chmod_dir()
 {
   find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
 }
 
-export ZPLUG_REPOS=$ZDOTDIR/plugins/repos
-export ZPLUG_HOME=$ZPLUG_REPOS/zplug/zplug
-if [[ ! -d $ZPLUG_HOME ]]; then
-  git clone https://github.com/zplug/zplug $ZPLUG_HOME
-  __chmod_dir $ZPLUG_HOME
+plugins_dir=$ZDOTDIR/plugins
+
+# zsh-completions {{{
+repo='zsh-users/zsh-completions'
+if [[ ! -d $plugins_dir/$repo ]]; then
+  git clone https://github.com/${repo} $plugins_dir/$repo
+  __chmod_dir $plugins_dir/$repo
+  rm -f $ZDOTDIR/.zcompdump
 fi
-source $ZPLUG_HOME/init.zsh
+fpath=($plugins_dir/$repo/src $fpath)
+# }}}
 
-zplug 'zplug/zplug', \
-  hook-build:'zplug --self-manage'
-
-_REPO='zsh-users/zsh-completions'
-zplug $_REPO, \
-  hook-build:"__chmod_dir $ZPLUG_REPOS/$_REPO && rm -f $ZDOTDIR/.zcompdump"
-
+# enhancd {{{
+repo='b4b4r07/enhancd'
+if [[ ! -d $plugins_dir/$repo ]]; then
+  git clone https://github.com/${repo} $plugins_dir/$repo
+  __chmod_dir $plugins_dir/$repo
+fi
 export ENHANCD_DIR=$ZDOTDIR/.enhancd
-_REPO='b4b4r07/enhancd'
-zplug $_REPO, \
-  use:init.sh
+source $plugins_dir/$repo/init.sh
+# }}}
 
-if ! zplug check --verbose; then
-  zplug install
-fi
-
-zplug load
 # }}}
 
 # FuzzyFinder {{{
@@ -600,6 +600,11 @@ if (( ${+commands[git-now]} )); then
   for p in $(ghq root --all); do
     fpath=($p/github.com/iwata/git-now/etc(N-/) $fpath)
   done
+fi
+
+# ghq
+if (( ${+commands[ghq]} )); then
+  fpath=($GOPATH/src/github.com/motemen/ghq/zsh(N-/) $fpath)
 fi
 
 # 補完時に大文字小文字を区別しない
@@ -870,6 +875,7 @@ function __trim
   echo "$1" | sed -E 's/^\s*(.*)\s*$/\1/'
 }
 
+# TODO zsh-asyncを使えるようなら使う
 function __async()
 {
   printf '%s' "$(__vcs_info)" >"$vcs_info_file"

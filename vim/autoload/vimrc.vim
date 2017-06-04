@@ -1,7 +1,12 @@
-let s:save_cpo = &cpoptions
-set cpoptions&vim
+function! vimrc#on_filetype() abort "{{{
+  if execute('filetype') =~# 'OFF'
+    silent! filetype plugin indent on
+    syntax enable
+    filetype detect
+  endif
+endfunction "}}}
 
-function! vimrc#utils#join_path(base, ...) abort "{{{
+function! vimrc#join_path(base, ...) abort "{{{
   let paths = filter(
         \   map(
         \     map(
@@ -16,7 +21,7 @@ function! vimrc#utils#join_path(base, ...) abort "{{{
   return empty(paths) ? a:base : join([ a:base ] + paths, '/')
 endfunction "}}}
 
-function! vimrc#utils#input(...) abort "{{{
+function! vimrc#input(...) abort "{{{
   new
   cnoremap <buffer> <Esc> __CANCELED__<CR>
   try
@@ -30,13 +35,10 @@ function! vimrc#utils#input(...) abort "{{{
   endtry
 endfunction "}}}
 
-function! vimrc#utils#error(msg) abort "{{{
+function! vimrc#error(msg) abort "{{{
   let msg = index([ v:t_string, v:t_number ], type(a:msg)) < 0
         \ ? string(a:msg) : a:msg
   echohl ErrorMsg
   echomsg msg
   echohl None
 endfunction "}}}
-
-let &cpoptions = s:save_cpo
-unlet s:save_cpo

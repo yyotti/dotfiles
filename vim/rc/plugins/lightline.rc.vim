@@ -108,11 +108,12 @@ endfunction "}}}
 
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ !empty(vimrc#packages#get('tpope/vim-fugitive')) && !empty(fugitive#head())
+        \ dein#tap('vim-fugitive') && !empty(fugitive#head())
 endfunction "}}}
 
 function! s:branch() abort "{{{
-  return s:branch_visible() ? (IsWindows() ? '' : "\u2b60 ") . fugitive#head() : ''
+  return s:branch_visible() ?
+        \ (IsWindows() ? '' : "\u2b60 ") . fugitive#head() : ''
 endfunction "}}}
 
 function! s:gitinfo_visible() abort "{{{
@@ -147,8 +148,7 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if empty(vimrc#packages#get('neomake/neomake'))
-        \ || !exists('*neomake#statusline#LoclistCounts')
+  if dein#tap('neomake') || !exists('*neomake#statusline#LoclistCounts')
     return ''
   endif
 

@@ -98,7 +98,7 @@ function! s:mkdir_as_necessary(dir, force) abort "{{{
     return
   endif
 
-  let ans = vimrc#utils#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
+  let ans = vimrc#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
   if type(ans) ==# v:t_string && ans =~? '^y\%[es]$'
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
   endif
@@ -122,9 +122,6 @@ function! s:del_last_whitespaces() abort "{{{
   call setpos('.', cursor)
   unlet cursor
 endfunction "}}}
-
-" Auto reload *.vim files
-autocmd MyAutocmd BufWritePost *.vim,.vimrc_local execute 'source' expand('%')
 
 " lcd git root directory
 if executable('git')
