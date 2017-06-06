@@ -11,7 +11,6 @@ if $_use_tmux && [[ $- == *i* && $TMUX == '' && (( ${+commands[tmux]} )) ]]; the
   if [[ $ID == '' ]]; then
     SHELL="$(which zsh 2>/dev/null)" tmux new-session
   elif (( ${+commands[fzf]} )); then
-    # TODO Check fzf,peco,percol,...
     create_new_session="Create New Session"
     ID="${create_new_session}:\n$ID"
     SEL_ID="$(echo "$ID" | fzf | cut -d: -f1)"
