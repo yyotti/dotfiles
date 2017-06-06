@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 
-# TODO スクリプト内変数の命名を直す
-# TODO fish関連の部分を消す
-
 function on-error()
 {
-  local status=$?
-  local script=$0
-  local line=$1
+  local _status=$?
+  local _script=$0
+  local _line=$1
   shift
 
-  local args=
-  for i in "$@"; do
-    args+="\"$i\" "
+  local _args=
+  for _i in "$@"; do
+    _args+="\"$_i\" "
   done
 
   cat <<_EOM_ >&2
 
 --------------------------------------------------
-Error occured on $script [Line $line]: Status $status
+Error occured on $_script [Line $_line]: Status $_status
 
-Status: $status
-Commandline: $script $args
+Status: $_status
+Commandline: $_script $_args
 --------------------------------------------------
 
 _EOM_
@@ -58,8 +55,6 @@ sudo add-apt-repository -y ppa:git-core/ppa
 sudo add-apt-repository -y ppa:martin-frost/thoughtbot-rcm
 # php5.6
 sudo add-apt-repository -y ppa:ondrej/php
-# fish
-sudo add-apt-repository -y ppa:fish-shell/release-2
 
 #=============================================================================
 # Update apt packages
@@ -102,7 +97,7 @@ sudo apt -y install \
   skkdic \
   zip
 
-echo ''
+echo
 
 #=============================================================================
 # Install pip packages
@@ -117,15 +112,14 @@ sudo pip3 install \
 #=============================================================================
 # Change default shell
 #
-# TODO 無意味？
 echo 'Change default shell.'
-ZSH_PATH=$(which zsh)
-if ! grep -q "$ZSH_PATH" </etc/shells; then
-  echo "$ZSH_PATH" | sudo tee -a /etc/shells
+zsh_path=$(which zsh)
+if ! grep -q "$zsh_path" </etc/shells; then
+  echo "$zsh_path" | sudo tee -a /etc/shells
 fi
-# chsh -s "$ZSH_PATH"
+chsh -s "$zsh_path"
 
-echo ''
+echo
 
 #=============================================================================
 # Install dotfiles
@@ -137,35 +131,35 @@ git remote set-url origin git@github.com:yyotti/dotfiles.git
 cd "$HOME"
 RCRC="$HOME/.dotfiles/rcrc" rcup -v
 
-echo ''
+echo
 
 #=============================================================================
 # Install Golang
 #
 echo 'Install Golang.'
-GO_VER=$( \
+go_ver=$( \
   curl -sL https://api.github.com/repos/golang/go/branches \
   | jq -r '.[]|select(.name|startswith("release-branch.go")).name' \
   | sort -r \
   | head -n 1 \
   | sed 's/release-branch\.//' \
   )
-if [[ $GO_VER != "" ]]; then
+if [[ $go_ver != "" ]]; then
   archi=$(uname -sm)
   case "$archi" in
-    Linux\ *64) ARCHIVE_NAME="$GO_VER.linux-amd64.tar.gz" ;;
-    Linux\ *86) ARCHIVE_NAME="$GO_VER.linux-386.tar.gz" ;;
+    Linux\ *64) archive_name="$go_ver.linux-amd64.tar.gz" ;;
+    Linux\ *86) archive_name="$go_ver.linux-386.tar.gz" ;;
     *) echo "Unknown OS: $archi"; exit 1 ;;
   esac
   cd /tmp
-  curl -sLO "https://storage.googleapis.com/golang/$ARCHIVE_NAME"
-  sudo tar -C /usr/local -xzf "$ARCHIVE_NAME"
+  curl -sLO "https://storage.googleapis.com/golang/$archive_name"
+  sudo tar -C /usr/local -xzf "$archive_name"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 
   # TODO glide
   # go get -u github.com/kr/godep
 fi
-echo ''
+echo
 
 #=============================================================================
 # Install GHQ
@@ -174,7 +168,7 @@ echo 'Install GHQ.'
 go get -u github.com/motemen/ghq
 GHQ_ROOT="$HOME/.ghq"
 
-echo ''
+echo
 
 #=============================================================================
 # Install FuzzyFinder
@@ -183,17 +177,17 @@ echo 'Install Fuzzy Finder.'
 go get -u github.com/junegunn/fzf/src/fzf
 ln -s "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$GOPATH/bin/fzf-tmux"
 
-echo ''
+echo
 
 #=============================================================================
 # Install Vim
 #
 echo 'Install Vim.'
-REPO=vim/vim
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
-git checkout -b "v$VER" "$VER"
+repo=vim/vim
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
+ver=$(git tag | tail -n 1)
+git checkout -b "v$ver" "$ver"
 cd ./src
 make autoconf
 cd ../
@@ -212,21 +206,21 @@ make
 sudo make install
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 
-echo ''
+echo
 
 #=============================================================================
 # Install neovim
 #
 echo 'Install Neovim.'
-REPO=neovim/neovim
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
-git checkout -b "v$VER" "$VER"
+repo=neovim/neovim
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
+ver=$(git tag | tail -n 1)
+git checkout -b "v$ver" "$ver"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 
-echo ''
+echo
 
 #=============================================================================
 # Install neovim-python
@@ -234,40 +228,40 @@ echo ''
 echo 'Install neovim-python'
 sudo pip3 install neovim
 
-echo ''
+echo
 
 #=============================================================================
 # Install tmux
 #
 echo 'Install tmux.'
-REPO=tmux/tmux
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
-git checkout -b "v$VER" "$VER"
+repo=tmux/tmux
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
+ver=$(git tag | tail -n 1)
+git checkout -b "v$ver" "$ver"
 sh autogen.sh
 ./configure
 make
 sudo make install
 sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
-echo ''
+echo
 
 #=============================================================================
 # Install tig
 #
 echo 'Install tig.'
-REPO=jonas/tig
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
-VER=$(git tag | tail -n 1)
-git checkout -b "v$VER" "$VER"
+repo=jonas/tig
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
+ver=$(git tag | tail -n 1)
+git checkout -b "v$ver" "$ver"
 ./autogen.sh
 ./configure
 make prefix=/usr/local
 sudo make install prefix=/usr/local
 
-echo ''
+echo
 
 #=============================================================================
 # Install Powerline
@@ -275,38 +269,36 @@ echo ''
 echo 'Install Powerline.'
 sudo pip3 install powerline-status
 
-echo ''
+echo
 
 #=============================================================================
 # Install Ripgrep
 #
-# TODO Cargoをインストールしてビルドする？
-# TODO ↑をやるならghq管理にする
 echo 'Install Ripgrep.'
 archi=$(uname -sm)
 case "$archi" in
-  Linux\ *64) ARCHI=x86_64 ;;
-  Linux\ *86) ARCHI=i686 ;;
+  Linux\ *64) archi=x86_64 ;;
+  Linux\ *86) archi=i686 ;;
   *) echo "Unknown OS: $archi"; exit 1 ;;
 esac
-RIPGREP_DOWNLOAD_URL=$( \
+ripgrep_download_url=$( \
   curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
-  | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$ARCHI'")).browser_download_url' \
+  | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$archi'")).browser_download_url' \
   )
-if [[ $RIPGREP_DOWNLOAD_URL != "" ]]; then
-  ARCHIVE_NAME=$(basename "$RIPGREP_DOWNLOAD_URL")
-  DIRNAME=$(basename "$ARCHIVE_NAME" .tar.gz)
+if [[ $ripgrep_download_url != "" ]]; then
+  archive_name=$(basename "$ripgrep_download_url")
+  dir=$(basename "$archive_name" .tar.gz)
   cd /tmp
-  curl -sLO "$RIPGREP_DOWNLOAD_URL"
+  curl -sLO "$ripgrep_download_url"
   mkdir -p "$HOME/opt"
   rm -fr "$HOME/opt/ripgrep"
-  tar -xzf "$ARCHIVE_NAME"
-  mv "$DIRNAME" "$HOME/opt/ripgrep"
+  tar -xzf "$archive_name"
+  mv "$dir" "$HOME/opt/ripgrep"
   mkdir -p "$HOME/bin"
   ln -s "$HOME/opt/ripgrep/rg" "$HOME/bin/rg"
 fi
 
-echo ''
+echo
 
 #=============================================================================
 # Install golint
@@ -314,7 +306,7 @@ echo ''
 echo 'Install golint.'
 go get -u github.com/golang/lint/golint
 
-echo ''
+echo
 
 #=============================================================================
 # Install vimlparser (Golang version)
@@ -326,9 +318,9 @@ go get -u github.com/haya14busa/go-vimlparser/cmd/vimlparser
 # Install git-now
 #
 echo 'Install git-now.'
-REPO=iwata/git-now
-ghq get $REPO
-cd "$GHQ_ROOT/github.com/$REPO"
+repo=iwata/git-now
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
 find . -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
 git submodule init
 git submodule update
