@@ -257,28 +257,28 @@ function! s:vimrc_items() abort "{{{
         \ )
 endfunction "}}}
 
-" TODO change to zsh
-function! s:fish_items() abort "{{{
-  let prefix = expand('~/.config/fish/')
+function! s:zsh_items() abort "{{{
+  let path = resolve(expand('~/.zsh'))
+  if !isdirectory(path)
+    return []
+  endif
 
-  return map(
-      \   filter(
-      \     glob(prefix . '**', 0, 1),
-      \     '!isdirectory(v:val)' .
-      \     ' && fnamemodify(v:val, ":t") !=# "fzf_key_bindings.fish"' .
-      \     ' && fnamemodify(v:val, ":t") !~# "fishd\\.[0-9a-f]\\+"'
-      \   ),
-      \   '{' .
-      \     "'title': strpart(v:val, strlen(prefix))," .
-      \     "'path': fnamemodify(v:val, ':p')," .
-      \   '}'
-      \ )
+  let command =
+        \ 'git -C ' . shellescape(path) . ' ls-files -co --exclude-standard'
+
+  let zshenv = resolve(expand('~/.zshenv'))
+  return [{ 'title': '.zshenv', 'path': zshenv }] + map(
+        \   sort(systemlist(command)),
+        \   '{' .
+        \     "'title': v:val," .
+        \     "'path': vimrc#join_path(path, v:val)," .
+        \   '}'
+        \ )
 endfunction "}}}
 
 call s:add_items('vim', s:vimrc_items())
 call s:add_items('git', s:simple_items('~/.gitconfig', '~/.tigrc') )
-call s:add_items('zsh', s:simple_items('~/.zshrc', '~/.zshenv'))
-call s:add_items('fish', s:fish_items())
+call s:add_items('zsh', s:zsh_items())
 call s:add_items('others', s:simple_items('~/.tmux.conf', '~/.ssh/config'))
 
 call s:build_menu()

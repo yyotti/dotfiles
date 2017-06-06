@@ -442,7 +442,7 @@ hook_post_source = '''
 
 [[plugins]]
 repo = 'yyotti/vim-autoupload'
-on_func = 'autoupload#init'
+on_path = '.*'
 hook_add = '''
   autocmd MyAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
         \ call autoupload#init(0)
@@ -450,13 +450,13 @@ hook_add = '''
         \ call autoupload#upload(0)
 '''
 
-# [[plugins]]
-# repo = 'benjifisher/matchit.zip'
-# hook_add = '''
-#   if exists('g:loaded_matchit')
-#     unlet g:loaded_matchit
-#   endif
-# '''
+[[plugins]]
+repo = 'benjifisher/matchit.zip'
+hook_add = '''
+  if exists('g:loaded_matchit')
+    unlet g:loaded_matchit
+  endif
+'''
 
 [[plugins]]
 repo = 'syngan/vim-vimlint'
@@ -553,40 +553,6 @@ hook_source = '''
           \ '^\s*from \|^\s*import \)\w*'
   endif
 '''
-
-# [[plugins]]
-# repo = 'lambdalisue/vim-findent'
-
-# [[plugins]]
-# repo = 'rhysd/vim-gfm-syntax'
-# on_event = 'BufRead'
-
-# [[plugins]]
-# repo = 'kana/vim-smartchr'
-# on_event = 'InsertCharPre'
-# hook_source = '''
-#   inoremap <expr> , smartchr#one_of(', ', ',')
-#   inoremap <expr> =
-#         \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-#         \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-#         \ : smartchr#one_of(' = ', '=', ' == ')
-#   augroup MyAutoCmd
-#     " Substitute .. into -> .
-#     autocmd FileType c,cpp inoremap <buffer> <expr> .
-#           \ smartchr#loop('.', '->', '...')
-#     autocmd FileType vim inoremap <buffer> <expr> .
-#           \ smartchr#loop('.', ' . ', '..', '...')
-#     autocmd FileType lisp,scheme,clojure inoremap <buffer> <expr> = =
-#
-#     autocmd FileType haskell,int-ghci
-#           \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
-#           \| inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
-#           \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
-#           \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
-#           \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
-#           \| inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..')
-#   augroup END
-# '''
 
 [[plugins]]
 repo = 'yyotti/neosnippet-php'
