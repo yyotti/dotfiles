@@ -616,9 +616,9 @@ compinit
 # }}}
 
 # aliases {{{
-alias ls='ls --color=auto'
-alias ll='ls -lF'
-alias la='ls -lA'
+alias ls='ls -hF --color=auto --time-style="+%Y/%m/%d %H:%M:%S"'
+alias ll='ls -l'
+alias la='ll -A'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -626,7 +626,9 @@ if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
 fi
 
-alias -g F='| fzf'
+if (( ${+commands[fzf]} )); then
+  alias -g F='| fzf'
+fi
 # }}}
 
 # histories {{{
