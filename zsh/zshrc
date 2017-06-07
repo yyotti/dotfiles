@@ -464,6 +464,16 @@ setopt zle
 
 # }}}
 
+# autoload {{{
+autoload -Uz \
+  compinit \
+  history-search-end \
+  colors \
+  add-zsh-hook \
+  vcs_info \
+  is-at-least
+# }}}
+
 # plugins {{{
 
 function __chmod_dir()
@@ -583,14 +593,6 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
 fi
 # }}}
 
-# autoload {{{
-autoload -Uz compinit
-autoload -Uz history-search-end
-autoload -Uz colors
-autoload -Uz add-zsh-hook
-autoload -Uz vcs_info
-# }}}
-
 # Completions {{{
 # git-now
 if (( ${+commands[git-now]} )); then
@@ -606,6 +608,9 @@ fi
 
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# 補完候補をキャッシュする
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path $HOME/.zsh/.completion-cache
 
 # Shift+Tab : reverse menu
 bindkey '^[[Z' reverse-menu-complete
@@ -718,6 +723,16 @@ function __init_color() # {{{
 __init_color prompt_color_cwd 010
 __init_color prompt_color_user 006 009
 __init_color prompt_color_host 012
+__init_color prompt_color_status_bg 009
+__init_color prompt_color_status_fg 015
+
+function __cmd_ret()
+{
+  local _ret=$?
+  if [[ $_ret != 0 ]]; then
+    echo "%K{$prompt_color_status_bg}%F{$prompt_color_status_fg} $_ret %f%k"
+  fi
+}
 
 PROMPT=$(
 echo -en [
@@ -727,6 +742,7 @@ echo -en "${prompt_color_host_start}%m${prompt_color_host_end}"
 echo -en :
 echo -en "${prompt_color_cwd_start}%1~${prompt_color_cwd_end}"
 echo -en ]
+echo -en '$(__cmd_ret)'
 echo -en '${vcs_info}'
 echo
 echo -en '%# '
@@ -755,12 +771,14 @@ prompt_git_info_separator=' '
 zstyle ':vcs_info:*' max-exports 3
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '%b' '%c%u %m'
-zstyle ':vcs_info:git:*' actionformats '(%b)' '%c%u %m' '<!%a>'
-zstyle ':vcs_info:git:*' check-for-changes true
-# TODO ステージ/アンステージの文字を調整
-zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
-zstyle ':vcs_info:git:*' unstagedstr "*" # %uで表示する文字列
+if is-at-least 4.3.10; then
+  zstyle ':vcs_info:git:*' formats '%b' '%c%u %m'
+  zstyle ':vcs_info:git:*' actionformats '(%b)' '%c%u %m' '<!%a>'
+  zstyle ':vcs_info:git:*' check-for-changes true
+  # TODO ステージ/アンステージの文字を調整
+  zstyle ':vcs_info:git:*' stagedstr "+" # %cで表示する文字列
+  zstyle ':vcs_info:git:*' unstagedstr "*" # %uで表示する文字列
+fi
 
 # }}}
 
