@@ -334,6 +334,7 @@ if = '!IsWindows()'
 
 [[plugins]]
 repo = 'cohama/agit.vim'
+if = 0
 on_map = { n = '<Plug>' }
 hook_add = '''
   nnoremap <silent> <Leader>ga :<C-u>Agit<CR>
