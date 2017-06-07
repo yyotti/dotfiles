@@ -531,14 +531,14 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
 
   function fzf-vim-plugins-widget()
   {
-    local _vim_plugins_dir="$HOME/.vim/pack/bundle/opt"
+    local _vim_plugins_dir="$HOME/.cache/dein/repos"
     local dir=''
     local ret=0
 
     if [[ -d $_vim_plugins_dir ]]; then
       setopt localoptions pipefail 2>/dev/null
 
-      dir=( $(find "$_vim_plugins_dir" -mindepth 1 -maxdepth 1 -type d | sed "s#^${_vim_plugins_dir}/##" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+      dir=( $(find "$_vim_plugins_dir" -mindepth 3 -maxdepth 3 -type d | sed "s#^${_vim_plugins_dir}/##" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
       ret=$?
     fi
 
@@ -583,8 +583,6 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
 fi
 # }}}
 
-# }}}
-
 # autoload {{{
 autoload -Uz compinit
 autoload -Uz history-search-end
@@ -612,6 +610,13 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # Shift+Tab : reverse menu
 bindkey '^[[Z' reverse-menu-complete
 
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
+                                           /usr/local/bin \
+                                           /usr/sbin \
+                                           /usr/bin \
+                                           /sbin \
+                                           /bin
+
 compinit
 # }}}
 
@@ -622,6 +627,7 @@ alias la='ll -A'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias sudo='sudo '
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
 fi
