@@ -274,29 +274,37 @@ echo
 #=============================================================================
 # Install Ripgrep
 #
-echo 'Install Ripgrep.'
-archi=$(uname -sm)
-case "$archi" in
-  Linux\ *64) archi=x86_64 ;;
-  Linux\ *86) archi=i686 ;;
-  *) echo "Unknown OS: $archi"; exit 1 ;;
-esac
-ripgrep_download_url=$( \
-  curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
-  | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$archi'")).browser_download_url' \
-  )
-if [[ $ripgrep_download_url != "" ]]; then
-  archive_name=$(basename "$ripgrep_download_url")
-  dir=$(basename "$archive_name" .tar.gz)
-  cd /tmp
-  curl -sLO "$ripgrep_download_url"
-  mkdir -p "$HOME/opt"
-  rm -fr "$HOME/opt/ripgrep"
-  tar -xzf "$archive_name"
-  mv "$dir" "$HOME/opt/ripgrep"
-  mkdir -p "$HOME/bin"
-  ln -s "$HOME/opt/ripgrep/rg" "$HOME/bin/rg"
-fi
+# echo 'Install Ripgrep.'
+# archi=$(uname -sm)
+# case "$archi" in
+#   Linux\ *64) archi=x86_64 ;;
+#   Linux\ *86) archi=i686 ;;
+#   *) echo "Unknown OS: $archi"; exit 1 ;;
+# esac
+# ripgrep_download_url=$( \
+#   curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
+#   | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$archi'")).browser_download_url' \
+#   )
+# if [[ $ripgrep_download_url != "" ]]; then
+#   archive_name=$(basename "$ripgrep_download_url")
+#   dir=$(basename "$archive_name" .tar.gz)
+#   cd /tmp
+#   curl -sLO "$ripgrep_download_url"
+#   mkdir -p "$HOME/opt"
+#   rm -fr "$HOME/opt/ripgrep"
+#   tar -xzf "$archive_name"
+#   mv "$dir" "$HOME/opt/ripgrep"
+#   mkdir -p "$HOME/bin"
+#   ln -s "$HOME/opt/ripgrep/rg" "$HOME/bin/rg"
+# fi
+#
+# echo
+
+#=============================================================================
+# Install The Platinum Searcher
+#
+echo 'Install The Platinum Searcher.'
+go get -u github.com/monochromegane/the_platinum_searcher/cmd/pt
 
 echo
 
