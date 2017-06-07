@@ -148,7 +148,7 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if dein#tap('neomake') || !exists('*neomake#statusline#LoclistCounts')
+  if !dein#tap('neomake') || !exists('*neomake#statusline#LoclistCounts')
     return ''
   endif
 
