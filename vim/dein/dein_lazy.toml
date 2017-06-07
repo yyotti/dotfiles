@@ -105,7 +105,6 @@ hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 if = 'has("nvim") || v:version >= 800 && has("python3")'
-build = 'sh ~/.vim/script/denite.nvim.patch.sh'
 hook_add = '''
   nnoremap <silent> <Leader>ub :<C-u>Denite buffer file_old<CR>
   nnoremap <silent> <Leader>uf :<C-u>Denite file_rec<CR>
@@ -202,9 +201,8 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'tyru/eskk.vim'
-build = 'sh ~/.vim/script/eskk.vim-patch.sh'
-on_map = { ic = '<Plug>' }
+repo = 'yyotti/eskk.vim'
+on_event = 'InsertEnter'
 hook_add = '''
   imap <C-j> <Plug>(eskk:toggle)
   cmap <C-j> <Plug>(eskk:toggle)
@@ -555,7 +553,7 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'yyotti/neosnippet-php'
+repo = 'yyotti/neosnippet-php.vim'
 depends = [ 'neosnippet.vim' ]
 on_ft = 'php'
 build = 'php install.php -d"$HOME/.vim/refs/php-chunked-xhtml"'
