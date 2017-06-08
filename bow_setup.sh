@@ -127,7 +127,7 @@ echo
 echo 'Install dotfiles.'
 git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
 cd "$HOME/.dotfiles"
-git remote set-url origin git@github.com:yyotti/dotfiles.git
+# TODO RCM -> Original .sh
 cd "$HOME"
 RCRC="$HOME/.dotfiles/rcrc" rcup -v
 
@@ -156,9 +156,10 @@ if [[ $go_ver != "" ]]; then
   sudo tar -C /usr/local -xzf "$archive_name"
   export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
 
-  # TODO glide
-  # go get -u github.com/kr/godep
+  echo 'Install Glide.'
+  curl https://glide.sh/get | sh
 fi
+
 echo
 
 #=============================================================================

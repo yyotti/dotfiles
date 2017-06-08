@@ -633,12 +633,17 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias sudo='sudo '
+alias lspath='echo "${PATH//:/\n}"'
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
 fi
 
 if (( ${+commands[fzf]} )); then
   alias -g F='| fzf'
+fi
+
+if (( ${+commands[pt]} )); then
+  alias pt='pt --smart-case --nogroup'
 fi
 # }}}
 
