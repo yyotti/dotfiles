@@ -159,12 +159,8 @@ endfunction "}}}
 autocmd MyAutocmd ColorScheme * call <SID>lightline_update()
 function! s:lightline_update() abort "{{{
   let g:lightline.colorscheme = 'default'
-  if g:colors_name =~#
-        \ 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
-    let g:lightline.colorscheme =
-          \ substitute(
-          \   substitute(g:colors_name, '-', '_', 'g'), '256.*', '', ''
-          \ ) . (g:colors_name ==# 'solarized' ? '_' . &background : '')
+  if g:colors_name =~# 'solarized'
+    let g:lightline.colorscheme = 'solarized'
   endif
 
   if !has('vim_starting')
