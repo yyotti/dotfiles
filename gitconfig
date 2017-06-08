@@ -1,30 +1,44 @@
 [user]
-	email = yosuke.tsutsui@gmail.com
-	name = Y.Tsutsui
+    email = yosuke.tsutsui@gmail.com
+    name = Y.Tsutsui
 [diff]
-	tool = vimdiff
-	algorithm = histogram
+    tool = vimdiff
+    algorithm = histogram
+    relative = true
+    compactionHeuristic = true
 [core]
-	editor = vim
-        excludesfile = ~/.gitignore_global
+    editor = vim
+    excludesfile = ~/.gitignore_global
 [push]
-	default = simple
+    default = simple
+[fetch]
+    prune = true
+[pull]
+    rebase = true
+[rebase]
+    autosquash = true
+    autoStash = true
+[log]
+    decorate = true
+    abbrevCommit = true
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [alias]
-	df = diff
-	ds = diff --name-status
-	dt = difftool
-	ss = status --short
-	st = status
-	co = checkout
-	l = log --all --graph --pretty=format:'%C(yellow)%h%Creset -%C(bold blue)%d%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
-	ft = fetch --prune
-	addignore = commit -m \"Add ignore files\"
+    df = diff
+    ds = diff --name-status
+    dt = difftool
+    ss = status --short
+    st = status
+    co = checkout
+    cb = checkout -b
+    l = log --all --graph --pretty=format:'%C(yellow)%h%Creset -%C(bold blue)%d%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
+    cm = commit
+    ca = commit --amend
+    ft = fetch
+    addignore = commit -m \"Add ignore files\"
 [ghq]
-	root = ~/.ghq
-	root = ~/.go/src
-
+    root = ~/.ghq
+    root = ~/.go/src
 [url "git@github.com:yyotti"]
-	pushInsteadOf = git://github.com/yyotti
-	pushInsteadOf = https://github.com/yyotti
+    pushInsteadOf = git://github.com/yyotti
+    pushInsteadOf = https://github.com/yyotti

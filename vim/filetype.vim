@@ -11,5 +11,8 @@ augroup filetypedetect
 
   " Markdown
   autocmd BufRead,BufNewFile *.mkd,*.markdown,*.md,*.mdown,*.mkdn
-        \ setfiletype=markdown
+        \ setfiletype markdown
+
+  " .gitconfig
+  autocmd BufRead,BufNewFile gitconfig setfiletype gitconfig
 augroup END
