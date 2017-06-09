@@ -148,8 +148,8 @@ elseif executable('pt')
         \     '--nocolor',
         \     '--nogroup',
         \     '--hidden',
-        \     '-g',
-        \     '',
+        \     '--ignore=.git',
+        \     '-g=',
         \   ]
         \ )
 elseif executable('git')
