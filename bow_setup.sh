@@ -27,7 +27,7 @@ _EOM_
 set -eu
 trap 'on-error $LINENO "$@"' ERR
 
-export GOPATH="$HOME/.go"
+export GOPATH=$HOME/.go
 if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
@@ -51,8 +51,6 @@ sudo mv -f /tmp/sources.list /etc/apt/sources.list
 #
 # Git
 sudo add-apt-repository -y ppa:git-core/ppa
-# rcm
-sudo add-apt-repository -y ppa:martin-frost/thoughtbot-rcm
 # php5.6
 sudo add-apt-repository -y ppa:ondrej/php
 
@@ -84,7 +82,6 @@ sudo apt -y install \
   libevent-dev \
   cmake \
   libicu-dev \
-  rcm \
   php5.6 \
   php5.6-zip \
   php5.6-mbstring \
@@ -125,11 +122,9 @@ echo
 # Install dotfiles
 #
 echo 'Install dotfiles.'
-git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
-cd "$HOME/.dotfiles"
-# TODO RCM -> Original .sh
 cd "$HOME"
-RCRC="$HOME/.dotfiles/rcrc" rcup -v
+git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
+"$HOME/.dotfiles/dotinstall.sh" -v install
 
 echo
 
@@ -144,17 +139,17 @@ go_ver=$( \
   | head -n 1 \
   | sed 's/release-branch\.//' \
   )
-if [[ $go_ver != "" ]]; then
+if [[ $go_ver != '' ]]; then
   archi=$(uname -sm)
   case "$archi" in
-    Linux\ *64) archive_name="$go_ver.linux-amd64.tar.gz" ;;
-    Linux\ *86) archive_name="$go_ver.linux-386.tar.gz" ;;
+    Linux\ *64) archive_name=$go_ver.linux-amd64.tar.gz ;;
+    Linux\ *86) archive_name=$go_ver.linux-386.tar.gz ;;
     *) echo "Unknown OS: $archi"; exit 1 ;;
   esac
   cd /tmp
   curl -sLO "https://storage.googleapis.com/golang/$archive_name"
   sudo tar -C /usr/local -xzf "$archive_name"
-  export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"
+  export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
   echo 'Install Glide.'
   curl https://glide.sh/get | sh
@@ -167,7 +162,7 @@ echo
 #
 echo 'Install GHQ.'
 go get -u github.com/motemen/ghq
-GHQ_ROOT="$HOME/.ghq"
+GHQ_ROOT=$HOME/.ghq
 
 echo
 

@@ -183,6 +183,7 @@ on_ft = 'vim'
 repo = 'thinca/vim-ref'
 on_map = { n = '<Plug>' }
 if = 'executable("lynx")'
+build = '$HOME/.vim/script/phpmanual-install.sh'
 hook_source = '''
   nmap K <Plug>(ref-keyword)
 
@@ -557,4 +558,4 @@ hook_source = '''
 repo = 'yyotti/neosnippet-php.vim'
 depends = [ 'neosnippet.vim' ]
 on_ft = 'php'
-build = 'php install.php -d"$HOME/.vim/refs/php-chunked-xhtml"'
+build = '$HOME/.vim/script/phpmanual-install.sh && php install.php -d"$HOME/.vim/refs/php-chunked-xhtml"'
