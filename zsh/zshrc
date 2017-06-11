@@ -636,6 +636,8 @@ alias sudo='sudo '
 alias lspath='echo "${PATH//:/\n}"'
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
+  alias tigr='tig refs'
+  alias tigs='tig status'
 fi
 
 if (( ${+commands[fzf]} )); then
