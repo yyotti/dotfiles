@@ -498,7 +498,7 @@ if [[ ! -d $plugins_dir/$repo ]]; then
   __chmod_dir $plugins_dir/$repo
 fi
 export ENHANCD_DIR=$ZDOTDIR/.enhancd
-source $plugins_dir/$repo/init.sh
+source "$plugins_dir/$repo/init.sh"
 # }}}
 
 # zsh-async {{{
@@ -507,7 +507,15 @@ if [[ ! -d $plugins_dir/$repo ]]; then
   git clone https://github.com/${repo} $plugins_dir/$repo
   __chmod_dir $plugins_dir/$repo
 fi
-source $plugins_dir/$repo/async.zsh
+source "$plugins_dir/$repo/async.zsh"
+# }}}
+
+# zsh-git-prompt {{{
+repo='olivierverdier/zsh-git-prompt'
+if [[ ! -d $plugins_dir/$repo ]]; then
+  git clone https://github.com/${repo} $plugins_dir/$repo
+  __chmod_dir $plugins_dir/$repo
+fi
 # }}}
 
 # }}}
@@ -737,8 +745,6 @@ function __init_color() # {{{
 __init_color prompt_color_cwd 010
 __init_color prompt_color_user 006 009
 __init_color prompt_color_host 012
-__init_color prompt_color_status_bg 009
-__init_color prompt_color_status_fg 015
 
 PROMPT=$(
 echo -en [
@@ -748,7 +754,7 @@ echo -en "${prompt_color_host_start}%m${prompt_color_host_end}"
 echo -en :
 echo -en "${prompt_color_cwd_start}%1~${prompt_color_cwd_end}"
 echo -en ]
-echo -en '${vcs_info}'
+echo -en '${git_prompt}'
 echo
 echo -en '%# '
 )
@@ -771,9 +777,11 @@ async_start_worker prompt -u
 
 function __prompt_async_callback()
 {
-  vcs_info=''
+  git_prompt=''
   if [[ $2 == 0 ]]; then
-    vcs_info="$3"
+    git_prompt=$3
+  else
+    git_prompt=$5
   fi
   zle && zle reset-prompt
 }
@@ -782,11 +790,11 @@ async_register_callback prompt __prompt_async_callback
 
 function precmd()
 {
-  vcs_info=''
+  git_prompt=''
   zle && zle reset-prompt
 
-  if [[ -f ${ZDOTDIR:-$HOME}/zsh_vcs_info.zsh ]]; then
-    async_job prompt ${ZDOTDIR:-$HOME}/zsh_vcs_info.zsh "$(pwd)"
+  if [[ -f ${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh ]]; then
+    async_job prompt "${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh" "$(pwd)"
   fi
 }
 
