@@ -746,6 +746,20 @@ __init_color prompt_color_cwd 010
 __init_color prompt_color_user 006 009
 __init_color prompt_color_host 012
 
+__init_color prompt_git_separator 243
+__init_color prompt_git_bare_repo 001
+__init_color prompt_git_in_git_dir 001
+__init_color prompt_git_branch 002
+__init_color prompt_git_branch_detached 009
+__init_color prompt_git_dirty 196
+__init_color prompt_git_staged 010
+__init_color prompt_git_untracked 011
+__init_color prompt_git_stashed 039
+__init_color prompt_git_operation 196
+__init_color prompt_git_upstream 039
+__init_color prompt_git_upstream_behind 228
+__init_color prompt_git_upstream_ahead 135
+
 PROMPT=$(
 echo -en [
 echo -en "${prompt_color_user_start}%n${prompt_color_user_end}"
@@ -775,16 +789,119 @@ RPROMPT="${rprompt_color_start}%~${rprompt_color_end}"
 async_init
 async_start_worker prompt -u
 
-function __prompt_async_callback()
+function __prompt_async_callback() # {{{
 {
   git_prompt=''
-  if [[ $2 == 0 ]]; then
-    git_prompt=$3
+  if [[ $2 == 0 && $3 != '' ]]; then
+    git_prompt=$(__mkgitprompt "$3")
   else
     git_prompt=$5
   fi
   zle && zle reset-prompt
 }
+# }}}
+
+function __mkgitprompt() # {{{
+{
+  local _op
+  local _br
+  local _repo_type
+  local _is_detached
+  local _is_dirty
+  local _staged_state
+  local _has_stashed
+  local _has_untracked
+  local _up
+  local _behind
+  local _ahead
+  echo "$@" | read \
+    _op \
+    _br \
+    _repo_type \
+    _is_detached \
+    _is_dirty \
+    _staged_state \
+    _has_stashed \
+    _has_untracked \
+    _up \
+    _behind \
+    _ahead
+
+  local _operation=''
+  if [[ $_op != ':' ]]; then
+    _operation="${prompt_git_operation_start}${_op[2,${#_op}]}${prompt_git_operation_end}"
+  fi
+
+  local _branch
+  if [[ $_is_detached != 0 ]]; then
+    _branch="${prompt_git_branch_detached_start}${_br}${prompt_git_branch_detached_end}"
+  else
+    _branch="${prompt_git_branch_start}${_br}${prompt_git_branch_end}"
+  fi
+
+  if [[ $_repo_type == 1 ]]; then
+    _branch="${prompt_git_bare_repo_start}BARE:${prompt_git_bare_repo_end}${_branch}"
+  elif [[ $_repo_type == 2 ]]; then
+    _branch="${prompt_git_in_git_dir_start}GIT:${prompt_git_in_git_dir_end}${_branch}"
+  fi
+  local _dirty=''
+  if [[ $_is_dirty != 0 ]]; then
+    _dirty="${prompt_git_dirty_start}*${prompt_git_dirty_end}"
+  fi
+  local _staged
+  case "$_staged_state" in
+    '1')
+      _staged="${prompt_git_staged_start}+${prompt_git_staged_end}"
+      ;;
+    '2')
+      _staged="${prompt_git_invalid_start}!${prompt_git_invalid_end}"
+      ;;
+    *)
+      _staged=''
+  esac
+  local _untracked=''
+  if [[ $_has_untracked != 0 ]]; then
+    _untracked="${prompt_git_untracked_start}?${prompt_git_untracked_end}"
+  fi;
+  local _stashed=''
+  if [[ $_has_stashed != 0 ]]; then
+    _stashed="${prompt_git_stashed_start}\$${prompt_git_stashed_end}"
+  fi
+  local _upstream=''
+  if [[ $_up != ':' ]]; then
+    _upstream="${prompt_git_upstream_start}${_up[2,${#_up}]}${prompt_git_upstream_end}"
+
+    case "${_behind} ${_ahead}" in
+      '0 0') # equal to upstream
+        ;;
+      '0 '*) # ahead of upstream
+        _upstream="${_upstream}:${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
+        ;;
+      *' 0') # behind upstream
+        _upstream="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}:${_upstream}"
+        ;;
+      *) # diverged from upstream
+        _upstream="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}:${_upstream}:${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
+        ;;
+    esac
+  fi
+
+  local _sep="${prompt_git_separator_start}|${prompt_git_separator_end}"
+
+  local _prompt_parts=()
+  _prompt_parts+="${_bare}${_branch}"
+  if [[ ${_dirty}${_staged}${_untracked}${_stashed} != '' ]]; then
+    _prompt_parts+="${_sep}"
+    _prompt_parts+="${_dirty}${_staged}${_untracked}${_stashed}"
+  fi
+  if [[ ${_operation}${_upstream} != '' ]]; then
+    _prompt_parts+="${_sep}"
+    _prompt_parts+="${_operation}${_upstream}"
+  fi
+
+  echo "(${(j::)_prompt_parts})"
+}
+# }}}
 
 async_register_callback prompt __prompt_async_callback
 
@@ -793,8 +910,9 @@ function precmd()
   git_prompt=''
   zle && zle reset-prompt
 
-  if [[ -f ${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh ]]; then
-    async_job prompt "${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh" "$(pwd)"
+  if [[ -f ${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh ]] && (( ${+commands[python3]} )); then
+    # async_job prompt "${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh" "$(pwd)"
+    async_job prompt python3 "$HOME/.dotfiles/scripts/gitstatus.py" "$(pwd)"
   fi
 }
 
