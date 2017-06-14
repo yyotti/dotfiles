@@ -184,7 +184,7 @@ repo = 'thinca/vim-ref'
 on_map = { n = '<Plug>' }
 if = 'executable("lynx")'
 build = '$HOME/.vim/script/phpmanual-install.sh'
-hook_source = '''
+hook_add = '''
   nmap K <Plug>(ref-keyword)
 
   if IsWindows()

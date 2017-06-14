@@ -133,6 +133,8 @@ python = '''
           \ :<C-u>call jedi#goto_definitions()<CR>
     nnoremap <silent> <buffer> <LocalLeader>r
           \ :<C-u>call JediRename()<CR>
+    nnoremap <silent> <buffer> <LocalLeader>i
+          \ :<C-u>call SortImports()<CR>
 
     " sort imports
     function! SortImports() abort "{{{
@@ -167,8 +169,6 @@ python = '''
         unlet pos
       endif
     endfunction "}}}
-
-    autocmd! MyAutocmd BufWritePre <buffer> call SortImports()
   endif
 '''
 
