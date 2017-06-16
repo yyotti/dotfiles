@@ -28,9 +28,9 @@ def main():
     is_bare_repo = distutils.util.strtobool(bare)
     is_inside_worktree = distutils.util.strtobool(in_wtree)
 
-    [operation, branch, is_detached] = get_operation_branch(git_dir,
-                                                            is_inside_worktree,
-                                                            sha)
+    [operation,
+     branch,
+     is_detached] = _get_operation_branch(git_dir, is_inside_worktree, sha)
 
     is_dirty = False
     staged_state = 0
@@ -75,7 +75,7 @@ def main():
 
         has_stashed = os.access(os.path.join(git_dir, 'refs', 'stash'),
                                 os.R_OK)
-        [upstream_name, behind, ahead] = get_upstream()
+        [upstream_name, behind, ahead] = _get_upstream()
     else:
         [upstream_name, behind, ahead] = ['', 0, 0]
 
@@ -98,7 +98,7 @@ def main():
     return 0
 
 
-def get_operation_branch(git_dir, is_inside_worktree, sha):
+def _get_operation_branch(git_dir, is_inside_worktree, sha):
     branch = ''
     step = -1
     total = -1
@@ -168,7 +168,7 @@ def get_operation_branch(git_dir, is_inside_worktree, sha):
     return [operation, branch, is_detached]
 
 
-def get_upstream():
+def _get_upstream():
     ret = subprocess.run(['git', 'config', 'bash.showUpstream'],
                          universal_newlines=True,
                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
