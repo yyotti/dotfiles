@@ -48,7 +48,7 @@ interactive=false
 skip=true
 
 # Global variables
-readonly script_dir="$(cd "$(dirname "$0")" && pwd)"
+readonly script_dir="$(cd "$(dirname "$0")/../" && pwd)"
 readonly symlink_dir="$HOME"
 
 # Helper functions {{{
