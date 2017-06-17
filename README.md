@@ -4,7 +4,7 @@
 ## Bash on Windows環境構築手順
 下記のコマンドを実行
 ```sh
-curl -sL https://raw.githubusercontent.com/yyotti/dotfiles/master/bow_setup.sh | bash
+curl -sL https://raw.githubusercontent.com/yyotti/dotfiles/master/scripts/bow_setup.sh | bash
 ```
 
 ## Linux環境構築手順

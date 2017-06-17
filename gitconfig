@@ -35,7 +35,6 @@
     cm = commit
     ca = commit --amend
     ft = fetch
-    addignore = commit -m \"Add ignore files\"
 [ghq]
     root = ~/.ghq
     root = ~/.go/src
