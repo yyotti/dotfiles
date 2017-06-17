@@ -107,14 +107,13 @@ sudo pip3 install \
   pep8-naming
 
 #=============================================================================
-# Change default shell
+# Add zsh path
 #
-echo 'Change default shell.'
+echo 'Add zsh path to /etc/shells'
 zsh_path=$(which zsh)
 if ! grep -q "$zsh_path" </etc/shells; then
   echo "$zsh_path" | sudo tee -a /etc/shells
 fi
-chsh -s "$zsh_path"
 
 echo
 
@@ -124,7 +123,7 @@ echo
 echo 'Install dotfiles.'
 cd "$HOME"
 git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
-"$HOME/.dotfiles/dotinstall.sh" -v install
+"$HOME/.dotfiles/scripts/dotinstall.sh" -v install
 
 echo
 
