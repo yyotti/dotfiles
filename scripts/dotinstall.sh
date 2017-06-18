@@ -48,7 +48,7 @@ interactive=false
 skip=true
 
 # Global variables
-readonly script_dir="$(cd "$(dirname "$0")/../" && pwd)"
+readonly dotfiles_dir="$(cd "$(dirname "$0")/../" && pwd)"
 readonly symlink_dir="$HOME"
 
 # Helper functions {{{
@@ -255,7 +255,7 @@ esac
 function install() # {{{
 {
   for _target in "${symlink_targets[@]}"; do
-    local _from="${script_dir}/${_target}"
+    local _from="${dotfiles_dir}/${_target}"
 
     local _to="${_target}"
     if [[ ! $_to =~ ^\..+ ]]; then
