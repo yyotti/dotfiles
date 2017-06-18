@@ -13,6 +13,7 @@ if [[ $TMUX == '' ]]; then
   ~/bin(N-/)
   ~/.composer/vendor/bin(N-/)
   /usr/local/go/bin(N-/)
+  ~/.dotfiles/scripts/git(N-/)
   $path
   )
 fi
