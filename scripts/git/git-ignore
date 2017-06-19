@@ -10,15 +10,17 @@ Usage: git ignore [OPTIONS] IGNORES...
 Options:
   -h, --help            Show this message.
   -v, --verbose         Show verbose message.
+  -A, --absolute
 _EOM_
 }
 # }}}
 
 # Default options
 verbose=false
+absolute=false
 
 # Global variables
-readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}")")" && pwd)"
+readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")" && pwd -P)"
 
 source "${script_dir}/../_helpers.sh"
 
@@ -37,6 +39,10 @@ for _opt in "$@"; do
       ;;
     -v|--verbose)
       verbose=true
+      shift 1
+      ;;
+    -A|--absolute)
+      absolute=true
       shift 1
       ;;
     -*)
@@ -62,6 +68,11 @@ fi
 
 dot_gitignore="${repo}/.gitignore"
 for f in "${args[@]}"; do
+  if $absolute; then
+    if [[ $f =~ ^[^/] ]]; then
+      f="/$f"
+    fi
+  fi
   if $verbose; then
     echo "Add '$f' to $dot_gitignore."
   fi
