@@ -35,13 +35,15 @@ fi
 #=============================================================================
 # Replace source url
 #
-sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' </etc/apt/sources.list \
+apt_src=/etc/apt/sources.list
+tmp_src=$(mktemp)
+sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' <"$apt_src" \
   | tee >(sed -e 's%deb %deb-src %g') \
-  | cat >/tmp/sources.list
-if [[ ! -e /etc/apt/sources.list.org ]]; then
-  sudo cp /etc/apt/sources.list /etc/apt/sources.list.org
+  | cat >"$tmp_src"
+if [[ ! -e ${apt_src}.org ]]; then
+  sudo cp "$apt_src" "${apt_src}.org"
 fi
-sudo mv -f /tmp/sources.list /etc/apt/sources.list
+sudo mv -f "$tmp_src" "$apt_src"
 
 # TODO 各種インストールを別ファイルに分ける
 # ex) apt-install.sh, git-install.sh, etc..
@@ -160,7 +162,9 @@ echo
 # Install GHQ
 #
 echo 'Install GHQ.'
-go get -u github.com/motemen/ghq
+go get -v -u github.com/motemen/ghq
+find "$GOPATH/src/github.com/motemen/ghq" -type d -name '.git' -prune \
+  -o -type d -exec chmod 755 {} \;
 GHQ_ROOT=$HOME/.ghq
 
 echo
@@ -169,7 +173,7 @@ echo
 # Install FuzzyFinder
 #
 echo 'Install Fuzzy Finder.'
-go get -u github.com/junegunn/fzf/src/fzf
+go get -v -u github.com/junegunn/fzf
 ln -s "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$GOPATH/bin/fzf-tmux"
 
 echo
@@ -267,39 +271,10 @@ sudo pip3 install powerline-status
 echo
 
 #=============================================================================
-# Install Ripgrep
-#
-# echo 'Install Ripgrep.'
-# archi=$(uname -sm)
-# case "$archi" in
-#   Linux\ *64) archi=x86_64 ;;
-#   Linux\ *86) archi=i686 ;;
-#   *) echo "Unknown OS: $archi"; exit 1 ;;
-# esac
-# ripgrep_download_url=$( \
-#   curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
-#   | jq -r '.assets|.[]|select(.browser_download_url|contains("linux") and contains("'$archi'")).browser_download_url' \
-#   )
-# if [[ $ripgrep_download_url != "" ]]; then
-#   archive_name=$(basename "$ripgrep_download_url")
-#   dir=$(basename "$archive_name" .tar.gz)
-#   cd /tmp
-#   curl -sLO "$ripgrep_download_url"
-#   mkdir -p "$HOME/opt"
-#   rm -fr "$HOME/opt/ripgrep"
-#   tar -xzf "$archive_name"
-#   mv "$dir" "$HOME/opt/ripgrep"
-#   mkdir -p "$HOME/bin"
-#   ln -s "$HOME/opt/ripgrep/rg" "$HOME/bin/rg"
-# fi
-#
-# echo
-
-#=============================================================================
 # Install The Platinum Searcher
 #
 echo 'Install The Platinum Searcher.'
-go get -u github.com/monochromegane/the_platinum_searcher/cmd/pt
+go get -v -u github.com/monochromegane/the_platinum_searcher/cmd/pt
 
 echo
 
@@ -307,7 +282,7 @@ echo
 # Install golint
 #
 echo 'Install golint.'
-go get -u github.com/golang/lint/golint
+go get -v -u github.com/golang/lint/golint
 
 echo
 
@@ -315,7 +290,7 @@ echo
 # Install vimlparser (Golang version)
 #
 echo 'Install vimlparser(Golang version).'
-go get -u github.com/haya14busa/go-vimlparser/cmd/vimlparser
+go get -v -u github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 #=============================================================================
 # Install git-now
@@ -333,7 +308,7 @@ sudo make install
 # Install Lemonade
 #
 echo 'Install Lemonade.'
-go get -u github.com/pocke/lemonade
+go get -v -u github.com/pocke/lemonade
 
 echo "Setup finished."
 
