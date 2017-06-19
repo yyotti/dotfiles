@@ -510,14 +510,6 @@ fi
 source "$plugins_dir/$repo/async.zsh"
 # }}}
 
-# zsh-git-prompt {{{
-repo='olivierverdier/zsh-git-prompt'
-if [[ ! -d $plugins_dir/$repo ]]; then
-  git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $plugins_dir/$repo
-fi
-# }}}
-
 # }}}
 
 # FuzzyFinder {{{
