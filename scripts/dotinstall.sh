@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+# Global variables
+readonly dotfiles_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")/../" && pwd -P)"
+readonly symlink_dir="$HOME"
+
 set -eu
 trap 'on-error $LINENO "$@"' ERR
 
-source "$(cd "$(dirname "${BASH_SOURCE:-$0}")"; pwd)/_helpers.sh"
+source "${dotfiles_dir}/scripts/_helpers.sh"
 
 # Script version
 version='1.0.0'
@@ -23,10 +27,6 @@ symlink_targets=(
 verbose=false
 interactive=false
 skip=true
-
-# Global variables
-readonly dotfiles_dir="$(cd "$(dirname "$0")/../" && pwd)"
-readonly symlink_dir="$HOME"
 
 # Helper functions {{{
 
@@ -122,7 +122,7 @@ function __mklink() # {{{
 
   __verbose "Create symlink: [$_from] -> [$_to]"
   if [[ ! -d ${_to%/*} ]]; then
-    mkdir -p "${_to}"
+    mkdir -p "${_to%/*}"
   fi
   ln -s "$_from" "$_to"
 }
@@ -235,7 +235,7 @@ function install() # {{{
     local _from="${dotfiles_dir}/${_target}"
 
     local _to="${_target}"
-    if [[ ! $_to =~ ^\..+ ]]; then
+    if [[ ! $_to =~ ^\. ]]; then
       _to=".${_to}"
     fi
     _to="${symlink_dir}/${_to}"
@@ -245,7 +245,9 @@ function install() # {{{
 
   # for zshrc
   local _zdotdir=${ZDOTDIR:-$HOME/.zsh}
-  __mklink "${_zdotdir}/zshrc" "${_zdotdir}/.zshrc"
+  if [[ ! -e "${_zdotdir}/.zshrc" ]]; then
+    __mklink "${_zdotdir}/zshrc" "${_zdotdir}/.zshrc"
+  fi
 
   # for nvim
   local _nvimdir="$HOME/.config/nvim"
