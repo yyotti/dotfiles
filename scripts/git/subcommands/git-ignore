@@ -24,7 +24,7 @@ remove=false
 # Global variables
 readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")" && pwd -P)"
 
-source "${script_dir}/../_helpers.sh"
+source "${script_dir}/../../_helpers.sh"
 
 if repo=$(command git rev-parse --show-toplevel 2>/dev/null); [[ $? != 0 || $repo == '' ]]; then
   echoe 'Not in git repository.' >&2
