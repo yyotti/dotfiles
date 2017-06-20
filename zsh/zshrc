@@ -485,7 +485,7 @@ plugins_dir=$ZDOTDIR/plugins
 repo='zsh-users/zsh-completions'
 if [[ ! -d $plugins_dir/$repo ]]; then
   git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $plugins_dir/$repo
+  __chmod_dir $(dirname $plugins_dir/$repo)
   rm -f $ZDOTDIR/.zcompdump
 fi
 fpath=($plugins_dir/$repo/src $fpath)
@@ -495,7 +495,7 @@ fpath=($plugins_dir/$repo/src $fpath)
 repo='b4b4r07/enhancd'
 if [[ ! -d $plugins_dir/$repo ]]; then
   git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $plugins_dir/$repo
+  __chmod_dir $(dirname $plugins_dir/$repo)
 fi
 export ENHANCD_DIR=$ZDOTDIR/.enhancd
 source "$plugins_dir/$repo/init.sh"
@@ -505,9 +505,19 @@ source "$plugins_dir/$repo/init.sh"
 repo='mafredri/zsh-async'
 if [[ ! -d $plugins_dir/$repo ]]; then
   git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $plugins_dir/$repo
+  __chmod_dir $(dirname $plugins_dir/$repo)
 fi
 source "$plugins_dir/$repo/async.zsh"
+# }}}
+
+# zload {{{
+repo='mollifier/zload'
+if [[ ! -d $plugins_dir/$repo ]]; then
+  git clone https://github.com/${repo} $plugins_dir/$repo
+  __chmod_dir $(dirname $plugins_dir/$repo)
+fi
+fpath=($plugins_dir/$repo(N-/) $fpath)
+autoload -Uz zload
 # }}}
 
 # }}}
@@ -601,11 +611,18 @@ fi
 # }}}
 
 # Completions {{{
-# git-now
-if (( ${+commands[git-now]} )); then
-  for p in $(ghq root --all); do
-    fpath=($p/github.com/iwata/git-now/etc(N-/) $fpath)
-  done
+# git
+if (( ${+commands[git]} )); then
+  # git-now
+  if (( ${+commands[git-now]} )); then
+    for p in $(ghq root --all); do
+      fpath=($p/github.com/iwata/git-now/etc(N-/) $fpath)
+    done
+  fi
+
+  # git-xxx original subcommands
+  zdotdir=$(readlink $ZDOTDIR || echo $ZDOTDIR)
+  fpath=($zdotdir/../scripts/git/completions(N-/) $fpath)
 fi
 
 # ghq
@@ -613,11 +630,16 @@ if (( ${+commands[ghq]} )); then
   fpath=($GOPATH/src/github.com/motemen/ghq/zsh(N-/) $fpath)
 fi
 
-# 補完時に大文字小文字を区別しない
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-# 補完候補をキャッシュする
-zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path $HOME/.zsh/.completion-cache
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*:descriptions' format '%F{011}%d%f'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
 
 # Shift+Tab : reverse menu
 bindkey '^[[Z' reverse-menu-complete

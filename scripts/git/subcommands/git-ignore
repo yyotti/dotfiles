@@ -8,7 +8,7 @@ usage() # {{{
 Usage: git ignore [OPTIONS] IGNORES...
 
 Options:
-  -h, --help            Show this message.
+  -h                    Show this message.
   -v, --verbose         Show verbose message.
   -A, --absolute
   -r, --rm
@@ -25,11 +25,6 @@ remove=false
 readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")" && pwd -P)"
 
 source "${script_dir}/../../_helpers.sh"
-
-if repo=$(command git rev-parse --show-toplevel 2>/dev/null); [[ $? != 0 || $repo == '' ]]; then
-  echoe 'Not in git repository.' >&2
-  exit 1
-fi
 
 # Parse options {{{
 args=()
@@ -65,6 +60,11 @@ for _opt in "$@"; do
   esac
 done
 # }}}
+
+if repo=$(command git rev-parse --show-toplevel 2>/dev/null); [[ $? != 0 || $repo == '' ]]; then
+  echoe 'Not in git repository.' >&2
+  exit 1
+fi
 
 if [[ ${#args[@]} == 0 ]]; then
   echoe 'No ignore files specified.'
