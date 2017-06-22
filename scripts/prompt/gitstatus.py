@@ -30,7 +30,7 @@ def main():
 
     [operation,
      branch,
-     is_detached] = _get_operation_branch(git_dir, is_inside_worktree, sha)
+     is_detached] = _get_operation_branch(git_dir, sha)
 
     is_dirty = False
     staged_state = 0
@@ -79,26 +79,29 @@ def main():
     else:
         [upstream_name, behind, ahead] = ['', 0, 0]
 
+    unmerged = _get_unmerged(git_dir, branch)
+
     repo_type = 0  # normal
     if is_bare_repo:
         repo_type = 1
     elif is_inside_gitdir:
         repo_type = 2
     results = [':' + operation,
-               branch.replace('refs/heads/', ''),
+               branch,
                repo_type,
                1 if is_detached else 0,
                1 if is_dirty else 0,
                staged_state,
                1 if has_stashed else 0,
                1 if has_untracked else 0,
+               unmerged,
                ':' + upstream_name, behind, ahead]
     print(' '.join([str(e) for e in results]))
 
     return 0
 
 
-def _get_operation_branch(git_dir, is_inside_worktree, sha):
+def _get_operation_branch(git_dir, sha):
     branch = ''
     step = -1
     total = -1
@@ -165,7 +168,7 @@ def _get_operation_branch(git_dir, is_inside_worktree, sha):
                 else:
                     branch = 'unknown'
 
-    return [operation, branch, is_detached]
+    return [operation, branch.replace('refs/heads/', ''), is_detached]
 
 
 def _get_upstream():
@@ -197,6 +200,19 @@ def _get_upstream():
     return [upstream_name, behind, ahead]
 
 
+def _get_unmerged(git_dir, branch):
+    if branch == 'master':
+        return 0
+
+    ret = subprocess.run(['git', 'rev-list', 'master..' + branch],
+                         universal_newlines=True,
+                         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if ret.returncode != 0:
+        return 0
+
+    return len(ret.stdout.strip().splitlines())
+
+
 def _read_quiet(filename):
     try:
         with open(filename) as f:
@@ -214,6 +230,7 @@ def _to_int(s, default=-1):
         i = default
 
     return i
+
 
 if __name__ == '__main__':
     exit(main())
