@@ -10,7 +10,6 @@ Usage: git ignore [OPTIONS] IGNORES...
 Options:
   -h                    Show this message.
   -v, --verbose         Show verbose message.
-  -A, --absolute
   -r, --rm
 _EOM_
 }
@@ -18,7 +17,6 @@ _EOM_
 
 # Default options
 verbose=false
-absolute=false
 remove=false
 
 # Global variables
@@ -36,10 +34,6 @@ for _opt in "$@"; do
       ;;
     -v|--verbose)
       verbose=true
-      shift 1
-      ;;
-    -A|--absolute)
-      absolute=true
       shift 1
       ;;
     -r|--rm)
@@ -65,6 +59,7 @@ if repo=$(command git rev-parse --show-toplevel 2>/dev/null); [[ $? != 0 || $rep
   echoe 'Not in git repository.' >&2
   exit 1
 fi
+repo=$(realpath "$repo")
 
 if [[ ${#args[@]} == 0 ]]; then
   echoe 'No ignore files specified.'
@@ -74,25 +69,26 @@ fi
 
 dot_gitignore="${repo}/.gitignore"
 for f in "${args[@]}"; do
-  # TODO ルートディレクトリからの相対パスに変換
-  f=${f#/}
-  f=${f%/}
-  path=${repo}/$f
-  if [[ -d $path ]]; then
-    f="$f/"
+  if [[ $f =~ ^/ ]]; then
+    fullpath=$(realpath "${repo}${f}")
+  else
+    fullpath=$(realpath "$f")
   fi
-  if $remove; then
-    if [[ -e $repo/$f ]]; then
-      git rm -r "$repo/$f"
-    fi
+
+  if [[ $f =~ /$ ]]; then
+    fullpath="${fullpath}/"
   fi
-  if $absolute; then
-    if [[ $f =~ ^[^/] ]]; then
-      f="/$f"
-    fi
+
+  path="${fullpath#$repo/}"
+  if [[ $f =~ ^/ ]]; then
+    path="/$path"
+  fi
+
+  if $remove && [[ -e $fullpath ]]; then
+    git rm -r "$fullpath"
   fi
   if $verbose; then
-    echo "Add '$f' to $dot_gitignore."
+    echo "Add '$path' to $dot_gitignore."
   fi
-  echo "$f" >>"${dot_gitignore}"
+  echo "$path" >>"${dot_gitignore}"
 done

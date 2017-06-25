@@ -35,6 +35,7 @@
     cm = commit
     ca = commit --amend
     ft = fetch
+    ig = ignore -r
 [ghq]
     root = ~/.ghq
     root = ~/.go/src

@@ -12,7 +12,6 @@ function _git-ignore()
   _arguments \
     '(- *)'{-h,--help}'[Show help]' \
     {-v,--verbose}'[Show verbose message]' \
-    {-A,--absolute}'[Add slash(/) to the beginning of the path]' \
     {-r,--rm}'[exec `git rm` command]' \
     '*: :_files'
 }
