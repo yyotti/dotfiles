@@ -491,16 +491,6 @@ fi
 fpath=($plugins_dir/$repo/src $fpath)
 # }}}
 
-# enhancd {{{
-repo='b4b4r07/enhancd'
-if [[ ! -d $plugins_dir/$repo ]]; then
-  git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $(dirname $plugins_dir/$repo)
-fi
-export ENHANCD_DIR=$ZDOTDIR/.enhancd
-source "$plugins_dir/$repo/init.sh"
-# }}}
-
 # zsh-async {{{
 repo='mafredri/zsh-async'
 if [[ ! -d $plugins_dir/$repo ]]; then
