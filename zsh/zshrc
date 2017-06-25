@@ -930,9 +930,8 @@ function precmd()
   git_prompt=''
   zle && zle reset-prompt
 
-  if [[ -f ${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh ]] && (( ${+commands[python3]} )); then
-    # async_job prompt "${ZDOTDIR:-$HOME}/zsh_git_prompt.zsh" "$(pwd)"
-    async_job prompt python3 "$HOME/.dotfiles/scripts/prompt/gitstatus.py" "$(pwd)"
+  if [[ -f $HOME/.dotfiles/scripts/prompt/gitstatus.sh  ]]; then
+    async_job prompt "$HOME/.dotfiles/scripts/prompt/gitstatus.sh" "$(pwd)"
   fi
 }
 
