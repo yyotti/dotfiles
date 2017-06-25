@@ -136,6 +136,7 @@ elseif executable('pt')
         \     '--nogroup',
         \     '--nocolor',
         \     '--smart-case',
+        \     '--hidden',
         \   ]
         \ )
 

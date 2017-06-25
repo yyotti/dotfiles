@@ -34,6 +34,8 @@ hook_post_source = '''
   " if argc() > 0
   "   doautocmd fugitive BufReadPost
   " endif
+
+  source ~/.vim/rc/plugins/vim-fugitive.rc.vim
 '''
 
 [[plugins]]

@@ -33,9 +33,9 @@ hook_add = '''
         \   filetype detect |
         \ endif
 
-  " Auto reload *.vim files
-  autocmd MyAutocmd BufWritePost .vimrc,vimrc,*.rc.vim,.vimrc_local nested
-        \ source $MYVIMRC | redraw
+  " " Auto reload *.vim files
+  " autocmd MyAutocmd BufWritePost .vimrc,vimrc,*.rc.vim,.vimrc_local nested
+  "       \ source $MYVIMRC | redraw
 
   " Auto reload VimScript
   autocmd MyAutocmd BufWritePost,FileWritePost *.vim nested
