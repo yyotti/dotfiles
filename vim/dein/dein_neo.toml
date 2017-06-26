@@ -8,7 +8,7 @@ hook_add = '''
 '''
 hook_source = 'source ~/.vim/rc/plugins/deoplete.rc.vim'
 
-[[plugis]]
+[[plugins]]
 repo = 'zchee/deoplete-go'
 if = 'executable("go")'
 depends = [ 'deoplete.nvim' ]
