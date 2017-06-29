@@ -43,6 +43,9 @@ function __main() # {{{
   local _unmerged
   _unmerged=$(__get_unmerged "$_branch")
 
+  local _now=0
+  _now=$(__get_now)
+
   local _repo_type=0
   if [[ $_bare_repo == 'true' ]]; then
     _repo_type=1
@@ -60,6 +63,7 @@ function __main() # {{{
     "$_has_stashed" \
     "$_has_untracked" \
     "$_unmerged" \
+    "$_now" \
     ":$_upstream_name" \
     "$_behind" \
     "$_ahead"
@@ -235,6 +239,23 @@ function __get_unmerged() # {{{
 
   local _cnt
   _cnt=$(command git rev-list master..."$_branch" | wc -l)
+  if [[ $? != 0 ]]; then
+    echo 0
+  else
+    echo "$_cnt"
+  fi
+}
+# }}}
+
+function __get_now() # {{{
+{
+  if ! type git-now >/dev/null 2>&1; then
+    echo 0
+    return
+  fi
+
+  local _cnt
+  _cnt=$(command git now grep | grep -c '')
   if [[ $? != 0 ]]; then
     echo 0
   else

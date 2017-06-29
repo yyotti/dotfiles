@@ -763,6 +763,7 @@ __init_color prompt_git_upstream 039
 __init_color prompt_git_upstream_behind 228
 __init_color prompt_git_upstream_ahead 135
 __init_color prompt_git_unmerged 011
+__init_color prompt_git_now 196
 
 PROMPT=$(
 echo -en [
@@ -816,6 +817,7 @@ function __mkgitprompt() # {{{
   local _has_stashed
   local _has_untracked
   local _unmerged_cnt
+  local _now_cnt
   local _up
   local _behind
   local _ahead
@@ -829,6 +831,7 @@ function __mkgitprompt() # {{{
     _has_stashed \
     _has_untracked \
     _unmerged_cnt \
+    _now_cnt \
     _up \
     _behind \
     _ahead
@@ -877,6 +880,10 @@ function __mkgitprompt() # {{{
   if [[ $_unmerged_cnt != 0 ]]; then
     _unmerged="${prompt_git_unmerged_start}+${_unmerged_cnt}${prompt_git_unmerged_end}"
   fi
+  local _now=''
+  if [[ $_now_cnt != 0 ]]; then
+    _now="${prompt_git_now_start}N${_now_cnt}${prompt_git_now_end}"
+  fi
   local _upstream=''
   if [[ $_up != ':' ]]; then
     _upstream="${prompt_git_upstream_start}${_up[2,${#_up}]}${prompt_git_upstream_end}"
@@ -899,7 +906,7 @@ function __mkgitprompt() # {{{
   local _sep="${prompt_git_separator_start}|${prompt_git_separator_end}"
 
   local _prompt_parts=()
-  _prompt_parts+="${_bare}${_branch}${_unmerged}"
+  _prompt_parts+="${_bare}${_branch}${_unmerged}${_now}"
   if [[ ${_dirty}${_staged}${_untracked}${_stashed} != '' ]]; then
     _prompt_parts+="${_sep}"
     _prompt_parts+="${_dirty}${_staged}${_untracked}${_stashed}"
