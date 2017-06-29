@@ -87,6 +87,13 @@ go = '''
   let b:not_del_last_whitespaces = 1
 
   setlocal tabstop=4
+
+  if dein#tap('vim-go')
+    nnoremap <silent> <buffer> <LocalLeader>t
+          \ :<C-u>GoTest<CR>
+    nnoremap <silent> <buffer> <LocalLeader>r
+          \ :<C-u>GoRename<CR>
+  endif
 '''
 
 help = '''
