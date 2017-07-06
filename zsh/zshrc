@@ -665,6 +665,18 @@ fi
 if (( ${+commands[pt]} )); then
   alias pt='pt --smart-case --nogroup'
 fi
+
+if (( ${+commands[nkf]} )); then
+  # エイリアスじゃないけど・・・
+  function urlenc()
+  {
+    echo "$1" | nkf -wWMQ | tr = %
+  }
+  function urldec()
+  {
+    echo "$1" | nkf -w --url-input
+  }
+fi
 # }}}
 
 # histories {{{
