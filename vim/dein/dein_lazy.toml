@@ -80,7 +80,7 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo = 'yyotti/denite.nvim'
+repo = 'Shougo/denite.nvim'
 depends = [ 'neomru.vim' ]
 hook_add = '''
   " if dein#tap('denite.nvim')
