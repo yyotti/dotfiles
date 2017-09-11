@@ -72,3 +72,12 @@ hook_add = 'source ~/.vim/rc/plugins/lightline.rc.vim'
 
 [[plugins]]
 repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'neovimhaskell/haskell-vim'
+hook_add = '''
+  let g:haskell_indent_disable = 1
+'''
+
+[[plugins]]
+repo = 'itchyny/vim-haskell-indent'

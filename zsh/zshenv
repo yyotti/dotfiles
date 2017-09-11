@@ -11,6 +11,8 @@ if [[ $TMUX == '' ]]; then
 
   path=(
   ~/bin(N-/)
+  ~/.local/bin(N-/)
+  ~/.cabal/bin(N-/)
   ~/.composer/vendor/bin(N-/)
   /usr/local/go/bin(N-/)
   ~/.dotfiles/scripts/git/subcommands(N-/)

@@ -215,3 +215,8 @@ zsh = '''
   setlocal shiftwidth=2
   setlocal tabstop=2
 '''
+
+haskell = '''
+  setlocal shiftwidth=2
+  setlocal expandtab
+'''

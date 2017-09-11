@@ -561,3 +561,8 @@ repo = 'yyotti/neosnippet-php.vim'
 depends = [ 'neosnippet.vim' ]
 on_ft = 'php'
 build = '$HOME/.vim/script/phpmanual-install.sh && php install.php -d"$HOME/.vim/refs/php-chunked-xhtml"'
+
+[[plugins]]
+repo = 'eagletmt/neco-ghc'
+on_ft = 'haskell'
+external_commands = 'ghc-mod'
