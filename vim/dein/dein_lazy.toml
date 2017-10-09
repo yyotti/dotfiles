@@ -368,60 +368,17 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-repo = 'neomake/neomake'
+repo = 'w0rp/ale'
 on_path = '.*'
-if = 'has("nvim") || v:version >= 800 || has("patch-7.4.503")'
-hook_source = '''
-  autocmd MyAutocmd BufWritePost *
-        \   if filereadable(expand('<afile>'))
-        \ |   Neomake
-        \ |   call lightline#update()
-        \ | endif
-
-  let g:neomake_remove_invalid_entries = 1
-
-  let g:neomake_scss_scsslint_maker = {
-        \   'exe': 'scss-lint',
-        \   'errorformat': '%A%f:%l [%t] %m',
-        \ }
-
-  " Vimscript
-  if !IsWindows()
-    if !executable('vimlparser')
-      let g:neomake_vim_enabled_makers = [ 'vimlint' ]
-      let g:neomake_vim_vimlint_maker = {
-            \   'exe': expand('~/.vim/script/vimlint.sh'),
-            \   'args': [ '-u' ],
-            \   'errorformat':
-            \     '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
-            \ }
-    else
-      let g:neomake_vim_enabled_makers = [ 'vimlparser' ]
-      let g:neomake_vim_vimlparser_maker = {
-            \   'exe': 'vimlparser',
-            \   'errorformat': '%f:%l:%c: vimlparser: %m',
-            \ }
-      let g:neomake_vim_vimlparser_maker.args = [ '-neovim' ]
-    endif
-  endif
-
-  if executable('golint')
-    let g:neomake_go_enabled_makers = [ 'go', 'golint' ]
-    let g:neomake_go_golint_maker = {
-          \   'errorformat': '%E%f:%l:%c: %m,%-G%.%#'
-          \ }
-  endif
-
-  if executable('tomlv')
-    let g:neomake_toml_enabled_makers = [ 'tomlv' ]
-    let g:neomake_toml_tomlv_maker = {
-          \   'errorformat': "%trror in '%f': Near line %l %m"
-          \ }
-  endif
+if = 'has("nvim") || has("job") && has("channel") && has("timers")'
+hook_add = '''
+  let g:ale_lint_on_enter = 0
+  let g:ale_sign_error = "\u2a09"
+  let g:ale_sign_warning = "\u26a0"
+  let g:ale_lint_on_text_changed = 'normal'
+  let g:ale_lint_on_insert_leave = 1
 '''
-hook_post_source = '''
-  highlight link NeomakeErrorSign ErrorMsg
-'''
+hook_source = 'source ~/.vim/rc/plugins/ale.rc.vim'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -568,3 +525,12 @@ build = '$HOME/.vim/script/phpmanual-install.sh && php install.php -d"$HOME/.vim
 repo = 'eagletmt/neco-ghc'
 on_ft = 'haskell'
 external_commands = 'ghc-mod'
+
+[[plugins]]
+repo = 'google/yapf'
+rtp = 'plugins/vim'
+on_ft = 'python'
+hook_source = '''
+  nmap <LocalLeader>f :1,$call yapf#YAPF()<CR>
+  " autocmd MyAutocmd BufWritePre *.py call yapf#YAPF()
+'''

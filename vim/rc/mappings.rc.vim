@@ -212,13 +212,6 @@ nnoremap <Space>K <C-w>K
 nnoremap <Space>J <C-w>J
 "}}}
 
-" Location "{{{
-nnoremap [E :<C-u>lfirst<CR>
-nnoremap [e :<C-u>lprevious<CR>
-nnoremap ]E :<C-u>llast<CR>
-nnoremap ]e :<C-u>lnext<CR>
-"}}}
-
 " Operate buffer "{{{
 function! SmartBDelete(force) abort "{{{
   let cur_bufnr = bufnr('%')

@@ -148,15 +148,32 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if !dein#tap('neomake') || !exists('*neomake#statusline#LoclistCounts')
+  if !dein#tap('ale')
     return ''
   endif
 
-  return '%{join(values(map(copy(neomake#statusline#LoclistCounts()),'
+  return '%{join(values(map(copy('.s:SID_PREFIX().'ale_errors()),'
         \ . '"printf(''%s(%d)'', v:key, v:val)")))}'
 endfunction "}}}
 
-autocmd MyAutocmd ColorScheme * call <SID>lightline_update()
+function! s:ale_errors() abort "{{{
+  let cnt = ale#statusline#Count(bufnr(''))
+
+  let counts = {}
+
+  let errors = cnt.error + cnt.style_error
+  if errors > 0
+    let counts['E'] = errors
+  endif
+
+  let warnings = cnt.total - errors
+  if warnings > 0
+    let counts['W'] = warnings
+  endif
+
+  return counts
+endfunction "}}}
+
 function! s:lightline_update() abort "{{{
   let g:lightline.colorscheme = 'default'
   if g:colors_name =~# 'solarized'
