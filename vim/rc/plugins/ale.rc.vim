@@ -1,5 +1,3 @@
-let g:ale_linters = {}
-
 nmap <silent> [e <Plug>(ale_previous)
 nmap <silent> [E <Plug>(ale_first)
 nmap <silent> ]e <Plug>(ale_next)
@@ -49,7 +47,6 @@ else
         \   'output_stream': 'stderr',
         \})
 
-  let g:ale_linters['vim'] = [ 'vimlparser' ]
 endif
 
 if executable('tomlv')
@@ -82,6 +79,4 @@ if executable('tomlv')
         \   'output_stream': 'stderr',
         \   'lint_file': 1,
         \})
-
-  let g:ale_linters['toml'] = [ 'tomlv' ]
 endif
