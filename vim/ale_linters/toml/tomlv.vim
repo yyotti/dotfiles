@@ -1,22 +1,22 @@
 function! ale_linters#toml#tomlv#handle(buffer, lines) abort "{{{
-  let pattern = '\vError in ''.+'': (.+)$'
-  let output = []
+  let l:pattern = '\vError in ''.+'': (.+)$'
+  let l:output = []
 
-  for line in a:lines
-    let mt = matchlist(line, pattern)
-    if len(mt) == 0
+  for l:line in a:lines
+    let l:mt = matchlist(l:line, l:pattern)
+    if len(l:mt) == 0
       continue
     endif
 
-    let text = mt[1]
-    let lnum_mt = matchlist(text, '\v^.+ line (\d+)')
-    call add(output, {
-          \   'lnum': len(lnum_mt) > 0 ? lnum_mt[1] + 0 : 1,
-          \   'text': text,
+    let l:text = l:mt[1]
+    let l:lnum_mt = matchlist(l:text, '\v^.+ line (\d+)')
+    call add(l:output, {
+          \   'lnum': len(l:lnum_mt) > 0 ? l:lnum_mt[1] + 0 : 1,
+          \   'text': l:text,
           \ })
   endfor
 
-  return output
+  return l:output
 endfunction "}}}
 
 call ale#linter#Define('toml', {

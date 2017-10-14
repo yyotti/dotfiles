@@ -16,23 +16,23 @@ function! GitCatFile(vert, ...) abort "{{{
     return
   endif
 
-  let arg1 = get(a:000, 0, '')
-  let arg2 = get(a:000, 1, '')
-  if empty(arg2)
-    let branch = fugitive#head(getcwd())
-    let file = arg1
+  let l:arg1 = get(a:000, 0, '')
+  let l:arg2 = get(a:000, 1, '')
+  if empty(l:arg2)
+    let l:branch = fugitive#head(getcwd())
+    let l:file = l:arg1
   else
-    let branch = arg1
-    let file = arg2
+    let l:branch = l:arg1
+    let l:file = l:arg2
   endif
 
-  let cmd = a:vert ? 'vnew' : 'new'
-  execute printf('%s %s:%s', cmd, branch, file)
+  let l:cmd = a:vert ? 'vnew' : 'new'
+  execute printf('%s %s:%s', l:cmd, l:branch, l:file)
   setlocal bufhidden=hide
   setlocal buftype=nofile
   setlocal noswapfile
 
-  execute printf('read ! git cat-file -p %s:%s', branch, file)
+  execute printf('read ! git cat-file -p %s:%s', l:branch, l:file)
   normal! ggdd
 
   setlocal readonly

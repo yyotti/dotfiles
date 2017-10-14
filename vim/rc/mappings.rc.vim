@@ -69,27 +69,27 @@ nnoremap ^ 0
 " Vertical gf
 function! OpenGF(direction) abort "{{{
   if winnr('$') > 1
-    let winnr = winnr()
+    let l:winnr = winnr()
     execute 'wincmd' a:direction
-    let winnr2 = winnr()
+    let l:winnr2 = winnr()
 
-    if winnr !=# winnr2
+    if l:winnr !=# l:winnr2
       wincmd p
-      execute winnr2 . 'hide'
+      execute l:winnr2 . 'hide'
     endif
   endif
 
   try
-    let vertical = ''
+    let l:vertical = ''
     if a:direction ==# 'h' || a:direction ==# 'l'
       let g:save_splitright = &splitright
       let &splitright = a:direction ==# 'l'
-      let vertical = 'vertical'
+      let l:vertical = 'vertical'
     else
       let g:save_splitbelow = &splitbelow
       let &splitbelow = a:direction ==# 'j'
     endif
-    execute vertical 'wincmd F'
+    execute l:vertical 'wincmd F'
   finally
     if exists('g:save_splitright')
       let &splitright = g:save_splitright
@@ -150,18 +150,18 @@ cnoremap <C-g> <C-c>
 " Toggle word boundary
 cnoremap <C-o> <C-\>e<SID>toggle_word_boundary()<CR>
 function! s:toggle_word_boundary() abort "{{{
-  let cmdline = getcmdline()
+  let l:cmdline = getcmdline()
   if getcmdtype() !=# '/' && getcmdtype() !=# '?'
-    return cmdline
+    return l:cmdline
   endif
 
-  if cmdline !~# '^\\<.*\\>$'
-    let cmdline = '\<' . cmdline . '\>'
+  if l:cmdline !~# '^\\<.*\\>$'
+    let l:cmdline = '\<' . l:cmdline . '\>'
   else
-    let cmdline = cmdline[2:len(cmdline) - 3]
+    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
   endif
 
-  return cmdline
+  return l:cmdline
 endfunction "}}}
 "}}}
 
@@ -214,29 +214,29 @@ nnoremap <Space>J <C-w>J
 
 " Operate buffer "{{{
 function! SmartBDelete(force) abort "{{{
-  let cur_bufnr = bufnr('%')
+  let l:cur_bufnr = bufnr('%')
 
-  let buffers = {}
-  for buf in split(execute('ls'), "\n")
-    let [ _, bufnr, bufstatus; _] =
-          \ matchlist(buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
-    let buffers[bufnr] = bufstatus
+  let l:buffers = {}
+  for l:buf in split(execute('ls'), "\n")
+    let [ l:_, l:bufnr, l:bufstatus, l:_] =
+          \ matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
+    let l:buffers[l:bufnr] = l:bufstatus
   endfor
 
-  if len(buffers) > winnr('$') && has_key(buffers, cur_bufnr)
-    let alt_bufnr = bufnr('#')
-    if !has_key(buffers, alt_bufnr) || buffers[alt_bufnr] =~# 'a'
+  if len(l:buffers) > winnr('$') && has_key(l:buffers, l:cur_bufnr)
+    let l:alt_bufnr = bufnr('#')
+    if !has_key(l:buffers, l:alt_bufnr) || l:buffers[l:alt_bufnr] =~# 'a'
       " Alt buffer is active buffer or not listed
-      let next_bufnr =
-            \ keys(filter(copy(buffers), { _, val -> val !~# 'a' }))[0]
+      let l:next_bufnr =
+            \ keys(filter(copy(l:buffers), { _, val -> val !~# 'a' }))[0]
     else
-      let next_bufnr = alt_bufnr
+      let l:next_bufnr = l:alt_bufnr
     endif
 
-    execute 'buffer' next_bufnr
+    execute 'buffer' l:next_bufnr
   endif
 
-  execute 'bdelete' . (a:force ? '!' : '') cur_bufnr
+  execute 'bdelete' . (a:force ? '!' : '') l:cur_bufnr
 endfunction "}}}
 
 nnoremap <silent> <Space>o :<C-u>only<CR>

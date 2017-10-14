@@ -181,17 +181,17 @@ endif
 let s:items = []
 
 function! s:separator(title) abort "{{{
-  let ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
-  let wt = len(a:title)
+  let l:ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
+  let l:wt = len(a:title)
 
-  let abbr = printf('===== [%s] %s', a:title, repeat('=', ww - wt - 10))
-  return [ abbr, '' ]
+  let l:abbr = printf('===== [%s] %s', a:title, repeat('=', l:ww - l:wt - 10))
+  return [ l:abbr, '' ]
 endfunction "}}}
 
 function! s:menu_line(item, width) abort "{{{
-  let fmt = printf('%%-%ds : %%s', a:width)
+  let l:fmt = printf('%%-%ds : %%s', a:width)
   return [
-        \   printf(fmt, a:item.title, fnamemodify(a:item.path, ':~')),
+        \   printf(l:fmt, a:item.title, fnamemodify(a:item.path, ':~')),
         \   a:item.path
         \ ]
 endfunction "}}}
@@ -204,30 +204,30 @@ function! s:is_valid_item(item) abort "{{{
 endfunction "}}}
 
 function! s:add_items(title, items) abort "{{{
-  let items = map(
+  let l:items = map(
         \   filter(a:items, 's:is_valid_item(v:val)'),
         \   "extend(copy(v:val), { 'is_separator': 0 }, 'force')"
         \ )
-  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + items
+  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + l:items
 endfunction "}}}
 
 function! s:build_menu() abort "{{{
-  let title_len_max = max(
+  let l:title_len_max = max(
         \   map(
         \     filter(copy(s:items), '!v:val.is_separator'),
         \     'len(v:val.title)'
         \   )
         \ )
 
-  let menus = {
+  let l:menus = {
         \   'file_candidates': map(
         \     s:items,
         \     'v:val.is_separator ?
-        \       s:separator(v:val.title) : s:menu_line(v:val, title_len_max)'
+        \       s:separator(v:val.title) : s:menu_line(v:val, l:title_len_max)'
         \   ),
         \ }
 
-  call denite#custom#var('menu', 'menus', { '_': menus })
+  call denite#custom#var('menu', 'menus', { '_': l:menus })
 endfunction "}}}
 
 function! s:simple_items(...) abort "{{{
@@ -241,16 +241,16 @@ function! s:simple_items(...) abort "{{{
 endfunction "}}}
 
 function! s:vimrc_items() abort "{{{
-  let path = resolve(expand('~/.vim'))
-  if !isdirectory(path)
+  let l:path = resolve(expand('~/.vim'))
+  if !isdirectory(l:path)
     return []
   endif
 
-  let command =
-        \ 'git -C ' . shellescape(path) . ' ls-files -co --exclude-standard'
+  let l:command =
+        \ 'git -C ' . shellescape(l:path) . ' ls-files -co --exclude-standard'
 
   return map(
-        \   sort(systemlist(command)),
+        \   sort(systemlist(l:command)),
         \   '{' .
         \     "'title': v:val," .
         \     "'path': vimrc#join_path(path, v:val)," .
@@ -259,17 +259,17 @@ function! s:vimrc_items() abort "{{{
 endfunction "}}}
 
 function! s:zsh_items() abort "{{{
-  let path = resolve(expand('~/.zsh'))
-  if !isdirectory(path)
+  let l:path = resolve(expand('~/.zsh'))
+  if !isdirectory(l:path)
     return []
   endif
 
-  let command =
-        \ 'git -C ' . shellescape(path) . ' ls-files -co --exclude-standard'
+  let l:command =
+        \ 'git -C ' . shellescape(l:path) . ' ls-files -co --exclude-standard'
 
-  let zshenv = resolve(expand('~/.zshenv'))
-  return [{ 'title': '.zshenv', 'path': zshenv }] + map(
-        \   sort(systemlist(command)),
+  let l:zshenv = resolve(expand('~/.zshenv'))
+  return [{ 'title': '.zshenv', 'path': l:zshenv }] + map(
+        \   sort(systemlist(l:command)),
         \   '{' .
         \     "'title': v:val," .
         \     "'path': vimrc#join_path(path, v:val)," .

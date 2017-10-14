@@ -10,12 +10,12 @@ set noshowmode
 
 let g:lightline = {
       \   'separator': {
-      \     'left': IsWindows() ? "" : "\u2b80",
-      \     'right': IsWindows() ? "" : "\u2b82",
+      \     'left': IsWindows() ? '' : "\u2b80",
+      \     'right': IsWindows() ? '' : "\u2b82",
       \   },
       \   'subseparator': {
-      \     'left': IsWindows() ? "" : "\u2b81",
-      \     'right': IsWindows() ? "" : "\u2b83",
+      \     'left': IsWindows() ? '' : "\u2b81",
+      \     'right': IsWindows() ? '' : "\u2b83",
       \   },
       \   'active': {
       \     'left': [
@@ -127,16 +127,16 @@ function! s:gitinfo() abort "{{{
     return ''
   endif
 
-  let symbols = [
+  let l:symbols = [
         \   g:gitgutter_sign_added,
         \   g:gitgutter_sign_modified,
         \   g:gitgutter_sign_removed,
         \ ]
-  let hunks = GitGutterGetHunkSummary()
+  let l:hunks = GitGutterGetHunkSummary()
 
   return join(
         \   filter(
-        \     map([0, 1, 2], "symbols[v:val] . ':' . hunks[v:val]"),
+        \     map([0, 1, 2], "l:symbols[v:val] . ':' . l:hunks[v:val]"),
         \     "v:val[-2:] !=# ':0'"
         \   ),
         \   ' '
@@ -157,21 +157,21 @@ function! s:error_count() abort "{{{
 endfunction "}}}
 
 function! s:ale_errors() abort "{{{
-  let cnt = ale#statusline#Count(bufnr(''))
+  let l:cnt = ale#statusline#Count(bufnr(''))
 
-  let counts = {}
+  let l:counts = {}
 
-  let errors = cnt.error + cnt.style_error
-  if errors > 0
-    let counts['E'] = errors
+  let l:errors = l:cnt.error + l:cnt.style_error
+  if l:errors > 0
+    let l:counts['E'] = l:errors
   endif
 
-  let warnings = cnt.total - errors
-  if warnings > 0
-    let counts['W'] = warnings
+  let l:warnings = l:cnt.total - l:errors
+  if l:warnings > 0
+    let l:counts['W'] = l:warnings
   endif
 
-  return counts
+  return l:counts
 endfunction "}}}
 
 function! s:lightline_update() abort "{{{

@@ -1,24 +1,24 @@
 function! ale_linters#vim#vimlparser#handle(buffer, lines) abort "{{{
-  let pattern = '\vvimlparser: (.+): line (\d+) col (\d+)$'
-  let output = []
+  let l:pattern = '\vvimlparser: (.+): line (\d+) col (\d+)$'
+  let l:output = []
 
-  for line in a:lines
-    let mt = matchlist(line, pattern)
-    if len(mt) == 0
+  for l:line in a:lines
+    let l:mt = matchlist(l:line, l:pattern)
+    if len(l:mt) == 0
       continue
     endif
 
-    let text = mt[1]
+    let l:text = l:mt[1]
 
-    call add(output, {
-          \   'lnum': mt[2] + 0,
-          \   'col': mt[3] + 0,
-          \   'text': text,
-          \   'type': text =~# '^E' ? 'E' : 'W',
+    call add(l:output, {
+          \   'lnum': l:mt[2] + 0,
+          \   'col': l:mt[3] + 0,
+          \   'text': l:text,
+          \   'type': l:text =~# '^E' ? 'E' : 'W',
           \ })
   endfor
 
-  return output
+  return l:output
 endfunction "}}}
 
 call ale#linter#Define('vim', {

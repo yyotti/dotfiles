@@ -7,7 +7,7 @@ function! vimrc#on_filetype() abort "{{{
 endfunction "}}}
 
 function! vimrc#join_path(base, ...) abort "{{{
-  let paths = filter(
+  let l:paths = filter(
         \   map(
         \     map(
         \       copy(a:000),
@@ -18,27 +18,27 @@ function! vimrc#join_path(base, ...) abort "{{{
         \   ),
         \   { _, val -> !empty(val) }
         \ )
-  return empty(paths) ? a:base : join([ a:base ] + paths, '/')
+  return empty(l:paths) ? a:base : join([ a:base ] + l:paths, '/')
 endfunction "}}}
 
 function! vimrc#input(...) abort "{{{
   new
   cnoremap <buffer> <Esc> __CANCELED__<CR>
   try
-    let input = call('input', a:000)
-    let input = input =~# '__CANCELED__$' ? 0 : input
+    let l:input = call('input', a:000)
+    let l:input = l:input =~# '__CANCELED__$' ? 0 : l:input
   catch /^Vim:Interrupt$/
-    let input = -1
+    let l:input = -1
   finally
     bwipeout!
-    return input
+    return l:input
   endtry
 endfunction "}}}
 
 function! vimrc#error(msg) abort "{{{
-  let msg = index([ v:t_string, v:t_number ], type(a:msg)) < 0
+  let l:msg = index([ v:t_string, v:t_number ], type(a:msg)) < 0
         \ ? string(a:msg) : a:msg
   echohl ErrorMsg
-  echomsg msg
+  echomsg l:msg
   echohl None
 endfunction "}}}

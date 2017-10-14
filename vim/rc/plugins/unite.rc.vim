@@ -57,8 +57,8 @@ function! s:unite_settings() abort "{{{
   nmap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)
   imap <buffer> <C-t> <Plug>(unite_toggle_transpose_window)
 
-  let u = unite#get_current_unite()
-  if u.profile_name =~# '^search' || u.profile_name =~# '^grep'
+  let l:u = unite#get_current_unite()
+  if l:u.profile_name =~# '^search' || l:u.profile_name =~# '^grep'
     nnoremap <silent> <buffer> <expr> r unite#do_action('replace')
   else
     nnoremap <silent> <buffer> <expr> r unite#do_action('rename')
@@ -101,31 +101,32 @@ let g:unite_source_rec_max_cache_files = -1
 let s:items = []
 
 function! s:separator(title) abort "{{{
-  let ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
-  let wt = len(a:title)
+  let l:ww = &colorcolumn ==# 0 ? 78 : &colorcolumn
+  let l:wt = len(a:title)
 
-  let abbr = printf('===== [%s] %s', a:title, repeat('=', ww - wt - 10))
+  let l:abbr = printf('===== [%s] %s', a:title, repeat('=', l:ww - l:wt - 10))
   return {
         \   'word': '',
-        \   'abbr': abbr,
+        \   'abbr': l:abbr,
         \   'kind': 'common',
         \   'is_dummy': 1,
         \ }
 endfunction "}}}
 
 function! s:menu_line(item, width) abort "{{{
-  let fmt = printf('%%-%ds : %%s', a:width)
+  let l:fmt = printf('%%-%ds : %%s', a:width)
 
-  let candidate = {
+  let l:candidate = {
         \   'word': a:item.path,
-        \   'abbr': printf(fmt, a:item.title, fnamemodify(a:item.path, ':~')),
+        \   'abbr':
+        \     printf(l:fmt, a:item.title, fnamemodify(a:item.path, ':~')),
         \   'kind': isdirectory(a:item.path) ? 'directory' : 'file',
         \   'action__path': a:item.path,
         \ }
   if has_key(a:item, 'repo') && a:item.repo !=# ''
-    let candidate.action__url = 'https://github.com/' . a:item.repo
+    let l:candidate.action__url = 'https://github.com/' . a:item.repo
   endif
-  return candidate
+  return l:candidate
 endfunction "}}}
 
 function! s:is_valid_item(item) abort "{{{
@@ -136,34 +137,35 @@ function! s:is_valid_item(item) abort "{{{
 endfunction "}}}
 
 function! s:add_items(title, items) abort "{{{
-  let items = map(
+  let l:items = map(
         \   filter(a:items, 's:is_valid_item(v:val)'),
         \   "extend(copy(v:val), { 'is_separator': 0 }, 'force')"
         \ )
-  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + items
+  let s:items += [ { 'title': a:title, 'is_separator': 1 } ] + l:items
 endfunction "}}}
 
 function! s:build_menu() abort "{{{
-  let menu = {}
+  let l:menu = {}
 
-  let menu.title_len_max = max(
+  let l:menu.title_len_max = max(
         \   map(
         \     filter(copy(s:items), '!v:val.is_separator'),
         \     'len(v:val.title)'
         \   )
         \ )
 
-  function! menu.map(...) abort "{{{
+  function! l:menu.map(...) abort "{{{
     " Ignore first argument (key)
-    let item = a:2
-    let w = self.title_len_max
-    return item.is_separator ? s:separator(item.title) : s:menu_line(item, w)
+    let l:item = a:2
+    let l:w = l:self.title_len_max
+    return l:item.is_separator ?
+          \ s:separator(l:item.title) : s:menu_line(l:item, l:w)
   endfunction "}}}
 
-  let menu.candidates = s:items
+  let l:menu.candidates = s:items
 
   let g:unite_source_menu_menus = {}
-  let g:unite_source_menu_menus._ = menu
+  let g:unite_source_menu_menus._ = l:menu
 endfunction "}}}
 
 function! s:simple_items(...) abort "{{{
@@ -177,10 +179,10 @@ function! s:simple_items(...) abort "{{{
 endfunction "}}}
 
 function! s:vimrc_items() abort "{{{
-  let prefix = expand('~/.vim/rc/')
+  let l:prefix = expand('~/.vim/rc/')
 
   return map(
-      \   filter(glob(prefix . '**', 0, 1), '!isdirectory(v:val)'),
+      \   filter(glob(l:prefix . '**', 0, 1), '!isdirectory(v:val)'),
       \   '{' .
       \     "'title': strpart(v:val, strlen(prefix))," .
       \     "'path': fnamemodify(v:val, ':p')," .
@@ -219,16 +221,16 @@ function! s:delete(path) abort "{{{
   if has('patch-7.4.1120')
     call delete(a:path, 'rf')
   else
-    let path = a:path
+    let l:path = a:path
     if IsWindows()
-      let path = substitute(path, '/', '\\\\', 'g')
+      let l:path = substitute(l:path, '/', '\\\\', 'g')
     endif
 
-    let rm_command = IsWindows() ? 'rmdir /S /Q' : 'rm -rf'
-    let result = system(printf('%s %s', rm_command, shellescape(path)))
+    let l:rm_command = IsWindows() ? 'rmdir /S /Q' : 'rm -rf'
+    let l:result = system(printf('%s %s', l:rm_command, shellescape(l:path)))
     if v:shell_error
       echohl WarningMsg
-      echomsg result
+      echomsg l:result
       echohl None
     endif
   endif
@@ -239,24 +241,24 @@ let s:menu_delete = {
       \   'is_selectable': 1,
       \ }
 function! s:menu_delete.func(candidates) abort "{{{
-  for path in map(a:candidates, 'v:val.action__path')
-    let input = s:input(printf('Delete %s ? [y/N]:', path))
-    if type(input) ==# type(0) && input <= 0 || input !~? '^y\%[es]$'
+  for l:path in map(a:candidates, 'v:val.action__path')
+    let l:input = s:input(printf('Delete %s ? [y/N]:', l:path))
+    if type(l:input) ==# type(0) && l:input <= 0 || l:input !~? '^y\%[es]$'
       continue
     endif
 
-    let full_path = fnamemodify(path, ':p')
-    let ftype = getftype(full_path)
-    if ftype ==# 'link'
-      let msg = printf(
-            \   '%s is symbolic link. Delete link target ? [y/N]:', path
+    let l:full_path = fnamemodify(l:path, ':p')
+    let l:ftype = getftype(l:full_path)
+    if l:ftype ==# 'link'
+      let l:msg = printf(
+            \   '%s is symbolic link. Delete link target ? [y/N]:', l:path
             \ )
-      let input = s:input(msg)
-      if input =~? '^y\%[es]$'
-        call s:delete(resolve(full_path))
+      let l:input = s:input(l:msg)
+      if l:input =~? '^y\%[es]$'
+        call s:delete(resolve(l:full_path))
       endif
     endif
-    call s:delete(full_path)
+    call s:delete(l:full_path)
   endfor
 endfunction "}}}
 call unite#custom#action('source/menu/*', 'delete', s:menu_delete)
@@ -266,20 +268,20 @@ let s:menu_open_browser = {
       \   'is_selectable': 1,
       \ }
 function! s:menu_open_browser.func(candidates) abort "{{{
-  for url in map(a:candidates, "get(v:val, 'action__url', '')")
-    if url ==# ''
+  for l:url in map(a:candidates, "get(v:val, 'action__url', '')")
+    if l:url ==# ''
       continue
     endif
 
     if exists('*openbrowser#open') || dein#tap('open-browser.vim')
-      call openbrowser#open(url)
+      call openbrowser#open(l:url)
     else
-      let url = shellescape(url)
-      let exec_command = IsWindows() ? 'start' : 'xdg-open'
+      let l:url = shellescape(l:url)
+      let l:exec_command = IsWindows() ? 'start' : 'xdg-open'
       if exists('*vimproc#system')
-        call vimproc#system(printf('%s %s', exec_command, url))
+        call vimproc#system(printf('%s %s', l:exec_command, l:url))
       else
-        call system(printf('%s %s', exec_command, url))
+        call system(printf('%s %s', l:exec_command, l:url))
       endif
     endif
   endfor

@@ -17,7 +17,7 @@ set autoindent
 set smartindent
 
 " Clipboard
-if (has('nvim') || $DISPLAY != '') && has('clipboard')
+if (has('nvim') || $DISPLAY !=# '') && has('clipboard')
   set clipboard&
   if has('unnamedplus')
     set clipboard+=unnamedplus
@@ -98,8 +98,8 @@ function! s:mkdir_as_necessary(dir, force) abort "{{{
     return
   endif
 
-  let ans = vimrc#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
-  if type(ans) ==# v:t_string && ans =~? '^y\%[es]$'
+  let l:ans = vimrc#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
+  if type(l:ans) ==# v:t_string && l:ans =~? '^y\%[es]$'
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
   endif
 endfunction "}}}
@@ -115,12 +115,12 @@ function! s:del_last_whitespaces() abort "{{{
     return
   endif
 
-  let cursor = getpos('.')
+  let l:cursor = getpos('.')
 
   global/^/ s/\s\+$//e
 
-  call setpos('.', cursor)
-  unlet cursor
+  call setpos('.', l:cursor)
+  unlet l:cursor
 endfunction "}}}
 
 " lcd git root directory
@@ -132,25 +132,25 @@ if executable('git')
   endfunction "}}}
 
   function! s:cd_gitroot() abort "{{{
-    let dir = getcwd()
+    let l:dir = getcwd()
 
-    let buf_path = expand('%:p')
-    if !isdirectory(buf_path)
-      let buf_path = fnamemodify(buf_path, ':h')
+    let l:buf_path = expand('%:p')
+    if !isdirectory(l:buf_path)
+      let l:buf_path = fnamemodify(l:buf_path, ':h')
     endif
-    if !isdirectory(buf_path)
+    if !isdirectory(l:buf_path)
       return
     endif
-    execute 'lcd' escape(buf_path, ' ')
+    execute 'lcd' escape(l:buf_path, ' ')
 
-    let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
-    if in_git_dir !=# 'true'
-      execute 'lcd' escape(dir, ' ')
+    let l:in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
+    if l:in_git_dir !=# 'true'
+      execute 'lcd' escape(l:dir, ' ')
       return
     endif
 
-    let git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' escape(git_root, ' ')
+    let l:git_root = s:trim(system('git rev-parse --show-toplevel'))
+    execute 'lcd' escape(l:git_root, ' ')
   endfunction "}}}
 endif
 
@@ -166,7 +166,7 @@ else
   execute "set listchars=tab:\u00bb\\ "
   execute "set listchars+=eol:\u21b2"
   execute "set listchars+=nbsp:\u2423"
-  execute "set listchars+=trail:-"
+  execute 'set listchars+=trail:-'
   execute "set listchars+=extends:\u27e9"
   execute "set listchars+=precedes:\u27e8"
 endif
@@ -258,15 +258,15 @@ function! WidthPart(str, width) abort "{{{
     return ''
   endif
 
-  let ret = a:str
-  let width = strwidth(a:str)
-  while width > a:width
-    let char = matchstr(ret, '.$')
-    let ret = ret[: -1 - len(char)]
-    let width -= strwidth(char)
+  let l:ret = a:str
+  let l:width = strwidth(a:str)
+  while l:width > a:width
+    let l:char = matchstr(l:ret, '.$')
+    let l:ret = l:ret[: -1 - len(l:char)]
+    let l:width -= strwidth(l:char)
   endwhile
 
-  return ret
+  return l:ret
 endfunction "}}}
 
 set conceallevel=2
