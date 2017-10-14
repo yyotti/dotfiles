@@ -378,7 +378,12 @@ hook_add = '''
   let g:ale_lint_on_text_changed = 'normal'
   let g:ale_lint_on_insert_leave = 1
 '''
-hook_source = 'source ~/.vim/rc/plugins/ale.rc.vim'
+hook_source = '''
+  nmap <silent> [e <Plug>(ale_previous)
+  nmap <silent> [E <Plug>(ale_first)
+  nmap <silent> ]e <Plug>(ale_next)
+  nmap <silent> ]E <Plug>(ale_last)
+'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
