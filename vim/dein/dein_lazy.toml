@@ -383,6 +383,16 @@ hook_source = '''
   nmap <silent> [E <Plug>(ale_first)
   nmap <silent> ]e <Plug>(ale_next)
   nmap <silent> ]E <Plug>(ale_last)
+
+  if !exists('g:ale_linters')
+    let g:ale_linters = {}
+  endif
+  if executable('gometalinter')
+    let g:ale_linters.go = [ 'gometalinter' ]
+    let g:ale_go_gometalinter_options = '--fast --enable=staticcheck --enable=gosimple --enable=unused'
+  else
+    let g:ale_linters.go = [ 'go build', 'gofmt', 'golint', 'go vet' ]
+  endif
 '''
 
 [[plugins]]
