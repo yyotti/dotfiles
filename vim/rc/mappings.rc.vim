@@ -218,9 +218,8 @@ function! SmartBDelete(force) abort "{{{
 
   let l:buffers = {}
   for l:buf in split(execute('ls'), "\n")
-    let [ l:_, l:bufnr, l:bufstatus, l:_] =
-          \ matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
-    let l:buffers[l:bufnr] = l:bufstatus
+    let l:mt = matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
+    let l:buffers[l:mt[1]] = l:mt[2]
   endfor
 
   if len(l:buffers) > winnr('$') && has_key(l:buffers, l:cur_bufnr)
