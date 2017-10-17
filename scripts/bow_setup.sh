@@ -230,14 +230,33 @@ sudo pip3 install neovim
 echo
 
 #=============================================================================
+# Install wcwidth
+#
+echo 'Install wcwidth.'
+repo=fumiyas/wcwidth-cjk
+ghq get $repo
+cd "$GHQ_ROOT/github.com/$repo"
+ver=$(date +'%Y%m%d')
+git checkout -b "v$ver" "$ver"
+autoreconf --install
+./configure --prefix=/usr/local/
+make
+sudo make install
+
+echo
+
+#=============================================================================
 # Install tmux
+#
+# https://gist.github.com/z80oolong/e65baf0d590f62fab8f4f7c358cbcc34
 #
 echo 'Install tmux.'
 repo=tmux/tmux
 ghq get $repo
 cd "$GHQ_ROOT/github.com/$repo"
-ver=$(git tag | tail -n 1)
+ver='2.6'
 git checkout -b "v$ver" "$ver"
+git apply --verbose --binary <(curl -sL https://gist.githubusercontent.com/z80oolong/e65baf0d590f62fab8f4f7c358cbcc34/raw/79816afd71715ed409c5a81097456c822e5e2cfc/tmux-HEAD-fb02df66-fix.diff)
 sh autogen.sh
 ./configure
 make

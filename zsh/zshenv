@@ -29,4 +29,8 @@ if (( ${+commands[go]} )); then
   path=($GOPATH/bin $path)
 fi
 
+if (( ${+commands[wcwidth-cjk]} )); then
+  export LD_PRELOAD=/usr/local/lib/wcwidth-cjk.so
+fi
+
 skip_global_compinit=1
