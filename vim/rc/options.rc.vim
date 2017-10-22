@@ -1,5 +1,5 @@
 "-----------------------------------------------------------------------------
-" Search:
+" Global Options:
 "
 set ignorecase
 set smartcase
@@ -27,8 +27,6 @@ if (has('nvim') || $DISPLAY !=# '') && has('clipboard')
 endif
 
 set backspace=indent,eol,start
-
-set matchpairs+=<:>
 
 set hidden
 
@@ -92,14 +90,14 @@ autocmd MyAutocmd InsertLeave *
 " Create directory automatically
 " http://vim-users.jp/2011/02/hack202/
 autocmd MyAutocmd BufWritePre *
-      \ call s:mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
+      \ call <SID>mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
 function! s:mkdir_as_necessary(dir, force) abort "{{{
   if isdirectory(a:dir) || &buftype !=# ''
     return
   endif
 
-  let l:ans = vimrc#input(printf('"%s" does not exists. Create? [y/N]', a:dir))
-  if type(l:ans) ==# v:t_string && l:ans =~? '^y\%[es]$'
+  let l:msg = printf('"%s" does not exists. Create ?', a:dir)
+  if confirm(l:msg, "&Yes\n&No", 2) ==# 1
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
   endif
 endfunction "}}}
@@ -107,7 +105,7 @@ endfunction "}}}
 " Remove last whitespaces
 autocmd MyAutocmd BufWritePre * call <SID>del_last_whitespaces()
 function! s:del_last_whitespaces() abort "{{{
-  if exists('b:not_del_last_whitespaces')
+  if !get(b:, 'del_last_whitespaces', 1)
     return
   endif
 
@@ -125,7 +123,7 @@ endfunction "}}}
 
 " lcd git root directory
 if executable('git')
-  autocmd MyAutocmd BufWinEnter * call s:cd_gitroot()
+  autocmd MyAutocmd BufWinEnter * call <SID>cd_gitroot()
 
   function! s:trim(str) abort "{{{
     return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')
@@ -141,11 +139,11 @@ if executable('git')
     if !isdirectory(l:buf_path)
       return
     endif
-    execute 'lcd' escape(l:buf_path, ' ')
+    execute 'lcd' fnameescape(l:buf_path)
 
     let l:in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
     if l:in_git_dir !=# 'true'
-      execute 'lcd' escape(l:dir, ' ')
+      execute 'lcd' fnameescape(l:dir)
       return
     endif
 
@@ -191,8 +189,14 @@ else
   set nowrap
 endif
 
+set diffopt+=vertical
+
 autocmd MyAutocmd BufEnter,BufWinEnter *
       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
+
+" TODO Neovim ?
+" autocmd MyAutocmd OptionSet diff
+"       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
 
 set shortmess=aTI
 if has('patch-7.4.314')
@@ -201,9 +205,6 @@ else
   autocmd MyAutocmd VimEnter *
         \ highlight ModeMsg guifg=bg guibg=bg |
         \ highlight Question guifg=bg guibg=bg
-endif
-if has('patch-7.4.1570')
-  " set shortmess+=F
 endif
 
 set t_vb=

@@ -108,7 +108,7 @@ endfunction "}}}
 
 function! s:branch_visible() abort "{{{
   return &filetype !=# 'vimfiler' &&
-        \ dein#tap('vim-fugitive') && !empty(fugitive#head())
+        \ pack#has('tpope/vim-fugitive') && !empty(fugitive#head())
 endfunction "}}}
 
 function! s:branch() abort "{{{
@@ -148,7 +148,7 @@ function! s:fileinfo_visible() abort "{{{
 endfunction "}}}
 
 function! s:error_count() abort "{{{
-  if !dein#tap('ale')
+  if !dein#has('w0rp/ale')
     return ''
   endif
 

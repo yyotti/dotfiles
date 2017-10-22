@@ -40,11 +40,11 @@ endif
 
 nnoremap x "_x
 
-nnoremap <Space>w :<C-u>call ToggleOption('wrap')<CR>
-nnoremap <Space>N :<C-u>call ToggleOption('number')<CR>
+nnoremap \w :<C-u>call ToggleOption('wrap')<CR>
+nnoremap \n :<C-u>call ToggleOption('number')<CR>
 
 " Clear hlsearch
-nnoremap <silent> H :<C-u>nohlsearch<CR>
+nnoremap \h :<C-u>nohlsearch<CR>
 
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
@@ -243,3 +243,7 @@ nnoremap <silent> <Space>h :<C-u>hide<CR>
 nnoremap <silent> <Space>d :<C-u>call SmartBDelete(0)<CR>
 nnoremap <silent> <Space>D :<C-u>call SmartBDelete(1)<CR>
 "}}}
+
+" For plugins {{{
+nnoremap <Space>u <Nop>
+" }}}

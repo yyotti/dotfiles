@@ -42,3 +42,25 @@ function! vimrc#error(msg) abort "{{{
   echomsg l:msg
   echohl None
 endfunction "}}}
+
+function! vimrc#chunk(list, cnt) abort "{{{
+  if len(a:list) > a:cnt
+    return copy(a:list)
+  endif
+
+  let l:chunks = []
+  let l:c = []
+  for l:item in a:list
+    if len(l:c) == a:cnt
+      call add(l:chunks, l:c)
+      let l:c = []
+    endif
+    call add(l:c, l:item)
+  endfor
+
+  if len(l:c) > 0
+    call add(l:chunks, l:c)
+  endif
+
+  return l:chunks
+endfunction "}}}

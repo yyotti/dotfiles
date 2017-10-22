@@ -7,13 +7,14 @@ augroup MyAutocmd
   autocmd!
   autocmd FileType,ColorScheme,Syntax,BufNewFile,BufNew,BufRead *?
         \ call vimrc#on_filetype()
-  autocmd CursorHold *.toml syntax sync minlines=300
+  " FIXME Check
+  " autocmd CursorHold *.toml syntax sync minlines=300
 augroup END
 
-let s:is_cygwin = has('win32unix')
+let $VIMDIR = fnamemodify($MYVIMRC, ':h')
 
 function! s:source_rc(path) abort "{{{
-  execute 'source' fnameescape('~/.vim/rc/' . a:path)
+  execute 'source' fnameescape(vimrc#join_path($VIMDIR, 'rc', a:path))
 endfunction "}}}
 
 if has('vim_starting')
@@ -23,11 +24,14 @@ endif
 "-----------------------------------------------------------------------------
 " Plugin Settings:
 "
-call s:source_rc('dein.rc.vim')
-if has('vim_starting') && argc() > 0
-  call dein#call_hook('source')
-  call dein#call_hook('post_source')
-endif
+call s:source_rc('packages.rc.vim')
+
+" FIXME Need?
+" if has('vim_starting') && argc() > 0
+"   call dein#call_hook('source')
+"   call dein#call_hook('post_source')
+" endif
+
 call vimrc#on_filetype()
 
 "-----------------------------------------------------------------------------
@@ -39,6 +43,11 @@ call s:source_rc('encoding.rc.vim')
 " Options:
 "
 call s:source_rc('options.rc.vim')
+
+"-----------------------------------------------------------------------------
+" Filetypes:
+"
+call s:source_rc('filetypes.rc.vim')
 
 "-----------------------------------------------------------------------------
 " Mappings:
@@ -53,7 +62,8 @@ if has('nvim')
 endif
 
 if IsWindows()
-  call s:source_rc('windows.rc.vim')
+  " FIXME Remove?
+  " call s:source_rc('windows.rc.vim')
 else
   call s:source_rc('unix.rc.vim')
 endif

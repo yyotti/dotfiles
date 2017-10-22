@@ -17,6 +17,8 @@ if IsWindows()
   if has('kaoriya')
     set ambiwidth=auto
   endif
+
+  " FIXME Use windows font
 endif
 
 "-----------------------------------------------------------------------------

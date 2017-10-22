@@ -10,5 +10,4 @@ function! s:re_check_fenc() abort "{{{
   endif
 endfunction "}}}
 
-" set fileformat=unix
 set fileformats=unix,dos,mac
