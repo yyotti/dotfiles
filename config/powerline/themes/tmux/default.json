@@ -39,8 +39,7 @@
 				"draw_soft_divider": false
 			},
 			{
-				"function": "powerline.segments.common.net.network_load",
-				"priority": 10
+				"function": "powerline.segments.common.net.external_ip"
 			},
 			{
 				"function": "powerline.segments.common.time.date",
