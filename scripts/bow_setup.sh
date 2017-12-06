@@ -152,8 +152,8 @@ if [[ $go_ver != '' ]]; then
   sudo tar -C /usr/local -xzf "$archive_name"
   export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
-  echo 'Install Glide.'
-  curl https://glide.sh/get | sh
+  # echo 'Install Glide.'
+  # curl https://glide.sh/get | sh
 fi
 
 echo
@@ -181,31 +181,31 @@ echo
 #=============================================================================
 # Install Vim
 #
-echo 'Install Vim.'
-repo=vim/vim
-ghq get $repo
-cd "$GHQ_ROOT/github.com/$repo"
-ver=$(git tag | tail -n 1)
-git checkout -b "v$ver" "$ver"
-cd ./src
-make autoconf
-cd ../
-./configure \
-  --with-features=huge \
-  --disable-selinux \
-  --enable-gui=no \
-  --enable-multibyte \
-  --enable-python3interp \
-  --enable-luainterp \
-  --with-lua-prefix=/usr \
-  --with-luajit \
-  --enable-fontset \
-  --enable-fail-if-missing
-make
-sudo make install
-sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
-
-echo
+# echo 'Install Vim.'
+# repo=vim/vim
+# ghq get $repo
+# cd "$GHQ_ROOT/github.com/$repo"
+# ver=$(git tag | tail -n 1)
+# git checkout -b "v$ver" "$ver"
+# cd ./src
+# make autoconf
+# cd ../
+# ./configure \
+#   --with-features=huge \
+#   --disable-selinux \
+#   --enable-gui=no \
+#   --enable-multibyte \
+#   --enable-python3interp \
+#   --enable-luainterp \
+#   --with-lua-prefix=/usr \
+#   --with-luajit \
+#   --enable-fontset \
+#   --enable-fail-if-missing
+# make
+# sudo make install
+# sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
+#
+# echo
 
 #=============================================================================
 # Install neovim
