@@ -191,12 +191,8 @@ endif
 
 set diffopt+=vertical
 
-autocmd MyAutocmd BufEnter,BufWinEnter *
+autocmd MyAutocmd BufEnter,BufWinEnter,FilterWritePost *
       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
-
-" TODO Neovim ?
-" autocmd MyAutocmd OptionSet diff
-"       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
 
 set shortmess=aTI
 if has('patch-7.4.314')
