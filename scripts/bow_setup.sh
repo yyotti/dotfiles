@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -eu
+
+# For error {{{
 function on-error()
 {
   local _status=$?
@@ -23,8 +26,34 @@ Commandline: $_script $_args
 
 _EOM_
 }
+# }}}
 
-set -eu
+sudopw=
+
+function mysudo()
+{
+  echo "${sudopw}" | sudo -p '' -S "$@"
+}
+
+# Initialize for `sudo` {{{
+read -s -p "Input root password (for \`sudo\`): " sudopw
+echo
+if [[ -z $sudopw ]]; then
+  exit 0
+fi
+
+trap 'sudo -k' EXIT
+sudo -k
+echo -n 'Checking password... '
+mysudo echo 'valid' 2>/dev/null | true
+if [[ ${PIPESTATUS[0]} != 0 ]]; then
+  echo 'invalid'
+  exit 1
+fi
+# }}}
+
+exit 0
+
 trap 'on-error $LINENO "$@"' ERR
 
 export GOPATH=$HOME/.go
@@ -41,9 +70,9 @@ sed -e 's%archive.ubuntu.com%ubuntutym.u-toyama.ac.jp%g' <"$apt_src" \
   | tee >(sed -e 's%deb %deb-src %g') \
   | cat >"$tmp_src"
 if [[ ! -e ${apt_src}.org ]]; then
-  sudo cp "$apt_src" "${apt_src}.org"
+  mysudo cp "$apt_src" "${apt_src}.org"
 fi
-sudo mv -f "$tmp_src" "$apt_src"
+mysudo mv -f "$tmp_src" "$apt_src"
 
 # TODO 各種インストールを別ファイルに分ける
 # ex) apt-install.sh, git-install.sh, etc..
@@ -52,57 +81,59 @@ sudo mv -f "$tmp_src" "$apt_src"
 # Add PPA
 #
 # Git
-sudo add-apt-repository -y ppa:git-core/ppa
+mysudo add-apt-repository -y ppa:git-core/ppa
 # php5.6
-sudo add-apt-repository -y ppa:ondrej/php
+mysudo add-apt-repository -y ppa:ondrej/php
 
 #=============================================================================
 # Update apt packages
 #
-sudo apt -y update
-sudo apt -y upgrade
-sudo apt -y autoremove
+mysudo apt -y update
+mysudo apt -y upgrade
+mysudo apt -y autoremove
 
 #=============================================================================
 # Install required packages
 #
-sudo apt -y install \
-  zsh \
-  git \
-  build-essential \
+mysudo apt -y install \
   autoconf \
-  libncurses5-dev \
-  libncursesw5-dev \
-  nkf \
-  liblua5.1-0-dev \
-  luajit \
-  libluajit-5.1-dev \
-  python3 \
-  libpython3-dev \
-  python3-pip \
+  build-essential \
+  cmake \
+  git \
+  jq \
+  language-pack-ja \
   libevent-2.0-5 \
   libevent-dev \
-  cmake \
   libicu-dev \
+  liblua5.1-0-dev \
+  libluajit-5.1-dev \
+  libncurses5-dev \
+  libncursesw5-dev \
+  libpython3-dev \
+  luajit \
+  lynx \
+  manpages-ja \
+  nkf \
   php5.6 \
-  php5.6-zip \
+  php5.6-gd \
   php5.6-mbstring \
   php5.6-xml \
-  php5.6-gd \
-  xsel \
-  jq \
-  lynx \
+  php5.6-zip \
+  python3 \
+  python3-pip \
   shellcheck \
   skkdic \
-  zip
+  xsel \
+  zip \
+  zsh
 
 echo
 
 #=============================================================================
 # Install pip packages
 #
-sudo pip3 install --upgrade pip
-sudo pip3 install \
+mysudo pip3 install --upgrade pip
+mysudo pip3 install \
   psutil \
   flake8 \
   hacking \
@@ -114,7 +145,7 @@ sudo pip3 install \
 echo 'Add zsh path to /etc/shells'
 zsh_path=$(which zsh)
 if ! grep -q "$zsh_path" </etc/shells; then
-  echo "$zsh_path" | sudo tee -a /etc/shells
+  mysudo "$(which bash)" -c "echo $zsh_path >>/etc/shells"
 fi
 
 echo
@@ -126,6 +157,7 @@ echo 'Install dotfiles.'
 cd "$HOME"
 git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
 "$HOME/.dotfiles/scripts/dotinstall.sh" -v install
+find "$HOME/.dotfiles/scripts/git" -type d -exec chmod 755 {} \;
 
 echo
 
@@ -149,7 +181,7 @@ if [[ $go_ver != '' ]]; then
   esac
   cd /tmp
   curl -sLO "https://storage.googleapis.com/golang/$archive_name"
-  sudo tar -C /usr/local -xzf "$archive_name"
+  mysudo tar -C /usr/local -xzf "$archive_name"
   export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
   # echo 'Install Glide.'
@@ -202,8 +234,8 @@ echo
 #   --enable-fontset \
 #   --enable-fail-if-missing
 # make
-# sudo make install
-# sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
+# mysudo make install
+# mysudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/vim 50
 #
 # echo
 
@@ -217,7 +249,8 @@ cd "$GHQ_ROOT/github.com/$repo"
 ver=$(git tag | tail -n 1)
 git checkout -b "v$ver" "$ver"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
+mysudo make install
+mysudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 50
 
 echo
 
@@ -225,7 +258,7 @@ echo
 # Install neovim-python
 #
 echo 'Install neovim-python'
-sudo pip3 install neovim
+mysudo pip3 install neovim
 
 echo
 
@@ -237,11 +270,11 @@ repo=fumiyas/wcwidth-cjk
 ghq get $repo
 cd "$GHQ_ROOT/github.com/$repo"
 ver=$(date +'%Y%m%d')
-git checkout -b "v$ver" "$ver"
+git checkout -b "v$ver" master
 autoreconf --install
 ./configure --prefix=/usr/local/
 make
-sudo make install
+mysudo make install
 
 echo
 
@@ -260,8 +293,8 @@ git apply --verbose --binary <(curl -sL https://gist.githubusercontent.com/z80oo
 sh autogen.sh
 ./configure
 make
-sudo make install
-sudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
+mysudo make install
+mysudo update-alternatives --install /usr/bin/tmux tmux /usr/local/bin/tmux 50
 
 echo
 
@@ -277,7 +310,7 @@ git checkout -b "v$ver" "$ver"
 ./autogen.sh
 ./configure
 make prefix=/usr/local
-sudo make install prefix=/usr/local
+mysudo make install prefix=/usr/local
 
 echo
 
@@ -285,7 +318,7 @@ echo
 # Install Powerline
 #
 echo 'Install Powerline.'
-sudo pip3 install powerline-status
+mysudo pip3 install powerline-status
 
 echo
 
@@ -321,7 +354,7 @@ cd "$GHQ_ROOT/github.com/$repo"
 find . -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
 git submodule init
 git submodule update
-sudo make install
+mysudo make install
 
 #=============================================================================
 # Install Lemonade
