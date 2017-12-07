@@ -45,14 +45,14 @@ fi
 trap 'sudo -k' EXIT
 sudo -k
 echo -n 'Checking password... '
-mysudo echo 'valid' 2>/dev/null | true
-if [[ ${PIPESTATUS[0]} != 0 ]]; then
+set +e
+mysudo echo 'valid' 2>/dev/null
+if [[ $? != 0 ]]; then
   echo 'invalid'
   exit 1
 fi
+set -e
 # }}}
-
-exit 0
 
 trap 'on-error $LINENO "$@"' ERR
 
