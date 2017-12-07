@@ -364,4 +364,10 @@ go get -v -u github.com/pocke/lemonade
 
 echo "Setup finished."
 
+#=============================================================================
+# Install Lemonade
+#
+echo "Change shell ($(which zsh))."
+chsh -s "$(which zsh)"
+
 # vim:set sw=2:
