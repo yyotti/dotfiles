@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
+set -eu
 
 refs_dir=$HOME/.vim/refs
+phpmanual_dir=$refs_dir/php-chunked-xhtml
+
+if [[ -d $phpmanual_dir ]]; then
+  exit 0
+fi
+
+wget -q -O /tmp/php_manual_ja.tar.gz \
+  http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
+
 if [[ ! -d $refs_dir ]]; then
   mkdir -p "$refs_dir"
 fi
 
-phpmanual_dir=$refs_dir/php-chunked-xhtml
-if [[ ! -d $phpmanual_dir ]]; then
-  wget -O /tmp/php_manual_ja.tar.gz \
-    http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
-
-  mkdir -p "$refs_dir"
-  cd "$refs_dir"
-  tar xzf /tmp/php_manual_ja.tar.gz
-fi
-
+cd "$refs_dir"
+tar xzf /tmp/php_manual_ja.tar.gz
