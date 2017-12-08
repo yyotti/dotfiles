@@ -201,7 +201,7 @@ endfunction "}}}
 function! s:install(pkg_key, commands) abort "{{{
   let l:opt = {
         \   'pkg': a:pkg_key,
-        \   'on_exit': function('s:on_install_finised'),
+        \   'on_exit': function('s:on_install_finished'),
         \ }
 
   echo printf('Installing [%s]', a:pkg_key)
@@ -209,7 +209,7 @@ function! s:install(pkg_key, commands) abort "{{{
   return job#start(a:commands.clone, l:opt)
 endfunction "}}}
 
-function! s:on_install_finised(pkg_key, code) abort "{{{
+function! s:on_install_finished(pkg_key, code) abort "{{{
   call s:build(a:pkg_key)
   call s:helptags(a:pkg_key)
 
