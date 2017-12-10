@@ -362,12 +362,26 @@ mysudo make install
 echo 'Install Lemonade.'
 go get -v -u github.com/pocke/lemonade
 
-echo "Setup finished."
+echo
 
 #=============================================================================
-# Install Lemonade
+# Install gist
+#
+echo 'Install gist.'
+go get -v -u github.com/b4b4r07/gist
+cd "$GHQ_ROOT/github.com/$repo"
+find "$GOPATH/src/github.com/b4b4r07/gist/misc/completion" \
+  -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
+
+echo
+
+#=============================================================================
+# Change shell
 #
 echo "Change shell ($(which zsh))."
 chsh -s "$(which zsh)"
+
+echo "Setup finished."
+echo "Rem: Configure gist! (run \`gist config\`)"
 
 # vim:set sw=2:

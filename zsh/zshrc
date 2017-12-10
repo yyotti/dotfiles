@@ -619,6 +619,11 @@ if (( ${+commands[ghq]} )); then
   fpath=($GOPATH/src/github.com/motemen/ghq/zsh(N-/) $fpath)
 fi
 
+# gist
+if (( ${+commands[gist]} )); then
+  fpath=($GOPATH/src/github.com/b4b4r07/gist/misc/completion/zsh(N-/) $fpath)
+fi
+
 zstyle ':completion:*' cache-path $HOME/.zsh/.completion-cache
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
