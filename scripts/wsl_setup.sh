@@ -123,7 +123,6 @@ mysudo apt -y install \
   python3-pip \
   shellcheck \
   skkdic \
-  xdg-utils \
   xsel \
   zip \
   zsh
