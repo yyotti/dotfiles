@@ -700,7 +700,12 @@ unlet s:pack
 " }}}
 
 " linediff.vim {{{
-call pack#add('AndrewRadev/linediff.vim')
+let s:pack = pack#add('AndrewRadev/linediff.vim')
+function! s:pack.init() abort "{{{
+  " Only visual mode
+  xnoremap <silent> D :Linediff<CR>
+endfunction "}}}
+unlet s:pack
 " }}}
 
 " securemodelines {{{
@@ -830,6 +835,16 @@ function! s:pack.init() abort "{{{
 
   let g:indentLine_concealcursor = 'nc'
   let g:indentLine_conceallevel = 1
+endfunction "}}}
+unlet s:pack
+" }}}
+
+" denite-marks {{{
+let s:pack = pack#add('yyotti/denite-marks', {
+      \   'depends': [ 'Shougo/denite.nvim' ],
+      \ })
+function! s:pack.init() abort "{{{
+  nnoremap <silent> ,m :<C-u>Denite marks<CR>
 endfunction "}}}
 unlet s:pack
 " }}}

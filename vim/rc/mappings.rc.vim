@@ -247,3 +247,26 @@ nnoremap <silent> <Space>D :<C-u>call SmartBDelete(1)<CR>
 " For plugins {{{
 nnoremap <Space>u <Nop>
 " }}}
+
+" Marks "{{{
+let g:marker_chars = [
+      \   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+      \   'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      \ ]
+
+autocmd MyAutocmd BufEnter * if !exists('b:marker_idx') | delmarks! | endif
+
+" Disable buffer local marks
+for s:c in g:marker_chars
+  execute printf('nnoremap <silent> m%s <NOP>', s:c)
+  unlet s:c
+endfor
+nnoremap <silent> mm :<C-u>call <SID>automark()<CR>
+
+function! s:automark() abort "{{{
+  let b:marker_idx = (get(b:, 'marker_idx', -1) + 1) % len(g:marker_chars)
+  let l:char = g:marker_chars[b:marker_idx]
+  execute 'mark' l:char
+  echo printf('marked [%s]', l:char)
+endfunction "}}}
+"}}}
