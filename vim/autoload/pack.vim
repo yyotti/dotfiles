@@ -129,7 +129,7 @@ function! s:packadd(pack) abort "{{{
     endfor
   endif
 
-  execute 'packadd' l:pack.name
+  execute 'packadd!' l:pack.name
   let l:pack._sourced = v:true
 
   return v:true

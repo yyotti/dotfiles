@@ -608,12 +608,15 @@ function! s:pack.init() abort "{{{
   if executable('gometalinter')
     let g:ale_linters.go = [ 'gometalinter' ]
     let g:ale_go_gometalinter_options = join([
+          \   '--tests',
           \   '--fast',
-          \   '--enable=staticcheck',
-          \   '--enable=gosimple',
-          \   '--enable=unused',
+          \   '--enable=megacheck',
           \   '--enable=errcheck',
+          \   '--enable=deadcode',
           \ ])
+          " \   '--enable=interfacer',
+          " \   '--enable=misspell',
+          " \   '--enable=unconvert',
   else
     let g:ale_linters.go = [ 'go build', 'gofmt', 'golint', 'go vet' ]
   endif
