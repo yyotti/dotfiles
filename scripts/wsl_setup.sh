@@ -184,8 +184,8 @@ if [[ $go_ver != '' ]]; then
   mysudo tar -C /usr/local -xzf "$archive_name"
   export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
-  # echo 'Install Glide.'
-  # curl https://glide.sh/get | sh
+  echo 'Install Dep.'
+  go get -v -u github.com/golang/dep/cmd/dep
 fi
 
 echo

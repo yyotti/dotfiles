@@ -84,3 +84,9 @@ snippet     fetch_row
 abbr        $cursor->fetchRow()
 options     word
 	$${1:row} = $${2:cursor}->fetchRow()${0}
+
+snippet     reqd
+abbr        require_once('[debug_log.php]');
+options     head
+        require_once('https://gist.githubusercontent.com/yyotti/59c0642ae2659ab0eea468e482e117ee/raw/a26ba6587f3bd5657c5c69c9024ba3b65286685b/debug_log.php');
+        ${0}
