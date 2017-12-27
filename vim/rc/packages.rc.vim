@@ -631,18 +631,20 @@ endfunction "}}}
 unlet s:pack
 " }}}
 
-" vim-operator-flashy {{{
-let s:pack = pack#add('haya14busa/vim-operator-flashy', {
-      \   'depends': [ 'kana/vim-operator-user' ],
+" vim-highlightedyank {{{
+let s:pack = pack#add('machakann/vim-highlightedyank', {
+      \   'enabled': exists('##TextYankPost'),
       \ })
 function! s:pack.init() abort "{{{
-  let g:operator#flashy#flash_time = 300
+  let g:highlightedyank_highlight_duration = 500
+  let g:highlightedyank_max_lines = 100
+  let g:highlightedyank_timeout = 500
 
-  map y <Plug>(operator-flashy)
-  nmap Y <Plug>(operator-flashy)$
-endfunction "}}}
-function! s:pack.added() abort "{{{
-  highlight Flashy ctermbg=8 guibg=#666666
+  " Change highlight color after plugin is loaded
+  autocmd MyAutocmd VimEnter *
+        \ highlight HighlightedyankRegion ctermbg=8 guibg=#666666
+
+  map y <Plug>(highlightedyank)
 endfunction "}}}
 unlet s:pack
 " }}}
@@ -855,6 +857,10 @@ function! s:pack.init() abort "{{{
 endfunction "}}}
 unlet s:pack
 " }}}
+
+" vim-colorsque "{{{
+call pack#add('gorodinskiy/vim-coloresque')
+"}}}
 
 " TODO Pending {{{
 " TODO ???

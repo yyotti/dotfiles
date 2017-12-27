@@ -54,9 +54,7 @@ nnoremap <expr> <C-b>
       \ max([winheight(0) - 2, 1]) . "\<C-u>" .
       \   (line('.') < 1 + winheight(0) ? 'H' : 'L')
 
-if !hasmapto('Y', 'n')
-  nnoremap Y y$
-endif
+nmap Y y$
 
 " Folding
 nnoremap zj zjzx
