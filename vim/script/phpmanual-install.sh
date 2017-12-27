@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-refs_dir=$HOME/.vim/refs
+refs_dir=${XDG_CACHE_HOME:-$HOME/.cache}/vim/refs
 phpmanual_dir=$refs_dir/php-chunked-xhtml
 
 if [[ -d $phpmanual_dir ]]; then

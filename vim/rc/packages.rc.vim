@@ -283,7 +283,7 @@ function! s:pack.init() abort "{{{
   let g:neosnippet#enable_snipmate_compatibility = 1
   let g:neosnippet#enable_completed_snippet = 1
   let g:neosnippet#expand_word_boundary = 1
-  let g:neosnippet#snippets_directory = '~/.vim/snippets'
+  let g:neosnippet#snippets_directory = expand('$VIMDIR/snippets')
 endfunction "}}}
 unlet s:pack
 " }}}
@@ -381,7 +381,7 @@ call pack#add('LeafCage/foldCC.vim')
 " vim-ref {{{
 let s:pack = pack#add('thinca/vim-ref', {
       \   'enabled': executable('lynx'),
-      \   'build': [ [ '~/.vim/script/phpmanual-install.sh' ] ],
+      \   'build': [ [ expand('$VIMDIR/script/phpmanual-install.sh') ] ],
       \ })
 function! s:pack.init() abort "{{{
   nmap K <Plug>(ref-keyword)
@@ -395,8 +395,7 @@ function! s:pack.init() abort "{{{
   let g:ref_lynx_hide_url_number = 0
 
   " PHP
-  let g:ref_phpmanual_path =
-        \ vimrc#join_path($HOME, '.vim/refs/php-chunked-xhtml')
+  let g:ref_phpmanual_path = expand('$_CACHE/refs/php-chunked-xhtml')
 
   autocmd MyAutocmd FileType ref nnoremap <silent> <buffer> q :q<CR>
 endfunction "}}}
@@ -419,13 +418,12 @@ function! s:pack.init() abort "{{{
   let g:eskk#enable_completion = 0
 
   if !exists('g:eskk#directory')
-    " TODO $XDG_DATA_HOME/vim/eskk
-    let g:eskk#directory = expand('~/.eskk')
+    let g:eskk#directory = expand('$_CACHE/eskk')
   endif
   let g:eskk#show_annotation = 1
 
   " User dic
-  let g:eskk#dictionary = g:eskk#directory . '/skk-jisyo'
+  let g:eskk#dictionary = vimrc#join_path(g:eskk#directory, 'skk-jisyo')
 
   let l:large_dic = ''
   if filereadable('/usr/share/skk/SKK-JISYO.L')
@@ -765,8 +763,13 @@ unlet s:pack
 call pack#add('yyotti/neosnippet-php.vim', {
       \   'depends': [ 'Shougo/neosnippet.vim' ],
       \   'build': [
-      \     [ fnamemodify('~/.vim/script/phpmanual-install.sh', ':p') ],
-      \     [ 'php', 'install.php', '-d"$HOME/.vim/refs/php-chunked-xhtml"' ],
+      \     [ fnamemodify(
+      \       expand('$VIMDIR/script/phpmanual-install.sh'), ':p') ],
+      \     [
+      \       'php',
+      \       'install.php',
+      \       printf('-d"%s"', expand('$_CACHE/refs/php-chunked-xhtml')),
+      \     ],
       \   ],
       \ })
 " }}}

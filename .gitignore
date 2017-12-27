@@ -3,7 +3,6 @@
 wiki/
 *.pyc
 config/powerline/mail_config.json
-vim/refs
 vim/vimrc_local
 zsh/plugins/
 config/git/config.local

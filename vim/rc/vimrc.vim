@@ -12,6 +12,7 @@ augroup MyAutocmd
 augroup END
 
 let $VIMDIR = fnamemodify($MYVIMRC, ':h')
+let $_CACHE = expand('$XDG_CACHE_HOME/vim')
 
 function! s:source_rc(path) abort "{{{
   execute 'source' fnameescape(vimrc#join_path($VIMDIR, 'rc', a:path))

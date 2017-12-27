@@ -168,7 +168,14 @@ function! pack#install(pkgs) abort "{{{
     endif
 
     let l:commands = {
-          \   'clone': [ 'git', 'clone', '--quiet', l:pkg.url, l:pkg._path ],
+          \   'clone': [
+          \     'git',
+          \     'clone',
+          \     '--recursive',
+          \     '--quiet',
+          \     l:pkg.url,
+          \     l:pkg._path,
+          \   ],
           \ }
     if has_key(l:pkg, 'build')
       let l:commands.build = l:pkg.build
