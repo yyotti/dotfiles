@@ -80,8 +80,8 @@ call s:source_rc('colorscheme.rc.vim')
 "-----------------------------------------------------------------------------
 " Local Settings:
 "
-if filereadable(expand('~/.vimrc_local'))
-  execute 'source' expand('~/.vimrc_local')
+if filereadable(expand('~/.vim/vimrc_local'))
+  execute 'source' expand('~/.vim/vimrc_local')
 endif
 
 set helplang&

@@ -56,7 +56,12 @@ set -e
 
 trap 'on-error $LINENO "$@"' ERR
 
-export GOPATH=$HOME/.go
+# XDG Base Directory
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+
+export GOPATH=$XDG_DATA_HOME/go
 if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
@@ -154,6 +159,7 @@ echo
 # Install dotfiles
 #
 echo 'Install dotfiles.'
+# TODO $XDG_DATA_HOME/dotfiles
 cd "$HOME"
 git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
 "$HOME/.dotfiles/scripts/dotinstall.sh" -v install
@@ -197,7 +203,7 @@ echo 'Install GHQ.'
 go get -v -u github.com/motemen/ghq
 find "$GOPATH/src/github.com/motemen/ghq" -type d -name '.git' -prune \
   -o -type d -exec chmod 755 {} \;
-GHQ_ROOT=$HOME/.ghq
+GHQ_ROOT=$XDG_DATA_HOME/ghq
 
 echo
 

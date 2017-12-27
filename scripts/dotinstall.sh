@@ -15,9 +15,9 @@ version='1.0.0'
 # Symlink targets
 symlink_targets=(
   config/powerline
-  gitconfig
-  tigrc
-  tmux.conf
+  config/git
+  config/tmux
+  config/tig
   vim
   zsh
   zshenv

@@ -4,7 +4,11 @@ export JLESSCHARSET=japanese-utf-8
 export PAGER='less -isr'
 # TODO
 # export LSCOLORS=gxfxcxdxbxegedabagacad
-export XDG_CONFIG_HOME=$HOME/.config
+
+# XDG Base Directory
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 
 if [[ $TMUX == '' ]]; then
   export TERM=xterm-256color
@@ -25,12 +29,16 @@ if (( ${+commands[vim]} )); then
 fi
 
 if (( ${+commands[go]} )); then
-  export GOPATH=$HOME/.go
+  export GOPATH=$XDG_DATA_HOME/go
   path=($GOPATH/bin $path)
 fi
 
 if (( ${+commands[wcwidth-cjk]} )); then
   export LD_PRELOAD=/usr/local/lib/wcwidth-cjk.so
+fi
+
+if (( ${+commands[tig]} )); then
+  export TIGRC_USER=$XDG_CONFIG_HOME/tig/tigrc
 fi
 
 skip_global_compinit=1

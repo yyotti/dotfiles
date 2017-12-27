@@ -419,6 +419,7 @@ function! s:pack.init() abort "{{{
   let g:eskk#enable_completion = 0
 
   if !exists('g:eskk#directory')
+    " TODO $XDG_DATA_HOME/vim/eskk
     let g:eskk#directory = expand('~/.eskk')
   endif
   let g:eskk#show_annotation = 1

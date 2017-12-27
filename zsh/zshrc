@@ -7,18 +7,20 @@ typeset -U path cdpath fpath manpath
 # tmux {{{
 _use_tmux=${USE_TMUX:-true}
 if $_use_tmux && [[ $- == *i* && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
-  ID="$(tmux list-sessions 2>/dev/null)"
+  _tmux_conf="$XDG_CONFIG_HOME/tmux/tmux.conf"
+
+  ID="$(tmux -f "$_tmux_conf" list-sessions 2>/dev/null)"
   if [[ $ID == '' ]]; then
-    SHELL="$(which zsh 2>/dev/null)" tmux new-session
+    SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  new-session
   elif (( ${+commands[fzf]} )); then
     create_new_session="Create New Session"
     ID="${create_new_session}:\n$ID"
     SEL_ID="$(echo "$ID" | fzf | cut -d: -f1)"
     if [[ $SEL_ID == $create_new_session ]]; then
-      SHELL="$(which zsh 2>/dev/null)" tmux new-session
+      SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  new-session
     else
       if [[ $SEL_ID != '' ]]; then
-        SHELL="$(which zsh 2>/dev/null)" tmux attach-session -t "$SEL_ID"
+        SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  attach-session -t "$SEL_ID"
       else
         : # Start normally
       fi
@@ -548,6 +550,7 @@ if [[ $- == *i* && -d $_FZF_HOME ]]; then
 
   function fzf-vim-plugins-widget()
   {
+    # TODO XDG Base Directory
     local _vim_plugins_dir="$HOME/.cache/vim/pack/bundle/opt"
     local dir=''
     local ret=0
@@ -624,6 +627,7 @@ if (( ${+commands[gist]} )); then
   fpath=($GOPATH/src/github.com/b4b4r07/gist/misc/completion/zsh(N-/) $fpath)
 fi
 
+# TODO $HOME/.zsh -> ZDOTDIR
 zstyle ':completion:*' cache-path $HOME/.zsh/.completion-cache
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -944,6 +948,7 @@ function precmd()
   git_prompt=''
   zle && zle reset-prompt
 
+  # TODO $HOME/.dotfiles -> $XDG_DATA_HOME/dotfiles
   if [[ -f $HOME/.dotfiles/scripts/prompt/gitstatus.sh  ]]; then
     async_job prompt "$HOME/.dotfiles/scripts/prompt/gitstatus.sh" "$(pwd)"
   fi

@@ -50,7 +50,7 @@ if IsWindows()
 endif
 
 " Set packpath
-set packpath=~/.cache/vim
+execute 'set packpath=' . expand('$XDG_DATA_HOME/vim')
 
 " Disable default plugins {{{
 let g:loaded_2html_plugin = 1
