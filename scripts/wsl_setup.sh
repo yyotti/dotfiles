@@ -159,11 +159,10 @@ echo
 # Install dotfiles
 #
 echo 'Install dotfiles.'
-# TODO $XDG_DATA_HOME/dotfiles
-cd "$HOME"
-git clone https://github.com/yyotti/dotfiles.git "$HOME/.dotfiles"
-"$HOME/.dotfiles/scripts/dotinstall.sh" -v install
-find "$HOME/.dotfiles/scripts/git" -type d -exec chmod 755 {} \;
+_dothome=$XDG_DATA_HOME/dotfiles
+git clone https://github.com/yyotti/dotfiles.git "$_dothome"
+"$_dothome/scripts/dotinstall.sh" -v install
+find "$_dothome/scripts/git" -type d -exec chmod 755 {} \;
 
 echo
 

@@ -948,9 +948,8 @@ function precmd()
   git_prompt=''
   zle && zle reset-prompt
 
-  # TODO $HOME/.dotfiles -> $XDG_DATA_HOME/dotfiles
-  if [[ -f $HOME/.dotfiles/scripts/prompt/gitstatus.sh  ]]; then
-    async_job prompt "$HOME/.dotfiles/scripts/prompt/gitstatus.sh" "$(pwd)"
+  if [[ -f $DOTFILES/scripts/prompt/gitstatus.sh  ]]; then
+    async_job prompt "$DOTFILES/scripts/prompt/gitstatus.sh" "$(pwd)"
   fi
 }
 
