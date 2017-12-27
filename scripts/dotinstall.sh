@@ -18,8 +18,8 @@ symlink_targets=(
   config/git
   config/tmux
   config/tig
+  config/zsh
   vim
-  zsh
   zshenv
 )
 
@@ -244,13 +244,12 @@ function install() # {{{
   done
 
   # for zshrc
-  local _zdotdir=${ZDOTDIR:-$HOME/.zsh}
-  if [[ ! -e "${_zdotdir}/.zshrc" ]]; then
-    __mklink "${_zdotdir}/zshrc" "${_zdotdir}/.zshrc"
+  if [[ ! -e "$ZDOTDIR/.zshrc" ]]; then
+    __mklink "$ZDOTDIR/zshrc" "$ZDOTDIR/.zshrc"
   fi
 
   # for nvim
-  local _nvimdir="$HOME/.config/nvim"
+  local _nvimdir="$XDG_CONFIG_HOME/nvim"
   if [[ ! -e $_nvimdir ]]; then
     __mklink "$(readlink "$HOME/.vim")" "$_nvimdir"
   fi
@@ -260,11 +259,10 @@ function install() # {{{
 function uninstall() # {{{
 {
   # for nvim
-  __dellink "$HOME/.config/nvim"
+  __dellink "$XDG_CONFIG_HOME/nvim"
 
   # for zshrc
-  local _zdotdir=${ZDOTDIR:-$HOME/.zsh}
-  __dellink "${_zdotdir}/.zshrc"
+  __dellink "$ZDOTDIR/.zshrc"
 
   for _target in "${symlink_targets[@]}"; do
     local _del_target="${_target}"

@@ -259,7 +259,7 @@ function! s:vimrc_items() abort "{{{
 endfunction "}}}
 
 function! s:zsh_items() abort "{{{
-  let l:path = resolve(expand('~/.zsh'))
+  let l:path = resolve(expand('$XDG_CONFIG_HOME/zsh'))
   if !isdirectory(l:path)
     return []
   endif
