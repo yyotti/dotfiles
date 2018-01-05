@@ -5,8 +5,7 @@ fi
 typeset -U path cdpath fpath manpath
 
 # tmux {{{
-_use_tmux=${USE_TMUX:-true}
-if $_use_tmux && [[ $- == *i* && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
+if ${USE_TMUX:-true} && [[ $- =~ i && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
   _tmux_conf="$XDG_CONFIG_HOME/tmux/tmux.conf"
 
   ID="$(tmux -f "$_tmux_conf" list-sessions 2>/dev/null)"
@@ -32,9 +31,10 @@ fi
 
 # }}}
 
-# Show the execution consumed resource
-# If the command takes over following sec.
-# REPORTTIME=5
+function __is_wsl()
+{
+  [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]
+}
 
 # options {{{
 
@@ -145,7 +145,7 @@ setopt menu_complete
 # unsetopt bare_glob_qual
 
 # ブレース展開式がただの文字列の場合に1文字ずつ展開
-set brace_ccl
+# setopt brace_ccl
 
 # 大文字小文字を区別しない
 # unsetopt case_glob
@@ -208,7 +208,7 @@ setopt mark_dirs
 # setopt numeric_glob_sort
 
 # 展開に含まれる配列を別々に展開する
-setopt rc_expand_param
+# setopt rc_expand_param
 
 # 正規表現マッチング（param =~ regexp）でPCREを使用可能にする
 # unsetopt rematch_pcre
@@ -383,7 +383,9 @@ setopt auto_continue
 setopt auto_resume
 
 # バックグラウンドのjobの優先度を下げない
-unsetopt bg_nice
+if __is_wsl; then
+  unsetopt bg_nice
+fi
 
 # バックグラウンドjobがある際にzshを終了しても何も警告しない
 # unsetopt check_jobs
@@ -468,7 +470,6 @@ setopt zle
 
 # autoload {{{
 autoload -Uz \
-  compinit \
   history-search-end \
   colors \
   add-zsh-hook
@@ -478,45 +479,51 @@ autoload -Uz \
 
 function __chmod_dir()
 {
-  find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
+  if __is_wsl; then
+    # only wsl
+    find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
+  fi
 }
 
-plugins_dir=$ZDOTDIR/plugins
+export ZPLUG_HOME=$XDG_CACHE_HOME/zsh/zplug
+if [[ ! -d $ZPLUG_HOME ]]; then
+  {
+    if [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]; then
+      echo unsetopt bg_nice
+    fi
+    curl -sL --proto-redir -all,https \
+      https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
+  } | zsh
 
-# zsh-completions {{{
-repo='zsh-users/zsh-completions'
-if [[ ! -d $plugins_dir/$repo ]]; then
-  git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $(dirname $plugins_dir/$repo)
-  rm -f $ZDOTDIR/.zcompdump
+  __chmod_dir $ZPLUG_HOME
 fi
-fpath=($plugins_dir/$repo/src $fpath)
-# }}}
+source $ZPLUG_HOME/init.zsh
 
-# zsh-async {{{
-repo='mafredri/zsh-async'
-if [[ ! -d $plugins_dir/$repo ]]; then
-  git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $(dirname $plugins_dir/$repo)
-fi
-source "$plugins_dir/$repo/async.zsh"
-# }}}
+zplug 'zplug/zplug', \
+  hook-build:'zplug --self-manage', \
+  dir:"$ZPLUG_HOME"
+zplug 'zsh-users/zsh-completions', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/zsh-users"; zplug clear', \
+  hook-load:'fpath=($ZPLUG_REPOS/zsh-users/zsh-completions/src $fpath)'
+zplug 'mollifier/zload', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/mollifier"'
+zplug 'mafredri/zsh-async', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
 
-# zload {{{
-repo='mollifier/zload'
-if [[ ! -d $plugins_dir/$repo ]]; then
-  git clone https://github.com/${repo} $plugins_dir/$repo
-  __chmod_dir $(dirname $plugins_dir/$repo)
+if ! zplug check --verbose; then
+  printf 'Install? [y/N]: '
+  if read -q; then
+    echo
+    zplug install
+  fi
 fi
-fpath=($plugins_dir/$repo(N-/) $fpath)
-autoload -Uz zload
-# }}}
+zplug load --verbose
 
 # }}}
 
 # FuzzyFinder {{{
 _FZF_HOME="$GOPATH/src/github.com/junegunn/fzf"
-if [[ $- == *i* && -d $_FZF_HOME ]]; then
+if [[ $- =~ i && -d $_FZF_HOME ]]; then
   export FZF_TMUX=1
 
   # # TODO agなどコマンドを分ける(like denite.nvim)
@@ -627,8 +634,7 @@ if (( ${+commands[gist]} )); then
   fpath=($GOPATH/src/github.com/b4b4r07/gist/misc/completion/zsh(N-/) $fpath)
 fi
 
-# TODO $HOME/.zsh -> ZDOTDIR
-zstyle ':completion:*' cache-path $HOME/.zsh/.completion-cache
+zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/completion-cache
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' use-cache yes
@@ -649,7 +655,6 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
                                            /sbin \
                                            /bin
 
-compinit -d $XDG_CACHE_HOME/zsh/compdump
 # }}}
 
 # aliases {{{

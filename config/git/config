@@ -37,8 +37,8 @@
     ft = fetch
     ig = ignore -r
 [ghq]
-    root = ~/.local/share/ghq
-    root = ~/.local/share/go/src
+    root = ~/.local/share/ghq  # TODO env
+    root = ~/.local/share/go/src  # TODO env
 [url "git@github.com:yyotti"]
     pushInsteadOf = git://github.com/yyotti
     pushInsteadOf = https://github.com/yyotti
