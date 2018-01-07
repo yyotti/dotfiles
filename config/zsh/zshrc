@@ -472,7 +472,9 @@ setopt zle
 autoload -Uz \
   history-search-end \
   colors \
-  add-zsh-hook
+  add-zsh-hook \
+  is-at-least \
+  async
 # }}}
 
 # plugins {{{
@@ -517,7 +519,7 @@ if ! zplug check --verbose; then
     zplug install
   fi
 fi
-zplug load --verbose
+zplug load
 
 # }}}
 
@@ -770,195 +772,588 @@ function __init_color() # {{{
 }
 # }}}
 
-# PROMPT
-__init_color prompt_color_cwd 010
-__init_color prompt_color_user 006 009
-__init_color prompt_color_host 012
+function __prompt_setup() # {{{
+{
+  # Initialize color variables
+  # PROMPT
+  __init_color prompt_color_cwd 010
+  __init_color prompt_color_user 006 009
+  __init_color prompt_color_host 012
+  __init_color prompt_color_symbol 255
+  __init_color prompt_color_symbol_error 196
 
-__init_color prompt_git_separator 243
-__init_color prompt_git_bare_repo 001
-__init_color prompt_git_in_git_dir 001
-__init_color prompt_git_branch 002
-__init_color prompt_git_branch_detached 009
-__init_color prompt_git_dirty 196
-__init_color prompt_git_staged 010
-__init_color prompt_git_untracked 011
-__init_color prompt_git_stashed 039
-__init_color prompt_git_operation 196
-__init_color prompt_git_upstream 039
-__init_color prompt_git_upstream_behind 228
-__init_color prompt_git_upstream_ahead 135
-__init_color prompt_git_unmerged 011
-__init_color prompt_git_now 196
+  __init_color prompt_git_separator 243
+  __init_color prompt_git_bare_repo 001
+  __init_color prompt_git_in_git_dir 001
+  __init_color prompt_git_branch 002
+  __init_color prompt_git_branch_detached 009
+  __init_color prompt_git_merge_behind 228
+  __init_color prompt_git_merge_ahead 135
+  __init_color prompt_git_staged 010
+  __init_color prompt_git_unstaged 196
+  __init_color prompt_git_untracked 011
+  __init_color prompt_git_invalid 009
+  __init_color prompt_git_stashed 039
+  __init_color prompt_git_operation 196
+  __init_color prompt_git_upstream 039
+  __init_color prompt_git_upstream_behind 228
+  __init_color prompt_git_upstream_ahead 135
+  __init_color prompt_git_unmerged 011
+  __init_color prompt_git_now 196
 
-PROMPT=$(
-echo -en [
-echo -en "${prompt_color_user_start}%n${prompt_color_user_end}"
-echo -en @
-echo -en "${prompt_color_host_start}%m${prompt_color_host_end}"
-echo -en :
-echo -en "${prompt_color_cwd_start}%1~${prompt_color_cwd_end}"
-echo -en ]
-echo -en '${git_prompt}'
-echo
-echo -en '%# '
-)
+  # PROMPT2
+  __init_color prompt2_color 006
 
-# PROMPT2
-__init_color prompt2_color 006
+  # SPROMPT
+  __init_color sprompt_color 011
 
-PROMPT2="${prompt2_color_start}|>${prompt2_color_end} "
+  # Prevent percentage showing up if output doesn't end with a newline.
+  export PROMPT_EOL_MARK=''
 
-# SPROMPT
-__init_color sprompt_color 011
-SPROMPT="${sprompt_color_start}%r is correct?${sprompt_color_end} [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:"
+  if [[ $prompt_newline == '' ]]; then
+    typeset -g prompt_newline=$'\n%{\r%}'
+  fi
+  if [[ $prompt_sep == '' ]]; then
+    typeset -g prompt_sep="${prompt_git_separator_start}|${prompt_git_separator_end}"
+  fi
 
-# RPROMPT
-__init_color rprompt_color
-RPROMPT="${rprompt_color_start}%~${rprompt_color_end}"
+  async
 
-async_init
-async_start_worker prompt -u
+  add-zsh-hook precmd __prompt_precmd
+
+  prompt_username=
+  if [[ $SSH_CONNECTION != '' || $UID == 0 ]]; then
+    prompt_username+='${prompt_color_user_start}%n${prompt_color_user_end}'
+  fi
+  if [[ $SSH_CONNECTION != '' ]]; then
+    prompt_username+='@${prompt_color_host_start}%m${prompt_color_host_end}'
+  fi
+
+  typeset -g prompt_symbol=$(
+  echo -en '%(?.${prompt_color_symbol_start}.${prompt_color_symbol_error_start})'
+  echo -en '%#'
+  echo -en '%(?.${prompt_color_symbol_end}.${prompt_color_symbol_error_end}) '
+  )
+
+  PROMPT2='${prompt2_color_start}(%_)>${prompt2_color_end} '
+  SPROMPT='${sprompt_color_start}%r is correct?${sprompt_color_end} [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:'
+  RPROMPT='${prompt_username}'
+}
+# }}}
+
+function __prompt_precmd() # {{{
+{
+  __prompt_async_tasks
+
+  # print the preprompt
+  __prompt_preprompt_render "precmd"
+}
+# }}}
+
+function __prompt_async_tasks() # {{{
+{
+  setopt localoptions noshwordsplit
+
+  # initialize async worker
+  if ! ${prompt_async_init:-false}; then
+    async_start_worker "prompt" -u -n
+    async_register_callback "prompt" __prompt_async_callback
+    typeset -g prompt_async_init=true
+  fi
+
+  typeset -gA prompt_git_info
+
+  local -H MATCH MBEGIN MEND
+  if [[ ${prompt_git_info[pwd]} == '' || $PWD != ${prompt_git_info[pwd]}* ]]; then
+    # stop any running async jobs
+    async_flush_jobs "prompt"
+
+    unset prompt_git_repo
+    unset prompt_git_dirty
+    unset prompt_git_upstream
+    unset prompt_git_now_stash
+    prompt_git_info[top]=
+    prompt_git_info[git_dir]=
+  fi
+  unset MATCH MBEGIN MEND
+
+  async_job "prompt" __prompt_async_git_info $PWD
+
+  if [[ $prompt_git_info[git_dir] == '' ]]; then
+    return
+  fi
+
+  __prompt_async_refresh
+}
+# }}}
+
+function __prompt_async_refresh() # {{{
+{
+  setopt localoptions noshwordsplit
+
+  async_job "prompt" __prompt_async_git_repo $PWD ${prompt_git_info[git_dir]}
+  async_job "prompt" __prompt_async_git_dirty $PWD
+  async_job "prompt" __prompt_async_git_upstream $PWD
+  async_job "prompt" __prompt_async_git_now_stash $PWD
+}
+# }}}
+
+function __prompt_async_git_repo() { # {{{
+  setopt localoptions noshwordsplit
+  local _dir=$1
+
+  # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
+  builtin cd -q $_dir
+
+  local -A _res
+  local _git_dir=$2
+
+  local _repo
+  _repo=( $(command git rev-parse --is-inside-git-dir --is-bare-repository HEAD 2>/dev/null) )
+
+  _res[is_inside_gitdir]=${_repo[1]}
+  _res[is_bare]=${_repo[2]}
+  _res[sha]=${_repo[3]}
+
+  local -A _op_branch_detached=("${(Q@)${(z)$(__get_op_branch_detached "$_git_dir" "${_res[sha]}")}}")
+  _res[operation]=${_op_branch_detached[operation]}
+  _res[branch]=${_op_branch_detached[branch]}
+  _res[is_detached]=${_op_branch_detached[detached]}
+
+
+  # unmerged
+  local _counts=( $(command git rev-list --count --left-right master...HEAD 2>/dev/null) )
+
+  if [[ $#_counts == 0 ]]; then
+    _res[behind]=0
+    _res[ahead]=0
+  else
+    _res[behind]=${_counts[1]}
+    _res[ahead]=${_counts[2]}
+  fi
+
+  print -r - "${(@kvq)_res}"
+}
+# }}}
+
+function __get_op_branch_detached() # {{{
+{
+  local _git_dir=$1
+  local _sha=$2
+
+  local _branch=''
+  local _step=-1
+  local _total=-1
+  local _operation=''
+  local _is_detached=false
+
+  if [[ -d $_git_dir/rebase-merge ]]; then
+    _branch=$(cat "$_git_dir/rebase-merge/head-name" 2>/dev/null)
+    _step=$(cat "$_git_dir/rebase-merge/msgnum" 2>/dev/null)
+    _total=$(cat "$_git_dir/rebase-merge/end" 2>/dev/null)
+    if [[ -f $_git_dir/rebase-merge/interactive ]]; then
+      _operation='REBASE-i'
+    else
+      _operation='REBASE-m'
+    fi
+  else
+    if [[ -d $_git_dir/rebase-apply ]]; then
+      _step=$(cat "$_git_dir/rebase-apply/next" 2>/dev/null)
+      _total=$(cat "$_git_dir/rebase-apply/last" 2>/dev/null)
+      if [[ -f $_git_dir/rebase-apply/rebasing ]]; then
+        _branch=$(cat "$_git_dir/rebase-apply/head-name" 2>/dev/null)
+        _operation='REBASE'
+      elif [[ -f $_git_dir/rebase-apply/applying ]]; then
+        _operation='AM'
+      else
+        _operation='AM/REBASE'
+      fi
+    elif [[ -f $_git_dir/MERGE_HEAD ]]; then
+      _operation='MERGING'
+    elif [[ -f $_git_dir/CHERRY_PICK_HEAD ]]; then
+      _operation='CHERRY-PICKING'
+    elif [[ -f $_git_dir/REVERT_HEAD ]]; then
+      _operation='REVERTING'
+    elif [[ -f $_git_dir/BISECT_LOG ]]; then
+      _operation='BISECTING'
+    fi
+  fi
+
+  if [[ $_step -ge 0 && $_total -ge 0 ]]; then
+    _operation="$_operation $_step/$_total"
+  fi
+
+  if [[ $_branch == '' ]]; then
+    _branch=$(command git symbolic-ref HEAD 2>/dev/null)
+    if [[ $? != 0 ]]; then
+      _is_detached=true
+      _branch=$(command git describe --contains --all HEAD 2>/dev/null)
+      if [[ $? != 0 ]]; then
+        if [[ $_sha != '' ]]; then
+          _branch=${_sha[0,8]}
+        else
+          _branch=''
+        fi
+      fi
+    fi
+  fi
+
+  local -A _res
+  _res[branch]=${_branch#refs/heads/}
+  _res[operation]=$_operation
+  _res[detached]=$_is_detached
+
+  print -r - ${(@kvq)_res}
+}
+# }}}
+
+function __prompt_async_git_dirty() { # {{{
+  setopt localoptions noshwordsplit
+  local _dir=$1
+
+  # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
+  builtin cd -q $_dir
+
+  local _status=("${(f)$(command git status --porcelain --ignore-submodules -unormal 2>/dev/null)}")
+  local _ret=$?
+  if [[ $_ret == 0 && $#_status > 0 && ${_status[1]} != '' ]]; then
+    local _untracked=${(M)#_status:#\?\? *}
+    local _staged=${(M)#_status:#?  *}
+    local _unstaged=${(M)#_status:# ? *}
+    local _invalid=$(( $#_status - $_untracked - $_staged - $_unstaged ))
+
+    print -- $_staged $_unstaged $_untracked $_invalid
+  fi
+
+  return $_ret
+}
+# }}}
+
+function __prompt_async_git_upstream() { # {{{
+  setopt localoptions noshwordsplit
+  local _dir=$1
+
+  # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
+  builtin cd -q $_dir
+
+  local _counts=( $(command git rev-list --count --left-right '@{upstream}'...HEAD 2>/dev/null) )
+  if [[ $? != 0 ]]; then
+    print -- ': 0 0'
+    return
+  fi
+
+  local _upstream=
+  local _behind=0
+  local _ahead=0
+  if [[ $#_counts != 0 ]]; then
+    _behind=${_counts[1]}
+    _ahead=${_counts[2]}
+
+    _upstream=$(command git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
+  fi
+
+  print -- ":$_upstream" $_behind $_ahead
+}
+# }}}
+
+function __prompt_async_git_now_stash() { # {{{
+  setopt localoptions noshwordsplit
+  local _dir=$1
+
+  # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
+  builtin cd -q $_dir
+
+  local _stash=$(command git stash list | grep -c '')
+  if [[ $? != 0 ]]; then
+    _stash=0
+  fi
+
+  local _now=0
+  if (( ${+commands[git-now]} )); then
+    _now=$(command git now grep | grep -c '')
+    if [[ $? != 0 ]]; then
+      _now=0
+    fi
+  fi
+
+  print -- $_stash $_now
+}
+# }}}
 
 function __prompt_async_callback() # {{{
 {
-  git_prompt=''
-  if [[ $2 == 0 && $3 != '' ]]; then
-    git_prompt=$(__mkgitprompt "$3")
-  else
-    git_prompt=$5
-  fi
-  zle && zle reset-prompt
-}
-# }}}
+  setopt localoptions noshwordsplit
 
-function __mkgitprompt() # {{{
-{
-  local _op
-  local _br
-  local _repo_type
-  local _is_detached
-  local _is_dirty
-  local _staged_state
-  local _has_stashed
-  local _has_untracked
-  local _unmerged_cnt
-  local _now_cnt
-  local _up
-  local _behind
-  local _ahead
-  echo "$@" | read \
-    _op \
-    _br \
-    _repo_type \
-    _is_detached \
-    _is_dirty \
-    _staged_state \
-    _has_stashed \
-    _has_untracked \
-    _unmerged_cnt \
-    _now_cnt \
-    _up \
-    _behind \
-    _ahead
+  local _job=$1
+  local _code=$2
+  local _output=$3
+  local _exec_time=$4
+  local _next_pending=$6
+  local _do_render=false
 
-  local _operation=''
-  if [[ $_op != ':' ]]; then
-    _operation="${prompt_git_operation_start}${_op[2,${#_op}]}${prompt_git_operation_end}"
-  fi
+  case $_job in
+    __prompt_async_git_info)
+      typeset -gA prompt_git_info
 
-  local _branch
-  if [[ $_is_detached != 0 ]]; then
-    _branch="${prompt_git_branch_detached_start}${_br}${prompt_git_branch_detached_end}"
-  else
-    _branch="${prompt_git_branch_start}${_br}${prompt_git_branch_end}"
-  fi
+      if [[ $_output == '' ]]; then
+        prompt_git_info[top]=
+        prompt_git_info[git_dir]=
+      else
+        # parse output (z) and unquote as array (Q@)
+        local -A _info=("${(Q@)${(z)_output}}")
+        local -H MATCH MBEGIN MEND
+        if [[ $_info[top] == $prompt_git_info[top] ]]; then
+          if [[ $prompt_git_info[pwd] == ${PWD}* ]]; then
+            prompt_git_info[pwd]=$PWD
+          fi
+        else
+          prompt_git_info[pwd]=$PWD
+        fi
+        unset MATCH MBEGIN MEND
 
-  if [[ $_repo_type == 1 ]]; then
-    _branch="${prompt_git_bare_repo_start}BARE:${prompt_git_bare_repo_end}${_branch}"
-  elif [[ $_repo_type == 2 ]]; then
-    _branch="${prompt_git_in_git_dir_start}GIT:${prompt_git_in_git_dir_end}${_branch}"
-  fi
-  local _dirty=''
-  if [[ $_is_dirty != 0 ]]; then
-    _dirty="${prompt_git_dirty_start}*${prompt_git_dirty_end}"
-  fi
-  local _staged
-  case "$_staged_state" in
-    '1')
-      _staged="${prompt_git_staged_start}+${prompt_git_staged_end}"
+        if [[ ${_info[git_dir]} != '' ]]; then
+          __prompt_async_refresh
+        fi
+
+        # always update .git dir and toplevel
+        prompt_git_info[top]=$_info[top]
+        prompt_git_info[git_dir]=$_info[git_dir]
+      fi
+
+      _do_render=true
       ;;
-    '2')
-      _staged="${prompt_git_invalid_start}!${prompt_git_invalid_end}"
+    __prompt_async_git_repo)
+      local _prev_repo=$prompt_git_repo
+      if [[ $_output == '' ]]; then
+        unset prompt_git_repo
+      else
+        local -A _repo=("${(Q@)${(z)_output}}")
+
+        local _branch_prefix
+        if ${_repo[is_bare]}; then
+          _branch_prefix="${prompt_git_bare_repo_start}BARE:${prompt_git_bare_repo_end}"
+        elif ${_repo[is_inside_gitdir]}; then
+          _branch_prefix="${prompt_git_in_git_dir_start}GIT:${prompt_git_in_git_dir_end}"
+        fi
+
+        local _branch
+        if ${_repo[is_detached]}; then
+          _branch="${prompt_git_branch_detached_start}${_repo[branch]}${prompt_git_branch_detached_end}"
+        else
+          _branch="${prompt_git_branch_start}${_repo[branch]}${prompt_git_branch_end}"
+        fi
+
+        local _operation
+        if [[ ${_repo[operation]} != '' ]]; then
+          _operation="<${prompt_git_operation_start}${_repo[operation]}${prompt_git_operation_end}>"
+        fi
+
+        local _ahead=${_repo[ahead]}
+        local _behind=${_repo[behind]}
+        if [[ $_ahead > 0 ]]; then
+          _ahead="${prompt_git_merge_ahead_start}+${_repo[ahead]}${prompt_git_merge_ahead_end}"
+        else
+          _ahead=
+        fi
+        if [[ $_behind > 0 ]]; then
+          _behind="${prompt_git_merge_behind_start}-${_repo[behind]}${prompt_git_merge_behind_end}"
+        else
+          _behind=
+        fi
+        typeset -g prompt_git_repo="${_behind}${_branch_prefix}${_branch}${_ahead}${_operation}"
+      fi
+
+      if [[ $_prev_repo != $prompt_git_repo ]]; then
+        _do_render=true
+      fi
+      ;;
+    __prompt_async_git_dirty)
+      local _prev_dirty=$prompt_git_dirty
+      if [[ $_output == '' ]]; then
+        unset prompt_git_dirty
+      else
+        local _staged
+        local _unstaged
+        local _untracked
+        local _invalid
+
+        echo "$_output" | read _staged _unstaged _untracked _invalid
+
+        if [[ $_staged > 0 ]]; then
+          _staged="${prompt_git_staged_start}+${prompt_git_staged_end}"
+        else
+          _staged=
+        fi
+        if [[ $_unstaged > 0 ]]; then
+          _unstaged="${prompt_git_unstaged_start}*${prompt_git_unstaged_end}"
+        else
+          _unstaged=
+        fi
+        if [[ $_untracked > 0 ]]; then
+          _untracked="${prompt_git_untracked_start}?${prompt_git_untracked_end}"
+        else
+          _untracked=
+        fi
+        if [[ $_invalid > 0 ]]; then
+          _invalid="${prompt_git_invalid_start}!${prompt_git_invalid_end}"
+        else
+          _invalid=
+        fi
+        typeset -g prompt_git_dirty="${_staged}${_unstaged}${_untracked}${_invalid}"
+      fi
+
+      if [[ $_prev_dirty != $prompt_git_dirty ]]; then
+        _do_render=true
+      fi
+      ;;
+    __prompt_async_git_upstream)
+      local _prev_upstream=$prompt_git_upstream
+      if [[ $_output == '' ]]; then
+        unset prompt_git_upstream
+      else
+        local _upstream
+        local _ahead
+        local _behind
+
+        echo "$_output" | read _upstream _ahead _behind
+
+        if [[ $_upstream != ':' ]]; then
+          _upstream="${prompt_git_upstream_start}${_upstream#:}${prompt_git_upstream_end}"
+        else
+          _upstream=
+        fi
+        if [[ $_ahead > 0 ]]; then
+          _ahead="${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
+        else
+          _ahead=
+        fi
+        if [[ $_behind > 0 ]]; then
+          _behind="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}"
+        else
+          _behind=
+        fi
+        typeset -g prompt_git_upstream="${_behind}${_upstream}${_ahead}"
+      fi
+
+      if [[ $_prev_upstream != $prompt_git_upstream ]]; then
+        _do_render=true
+      fi
+      ;;
+    __prompt_async_git_now_stash)
+      local _prev_now_stash=$prompt_git_now_stash
+      if [[ $_output == '' ]]; then
+        unset prompt_git_now_stash
+      else
+        local _stash
+        local _now
+
+        echo "$_output" | read _stash _now
+
+        if [[ $_stash > 0 ]]; then
+          _stash="${prompt_git_stashed_start}\$${_stash}${prompt_git_stashed_end}"
+        else
+          _stash=
+        fi
+        if [[ $_now > 0 ]]; then
+          _now="${prompt_git_now_start}N${_now}${prompt_git_now_end}"
+        else
+          _now=
+        fi
+        typeset -g prompt_git_now_stash="${_now}${_stash}"
+      fi
+
+      if [[ $_prev_now_stash != $prompt_git_now_stash ]]; then
+        _do_render=true
+      fi
       ;;
     *)
-      _staged=''
+      ;;
   esac
-  local _untracked=''
-  if [[ $_has_untracked != 0 ]]; then
-    _untracked="${prompt_git_untracked_start}?${prompt_git_untracked_end}"
-  fi;
-  local _stashed=''
-  if [[ $_has_stashed != 0 ]]; then
-    _stashed="${prompt_git_stashed_start}\$${prompt_git_stashed_end}"
-  fi
-  local _unmerged=''
-  if [[ $_unmerged_cnt != 0 ]]; then
-    _unmerged="${prompt_git_unmerged_start}+${_unmerged_cnt}${prompt_git_unmerged_end}"
-  fi
-  local _now=''
-  if [[ $_now_cnt != 0 ]]; then
-    _now="${prompt_git_now_start}N${_now_cnt}${prompt_git_now_end}"
-  fi
-  local _upstream=''
-  if [[ $_up != ':' ]]; then
-    _upstream="${prompt_git_upstream_start}${_up[2,${#_up}]}${prompt_git_upstream_end}"
 
-    case "${_behind} ${_ahead}" in
-      '0 0') # equal to upstream
-        ;;
-      '0 '*) # ahead of upstream
-        _upstream="${_upstream}:${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
-        ;;
-      *' 0') # behind upstream
-        _upstream="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}:${_upstream}"
-        ;;
-      *) # diverged from upstream
-        _upstream="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}:${_upstream}:${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
-        ;;
-    esac
+  if (( _next_pending )); then
+    if $_do_render; then
+      typeset -g prompt_async_render_requested=true
+      return
+    fi
   fi
 
-  local _sep="${prompt_git_separator_start}|${prompt_git_separator_end}"
-
-  local _prompt_parts=()
-  _prompt_parts+="${_bare}${_branch}${_unmerged}${_now}"
-  if [[ ${_dirty}${_staged}${_untracked}${_stashed} != '' ]]; then
-    _prompt_parts+="${_sep}"
-    _prompt_parts+="${_dirty}${_staged}${_untracked}${_stashed}"
+  if ${prompt_async_render_requested:-$_do_render}; then
+    __prompt_preprompt_render
   fi
-  if [[ ${_operation}${_upstream} != '' ]]; then
-    _prompt_parts+="${_sep}"
-    _prompt_parts+="${_operation}${_upstream}"
-  fi
-
-  echo "(${(j::)_prompt_parts})"
+  unset prompt_async_render_requested
 }
 # }}}
 
-async_register_callback prompt __prompt_async_callback
-
-function precmd()
+function __prompt_async_git_info() # {{{
 {
-  git_prompt=''
-  zle && zle reset-prompt
-
-  if [[ -f $DOTFILES/scripts/prompt/gitstatus.sh  ]]; then
-    async_job prompt "$DOTFILES/scripts/prompt/gitstatus.sh" "$(pwd)"
+  if ! (( ${+commands[git]} )); then
+    return
   fi
-}
 
+  setopt localoptions noshwordsplit
+  builtin cd -q $1 2>/dev/null
+
+  local _repo
+  _repo=( $(command git rev-parse --git-dir --show-toplevel 2>/dev/null) )
+  if [[ $? != 0 ]]; then
+    return
+  fi
+
+  local -A _info
+  _info[git_dir]=$(realpath "${_repo[1]}")
+  _info[top]=${_repo[2]}
+
+  print -r - ${(@kvq)_info}
+}
 # }}}
+
+function __prompt_preprompt_render() # {{{
+{
+  setopt localoptions noshwordsplit
+
+  local -a _preprompt_parts
+
+  _preprompt_parts+=('${prompt_color_cwd_start}%~${prompt_color_cwd_end}')
+
+  # git status info
+  typeset -gA prompt_git_info
+  local -a _git_info_parts
+  if [[ $prompt_git_info[git_dir] != '' ]]; then
+    _git_info_parts+=('${prompt_git_repo}')
+    if [[ $prompt_git_now_stash != '' ]]; then
+      _git_info_parts+=('${prompt_git_now_stash}')
+    fi
+    if [[ $prompt_git_dirty != '' ]]; then
+      _git_info_parts+=('${prompt_git_dirty}')
+    fi
+    if [[ $prompt_git_upstream != '' ]]; then
+      _git_info_parts+=('${prompt_git_upstream}')
+    fi
+  fi
+
+  if [[ $#_git_info_parts > 0 ]]; then
+    _preprompt_parts+=("(${(j.${prompt_sep}.)_git_info_parts})")
+  fi
+
+  local -ah _ps1=(
+  $prompt_newline
+  ${(j. .)_preprompt_parts}
+  $prompt_newline
+  $prompt_symbol
+  )
+
+  PROMPT="${(j..)_ps1}"
+
+  local _expanded_prompt="${(S%%)PROMPT}"
+  if [[ $1 != precmd ]] && [[ $prompt_last_prompt != $_expanded_prompt ]]; then
+    zle && zle .reset-prompt
+  fi
+
+  typeset -g prompt_last_prompt=$_expanded_prompt
+}
+# }}}
+
+__prompt_setup
 
 if which zprof >/dev/null 2>&1; then
   zprof | less
