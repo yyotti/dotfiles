@@ -33,7 +33,7 @@ autocmd MyAutocmd BufWritePost * nested
       \ endif
 
 " " Auto reload *.vim files
-" autocmd MyAutocmd BufWritePost .vimrc,vimrc,*.rc.vim,.vimrc_local nested
+" autocmd MyAutocmd BufWritePost .vimrc,vimrc,*.rc.vim,vimrc.local nested
 "       \ source $MYVIMRC | redraw
 
 " Auto reload VimScript

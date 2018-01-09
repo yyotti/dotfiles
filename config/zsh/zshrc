@@ -1042,17 +1042,18 @@ function __prompt_async_git_upstream() { # {{{
     return
   fi
 
-  local _upstream=
-  local _behind=0
-  local _ahead=0
+  local -A _res
+  _res[upstream]=
+  _res[behind]=0
+  _res[ahead]=0
   if [[ $#_counts != 0 ]]; then
-    _behind=${_counts[1]}
-    _ahead=${_counts[2]}
+    _res[behind]=${_counts[1]}
+    _res[ahead]=${_counts[2]}
 
-    _upstream=$(command git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
+    _res[upstream]=$(command git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
   fi
 
-  print -- ":$_upstream" $_behind $_ahead
+  print -r - ${(@kvq)_res}
 }
 # }}}
 
@@ -1145,7 +1146,7 @@ function __prompt_async_callback() # {{{
 
         local _operation
         if [[ ${_repo[operation]} != '' ]]; then
-          _operation="<${prompt_git_operation_start}${_repo[operation]}${prompt_git_operation_end}>"
+          _operation=" <${prompt_git_operation_start}${_repo[operation]}${prompt_git_operation_end}>"
         fi
 
         local _ahead=${_repo[ahead]}
@@ -1211,24 +1212,23 @@ function __prompt_async_callback() # {{{
       if [[ $_output == '' ]]; then
         unset prompt_git_upstream
       else
+        local -A _up=("${(Q@)${(z)_output}}")
+
         local _upstream
         local _ahead
         local _behind
-
-        echo "$_output" | read _upstream _ahead _behind
-
-        if [[ $_upstream != ':' ]]; then
-          _upstream="${prompt_git_upstream_start}${_upstream#:}${prompt_git_upstream_end}"
+        if [[ ${_up[upstream]} != '' ]]; then
+          _upstream="${prompt_git_upstream_start}${_up[upstream]}${prompt_git_upstream_end}"
         else
           _upstream=
         fi
-        if [[ $_ahead > 0 ]]; then
-          _ahead="${prompt_git_upstream_ahead_start}+${_ahead}${prompt_git_upstream_ahead_end}"
+        if [[ ${_up[ahead]} > 0 ]]; then
+          _ahead="${prompt_git_upstream_ahead_start}+${_up[ahead]}${prompt_git_upstream_ahead_end}"
         else
           _ahead=
         fi
-        if [[ $_behind > 0 ]]; then
-          _behind="${prompt_git_upstream_behind_start}-${_behind}${prompt_git_upstream_behind_end}"
+        if [[ ${_up[behind]} > 0 ]]; then
+          _behind="${prompt_git_upstream_behind_start}-${_up[behind]}${prompt_git_upstream_behind_end}"
         else
           _behind=
         fi
@@ -1354,6 +1354,13 @@ function __prompt_preprompt_render() # {{{
 # }}}
 
 __prompt_setup
+# }}}
+
+# local {{{
+if [[ -f $ZDOTDIR/zshrc.local ]]; then
+  source $ZDOTDIR/zshrc.local
+fi
+# }}}
 
 if which zprof >/dev/null 2>&1; then
   zprof | less
