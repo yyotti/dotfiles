@@ -8,7 +8,7 @@
     compactionHeuristic = true
 [core]
     editor = vim
-    excludesfile = ~/.config/git/ignore  # TODO env
+    excludesfile = ~/.config/git/ignore  # TODO env?
 [push]
     default = simple
 [fetch]
@@ -37,12 +37,12 @@
     ft = fetch
     ig = ignore -r
 [ghq]
-    root = ~/.local/share/ghq  # TODO env
-    root = ~/.local/share/go/src  # TODO env
+    root = ~/.local/share/ghq  # TODO env?
+    root = ~/.local/share/go/src  # TODO env?
 [url "git@github.com:yyotti"]
     pushInsteadOf = git://github.com/yyotti
     pushInsteadOf = https://github.com/yyotti
 [include]
-    path = ~/.config/git/config.local  # TODO env
+    path = $XDG_CONFIG_HOME/git/config.local
 
 # vim:ft=gitconfig

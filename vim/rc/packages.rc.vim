@@ -828,9 +828,10 @@ call pack#add('zchee/deoplete-go', {
 
 " deoplete-jedi {{{
 call pack#add('zchee/deoplete-jedi', {
-      \   'enabled': (has('python') || has('python3')) && executable('python'),
-      \   'depends': [ 'Shougo/deoplete.nvim' ],
-      \   'build': [ [ 'git', 'submodule', '--quiet', 'update', '--init' ] ],
+      \   'depends': [
+      \     'Shougo/deoplete.nvim',
+      \     'davidhalter/jedi-vim',
+      \   ],
       \ })
 " }}}
 

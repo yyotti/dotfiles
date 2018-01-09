@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# vim:se fenc=utf-8 noet:
 from __future__ import unicode_literals
 from __future__ import division
 from __future__ import absolute_import
@@ -23,9 +21,12 @@ class CustomEmailIMAPSegment(EmailIMAPSegment):
 
         config_file = os.path.expanduser(config_file)
         if not os.path.isabs(config_file):
-            # TODO(Y.Tsutsui) powerlineのユーザ設定ディレクトリを取得する
-            config_file = os.path.abspath(
-                os.path.expanduser('~/.config/powerline/' + config_file))
+            config_home = os.environ['XDG_CONFIG_HOME']
+            if config_home == '':
+                config_home = os.path.join(os.environ['HOME'], '.config')
+            config_file = os.path.abspath(os.path.join(config_home,
+                                                       'powerline',
+                                                       config_file))
 
         if not os.path.isfile(config_file):
             username = ''
@@ -42,5 +43,6 @@ class CustomEmailIMAPSegment(EmailIMAPSegment):
             use_ssl = (port == IMAP4_SSL_PORT)
 
         return _IMAPKey(username, password, server, port, folder, use_ssl)
+
 
 email_imap_alert = CustomEmailIMAPSegment()
