@@ -511,9 +511,6 @@ zplug 'mollifier/zload', \
   hook-build:'__chmod_dir "$ZPLUG_REPOS/mollifier"'
 zplug 'mafredri/zsh-async', \
   hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
-zplug 'zsh-users/zsh-syntax-highlighting', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/zsh-users"', \
-  defer:2
 
 if ! zplug check --verbose; then
   printf 'Install? [y/N]: '

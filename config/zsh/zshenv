@@ -40,8 +40,4 @@ if (( ${+commands[less]} )); then
   export LESSKEY=$XDG_CONFIG_HOME/less/key
 fi
 
-if (( ${+commands[wget]} )); then
-  export WGETRC=$XDG_CONFIG_HOME/wget/wgetrc
-fi
-
 skip_global_compinit=1
