@@ -43,6 +43,6 @@
     pushInsteadOf = git://github.com/yyotti
     pushInsteadOf = https://github.com/yyotti
 [include]
-    path = $XDG_CONFIG_HOME/git/config.local
+    path = ~/.config/git/config.local  # TODO env?
 
 # vim:ft=gitconfig
