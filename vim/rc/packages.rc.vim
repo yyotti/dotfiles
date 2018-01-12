@@ -742,7 +742,8 @@ unlet s:pack
 
 " jedi-vim {{{
 let s:pack = pack#add('davidhalter/jedi-vim', {
-      \   'enabled': (has('python') || has('python3')) && executable('python'),
+      \   'enabled': has('python') && executable('python')
+      \     || has('python3') && executable('python3'),
       \   'build': [ [ 'git', 'submodule', '--quiet', 'update', '--init' ] ],
       \ })
 function! s:pack.init() abort "{{{
@@ -832,6 +833,7 @@ call pack#add('zchee/deoplete-jedi', {
       \     'Shougo/deoplete.nvim',
       \     'davidhalter/jedi-vim',
       \   ],
+      \   'build': [ [ 'git', 'submodule', '--quiet', 'update', '--init' ] ],
       \ })
 " }}}
 
