@@ -5,7 +5,7 @@ fi
 typeset -U path cdpath fpath manpath
 
 # tmux {{{
-if ${USE_TMUX:-true} && [[ $- =~ i && $TMUX == '' && (( ${+commands[tmux]} )) ]]; then
+if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ $TMUX == '' ]] && (( ${+commands[tmux]} )); then
   _tmux_conf="$XDG_CONFIG_HOME/tmux/tmux.conf"
 
   ID="$(tmux -f "$_tmux_conf" list-sessions 2>/dev/null)"
@@ -340,7 +340,7 @@ setopt interactive_comments
 # unsetopt hash_dirs
 
 # 実行権限が付与されているコマンド以外はハッシュしない
-setopt hash_executables_only
+# setopt hash_executables_only
 
 # メールファイルにアクセスがあると警告を出す
 setopt mail_warning
@@ -493,8 +493,7 @@ if [[ ! -d $ZPLUG_HOME ]]; then
     if [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]; then
       echo unsetopt bg_nice
     fi
-    curl -sL --proto-redir -all,https \
-      https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
+    curl -sL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
   } | zsh
 
   __chmod_dir $ZPLUG_HOME
@@ -541,7 +540,8 @@ if [[ $- =~ i && -d $_FZF_HOME ]]; then
   {
     setopt localoptions pipefail 2>/dev/null
 
-    local dir=( $(ghq list --full-path | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+    local dir
+    dir=( $(ghq list --full-path | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
     local ret=$?
 
     if [[ $dir == '' ]]; then
@@ -831,12 +831,11 @@ function __prompt_setup() # {{{
   typeset -g prompt_symbol=$(
   echo -en '%(?.${prompt_color_symbol_start}.${prompt_color_symbol_error_start})'
   echo -en '%#'
-  echo -en '%(?.${prompt_color_symbol_end}.${prompt_color_symbol_error_end}) '
+  echo -en '%(?.${prompt_color_symbol_end}.${prompt_color_symbol_error_end})'
   )
 
   PROMPT2='${prompt2_color_start}(%_)>${prompt2_color_end} '
   SPROMPT='${sprompt_color_start}%r is correct?${sprompt_color_end} [%Uy%ues/%UN%uo/%Ua%ubort/%Ue%udit]:'
-  RPROMPT='${prompt_username}'
 }
 # }}}
 
@@ -914,14 +913,16 @@ function __prompt_async_git_repo() { # {{{
   _res[is_bare]=${_repo[2]}
   _res[sha]=${_repo[3]}
 
-  local -A _op_branch_detached=("${(Q@)${(z)$(__get_op_branch_detached "$_git_dir" "${_res[sha]}")}}")
+  local -A _op_branch_detached
+  _op_branch_detached=("${(Q@)${(z)$(__get_op_branch_detached "$_git_dir" "${_res[sha]}")}}")
   _res[operation]=${_op_branch_detached[operation]}
   _res[branch]=${_op_branch_detached[branch]}
   _res[is_detached]=${_op_branch_detached[detached]}
 
 
   # unmerged
-  local _counts=( $(command git rev-list --count --left-right master...HEAD 2>/dev/null) )
+  local _counts
+  _counts=( $(command git rev-list --count --left-right master...HEAD 2>/dev/null) )
 
   if [[ $#_counts == 0 ]]; then
     _res[behind]=0
@@ -1013,7 +1014,8 @@ function __prompt_async_git_dirty() { # {{{
   # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
   builtin cd -q $_dir
 
-  local _status=("${(f)$(command git status --porcelain --ignore-submodules -unormal 2>/dev/null)}")
+  local _status
+  _status=("${(f)$(command git status --porcelain --ignore-submodules -unormal 2>/dev/null)}")
   local _ret=$?
   if [[ $_ret == 0 && $#_status > 0 && ${_status[1]} != '' ]]; then
     local _untracked=${(M)#_status:#\?\? *}
@@ -1035,16 +1037,18 @@ function __prompt_async_git_upstream() { # {{{
   # use cd -q to avoid side effects of changing directory, e.g. chpwd hooks
   builtin cd -q $_dir
 
-  local _counts=( $(command git rev-list --count --left-right '@{upstream}'...HEAD 2>/dev/null) )
-  if [[ $? != 0 ]]; then
-    print -- ': 0 0'
-    return
-  fi
-
   local -A _res
   _res[upstream]=
   _res[behind]=0
   _res[ahead]=0
+
+  local _counts
+  _counts=( $(command git rev-list --count --left-right '@{upstream}'...HEAD 2>/dev/null) )
+  if [[ $? != 0 ]]; then
+    print -r - "${(@kvq)_res}"
+    return
+  fi
+
   if [[ $#_counts != 0 ]]; then
     _res[behind]=${_counts[1]}
     _res[ahead]=${_counts[2]}
@@ -1052,7 +1056,7 @@ function __prompt_async_git_upstream() { # {{{
     _res[upstream]=$(command git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)
   fi
 
-  print -r - ${(@kvq)_res}
+  print -r - "${(@kvq)_res}"
 }
 # }}}
 
@@ -1100,7 +1104,8 @@ function __prompt_async_callback() # {{{
         prompt_git_info[git_dir]=
       else
         # parse output (z) and unquote as array (Q@)
-        local -A _info=("${(Q@)${(z)_output}}")
+        local -A _info
+        _info=("${(Q@)${(z)_output}}")
         local -H MATCH MBEGIN MEND
         if [[ $_info[top] == $prompt_git_info[top] ]]; then
           if [[ $prompt_git_info[pwd] == ${PWD}* ]]; then
@@ -1127,7 +1132,8 @@ function __prompt_async_callback() # {{{
       if [[ $_output == '' ]]; then
         unset prompt_git_repo
       else
-        local -A _repo=("${(Q@)${(z)_output}}")
+        local -A _repo
+        _repo=("${(Q@)${(z)_output}}")
 
         local _branch_prefix
         if ${_repo[is_bare]}; then
@@ -1211,7 +1217,8 @@ function __prompt_async_callback() # {{{
       if [[ $_output == '' ]]; then
         unset prompt_git_upstream
       else
-        local -A _up=("${(Q@)${(z)_output}}")
+        local -A _up
+        _up=("${(Q@)${(z)_output}}")
 
         local _upstream
         local _ahead
@@ -1299,7 +1306,7 @@ function __prompt_async_git_info() # {{{
   fi
 
   local -A _info
-  _info[git_dir]=$(realpath "${_repo[1]}")
+  _info[git_dir]=$(readlink -f "${_repo[1]}")
   _info[top]=${_repo[2]}
 
   print -r - ${(@kvq)_info}
@@ -1334,11 +1341,14 @@ function __prompt_preprompt_render() # {{{
     _preprompt_parts+=("(${(j.${prompt_sep}.)_git_info_parts})")
   fi
 
-  local -ah _ps1=(
+  local -ah _ps1
+  _ps1=(
   $prompt_newline
   ${(j. .)_preprompt_parts}
   $prompt_newline
+  "$prompt_username"
   $prompt_symbol
+  ' '
   )
 
   PROMPT="${(j..)_ps1}"
