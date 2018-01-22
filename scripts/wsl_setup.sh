@@ -114,6 +114,7 @@ mysudo apt -y install \
   libluajit-5.1-dev \
   libncurses5-dev \
   libncursesw5-dev \
+  libpython-dev \
   libpython3-dev \
   luajit \
   lynx \
@@ -124,6 +125,8 @@ mysudo apt -y install \
   php5.6-mbstring \
   php5.6-xml \
   php5.6-zip \
+  python \
+  python-pip \
   python3 \
   python3-pip \
   shellcheck \
@@ -263,6 +266,7 @@ echo
 # Install neovim-python
 #
 echo 'Install neovim-python'
+mysudo pip install neovim
 mysudo pip3 install neovim
 
 echo

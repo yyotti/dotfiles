@@ -24,7 +24,7 @@ fi
 
 if (( ${+commands[go]} )); then
   export GOPATH=$XDG_DATA_HOME/go
-  path=($GOPATH/bin $path)
+  path=($GOPATH/bin(N-/) $path)
 fi
 
 if (( ${+commands[wcwidth-cjk]} )); then
