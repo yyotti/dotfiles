@@ -10,16 +10,16 @@ if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ $TMUX == '' ]] && (( ${+commands[tmu
 
   ID="$(tmux -f "$_tmux_conf" list-sessions 2>/dev/null)"
   if [[ $ID == '' ]]; then
-    SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  new-session
+    tmux -f "$_tmux_conf"  new-session
   elif (( ${+commands[fzf]} )); then
     create_new_session="Create New Session"
     ID="${create_new_session}:\n$ID"
     SEL_ID="$(echo "$ID" | fzf | cut -d: -f1)"
     if [[ $SEL_ID == $create_new_session ]]; then
-      SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  new-session
+      tmux -f "$_tmux_conf"  new-session
     else
       if [[ $SEL_ID != '' ]]; then
-        SHELL="$(which zsh 2>/dev/null)" tmux -f "$_tmux_conf"  attach-session -t "$SEL_ID"
+        tmux -f "$_tmux_conf"  attach-session -t "$SEL_ID"
       else
         : # Start normally
       fi
