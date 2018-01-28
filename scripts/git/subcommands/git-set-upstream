@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# See: https://help.github.com/articles/configuring-a-remote-for-a-fork/
+
+set -euC
+trap 'on-error $LINENO "$@"' ERR
+
+usage() # {{{
+{
+  cat <<_EOM_ >&${1:-1}
+Usage: git set-upstream UPSTREAM
+
+Options:
+  -h                    Show this message.
+_EOM_
+}
+# }}}
+
+# Global variables
+readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")" && pwd -P)"
+
+source "${script_dir}/../../_helpers.sh"
+
+# Parse options {{{
+args=()
+for _opt in "$@"; do
+  case "$_opt" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -*)
+      echoe "Unknown option: $_opt"
+      usage 2
+      exit 1
+      ;;
+    *)
+      if [[ $1 != '' ]]; then
+        args+=( "$1" )
+        shift 1
+      fi
+      ;;
+  esac
+done
+# }}}
+
+if [[ ${#args[@]} == 0 ]]; then
+  echoe 'No upstream specified.'
+  usage 2
+  exit 1
+fi
+
+git remote add upstream "${args[0]}"
