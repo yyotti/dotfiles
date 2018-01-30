@@ -861,10 +861,6 @@ endfunction "}}}
 unlet s:pack
 " }}}
 
-" vim-colorsque "{{{
-call pack#add('gorodinskiy/vim-coloresque')
-"}}}
-
 " TODO Pending {{{
 " TODO ???
 " [[plugins]]
