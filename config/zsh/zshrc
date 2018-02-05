@@ -477,139 +477,6 @@ autoload -Uz \
   async
 # }}}
 
-# plugins {{{
-
-function __chmod_dir()
-{
-  if __is_wsl; then
-    # only wsl
-    find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
-  fi
-}
-
-export ZPLUG_HOME=$XDG_CACHE_HOME/zsh/zplug
-if [[ ! -d $ZPLUG_HOME ]]; then
-  {
-    if [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]; then
-      echo unsetopt bg_nice
-    fi
-    curl -sL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
-  } | zsh
-
-  __chmod_dir $ZPLUG_HOME
-fi
-source $ZPLUG_HOME/init.zsh
-
-zplug 'zplug/zplug', \
-  hook-build:'zplug --self-manage', \
-  dir:"$ZPLUG_HOME"
-zplug 'zsh-users/zsh-completions', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/zsh-users"; zplug clear', \
-  hook-load:'fpath=($ZPLUG_REPOS/zsh-users/zsh-completions/src $fpath)'
-zplug 'mollifier/zload', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/mollifier"'
-zplug 'mafredri/zsh-async', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
-
-if ! zplug check --verbose; then
-  printf 'Install? [y/N]: '
-  if read -q; then
-    echo
-    zplug install
-  fi
-fi
-zplug load
-
-# }}}
-
-# FuzzyFinder {{{
-_FZF_HOME="$GOPATH/src/github.com/junegunn/fzf"
-if [[ $- =~ i && -d $_FZF_HOME ]]; then
-  export FZF_TMUX=1
-
-  # # TODO agなどコマンドを分ける(like denite.nvim)
-  # export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type f -print -o -type d -print -o -type l -print 2> /dev/null | cut -b3-"
-  # export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
-
-  # TODO プロンプトに入力している文字列であらかじめ絞りたい
-
-  source "$_FZF_HOME/shell/completion.zsh"
-  source "$_FZF_HOME/shell/key-bindings.zsh"
-
-  function fzf-ghq-widget()
-  {
-    setopt localoptions pipefail 2>/dev/null
-
-    local dir
-    dir=( $(ghq list --full-path | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
-    local ret=$?
-
-    if [[ $dir == '' ]]; then
-      zle redisplay
-      return 0
-    fi
-
-    LBUFFER="${LBUFFER}${dir}"
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
-    return $ret
-  }
-  zle -N fzf-ghq-widget
-  bindkey '^G' fzf-ghq-widget
-
-  function fzf-vim-plugins-widget()
-  {
-    local _vim_plugins_dir="$XDG_CACHE_HOME/vim/pack/bundle/opt"
-    local dir=''
-    local ret=0
-
-    if [[ -d $_vim_plugins_dir ]]; then
-      setopt localoptions pipefail 2>/dev/null
-
-      dir=( $(find "$_vim_plugins_dir" -mindepth 1 -maxdepth 1 -type d | sed "s#^${_vim_plugins_dir}/##" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
-      ret=$?
-    fi
-
-    if [[ $dir == '' ]]; then
-      zle redisplay
-      return 0
-    fi
-
-    LBUFFER="${LBUFFER}${_vim_plugins_dir}/${dir}"
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
-    return $ret
-  }
-  zle -N fzf-vim-plugins-widget
-  bindkey '^V' fzf-vim-plugins-widget
-
-  function fzf-git-branch-widget()
-  {
-    setopt localoptions pipefail 2>/dev/null
-
-    local _branches=$(git branch -v 2>/dev/null)
-    local _branch=$(echo "$_branches" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd))
-    local _ret=$?
-
-    if [[ $_branch == '' ]]; then
-      zle redisplay
-      return 0
-    fi
-
-    LBUFFER="${LBUFFER}$(echo "$_branch" | awk '{print $1}' | sed "s/.* //")"
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
-    return $_ret
-  }
-  zle -N fzf-git-branch-widget
-  bindkey '^B' fzf-git-branch-widget
-
-  # Change default keybinds
-  bindkey '^F' fzf-file-widget
-  bindkey -r '\ec'
-fi
-# }}}
-
 # Completions {{{
 # git
 if (( ${+commands[git]} )); then
@@ -661,6 +528,139 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
                                            /sbin \
                                            /bin
 
+# }}}
+
+# plugins {{{
+
+function __chmod_dir()
+{
+  if __is_wsl; then
+    # only wsl
+    find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
+  fi
+}
+
+export ZPLUG_HOME=$XDG_CACHE_HOME/zsh/zplug
+if [[ ! -d $ZPLUG_HOME ]]; then
+  {
+    if [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]; then
+      echo unsetopt bg_nice
+    fi
+    curl -sL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
+  } | zsh
+
+  __chmod_dir $ZPLUG_HOME
+fi
+source $ZPLUG_HOME/init.zsh
+
+zplug 'zplug/zplug', \
+  hook-build:'zplug --self-manage', \
+  dir:"$ZPLUG_HOME"
+zplug 'zsh-users/zsh-completions', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/zsh-users"; zplug clear', \
+  hook-load:'fpath=($ZPLUG_REPOS/zsh-users/zsh-completions/src $fpath)'
+zplug 'mollifier/zload', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/mollifier"'
+zplug 'mafredri/zsh-async', \
+  hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
+
+if ! zplug check --verbose; then
+  printf 'Install? [y/N]: '
+  if read -q; then
+    echo
+    zplug install
+  fi
+fi
+zplug load
+
+# }}}
+
+# FuzzyFinder {{{
+_FZF_HOME="$GOPATH/src/github.com/junegunn/fzf"
+if [[ $- =~ i && -d $_FZF_HOME ]]; then
+  export FZF_TMUX=1
+
+  # TODO agなどコマンドを分ける(like denite.nvim)
+  export FZF_CTRL_T_COMMAND="command fd --type=file --color=never --hidden --follow --exclude=.git"
+  # export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+
+  # TODO プロンプトに入力している文字列であらかじめ絞りたい
+
+  source "$_FZF_HOME/shell/completion.zsh"
+  source "$_FZF_HOME/shell/key-bindings.zsh"
+
+  function fzf-ghq-widget()
+  {
+    setopt localoptions pipefail 2>/dev/null
+
+    local dir
+    dir=( $(ghq list --full-path | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+    local ret=$?
+
+    if [[ $dir == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}${dir}"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+  }
+  zle -N fzf-ghq-widget
+  bindkey '^G' fzf-ghq-widget
+
+  function fzf-vim-plugins-widget()
+  {
+    local _vim_plugins_dir="$XDG_CACHE_HOME/vim/pack/bundle/opt"
+    local dir=''
+    local ret=0
+
+    if [[ -d $_vim_plugins_dir ]]; then
+      setopt localoptions pipefail 2>/dev/null
+
+      dir=( $(fd --color=never --type=d --max-depth=1 . "${_vim_plugins_dir}" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+      ret=$?
+    fi
+
+    if [[ $dir == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}${_vim_plugins_dir}/${dir}"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+  }
+  zle -N fzf-vim-plugins-widget
+  bindkey '^V' fzf-vim-plugins-widget
+
+  function fzf-git-branch-widget()
+  {
+    setopt localoptions pipefail 2>/dev/null
+
+    local _branches=$(git branch -v 2>/dev/null)
+    local _branch=$(echo "$_branches" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd))
+    local _ret=$?
+
+    if [[ $_branch == '' ]]; then
+      zle redisplay
+      return 0
+    fi
+
+    LBUFFER="${LBUFFER}$(echo "$_branch" | awk '{print $1}' | sed "s/.* //")"
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $_ret
+  }
+  zle -N fzf-git-branch-widget
+  bindkey '^B' fzf-git-branch-widget
+
+  # Change default keybinds
+  bindkey '^F' fzf-file-widget
+  bindkey -r '\ec'
+fi
 # }}}
 
 # aliases {{{
