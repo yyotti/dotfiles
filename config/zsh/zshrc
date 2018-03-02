@@ -564,7 +564,9 @@ zplug 'mollifier/zload', \
 zplug 'mafredri/zsh-async', \
   hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
 
-if ! zplug check --verbose; then
+if [[ ! -f $ZPLUG_CACHE_DIR/interface ]] \
+  || [[ $ZPLUG_LOADFILE -nt $ZPLUG_CACHE_DIR/interface ]] \
+  || ! zplug check --verbose; then
   printf 'Install? [y/N]: '
   if read -q; then
     echo
