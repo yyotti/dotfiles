@@ -413,6 +413,22 @@ find "$GOPATH/src/github.com/b4b4r07/gist/misc/completion" \
 echo
 
 #=============================================================================
+# Install Nodebrew
+#
+echo 'Install Nodebrew.'
+curl -L git.io/nodebrew | perl - setup
+
+echo
+
+#=============================================================================
+# Install Node.js (latest version)
+#
+echo 'Install Node.js (latest version).'
+nodebrew install-binary latest && nodebrew use latest
+
+echo
+
+#=============================================================================
 # Change shell
 #
 echo "Change shell ($(which zsh))."
