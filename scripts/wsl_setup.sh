@@ -66,6 +66,8 @@ if [[ ! -d $GOPATH ]]; then
   mkdir -p "$GOPATH"
 fi
 
+export ZDOTDIR=${XDG_CONFIG_HOME}/zsh
+
 #=============================================================================
 # Replace source url
 #
