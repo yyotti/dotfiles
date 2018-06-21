@@ -11,7 +11,7 @@ sudo apt -y install \
   docbook-xsl \
   libc6-dev \
   libncurses5-dev \
-  libreadline \
+  libreadline-dev \
   xmlto
 
 repo=jonas/tig
