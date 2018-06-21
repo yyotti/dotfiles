@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
+# XDG Base Directory
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+export ZDOTDIR=${XDG_CONFIG_HOME}/zsh
+export DOTFILES=${XDG_DATA_HOME}/dotfiles
+
 # Global variables
 readonly dotfiles_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")/../" && pwd -P)"
-readonly symlink_dir="$HOME"
+readonly symlink_dir="${HOME}"
 
 set -eu
-trap 'on-error $LINENO "$@"' ERR
 
 source "${dotfiles_dir}/scripts/_helpers.sh"
 
@@ -77,8 +81,8 @@ function __confirm() # {{{
     local _yn="[y/N]"
   fi
 
-  read -p "$_msg $_yn" _ans
-  [[ $_ans == '' && ${_default^^} == 'Y' ]] && _ans='Y'
+  read -p "${_msg} ${_yn}" _ans
+  [[ ${_ans} == '' && ${_default^^} == 'Y' ]] && _ans='Y'
   case "${_ans^^}" in
     YES|Y)
       return 0
@@ -92,7 +96,7 @@ function __confirm() # {{{
 
 function __verbose() # {{{
 {
-  if $verbose; then
+  if ${verbose}; then
     echo "${1:-''}"
   fi
 }
@@ -103,56 +107,56 @@ function __mklink() # {{{
   local _from=$1
   local _to=$2
 
-  if [[ -e $_to ]]; then
-    if $skip; then
-      __verbose "Skipped: [$_to] is already exists."
+  if [[ -e ${_to} ]]; then
+    if ${skip}; then
+      __verbose "Skipped: [${_to}] is already exists."
       return 0
     fi
 
-    if $interactive; then
-      __confirm "[$_to] is already exists. Override?" y | true
+    if ${interactive}; then
+      __confirm "[${_to}] is already exists. Override?" y | true
       if [[ ${PIPESTATUS[0]} != 0 ]]; then
-        __verbose "Skipped: [$_to]"
+        __verbose "Skipped: [${_to}]"
         return 0
       fi
     fi
 
-    rm -fr "$_to"
+    rm -fr "${_to}"
   fi
 
-  __verbose "Create symlink: [$_from] -> [$_to]"
+  __verbose "Create symlink: [${_from}] -> [${_to}]"
   if [[ ! -d ${_to%/*} ]]; then
     mkdir -p "${_to%/*}"
   fi
-  ln -s "$_from" "$_to"
+  ln -s "${_from}" "${_to}"
 }
 # }}}
 
 function __dellink() # {{{
 {
   local _del_target=$1
-  if [[ ! -e $_del_target ]]; then
-    __verbose "Skipped: [$_del_target] is not exists."
+  if [[ ! -e ${_del_target} ]]; then
+    __verbose "Skipped: [${_del_target}] is not exists."
     return 0
   fi
 
-  if [[ ! -L $_del_target ]]; then
-    if $skip; then
-      __verbose "Skipped: [$_del_target] is not a symlink."
+  if [[ ! -L ${_del_target} ]]; then
+    if ${skip}; then
+      __verbose "Skipped: [${_del_target}] is not a symlink."
       return 0
     fi
 
-    if $interactive; then
-      __confirm "[$_del_target] is not a symlink. Delete?" y | true
+    if ${interactive}; then
+      __confirm "[${_del_target}] is not a symlink. Delete?" y | true
       if [[ ${PIPESTATUS[0]} != 0 ]]; then
-        __verbose "Skipped: [$_del_target]"
+        __verbose "Skipped: [${_del_target}]"
         return 0
       fi
     fi
   fi
 
-  __verbose "Delete: [$_del_target]"
-  rm -fr "$_del_target"
+  __verbose "Delete: [${_del_target}]"
+  rm -fr "${_del_target}"
 }
 # }}}
 
@@ -162,13 +166,13 @@ function __dellink() # {{{
 
 params=()
 for _opt in "$@"; do
-  case "$_opt" in
+  case "${_opt}" in
     -h|--help)
       usage
       exit 0
       ;;
     -V|--version)
-      echo "Version $version"
+      echo "Version ${version}"
       exit 0
       ;;
     -v|--verbose)
@@ -191,7 +195,7 @@ for _opt in "$@"; do
       shift 1
       ;;
     -*)
-      __err "Unknown option: $_opt"
+      __err "Unknown option: ${_opt}"
       usage 2
       exit 1
       ;;
@@ -211,11 +215,11 @@ case "${#params[@]}" in
     ;;
   1)
     cmd=${params[0]}
-    case "$cmd" in
+    case "${cmd}" in
       install|uninstall)
         ;;
       *)
-        __err "Unknown command: $cmd"
+        __err "Unknown command: ${cmd}"
         usage 2
         exit 2
         ;;
@@ -235,23 +239,23 @@ function install() # {{{
     local _from="${dotfiles_dir}/${_target}"
 
     local _to="${_target}"
-    if [[ ! $_to =~ ^\. ]]; then
+    if [[ ! ${_to} =~ ^\. ]]; then
       _to=".${_to}"
     fi
     _to="${symlink_dir}/${_to}"
 
-    __mklink "$_from" "$_to"
+    __mklink "${_from}" "${_to}"
   done
 
   # for zshrc
-  if [[ ! -e "$ZDOTDIR/.zshrc" ]]; then
-    __mklink "$ZDOTDIR/zshrc" "$ZDOTDIR/.zshrc"
+  if [[ ! -e "${ZDOTDIR}/.zshrc" ]]; then
+    __mklink "${ZDOTDIR}/zshrc" "${ZDOTDIR}/.zshrc"
   fi
 
   # for nvim
-  local _nvimdir="$XDG_CONFIG_HOME/nvim"
-  if [[ ! -e $_nvimdir ]]; then
-    __mklink "$(readlink "$HOME/.vim")" "$_nvimdir"
+  local _nvimdir="${XDG_CONFIG_HOME}/nvim"
+  if [[ ! -e ${_nvimdir} ]]; then
+    __mklink "$(readlink "${HOME}/.vim")" "${_nvimdir}"
   fi
 }
 # }}}
@@ -259,24 +263,24 @@ function install() # {{{
 function uninstall() # {{{
 {
   # for nvim
-  __dellink "$XDG_CONFIG_HOME/nvim"
+  __dellink "${XDG_CONFIG_HOME}/nvim"
 
   # for zshrc
-  __dellink "$ZDOTDIR/.zshrc"
+  __dellink "${ZDOTDIR}/.zshrc"
 
   for _target in "${symlink_targets[@]}"; do
     local _del_target="${_target}"
-    if [[ ! $_del_target =~ ^\..+ ]]; then
+    if [[ ! ${_del_target} =~ ^\..+ ]]; then
       _del_target=".${_del_target}"
     fi
     _del_target="${symlink_dir}/${_del_target}"
 
-    __dellink "$_del_target"
+    __dellink "${_del_target}"
   done
 }
 # }}}
 
-if [[ $cmd == 'install' ]]; then
+if [[ ${cmd} == 'install' ]]; then
   install
 else
   uninstall
