@@ -40,24 +40,7 @@ sudo apt -y install \
   language-pack-ja \
   manpages-ja \
   nkf \
-  skkdic \
   xsel
-
-# mysudo apt -y install \
-#   cmake \
-#   libevent-2.0-5 \
-#   libevent-dev \
-#   libicu-dev \
-#   liblua5.1-0-dev \
-#   libluajit-5.1-dev \
-#   libncurses5-dev \
-#   libncursesw5-dev \
-#   libpython-dev \
-#   libpython3-dev \
-#   luajit \
-#   lynx \
-#   shellchec \
-#   zip \
 
 # }}}
 

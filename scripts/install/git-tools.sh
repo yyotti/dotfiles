@@ -4,6 +4,16 @@ set -eu
 echo 'Install Git tools.'
 
 echo '  Install tig.'
+sudo apt -y install \
+  asciidoc \
+  autoconf \
+  docbook-utils \
+  docbook-xsl \
+  libc6-dev \
+  libncurses5-dev \
+  libreadline \
+  xmlto
+
 repo=jonas/tig
 ghq get ${repo}
 cd "$(ghq root)/github.com/${repo}"
@@ -11,7 +21,7 @@ ver=$(git tag | tail -n 1)
 git checkout -b "v${ver}" "${ver}"
 ./autogen.sh
 ./configure
-make prefix=/usr/local
+make -j2 prefix=/usr/local
 sudo make install prefix=/usr/local
 
 echo '  Install git-now.'

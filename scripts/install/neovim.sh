@@ -22,12 +22,20 @@ ghq get ${repo}
 cd "$(ghq root)/github.com/${repo}"
 ver=$(git tag | tail -n 1)
 git checkout -b "v${ver}" "${ver}"
-make
+make -j2 CMALE_BYILD_TYPE=Release
 sudo make install
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 50
 
 echo '  Install neovim-python'
 pip install --user neovim
 pip3 install --user neovim
+
+echo '  Install some packages/commands using Neovim(plugins)'
+sudo apt -y install \
+  lynx \
+  skkdic \
+  shellcheck
+
+go get -v github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 echo

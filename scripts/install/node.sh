@@ -9,6 +9,7 @@ curl -L git.io/nodebrew | perl - setup
 echo
 
 echo '  Install Node.js (latest version).'
-nodebrew install-binary latest && nodebrew use latest
+"${HOME}/.nodebrew/current/bin/nodebrew" install-binary latest
+"${HOME}/.nodebrew/current/bin/nodebrew" use latest
 
 echo

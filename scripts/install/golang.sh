@@ -26,7 +26,7 @@ if [[ ${go_ver} != '' ]]; then
   sudo tar -C /usr/local -xzf "${archive_name}"
 
   echo '  Install Dep.'
-  "${GOPATH}/bin/go" get -v github.com/golang/dep/cmd/dep
+  /usr/local/go/bin/go get -v github.com/golang/dep/cmd/dep
 fi
 
 echo

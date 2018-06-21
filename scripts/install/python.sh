@@ -11,8 +11,7 @@ sudo apt -y install \
 sudo pip3 install --upgrade pip
 
 echo '  Install some pip packages'
-pip3 install --user \
-  psutil \
+"$(which pip3)" install --user \
   flake8 \
   hacking \
   pep8-naming
