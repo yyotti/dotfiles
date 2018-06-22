@@ -14,7 +14,7 @@ function! s:my_cr_function() abort "{{{
   return deoplete#cancel_popup() . "\<CR>"
 endfunction "}}}
 
-call deoplete#custom#set(
+call deoplete#custom#source(
       \   '_',
       \   'converters',
       \   [
