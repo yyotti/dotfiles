@@ -7,7 +7,7 @@ echo '  Install tig.'
 sudo apt -y install \
   autoconf \
   libc6-dev \
-  libncurses5-dev \
+  libncursesw5-dev \
   libreadline-dev
 
 repo=jonas/tig
