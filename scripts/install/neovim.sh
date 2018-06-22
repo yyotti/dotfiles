@@ -22,7 +22,7 @@ ghq get ${repo}
 cd "$(ghq root)/github.com/${repo}"
 ver=$(git tag | tail -n 1)
 git checkout -b "v${ver}" "${ver}"
-make -j2 CMALE_BYILD_TYPE=Release
+make -j2 CMAKE_BYILD_TYPE=Release
 sudo make install
 sudo update-alternatives --install /usr/bin/vim vim /usr/local/bin/nvim 50
 
