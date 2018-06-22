@@ -5,14 +5,10 @@ echo 'Install Git tools.'
 
 echo '  Install tig.'
 sudo apt -y install \
-  asciidoc \
   autoconf \
-  docbook-utils \
-  docbook-xsl \
   libc6-dev \
   libncurses5-dev \
-  libreadline-dev \
-  xmlto
+  libreadline-dev
 
 repo=jonas/tig
 ghq get ${repo}
