@@ -630,7 +630,7 @@ if [[ $- =~ i && -d $_FZF_HOME ]]; then
       return 0
     fi
 
-    LBUFFER="${LBUFFER}${_vim_plugins_dir}/${dir}"
+    LBUFFER="${LBUFFER}${dir}"
     zle redisplay
     typeset -f zle-line-init >/dev/null && zle zle-line-init
     return $ret
