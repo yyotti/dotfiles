@@ -1,4 +1,4 @@
-"-----------------------------------------------------------------------------
+"---------------------------------------------------------------------------
 " Initialize:
 "
 
@@ -23,7 +23,7 @@ let &fileencodings = join([
       \ ])
 
 " Setting of terminal encoding
-if !has('gui_running') && IsWindows()
+if IsWindows()
   set termencoding=cp932
 endif
 
@@ -41,16 +41,35 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 
 " Disable mappings for some plugins
+nnoremap ; <Nop>
 nnoremap , <Nop>
-xnoremap , <Nop>
 
 if IsWindows()
   " Change path separator
   set shellslash
 endif
 
-" Set packpath
-execute 'set packpath=' . $_CACHE
+if !isdirectory($_CACHE)
+  call mkdir($_CACHE, 'p')
+endif
+
+" Load dein
+if &runtimepath !~ '/dein.vim'
+  let s:dein_dir = vimrc#join_path(
+        \   $_CACHE,
+        \   'dein/repos/github.com/Shougo/dein.vim'
+        \ )
+  if !isdirectory(s:dein_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+  endif
+
+  execute 'set runtimepath^=' . substitute(
+        \   fnamemodify(s:dein_dir, ':p') , '/$', '', ''
+        \ )
+endif
+
+" Disable packpath
+set packpath=
 
 " Disable default plugins {{{
 let g:loaded_2html_plugin = 1

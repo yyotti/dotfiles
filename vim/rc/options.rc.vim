@@ -16,8 +16,13 @@ set shiftround
 set autoindent
 set smartindent
 
+" Disable modeline
+set modelines=0
+set nomodeline
+autocmd MyAutocmd BufRead,BufWritePost *.txt setlocal modelines=5 modeline
+
 " Clipboard
-if (has('nvim') || $DISPLAY !=# '') && has('clipboard')
+if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
   set clipboard&
   if has('unnamedplus')
     set clipboard+=unnamedplus
@@ -28,9 +33,11 @@ endif
 
 set backspace=indent,eol,start
 
+set matchpairs+=<:>
+
 set hidden
 
-" Folding
+set foldenable
 set foldmethod=marker
 set foldcolumn=1
 set fillchars=vert:\|
@@ -54,7 +61,6 @@ endif
 
 set grepprg=grep\ -inH
 
-" Exclude = from isfilename
 set isfname-==
 
 set timeout
@@ -73,7 +79,7 @@ set noswapfile
 set backupdir-=.
 
 set undofile
-let &g:undodir=&directory
+let &g:undodir = &directory
 
 set virtualedit=block
 
@@ -120,6 +126,9 @@ function! s:del_last_whitespaces() abort "{{{
   call setpos('.', l:cursor)
   unlet l:cursor
 endfunction "}}}
+
+" Use autofmt.
+set formatexpr=autofmt#japanese#formatexpr()
 
 " lcd git root directory
 if executable('git')
@@ -173,6 +182,7 @@ set laststatus=2
 set cmdheight=2
 
 set noshowcmd
+
 set ambiwidth=double
 
 set title
@@ -189,10 +199,9 @@ else
   set nowrap
 endif
 
-set diffopt+=vertical
-
 autocmd MyAutocmd BufEnter,BufWinEnter,FilterWritePost *
       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
+set diffopt+=vertical
 
 set shortmess=aTI
 if has('patch-7.4.314')
@@ -201,6 +210,11 @@ else
   autocmd MyAutocmd VimEnter *
         \ highlight ModeMsg guifg=bg guibg=bg |
         \ highlight Question guifg=bg guibg=bg
+endif
+
+" Do not display the edit messages
+if has('patch-7.4.1570')
+  set shortmess+=F
 endif
 
 set t_vb=

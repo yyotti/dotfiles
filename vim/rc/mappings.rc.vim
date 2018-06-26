@@ -4,11 +4,6 @@
 nmap <C-Space> <C-@>
 cmap <C-Space> <C-@>
 
-function! ToggleOption(option_name) abort "{{{
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction "}}}
-
 " Normal/Visual mode mappings: "{{{
 nnoremap > >>
 nnoremap < <<
@@ -40,8 +35,8 @@ endif
 
 nnoremap x "_x
 
-nnoremap \w :<C-u>call ToggleOption('wrap')<CR>
-nnoremap \n :<C-u>call ToggleOption('number')<CR>
+nnoremap \w :<C-u>call vimrc#toggle_option('wrap')<CR>
+nnoremap \n :<C-u>call vimrc#toggle_option('number')<CR>
 
 " Clear hlsearch
 nnoremap \h :<C-u>nohlsearch<CR>
@@ -49,10 +44,10 @@ nnoremap \h :<C-u>nohlsearch<CR>
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
       \ max([winheight(0) - 2, 1]) . "\<C-d>" .
-      \   (line('.') > line('$') - winheight(0) ? 'L' : 'H')
+      \   (line('w$') >= line('$') ? 'L' : 'M')
 nnoremap <expr> <C-b>
       \ max([winheight(0) - 2, 1]) . "\<C-u>" .
-      \   (line('.') < 1 + winheight(0) ? 'H' : 'L')
+      \   (line('w0') < 1 ? 'H' : 'M')
 
 nmap Y y$
 
@@ -105,6 +100,18 @@ nnoremap <silent> gh :<C-u>call OpenGF('h')<CR>
 nnoremap <silent> gl :<C-u>call OpenGF('l')<CR>
 nnoremap <silent> gj :<C-u>call OpenGF('j')<CR>
 nnoremap <silent> gk :<C-u>call OpenGF('k')<CR>
+
+nnoremap [Alt] <Nop>
+nmap S [Alt]
+
+" Indent paste
+nnoremap <silent> [Alt]p o<Esc>pm``[=`]``^
+nnoremap <silent> [Alt]P o<Esc>Pm``[=`]``^
+
+" If press l on fold, fold open.
+nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
+" If press l on fold, range fold open.
+xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
 "}}}
 
 " Insert mode mappings: "{{{
@@ -124,7 +131,7 @@ inoremap <C-e> <C-g>U<End>
 inoremap <C-d> <DEL>
 
 " Toggle paste
-inoremap <C-\> <C-o>:call ToggleOption('paste')<CR>
+inoremap <C-\> <C-o>:call vimrc#toggle_option('paste')<CR>
 
 if has('gui_running')
   inoremap <ESC> <ESC>
@@ -190,8 +197,11 @@ xnoremap id i"
 "}}}
 
 " Edit config files "{{{
+nmap  <Space>   [Space]
+nnoremap  [Space]   <Nop>
+
 " reload vimrc
-nnoremap <silent> <Space>;r
+nnoremap <silent> [Space];r
       \ :<C-u>source $MYVIMRC<CR> \| :echo "source " . $MYVIMRC<CR>
 "}}}
 
@@ -201,13 +211,13 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
 
-nnoremap <Space>x <C-w>x
-nnoremap <Space>= <C-w>=
+nnoremap [Space]x <C-w>x
+nnoremap [Space]= <C-w>=
 
-nnoremap <Space>H <C-w>H
-nnoremap <Space>L <C-w>L
-nnoremap <Space>K <C-w>K
-nnoremap <Space>J <C-w>J
+nnoremap [Space]H <C-w>H
+nnoremap [Space]L <C-w>L
+nnoremap [Space]K <C-w>K
+nnoremap [Space]J <C-w>J
 "}}}
 
 " Operate buffer "{{{
@@ -236,14 +246,17 @@ function! SmartBDelete(force) abort "{{{
   execute 'bdelete' . (a:force ? '!' : '') l:cur_bufnr
 endfunction "}}}
 
-nnoremap <silent> <Space>o :<C-u>only<CR>
-nnoremap <silent> <Space>h :<C-u>hide<CR>
-nnoremap <silent> <Space>d :<C-u>call SmartBDelete(0)<CR>
-nnoremap <silent> <Space>D :<C-u>call SmartBDelete(1)<CR>
+nnoremap <silent> [Space]o :<C-u>only<CR>
+nnoremap <silent> [Space]h :<C-u>hide<CR>
+nnoremap <silent> [Space]d :<C-u>call SmartBDelete(0)<CR>
+nnoremap <silent> [Space]D :<C-u>call SmartBDelete(1)<CR>
+
+nnoremap <silent> [Space]- :<C-u>new<CR>
+nnoremap <silent> [Space]<Bar> :<C-u>vnew<CR>
 "}}}
 
 " For plugins {{{
-nnoremap <Space>u <Nop>
+nnoremap [Space]u <Nop>
 " }}}
 
 " Marks "{{{

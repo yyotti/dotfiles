@@ -28,15 +28,3 @@ call ale#linter#Define('vim', {
       \   'callback': 'ale_linters#vim#vimlparser#handle',
       \   'output_stream': 'stderr',
       \})
-
-if !IsWindows()
-  " TODO
-  " let g:neomake_vim_enabled_makers = [ 'vimlint' ]
-  " let g:neomake_vim_vimlint_maker = {
-  "       \   'exe': expand('~/.vim/script/vimlint.sh'),
-  "       \   'args': [ '-u' ],
-  "       \   'errorformat':
-  "       \     '%f:%l:%c:%trror: %m,%f:%l:%c:%tarning: %m,%f:%l:%c:%m',
-  "       \ }
-endif
-

@@ -31,6 +31,8 @@ call denite#custom#map('insert',
       \ '<C-v>', '<denite:do_action:vsplit>', 'noremap')
 call denite#custom#map('insert',
       \ '<C-x>', '<denite:do_action:split>', 'noremap')
+call denite#custom#map('insert',
+      \ '<C-r>', '<denite:toggle_matchers:matcher/substring>', 'noremap')
 
 " Normal mode mappings
 call denite#custom#map('normal',
@@ -42,29 +44,32 @@ call denite#custom#map('normal',
 call denite#custom#map('normal',
       \ '<C-s>', '<denite:do_action:split>', 'noremap')
 
-call denite#custom#source('file_old', 'matchers', [ 'matcher_fuzzy' ])
-call denite#custom#source('file_old', 'converters',
-      \ [ 'converter_relative_word' ])
+"-----------------------------------------------------------------------------
+" sources:
+"
+call denite#custom#source('file/old', 'matchers',
+      \ [ 'matcher/fuzzy', 'matcher/project_files' ])
 
-call denite#custom#source('grep', 'matchers', [ 'matcher_ignore_globs' ])
+if has('nvim')
+  " call denite#custom#source('file/rec,grep', 'matchers', [ 'matcher/cpsm' ])
+endif
 
-call denite#custom#var('file_rec', 'command',
-      \ [ 'rg', '--files', '--glob', '!.git' ])
+call denite#custom#source('file/old', 'converters',
+      \ [ 'converter/relative_word' ])
 
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command',
+
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',
       \ [ 'git', 'ls-files', '-co', '--exclude-standard' ])
 
-call denite#custom#option('default,grep', 'prompt', '>')
-call denite#custom#option(
-      \   'default,grep', 'highlight_matched_char', 'WarningMsg'
-      \ )
-call denite#custom#option(
-      \   'default,grep', 'highlight_mode_normal', 'CursorLine'
-      \ )
-call denite#custom#option(
-      \   'default,grep', 'highlight_mode_insert', 'CursorLine'
-      \ )
+"-----------------------------------------------------------------------------
+" options:
+"
+call denite#custom#option('default,grep', {
+      \   'prompt': '>',
+      \   'highlight_matched_char': 'WarningMsg',
+      \   'highlight_mode_normal': 'CursorLine',
+      \ })
 
 "-----------------------------------------------------------------------------
 " grep:
@@ -87,7 +92,7 @@ if executable('rg')
         \ )
 
   call denite#custom#var(
-        \   'file_rec',
+        \   'file/rec',
         \   'command',
         \   [
         \     'rg',
@@ -113,7 +118,7 @@ elseif executable('ag')
         \ )
 
   call denite#custom#var(
-        \   'file_rec',
+        \   'file/rec',
         \   'command',
         \   [
         \     'ag',
@@ -141,7 +146,7 @@ elseif executable('pt')
         \ )
 
   call denite#custom#var(
-        \   'file_rec',
+        \   'file/rec',
         \   'command',
         \   [
         \     'pt',
@@ -241,7 +246,7 @@ function! s:simple_items(...) abort "{{{
 endfunction "}}}
 
 function! s:vimrc_items() abort "{{{
-  let l:path = resolve(expand('~/.vim'))
+  let l:path = resolve(expand($VIMDIR))
   if !isdirectory(l:path)
     return []
   endif

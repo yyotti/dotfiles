@@ -7,30 +7,30 @@ echo '  Install Fuzzy Finder.'
 go get -v github.com/junegunn/fzf
 ln -s "${GOPATH}/src/github.com/junegunn/fzf/bin/fzf-tmux" "${GOPATH}/bin/fzf-tmux"
 
-echo '  Install The Platinum Searcher.'
-go get -v github.com/monochromegane/the_platinum_searcher/cmd/pt
-
-echo '  Install fd.'
-fd_ver=$( \
-  curl -sL https://api.github.com/repos/sharkdp/fd/tags \
-  | jq -r '.[].name' \
-  | sort -r \
-  | head -n 1
+echo '  Install ripgrep.'
+archi=$(uname -sm)
+case "${archi}" in
+  Linux\ *64) pattern=x86_64-unknown-linux-musl.tar.gz ;;
+  Linux\ *86) pattern=i686-unknown-linux-musl.tar.gz ;;
+  *) echo "Unknown OS: ${archi}"; pattern='' ;;
+esac
+if [[ ${pattern} != '' ]]; then
+  archive_name=$( \
+    curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
+    | jq -r '.assets[].name' \
+    | grep -E "^ripgrep-[0-9.]+-${pattern}$" \
   )
-if [[ ${fd_ver} != '' ]]; then
-  archi=$(uname -sm)
-  case "${archi}" in
-    Linux\ *64) archive_name=fd-${fd_ver}-x86_64-unknown-linux-gnu.tar.gz ;;
-    Linux\ *86) archive_name=fd-${fd_ver}-i686-unknown-linux-gnu.tar.gz ;;
-    *) echo "Unknown OS: ${archi}"; exit 1 ;;
-  esac
+
   cd /tmp
-  curl -sLO "https://github.com/sharkdp/fd/releases/download/${fd_ver}/${archive_name}"
+  curl -sLO "$( \
+    echo "$archive_name" \
+    | sed -E 's#^ripgrep-([0-9.]+)-.+$#https://github.com/BurntSushi/ripgrep/releases/download/\1/\0#' \
+  )"
   tar xzf "/tmp/${archive_name}"
-  mv "/tmp/${archive_name%.tar.gz}" "${XDG_DATA_HOME}/fd"
-  chmod 755 "${XDG_DATA_HOME}/fd"
+  mv "/tmp/${archive_name%.tar.gz}" "${XDG_DATA_HOME}/ripgrep"
+  chmod 755 "${XDG_DATA_HOME}/ripgrep"
   mkdir -p "${HOME}/bin"
-  ln -s "${XDG_DATA_HOME}/fd/fd" "${HOME}/bin/fd"
+  ln -s "${XDG_DATA_HOME}/ripgrep/rg" "${HOME}/bin/rg"
 fi
 
 echo '  Install Lemonade.'

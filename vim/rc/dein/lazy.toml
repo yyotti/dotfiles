@@ -1,0 +1,610 @@
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+on_event = 'VimEnter'
+hook_add = '''
+let g:airline_skip_empty_sections = 1
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.maxlinenr = ''
+if !IsWindows()
+  let g:airline_left_sep = "\u2b80"
+  let g:airline_left_alt_sep = "\u2b81"
+  let g:airline_right_sep = "\u2b82"
+  let g:airline_right_alt_sep = "\u2b83"
+
+  let g:airline_symbols.linenr = "\u2b61"
+  let g:airline_symbols.readonly = "\u2b64"
+  let g:airline_symbols.branch = "\u2b60"
+else
+  let g:airline_symbols.linenr = 'L'
+  let g:airline_symbols.readonly = '[R]'
+endif
+'''
+hook_source = '''
+" Extension settings
+if dein#tap('ale')
+  let g:airline#extensions#ale#error_symbol = 'E'
+  let g:airline#extensions#ale#warning_symbol = 'W'
+endif
+
+if dein#tap('vim-gitgutter')
+  let g:airline#extensions#hunks#non_zero_only = 1
+  let g:airline#extensions#hunks#hunk_symbols = [
+        \   g:gitgutter_sign_added,
+        \   g:gitgutter_sign_modified,
+        \   g:gitgutter_sign_removed,
+        \ ]
+endif
+
+if dein#tap('eskk.vim')
+  function! EskkMode() abort "{{{
+    return exists('*eskk#statusline') && !empty(eskk#statusline()) ?
+          \ matchlist(eskk#statusline(), '^\[eskk:\(.\+\)\]$')[1] : ''
+  endfunction "}}}
+  call airline#parts#define_function('eskk', 'EskkMode')
+endif
+
+call airline#parts#define('lineinfo', {
+      \   'raw': ' %3v %{g:airline_symbols.linenr}%3l/%L',
+      \ })
+
+autocmd MyAutocmd User AirlineAfterInit call s:airline_init()
+function! s:airline_init() abort "{{{
+  let l:section_b = []
+  call add(l:section_b, 'hunks')
+
+  if dein#tap('vim-fugitive')
+    call add(l:section_b, '%{fugitive#head()}')
+  endif
+
+  let g:airline_section_a = airline#section#create_left([ 'mode', 'eskk' ])
+  let g:airline_section_b = airline#section#create(l:section_b)
+  let g:airline_section_z = airline#section#create([ 'windowswap', 'obsession', 'lineinfo' ])
+endfunction "}}}
+'''
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+on_source = 'vim-airline'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+if = 0
+
+[[plugins]]
+repo = 'itchyny/vim-parenmatch'
+if = 'v:version == 704 && has("patch786") || v:version >= 705 || has("nvim")'
+
+[[plugins]]
+repo = 'tyru/caw.vim'
+on_map = { nx = '<Plug>' }
+hook_add = '''
+nmap gc <Plug>(caw:prefix)
+xmap gc <Plug>(caw:prefix)
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+on_cmd = [ 'Gstatus', 'Gvdiff', 'Git' ]
+hook_add = '''
+nnoremap <silent> <Leader>gs :<C-u>Gstatus<CR>
+noremap <silent> <Leader>gd :<C-u>Gvdiff<CR>
+'''
+hook_post_source = '''
+" FIXME 見直し
+" call gina#custom#mapping#map('status', 'cn', ':Gina now --stat<CR>')
+" TODO gitstatusでaのマッピングを外す
+" TODO gitstatusでDのマッピングをGvdiffに変更する
+" TODO gitstatusの場合のプレビューウィンドウのサイズを調整
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
+# on_event = 'InsertCharPre'
+on_event = 'InsertEnter'
+on_ft = 'snippet'
+hook_source = '''
+imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
+smap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
+xmap <silent> <C-k> <Plug>(neosnippet_expand_target)
+imap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
+smap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
+xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
+
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#enable_completed_snippet = 1
+let g:neosnippet#expand_word_boundary = 1
+
+let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
+'''
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+nnoremap <silent> ;b :<C-u>Denite buffer file/old<CR>
+nnoremap <silent> ;f :<C-u>Denite `finddir('.git', ';') != '' ?
+      \  'file/rec/git' :
+      \  'file/rec'` file file:new<CR>
+nnoremap <silent> ;l :<C-u>Denite -auto-highlight line<CR>
+nnoremap <silent> ;g
+      \ :<C-u>Denite grep -mode=normal -no-empty -buffer-name=grep<CR>
+nnoremap <silent> ;r
+      \ :<C-u>Denite -resume -mode=normal -no-empty -buffer-name=grep<CR>
+nnoremap <silent> ;e :<C-u>Denite menu:_<CR>
+nnoremap <silent> ;c :<C-u>Denite command_history command<CR>
+nnoremap <silent> ;y
+      \ :<C-u>Denite register neoyank<CR>
+xnoremap <silent> ;y
+      \ :<C-u>Denite -default-action=replace register neoyank<CR>
+
+nnoremap <silent> ,n
+      \ :<C-u>Denite -resume -select=+1 -immediately -buffer-name=grep<CR>
+nnoremap <silent> ,p
+      \ :<C-u>Denite -resume -select=-1 -immediately -buffer-name=grep<CR>
+'''
+hook_source = '''
+execute "source" vimrc#join_path($VIMDIR, "rc/plugins/denite.rc.vim")
+'''
+
+[[plugins]]
+repo = 'cocopon/vaffle.vim'
+on_cmd = 'Vaffle'
+hook_add = '''
+nnoremap <silent> <Leader>fe :<C-u>Vaffle <C-r>=expand('%:h')<CR><CR>
+'''
+hook_source = '''
+let g:vaffle_use_default_mappings = 0
+let g:vaffle_force_delete = 1
+
+autocmd MyAutocmd FileType vaffle call <SID>vaffle_mappings()
+function! s:vaffle_mappings() abort "{{{
+  nmap <buffer> h <Plug>(vaffle-open-parent)
+  nmap <buffer> l <Plug>(vaffle-open-current)
+  nmap <buffer> <CR> <Plug>(vaffle-open-selected)
+
+  nmap <buffer> <nowait> q <Plug>(vaffle-quit)
+  nmap <buffer> <nowait> R <Plug>(vaffle-refresh)
+  nmap <buffer> <nowait> . <Plug>(vaffle-toggle-hidden)
+
+  nmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
+  vmap <buffer> <nowait> <Space> <Plug>(vaffle-toggle-current)
+  nmap <buffer> <nowait> * <Plug>(vaffle-toggle-all)
+
+  nmap <buffer> <nowait> K <Plug>(vaffle-mkdir)
+  nmap <buffer> <nowait> N <Plug>(vaffle-new-file)
+  nmap <buffer> <nowait> d <Plug>(vaffle-delete-selected)
+  nmap <buffer> <nowait> m <Plug>(vaffle-move-selected)
+  nmap <buffer> <nowait> r <Plug>(vaffle-rename-selected)
+endfunction "}}}
+'''
+
+[[plugins]]
+repo = 'Shougo/junkfile.vim'
+depends = 'denite.nvim'
+hook_add = '''
+nnoremap <silent> <Leader>uj :<C-u>Denite junkfile:new junkfile<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'kana/vim-niceblock'
+on_map = { x = '<Plug>' }
+hook_add = '''
+xmap I <Plug>(niceblock-I)
+xmap A <Plug>(niceblock-A)
+'''
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+if = 'executable("lynx")'
+on_map = { n = '<Plug>' }
+hook_post_update = '''
+call system(vimrc#join_path($VIMDIR, 'script/phpmanual-install.sh'))
+'''
+hook_add = '''
+nmap K <Plug>(ref-keyword)
+
+if IsWindows()
+  let g:ref_refe_encoding = 'cp932'
+endif
+
+let g:ref_lynx_use_cache = 1
+let g:ref_lynx_start_linenumber = 0
+let g:ref_lynx_hide_url_number = 0
+
+" PHP
+let g:ref_phpmanual_path = vimrc#join_path($_CACHE, 'refs/php-chunked-xhtml')
+
+autocmd MyAutocmd FileType ref nnoremap <silent> <buffer> q :q<CR>
+'''
+
+[[plugins]]
+repo = 'yyotti/eskk.vim'
+on_map = { ic = '<Plug>' }
+hook_add = '''
+imap <C-j> <Plug>(eskk:toggle)
+cmap <C-j> <Plug>(eskk:toggle)
+'''
+hook_source = '''
+let g:eskk#enable_completion = 0
+
+if !exists('g:eskk#directory')
+  let g:eskk#directory = expand('$_CACHE/eskk')
+endif
+let g:eskk#show_annotation = 1
+
+" User dic
+let g:eskk#dictionary = vimrc#join_path(g:eskk#directory, 'skk-jisyo')
+
+let l:large_dic = ''
+if filereadable('/usr/share/skk/SKK-JISYO.L')
+  let l:large_dic = '/usr/share/skk/SKK-JISYO.L'
+elseif filereadable('/usr/local/share/skk/SKK-JISYO.L')
+  let l:lerge_dic = '/usr/share/skk/SKK-JISYO.L'
+endif
+
+if !empty(l:large_dic)
+  let g:eskk#large_dictionary = {
+        \   'path': l:large_dic,
+        \   'sorted': 1,
+        \   'encoding': 'euc-jp',
+        \ }
+
+endif
+
+" google-ime-skk
+if executable('google-ime-skk')
+  let g:eskk#server = {
+        \   'host': 'localhost',
+        \   'port': 55100,
+        \   'timeout': 200,
+        \ }
+else
+  let g:eskk#server = {
+        \   'host': 'localhost',
+        \   'timeout': 200,
+        \   'last_cr': 0,
+        \ }
+endif
+
+autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
+function! s:eskk_initial_pre() abort "{{{
+  let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+  call l:t.add_map('z ', "\u3000")
+  call l:t.add_map('z(', "\uff08")
+  call l:t.add_map('z)', "\uff09")
+  call l:t.add_map('~', "\u301c")
+  call eskk#register_mode_table('hira', l:t)
+  unlet l:t
+endfunction "}}}
+'''
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+if = 0
+
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = 'vim-operator-user'
+on_map = { nx = '<Plug>' }
+hook_add = '''
+map R <Plug>(operator-replace)
+xmap p <Plug>(operator-replace)
+'''
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = { nx = '<Plug>' }
+hook_add = '''
+map <silent> ra <Plug>(operator-surround-append)
+map <silent> rd <Plug>(operator-surround-delete)
+map <silent> rc <Plug>(operator-surround-replace)
+'''
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+on_path = '.*'
+hook_add = '''
+let g:gitgutter_sign_added = 'A'
+let g:gitgutter_sign_modified = 'M'
+let g:gitgutter_sign_removed = 'D'
+let g:gitgutter_sign_modified_removed = 'MD'
+'''
+hook_source = '''
+let g:gitgutter_map_keys = 0
+let g:gitgutter_async = 0
+
+nmap [c <Plug>GitGutterPrevHunkzvzz
+nmap ]c <Plug>GitGutterNextHunkzvzz
+'''
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+depends = 'vim-repeat'
+on_map = { nxo = '<Plug>' }
+hook_add = '''
+map ' <Plug>(easymotion-prefix)
+
+map f <Plug>(easymotion-fl)
+map t <Plug>(easymotion-tl)
+map F <Plug>(easymotion-Fl)
+map T <Plug>(easymotion-Tl)
+
+map g/ <Plug>(easymotion-sn)
+map g# <Plug>(easymotion-sn)
+
+" map ; <Plug>(easymotion-next)
+
+map 'f <Plug>(easymotion-fln)
+map 't <Plug>(easymotion-tln)
+map 'F <Plug>(easymotion-Fln)
+map 'T <Plug>(easymotion-Tln)
+'''
+hook_source = '''
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
+let g:EasyMotion_startofline = 0
+let g:EasyMotion_verbose = 0
+'''
+
+[[plugins]]
+repo = 'lambdalisue/suda.vim'
+if = '!IsWindows()'
+on_path = 'suda://'
+
+[[plugins]]
+repo = 'simeji/winresizer'
+on_cmd = [ 'WinResizerStartResize' ]
+hook_add = '''
+nnoremap <C-w>r :<C-u>WinResizerStartResize<CR>
+'''
+hook_post_source = '''
+let g:winresizer_vert_resize = 5
+if exists('g:winresizer_start_key')
+  execute 'silent! unmap' g:winresizer_start_key
+  unlet g:winresizer_start_key
+endif
+if exists('g:winresizer_gui_start_key')
+  execute 'silent! unmap' g:winresizer_gui_start_key
+  unlet g:winresizer_gui_start_key
+endif
+'''
+
+[[plugins]]
+repo = 'w0rp/ale'
+if = 'has("nvim") || has("job") && has("channel") && has("timers")'
+on_cmd = 'ALELint'  # for vim-ariline
+on_path = '.*'
+hook_source = '''
+" let g:ale_lint_on_enter = 0
+let g:ale_sign_error = "\u2a09"
+let g:ale_sign_warning = "\u26a0"
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+
+nmap <silent> [e <Plug>(ale_previous)
+nmap <silent> [E <Plug>(ale_first)
+nmap <silent> ]e <Plug>(ale_next)
+nmap <silent> ]E <Plug>(ale_last)
+
+if !exists('g:ale_linters')
+  let g:ale_linters = {}
+endif
+if executable('gometalinter')
+  let g:ale_linters.go = [ 'gometalinter' ]
+  let g:ale_go_gometalinter_options = join([
+        \   '--tests',
+        \   '--fast',
+        \   '--enable=megacheck',
+        \   '--enable=errcheck',
+        \   '--enable=deadcode',
+        \ ])
+        " \   '--enable=interfacer',
+        " \   '--enable=misspell',
+        " \   '--enable=unconvert',
+else
+  let g:ale_linters.go = [ 'go build', 'gofmt', 'golint', 'go vet' ]
+endif
+'''
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_map = { n = '<Plug>' }
+hook_add = '''
+nmap <silent> <Leader>r <Plug>(quickrun)
+'''
+
+[[plugins]]
+repo = 'machakann/vim-highlightedyank'
+if = 'exists("##TextYankPost")'
+on_map = { nx = '<Plug>' }
+hook_add = '''
+map y <Plug>(highlightedyank)
+'''
+hook_source = '''
+let g:highlightedyank_highlight_duration = 500
+let g:highlightedyank_max_lines = 100
+let g:highlightedyank_timeout = 500
+'''
+hook_post_source = '''
+" Change highlight color after plugin is loaded
+highlight HighlightedyankRegion ctermbg=8 guibg=#666666
+'''
+
+[[plugins]]
+repo = 'yyotti/vim-autoupload'
+on_ft = [ 'php', 'smarty', 'css', 'js' ]
+on_func = 'autoupload#init'
+hook_source = '''
+autocmd MyAutocmd BufWinEnter *.php,*.tpl,*.css,*.js
+      \ call autoupload#init(0)
+autocmd MyAutocmd BufWritePost *.php,*.tpl,*.css,*.js
+      \ call autoupload#upload(0)
+'''
+
+[[plugins]]
+repo = 'benjifisher/matchit.zip'
+on_path = '.*'
+hook_source = '''
+if exists('g:loaded_matchit')
+  unlet g:loaded_matchit
+endif
+'''
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = 'context_filetype.vim'
+on_cmd = [ 'PreciousSwitch', 'PreciousReset' ]
+hook_add = '''
+autocmd MyAutocmd InsertEnter * PreciousSwitch
+autocmd MyAutocmd InsertLeave * PreciousReset
+'''
+hook_source = '''
+let g:precious_enable_switch_CursorMoved = { '*': 0 }
+'''
+
+[[plugins]]
+repo = 'adoy/vim-php-refactoring-toolbox'
+on_ft = 'php'
+hook_source = '''
+let g:vim_php_refactoring_use_default_mapping = 0
+'''
+
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+on_cmd = 'Linediff'
+hook_add = '''
+" Only visual mode
+xnoremap <silent> D :Linediff<CR>
+'''
+
+[[plugins]]
+repo = 'fatih/vim-go'
+if = 'executable("go")'
+on_ft = 'go'
+hook_source = '''
+let g:go_fmt_fail_silently = 1
+'''
+hook_post_source = '''
+let gocode_path = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
+if gocode_path !=# ''
+  execute 'set runtimepath+=' .  gocode_path
+fi
+'''
+hook_post_update = '''
+call dein#source('vim-go')
+GoInstallBinaries
+'''
+
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+if = 'has("python") && executable("python") || has("python3") && executable("python3")'
+build = 'git submodule update --init'
+on_ft = 'python'
+hook_source = '''
+let g:jedi#auto_initialization = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#show_call_signatures = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#smart_auto_mappings = 0
+
+if has('python3')
+  let g:jedi#force_py_version = 3
+endif
+'''
+
+[[plugins]]
+repo = 'yyotti/neosnippet-php.vim'
+depends = 'neosnippet.vim'
+hook_post_update = '''
+let install_sh = vimrc#join_path($VIMDIR, 'script/phpmanual-install_sh')
+call system(fnamemodify(install_sh, ':p'))
+
+let install_php = vimrc#join_path(g:dein#plugin.path, 'install.php')
+let manual_dir = vimrc#join_path($_CACHE, 'refs/php-chunked-xhtml')
+call system(printf('php "%s" -d"%s"', install_php, manual_dir))
+'''
+
+[[plugins]]
+repo = 'eagletmt/neco-ghc'
+if = 'executable("ghc-mod")'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = 'has("python3")'
+depends = 'context_filetype.vim'
+on_event = 'InsertEnter'
+hook_source = '''
+let g:deoplete#enable_at_startup = 1
+execute "source" vimrc#join_path($VIMDIR, "rc/plugins/deoplete.rc.vim")
+'''
+
+[[plugins]]
+repo = 'zchee/deoplete-go'
+if = 'executable("go")'
+depends = 'deoplete.nvim'
+build = 'go get -u github.com/nsf/gocode && make'
+on_event = 'InsertEnter'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+depends = 'deoplete.nvim'
+build = 'git submodule update --init'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+on_path = '.*'
+on_source = '''
+let g:indentLine_faster = 1
+
+" let g:indentLine_color_gui = '#ffff00'
+" let g:indentLine_bgcolor_gui = '#ff5f00'
+
+let g:indentLine_concealcursor = 'nc'
+let g:indentLine_conceallevel = 1
+'''
+
+[[plugins]]
+repo = 'yyotti/denite-marks'
+depends = 'denite.nvim'
+on_source = 'denite.nvim'
+on_cmd = 'Denite'
+hook_add = '''
+nnoremap <silent> ;m :<C-u>Denite marks<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_source = 'denite.nvim'
+on_event = 'TextYankPost'
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_map = { nx = '<Plug>(openbrowser' }
+on_source = 'previm'
+hook_add = '''
+nmap go <Plug>(openbrowser-smart-search)
+vmap go <Plug>(openbrowser-smart-search)
+
+nmap gs <Plug>(openbrowser-search)
+vmap gs <Plug>(openbrowser-search)
+'''
+hook_source = '''
+let g:openbrowser_no_default_menus = 1
+'''

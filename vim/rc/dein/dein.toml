@@ -1,0 +1,80 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+
+[[plugins]]
+repo = 'othree/html5.vim'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'Vimjas/vim-python-pep8-indent'
+
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'cakebaker/scss-syntax.vim'
+
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'PProvost/vim-ps1'
+
+[[plugins]]
+repo = 'vim-scripts/smarty-syntax'
+
+[[plugins]]
+repo = 'elzr/vim-json'
+on_ft = 'json'
+hook_post_source = '''
+let g:vim_json_syntax_conceal = 0
+'''
+
+[[plugins]]
+repo = 'jwalton512/vim-blade'
+if = 0
+
+[[plugins]]
+repo = 'itchyny/vim-haskell-indent'
+if = 0
+
+[[plugins]]
+repo = 'neovimhaskell/haskell-vim'
+if = 0
+on_ft = 'haskell'
+hook_post_source = '''
+let g:haskell_indent_disable = 1
+'''
+
+[[plugins]]
+repo = 'jiangmiao/simple-javascript-indenter'
+hook_post_source = '''
+let g:SimpleJsIndenter_BriefMode = 1
+let g:SimpleJsIndenter_CaseIndentLevel = -1
+'''
+
+[[plugins]]
+repo = 'jelera/vim-javascript-syntax'

@@ -502,9 +502,9 @@ if (( ${+commands[gist]} )); then
   fpath=($GOPATH/src/github.com/b4b4r07/gist/misc/completion/zsh(N-/) $fpath)
 fi
 
-# fd
-if (( ${+commands[fd]} )); then
-  fpath=($XDG_DATA_HOME/fd/autocomplete(N-/) $fpath)
+# rg
+if (( ${+commands[rg]} )); then
+  fpath=($XDG_DATA_HOME/ripgrep/complete(N-/) $fpath)
 fi
 
 zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/completion-cache
@@ -583,8 +583,7 @@ if [[ $- =~ i && -d $_FZF_HOME ]]; then
   export FZF_TMUX=1
 
   # TODO agなどコマンドを分ける(like denite.nvim)
-  export FZF_CTRL_T_COMMAND="command fd --type=file --color=never --hidden --follow --exclude=.git"
-  # export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
+  export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 -path '*/\\.*' -prune -o -type d -print 2> /dev/null | cut -b3-"
 
   # TODO プロンプトに入力している文字列であらかじめ絞りたい
 
@@ -614,14 +613,14 @@ if [[ $- =~ i && -d $_FZF_HOME ]]; then
 
   function fzf-vim-plugins-widget()
   {
-    local _vim_plugins_dir="$XDG_CACHE_HOME/vim/pack/bundle/opt"
+    local _vim_plugins_dir="$XDG_CACHE_HOME/vim/dein/repos"
     local dir=''
     local ret=0
 
     if [[ -d $_vim_plugins_dir ]]; then
       setopt localoptions pipefail 2>/dev/null
 
-      dir=( $(fd --color=never --type=d --max-depth=1 . "${_vim_plugins_dir}" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
+      dir=( $(find "${_vim_plugins_dir}" -maxdepth 3 -mindepth 3 -type d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS --tiebreak=index --bind=ctrl-r:toggle-sort" $(__fzfcmd)) )
       ret=$?
     fi
 
