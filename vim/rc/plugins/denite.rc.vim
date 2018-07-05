@@ -300,11 +300,30 @@ function! s:config_items(path) abort "{{{
         \ )
 endfunction "}}}
 
+function! s:script_items() abort "{{{
+  let l:path = resolve(expand('$DOTFILES/scripts'))
+  if !isdirectory(l:path)
+    return []
+  endif
+
+  let l:command =
+        \ 'git -C ' . shellescape(l:path) . ' ls-files -co --exclude-standard'
+
+  return map(
+        \   sort(systemlist(l:command)),
+        \   '{' .
+        \     "'title': v:val," .
+        \     "'path': vimrc#join_path(path, v:val)," .
+        \   '}'
+        \ )
+endfunction "}}}
+
 call s:add_items('vim', s:vimrc_items())
 call s:add_items('zsh', s:zsh_items())
 call s:add_items('git', s:config_items('git'))
 call s:add_items('tmux', s:config_items('tmux'))
 call s:add_items('tig', s:config_items('tig'))
+call s:add_items('scripts', s:script_items())
 call s:add_items('others', s:simple_items('~/.ssh/config'))
 
 call s:build_menu()
