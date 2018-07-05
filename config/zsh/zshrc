@@ -684,8 +684,8 @@ if (( ${+commands[fzf]} )); then
   alias -g F='| fzf'
 fi
 
-if (( ${+commands[pt]} )); then
-  alias pt='pt --smart-case --nogroup'
+if (( ${+commands[rg]} )); then
+  alias rg='rg --no-heading --column'
 fi
 
 if (( ${+commands[nkf]} )); then
