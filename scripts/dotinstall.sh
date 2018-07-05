@@ -3,7 +3,6 @@
 # XDG Base Directory
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
 export ZDOTDIR=${XDG_CONFIG_HOME}/zsh
-export DOTFILES=${XDG_DATA_HOME}/dotfiles
 
 # Global variables
 readonly dotfiles_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")/../" && pwd -P)"
@@ -23,6 +22,7 @@ symlink_targets=(
   config/tmux
   config/tig
   config/zsh
+  config/vint
   vim
   zshenv
 )
@@ -256,6 +256,11 @@ function install() # {{{
   local _nvimdir="${XDG_CONFIG_HOME}/nvim"
   if [[ ! -e ${_nvimdir} ]]; then
     __mklink "$(readlink "${HOME}/.vim")" "${_nvimdir}"
+  fi
+
+  # for vint
+  if [[ ! -e "${XDG_CONFIG_HOME}/.vintrc.yaml" ]]; then
+    __mklink "${XDG_CONFIG_HOME}/vint/vintrc.yaml" "${XDG_CONFIG_HOME}/.vintrc.yaml"
   fi
 }
 # }}}

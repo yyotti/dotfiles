@@ -34,6 +34,8 @@ if [[ ${pattern} != '' ]]; then
 fi
 
 echo '  Install Lemonade.'
-go get -v github.com/pocke/lemonade
+go get -v -d github.com/pocke/lemonade
+cd "$GOPATH/src/github.com/pocke/lemonade"
+make install
 
 echo

@@ -29,7 +29,7 @@ nnoremap g* g*<C-o>zvzz
 nnoremap # #<C-o>zvzz
 nnoremap g# g#<C-o>zvzz
 
-if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
+if has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
 

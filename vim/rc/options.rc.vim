@@ -22,7 +22,7 @@ set nomodeline
 autocmd MyAutocmd BufRead,BufWritePost *.txt setlocal modelines=5 modeline
 
 " Clipboard
-if (!has('nvim') || $DISPLAY !=# '') && has('clipboard')
+if has('clipboard')
   set clipboard&
   if has('unnamedplus')
     set clipboard+=unnamedplus

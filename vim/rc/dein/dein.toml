@@ -78,3 +78,6 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 
 [[plugins]]
 repo = 'jelera/vim-javascript-syntax'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
