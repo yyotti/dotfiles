@@ -1,7 +1,7 @@
 "-----------------------------------------------------------------------------
 " Colorscheme:
 "
-if dein#tap('vim-hybrid') && isdirectory(dein#plugin.rtp)
+if dein#tap('vim-hybrid') && isdirectory(g:dein#plugin.rtp)
   set background=dark
   colorscheme hybrid
 else

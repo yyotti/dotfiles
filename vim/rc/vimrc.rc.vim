@@ -1,30 +1,31 @@
 "-----------------------------------------------------------------------------
 " Initialize:
 "
-if &compatible
-  set nocompatible
+if !has('nvim') && filereadable(vimrc#join_path($VIMRUNTIME, 'defaults.vim'))
+  unlet! g:skip_defaults_vim
+  execute 'source' vimrc#join_path($VIMRUNTIME, 'defaults.vim')
 endif
 
 function! s:source_rc(path, ...) abort "{{{
-  let use_global = get(a:000, 0, !has('vim_starting'))
-  let abspath = resolve(vimrc#join_path($VIMDIR, 'rc', a:path))
-  if !use_global
-    execute 'source' fnameescape(abspath)
+  let l:use_global = get(a:000, 0, !has('vim_starting'))
+  let l:abspath = resolve(vimrc#join_path($VIMDIR, 'rc', a:path))
+  if !l:use_global
+    execute 'source' fnameescape(l:abspath)
     return
   endif
 
   " substitute all 'set' to 'setglobal'
-  let content = map(readfile(abspath),
+  let l:content = map(readfile(l:abspath),
         \ 'substitute(v:val, "^\\W*\\zsset\\ze\\W", "setglobal", "")')
 
   " create tempfile and source it
-  let tmp = tempname()
+  let l:tmp = tempname()
   try
-    call writefile(content, tmp)
-    execute 'source' fnameescape(tmp)
+    call writefile(l:content, l:tmp)
+    execute 'source' fnameescape(l:tmp)
   finally
-    if filereadable(tmp)
-      call delete(tmp)
+    if filereadable(l:tmp)
+      call delete(l:tmp)
     endif
   endtry
 endfunction "}}}

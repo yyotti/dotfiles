@@ -25,8 +25,8 @@ inoremap <expr> <C-m> deoplete#refresh()
 " inoremap <expr> ' pumvisible() ? deoplete#close_popup() : "'"
 
 " Close popup and save indent
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort "{{{
+inoremap <silent> <CR> <C-r>=DeopleteCRFunc()<CR>
+function! DeopleteCRFunc() abort "{{{
   return deoplete#cancel_popup() . "\<CR>"
 endfunction "}}}
 

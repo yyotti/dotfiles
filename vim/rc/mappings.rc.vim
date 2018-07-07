@@ -153,21 +153,7 @@ cnoremap <C-t> <C-r>*
 cnoremap <C-g> <C-c>
 
 " Toggle word boundary
-cnoremap <C-o> <C-\>e<SID>toggle_word_boundary()<CR>
-function! s:toggle_word_boundary() abort "{{{
-  let l:cmdline = getcmdline()
-  if getcmdtype() !=# '/' && getcmdtype() !=# '?'
-    return l:cmdline
-  endif
-
-  if l:cmdline !~# '^\\<.*\\>$'
-    let l:cmdline = '\<' . l:cmdline . '\>'
-  else
-    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
-  endif
-
-  return l:cmdline
-endfunction "}}}
+cnoremap <C-o> <C-\>evimrc#toggle_cmdline_word_boundary()<CR>
 "}}}
 
 " Replace a>,i>,etc... "{{{
@@ -272,12 +258,5 @@ for s:c in g:marker_chars
   execute printf('nnoremap <silent> m%s <NOP>', s:c)
   unlet s:c
 endfor
-nnoremap <silent> mm :<C-u>call <SID>automark()<CR>
-
-function! s:automark() abort "{{{
-  let b:marker_idx = (get(b:, 'marker_idx', -1) + 1) % len(g:marker_chars)
-  let l:char = g:marker_chars[b:marker_idx]
-  execute 'mark' l:char
-  echo printf('marked [%s]', l:char)
-endfunction "}}}
+nnoremap <silent> mm :<C-u>call vimrc#automark<CR>
 "}}}

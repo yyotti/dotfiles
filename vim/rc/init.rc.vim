@@ -54,7 +54,7 @@ if !isdirectory($_CACHE)
 endif
 
 " Load dein
-if &runtimepath !~ '/dein.vim'
+if &runtimepath !~# '/dein.vim'
   let s:dein_dir = vimrc#join_path(
         \   $_CACHE,
         \   'dein/repos/github.com/Shougo/dein.vim'

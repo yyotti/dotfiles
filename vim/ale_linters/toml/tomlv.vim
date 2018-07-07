@@ -1,8 +1,9 @@
-function! ale_linters#toml#tomlv#handle(buffer, lines) abort "{{{
+function! ale_linters#toml#tomlv#handle(...) abort "{{{
+  let l:lines = a:0 > 1 ? a:2 : []
   let l:pattern = '\vError in ''.+'': (.+)$'
   let l:output = []
 
-  for l:line in a:lines
+  for l:line in l:lines
     let l:mt = matchlist(l:line, l:pattern)
     if len(l:mt) == 0
       continue

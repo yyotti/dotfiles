@@ -96,69 +96,17 @@ autocmd MyAutocmd InsertLeave *
 " Create directory automatically
 " http://vim-users.jp/2011/02/hack202/
 autocmd MyAutocmd BufWritePre *
-      \ call <SID>mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
-function! s:mkdir_as_necessary(dir, force) abort "{{{
-  if isdirectory(a:dir) || &buftype !=# ''
-    return
-  endif
-
-  let l:msg = printf('"%s" does not exists. Create ?', a:dir)
-  if confirm(l:msg, "&Yes\n&No", 2) ==# 1
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-  endif
-endfunction "}}}
+      \ call vimrc#mkdir_as_necessary(expand('<afile>:p:h'))
 
 " Remove last whitespaces
-autocmd MyAutocmd BufWritePre * call <SID>del_last_whitespaces()
-function! s:del_last_whitespaces() abort "{{{
-  if !get(b:, 'del_last_whitespaces', 1)
-    return
-  endif
-
-  if &binary || &diff || !&l:modified
-    return
-  endif
-
-  let l:cursor = getpos('.')
-
-  global/^/ s/\s\+$//e
-
-  call setpos('.', l:cursor)
-  unlet l:cursor
-endfunction "}}}
+autocmd MyAutocmd BufWritePre * call vimrc#del_last_whitespaces()
 
 " Use autofmt.
 set formatexpr=autofmt#japanese#formatexpr()
 
 " lcd git root directory
 if executable('git')
-  autocmd MyAutocmd BufWinEnter * call <SID>cd_gitroot()
-
-  function! s:trim(str) abort "{{{
-    return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')
-  endfunction "}}}
-
-  function! s:cd_gitroot() abort "{{{
-    let l:dir = getcwd()
-
-    let l:buf_path = expand('%:p')
-    if !isdirectory(l:buf_path)
-      let l:buf_path = fnamemodify(l:buf_path, ':h')
-    endif
-    if !isdirectory(l:buf_path)
-      return
-    endif
-    execute 'lcd' fnameescape(l:buf_path)
-
-    let l:in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
-    if l:in_git_dir !=# 'true'
-      execute 'lcd' fnameescape(l:dir)
-      return
-    endif
-
-    let l:git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' escape(l:git_root, ' ')
-  endfunction "}}}
+  autocmd MyAutocmd BufWinEnter * call vimrc#cd_gitroot()
 endif
 
 "-----------------------------------------------------------------------------
