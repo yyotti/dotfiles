@@ -386,6 +386,10 @@ endif
 [[plugins]]
 repo = 'w0rp/ale'
 if = 'has("nvim") || has("job") && has("channel") && has("timers")'
+build = '''
+go get -v github.com/haya14busa/go-vimlparser/cmd/vimlparser;
+pip install --user vim-vint;
+'''
 on_cmd = 'ALELint'  # for vim-ariline
 on_path = '.*'
 hook_source = '''

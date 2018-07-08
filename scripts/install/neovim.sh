@@ -36,6 +36,4 @@ sudo apt -y install \
   skkdic \
   shellcheck
 
-go get -v github.com/haya14busa/go-vimlparser/cmd/vimlparser
-
 echo
