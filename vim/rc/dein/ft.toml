@@ -89,9 +89,12 @@ let b:del_last_whitespaces = 0
 if dein#tap('vim-go')
   nnoremap <silent> <buffer> <LocalLeader>t :<C-u>GoTest<CR>
   nnoremap <silent> <buffer> <LocalLeader>r :<C-u>GoRename<CR>
-  nnoremap <silent> <buffer> <LocalLeader>d :<C-u>GoDef<CR>
   nnoremap          <buffer> <LocalLeader>i :<C-u>GoImport
   nnoremap <silent> <buffer> <LocalLeader>I :<C-u>GoImports<CR>
+  nnoremap <silent> <buffer> gt :call go#alternate#Switch(0, 'vsplit')<CR>
+  nnoremap <silent> <buffer> gT :call go#alternate#Switch(0, 'split')<CR>
+  nnoremap <silent> <buffer> <LocalLeader>h :<C-u>GoSameIds<CR>
+  nnoremap <silent> <buffer> <LocalLeader>H :<C-u>GoSameIdsClear<CR>
 endif
 
 " highlight variable 'err'
