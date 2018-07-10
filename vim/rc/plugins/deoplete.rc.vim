@@ -18,7 +18,7 @@
 inoremap <expr> <C-h> deoplete#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS> deoplete#smart_close_popup() . "\<C-h>"
 
-inoremap <expr> <C-g> pumvisible() ? deoplete#cancel_popup() : "\<C-g>"
+inoremap <expr> <C-g> pumvisible() ? deoplete#close_popup() : "\<C-g>"
 inoremap <silent><expr> <C-e> deoplete#complete_common_string()
 inoremap <expr> <C-m> deoplete#refresh()
 
@@ -31,7 +31,7 @@ function! DeopleteCRFunc() abort "{{{
 endfunction "}}}
 
 call deoplete#custom#source('_', 'matchers', ['matcher_head'])
-call deoplete#custom#set(
+call deoplete#custom#source(
       \   '_',
       \   'converters',
       \   [

@@ -482,13 +482,6 @@ let g:precious_enable_switch_CursorMoved = { '*': 0 }
 '''
 
 [[plugins]]
-repo = 'adoy/vim-php-refactoring-toolbox'
-on_ft = 'php'
-hook_source = '''
-let g:vim_php_refactoring_use_default_mapping = 0
-'''
-
-[[plugins]]
 repo = 'AndrewRadev/linediff.vim'
 on_cmd = 'Linediff'
 hook_add = '''
@@ -620,8 +613,9 @@ let g:openbrowser_no_default_menus = 1
 '''
 
 # TODO 止まる
-# [[plugins]]
-# repo = 'mhartington/nvim-typescript'
-# depends = 'deoplete.nvim'
-# build = 'npm install --global neovim && ./install.sh'
-# on_ft = 'typescript'
+[[plugins]]
+repo = 'mhartington/nvim-typescript'
+depends = 'deoplete.nvim'
+if = 0
+build = 'npm install --global neovim && ./install.sh'
+on_ft = 'typescript'

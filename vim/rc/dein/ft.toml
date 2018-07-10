@@ -141,18 +141,6 @@ setlocal wrap
 php = '''
 setlocal colorcolumn=
 setlocal nowrap
-
-if dein#tap('vim-php-refactoring-toolbox')
-  nnoremap <buffer> <silent> rflv :call PhpRenameLocalVariable()<CR>
-  nnoremap <buffer> <silent> rfcv :call PhpRenameClassVariable()<CR>
-  nnoremap <buffer> <silent> rfrm :call PhpRenameMethod()<CR>
-  nnoremap <buffer> <silent> rfdu :call PhpDetectUnusedUseStatements()<CR>
-  nnoremap <buffer> <silent> rfec :call PhpExtractClassProperty()<CR>
-  nnoremap <buffer> <silent> rfeu :call PhpExtractUse()<CR>
-
-  vnoremap <buffer> <silent> rfem :call PhpExtractMethod()<CR>
-  vnoremap <buffer> <silent> <Leader>== :call PhpAlignAssigns()<CR>
-endif
 '''
 
 python = '''

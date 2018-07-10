@@ -81,3 +81,4 @@ repo = 'jelera/vim-javascript-syntax'
 
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
+if = 0
