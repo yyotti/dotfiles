@@ -67,7 +67,7 @@ function! vimrc#mkdir_as_necessary(dir) abort "{{{
 endfunction "}}}
 
 function! vimrc#del_last_whitespaces() abort "{{{
-  if get(b:, 'del_last_whitespaces', 1)
+  if !get(b:, 'del_last_whitespaces', 1)
     return
   endif
 

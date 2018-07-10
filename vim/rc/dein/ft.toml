@@ -47,6 +47,18 @@ autocmd MyAutocmd BufWritePost * nested
 " Highlight whitespaces (EOL)
 highlight default link WhitespaceEOL Error
 match WhitespaceEOL /\s\+$/
+
+augroup filetypedetect
+  " Smarty
+  autocmd BufRead,BufNewFile *.tpl setfiletype smarty.html
+
+  " Markdown
+  autocmd BufRead,BufNewFile *.mkd,*.markdown,*.md,*.mdown,*.mkdn
+        \ setfiletype markdown
+
+  " .gitconfig
+  autocmd BufRead,BufNewFile gitconfig setfiletype gitconfig
+augroup END
 '''
 
 [ftplugin]
