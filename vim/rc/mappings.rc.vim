@@ -112,6 +112,9 @@ nnoremap <silent> [Alt]P o<Esc>Pm``[=`]``^
 nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
 " If press l on fold, range fold open.
 xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
+
+nnoremap / /\v
+xnoremap / /\v
 "}}}
 
 " Insert mode mappings: "{{{
@@ -207,35 +210,10 @@ nnoremap [Space]J <C-w>J
 "}}}
 
 " Operate buffer "{{{
-function! SmartBDelete(force) abort "{{{
-  let l:cur_bufnr = bufnr('%')
-
-  let l:buffers = {}
-  for l:buf in split(execute('ls'), "\n")
-    let l:mt = matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
-    let l:buffers[l:mt[1]] = l:mt[2]
-  endfor
-
-  if len(l:buffers) > winnr('$') && has_key(l:buffers, l:cur_bufnr)
-    let l:alt_bufnr = bufnr('#')
-    if !has_key(l:buffers, l:alt_bufnr) || l:buffers[l:alt_bufnr] =~# 'a'
-      " Alt buffer is active buffer or not listed
-      let l:next_bufnr =
-            \ keys(filter(copy(l:buffers), { _, val -> val !~# 'a' }))[0]
-    else
-      let l:next_bufnr = l:alt_bufnr
-    endif
-
-    execute 'buffer' l:next_bufnr
-  endif
-
-  execute 'bdelete' . (a:force ? '!' : '') l:cur_bufnr
-endfunction "}}}
-
 nnoremap <silent> [Space]o :<C-u>only<CR>
 nnoremap <silent> [Space]h :<C-u>hide<CR>
-nnoremap <silent> [Space]d :<C-u>call SmartBDelete(0)<CR>
-nnoremap <silent> [Space]D :<C-u>call SmartBDelete(1)<CR>
+nnoremap <silent> [Space]d :<C-u>call vimrc#smart_bdelete(0)<CR>
+nnoremap <silent> [Space]D :<C-u>call vimrc#smart_bdelete(1)<CR>
 
 nnoremap <silent> [Space]- :<C-u>new<CR>
 nnoremap <silent> [Space]<Bar> :<C-u>vnew<CR>

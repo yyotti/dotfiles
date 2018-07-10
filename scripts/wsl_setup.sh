@@ -79,20 +79,18 @@ export PATH=${GOPATH}/bin:/usr/local/go/bin:${PATH}
 
 bash "${DOTFILES}/scripts/install/ghq.sh"
 
-bash "${DOTFILES}/scripts/install/neovim.sh"
-
 bash "${DOTFILES}/scripts/install/tmux.sh"
 
 bash "${DOTFILES}/scripts/install/git-tools.sh"
 
 bash "${DOTFILES}/scripts/install/node.sh"
+export PATH=${HOME}/.nodebrew/current/bin:${PATH}
 
 bash "${DOTFILES}/scripts/install/cli-tools.sh"
+
+bash "${DOTFILES}/scripts/install/neovim.sh"
 # }}}
 
-# Change shell {{{
-echo "Change shell ($(which zsh))."
-chsh -s "$(which zsh)"
-
 echo "Setup finished."
+echo "Rem: Change login shell! (run \`chsh -s \"\$(which zsh)\"\`)"
 echo "Rem: Configure gist! (run \`gist config\`)"

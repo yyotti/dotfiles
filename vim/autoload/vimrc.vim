@@ -107,3 +107,53 @@ function! vimrc#cd_gitroot() abort "{{{
   let l:git_root = vimrc#trim(system('git rev-parse --show-toplevel'))
   execute 'lcd' escape(l:git_root, ' ')
 endfunction "}}}
+
+" function! vimrc#smart_bdelete(force) abort "{{{
+"   let l:cur_bufnr = bufnr('%')
+"
+"   let l:buffers = {}
+"   for l:buf in split(execute('ls'), "\n")
+"     let l:mt = matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
+"     let l:buffers[l:mt[1]] = l:mt[2]
+"   endfor
+"
+"   if len(l:buffers) > winnr('$') && has_key(l:buffers, l:cur_bufnr)
+"     let l:alt_bufnr = bufnr('#')
+"     if !has_key(l:buffers, l:alt_bufnr) || l:buffers[l:alt_bufnr] =~# 'a'
+"       " Alt buffer is active buffer or not listed
+"       let l:next_bufnr =
+"             \ keys(filter(copy(l:buffers), { _, val -> val !~# 'a' }))[0]
+"     else
+"       let l:next_bufnr = l:alt_bufnr
+"     endif
+"
+"     execute 'buffer' l:next_bufnr
+"   endif
+"
+"   execute 'bdelete' . (a:force ? '!' : '') l:cur_bufnr
+" endfunction "}}}
+function! vimrc#smart_bdelete(force) abort "{{{
+  let l:cur_bufnr = bufnr('%')
+  let l:alt_bufnr = bufnr('#')
+
+  if buflisted(l:alt_bufnr)
+    buffer #
+  else
+    bnext
+  endif
+
+  if bufnr('%') ==# l:cur_bufnr
+    " bwipeout is failed when !force and buffer is modified
+    if a:force || !&l:modified
+      new
+    endif
+  endif
+
+  if buflisted(l:cur_bufnr)
+    execute 'silent bwipeout' . (a:force ? '!' : '') l:cur_bufnr
+    " restore buffer when bwipeout is failed
+    if bufloaded(l:cur_bufnr)
+      execute 'buffer' l:cur_bufnr
+    endif
+  endif
+endfunction "}}}

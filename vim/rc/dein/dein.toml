@@ -2,6 +2,10 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
 repo = 'w0ng/vim-hybrid'
 
 [[plugins]]
@@ -44,12 +48,12 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'PProvost/vim-ps1'
 
 [[plugins]]
-repo = 'vim-scripts/smarty-syntax'
+repo = 'blueyed/smarty.vim'
 
 [[plugins]]
 repo = 'elzr/vim-json'
 on_ft = 'json'
-hook_post_source = '''
+hook_add = '''
 let g:vim_json_syntax_conceal = 0
 '''
 
@@ -70,15 +74,17 @@ let g:haskell_indent_disable = 1
 '''
 
 [[plugins]]
-repo = 'jiangmiao/simple-javascript-indenter'
-hook_post_source = '''
-let g:SimpleJsIndenter_BriefMode = 1
-let g:SimpleJsIndenter_CaseIndentLevel = -1
+repo = 'HerringtonDarkholme/yats.vim'
+
+[[plugins]]
+repo = 'othree/yajs.vim'
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+
+[[plugins]]
+repo = 'MaxMEllon/vim-jsx-pretty'
+depends = 'yajs.vim'
+hook_add = '''
+let g:vim_jsx_pretty_colorful_config = 1
 '''
-
-[[plugins]]
-repo = 'jelera/vim-javascript-syntax'
-
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-if = 0

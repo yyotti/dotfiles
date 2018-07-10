@@ -30,7 +30,8 @@ function! DeopleteCRFunc() abort "{{{
   return deoplete#cancel_popup() . "\<CR>"
 endfunction "}}}
 
-call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+call deoplete#custom#source('_', 'matchers',
+      \ [ 'matcher_fuzzy', 'matcher_length' ])
 call deoplete#custom#source(
       \   '_',
       \   'converters',

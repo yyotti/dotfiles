@@ -15,6 +15,8 @@ if [[ $TMUX == '' ]]; then
   /usr/local/go/bin(N-/)
   $DOTFILES/scripts/git/subcommands(N-/)
   $HOME/.nodebrew/current/bin(N-/)
+  $HOME/.yarn/bin(N-/)
+  ${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
   $path
   )
 fi

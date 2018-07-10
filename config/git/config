@@ -8,7 +8,7 @@
     compactionHeuristic = true
 [core]
     editor = vim
-    excludesfile = ~/.config/git/ignore  # TODO env?
+    excludesfile = ~/.config/git/ignore
 [push]
     default = simple
 [fetch]
@@ -27,8 +27,8 @@
     df = diff
     ds = diff --name-status
     dt = difftool
-    ss = status --short
-    st = status
+    ss = status --short --untracked-files
+    st = status --untracked-files
     co = checkout
     cb = checkout -b
     l = log --all --graph --pretty=format:'%C(yellow)%h%Creset -%C(bold blue)%d%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
@@ -37,12 +37,12 @@
     ft = fetch
     ig = ignore -r
 [ghq]
-    root = ~/.local/share/ghq  # TODO env?
-    root = ~/.local/share/go/src  # TODO env?
+    root = ~/.local/share/ghq
+    root = ~/.local/share/go/src
 [url "git@github.com:yyotti"]
     pushInsteadOf = git://github.com/yyotti
     pushInsteadOf = https://github.com/yyotti
 [include]
-    path = ~/.config/git/config.local  # TODO env?
+    path = ~/.config/git/config.local
 
 # vim:ft=gitconfig

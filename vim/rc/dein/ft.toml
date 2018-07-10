@@ -50,14 +50,19 @@ match WhitespaceEOL /\s\+$/
 
 augroup filetypedetect
   " Smarty
-  autocmd BufRead,BufNewFile *.tpl setfiletype smarty.html
+  " autocmd BufRead,BufNewFile *.tpl setfiletype smarty.html
 
   " Markdown
   autocmd BufRead,BufNewFile *.mkd,*.markdown,*.md,*.mdown,*.mkdn
         \ setfiletype markdown
 
   " .gitconfig
-  autocmd BufRead,BufNewFile gitconfig setfiletype gitconfig
+  autocmd BufRead,BufNewFile */git/config setfiletype gitconfig
+  " global gitignore
+  autocmd BufRead,BufNewFile */git/ignore setfiletype gitignore
+
+  " jsx
+  " autocmd BufRead,BufNewFile *.jsx setfiletype javascript.jsx
 augroup END
 '''
 
@@ -91,6 +96,7 @@ let b:caw_wrap_oneline_comment = [ '{{--', '--}}' ]
 css = '''
 setlocal iskeyword+=-
 setlocal iskeyword-=#
+setlocal shiftwidth=2
 '''
 
 go = '''
@@ -136,6 +142,10 @@ let b:del_last_whitespaces = 0
 
 setlocal colorcolumn=
 setlocal wrap
+
+if dein#tap('ale')
+  ALEDisableBuffer
+endif
 '''
 
 php = '''
@@ -224,6 +234,18 @@ setlocal shiftwidth=2
 smarty = '''
 setlocal colorcolumn=
 setlocal nowrap
+'''
+
+sql = '''
+if executable('sql-formatter')
+  setlocal formatexpr=
+  setlocal formatprg=sql-formatter
+endif
+'''
+
+typescript = '''
+setlocal shiftwidth=2
+setlocal softtabstop=2
 '''
 
 vim = '''

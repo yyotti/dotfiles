@@ -51,13 +51,13 @@ call airline#parts#define('lineinfo', {
       \   'raw': ' %3v %{g:airline_symbols.linenr}%3l/%L',
       \ })
 
-autocmd MyAutocmd User AirlineAfterInit call s:airline_init()
+autocmd MyAutocmd User AirlineAfterInit call <SID>airline_init()
 function! s:airline_init() abort "{{{
   let l:section_b = []
   call add(l:section_b, 'hunks')
 
-  if dein#tap('vim-fugitive')
-    call add(l:section_b, '%{fugitive#head()}')
+  if dein#tap('gina.vim')
+    call add(l:section_b, '%{gina#component#repo#branch()}')
   endif
 
   let g:airline_section_a = airline#section#create_left([ 'mode', 'eskk' ])
@@ -69,10 +69,6 @@ endfunction "}}}
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 on_source = 'vim-airline'
-
-[[plugins]]
-repo = 'Shougo/neomru.vim'
-if = 0
 
 [[plugins]]
 repo = 'itchyny/vim-parenmatch'
@@ -88,25 +84,25 @@ xmap gc <Plug>(caw:prefix)
 '''
 
 [[plugins]]
-repo = 'tpope/vim-fugitive'
-on_cmd = [ 'Gstatus', 'Gvdiff', 'Git' ]
+repo = 'lambdalisue/gina.vim'
+on_map = { n = '<Plug>' }
 hook_add = '''
-nnoremap <silent> <Leader>gs :<C-u>Gstatus<CR>
-noremap <silent> <Leader>gd :<C-u>Gvdiff<CR>
+let g:gina#command#status#use_default_mappings = 0
+
+" TODO ステータス画面の開き方
+" TODO branchやtagはdeniteと連携できないか？
+nnoremap <silent> <Leader>gs :<C-u>Gina status<CR>
+nnoremap <silent> <Leader>gb :<C-u>Gina branch<CR>
+nnoremap <silent> <Leader>gd :<C-u>Gina compare<CR>
 '''
 hook_post_source = '''
-" FIXME 見直し
-" call gina#custom#mapping#map('status', 'cn', ':Gina now --stat<CR>')
-" TODO gitstatusでaのマッピングを外す
-" TODO gitstatusでDのマッピングをGvdiffに変更する
-" TODO gitstatusの場合のプレビューウィンドウのサイズを調整
+execute 'source' vimrc#join_path($VIMDIR, 'rc/plugins/gina.rc.vim')
 '''
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
-# on_event = 'InsertCharPre'
-on_event = 'InsertEnter'
+on_event = 'InsertCharPre'
 on_ft = 'snippet'
 hook_source = '''
 imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
@@ -120,7 +116,7 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#expand_word_boundary = 1
 
-let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
+" let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
 '''
 
 [[plugins]]
@@ -148,7 +144,7 @@ nnoremap <silent> ,p
       \ :<C-u>Denite -resume -select=-1 -immediately -buffer-name=grep<CR>
 '''
 hook_source = '''
-execute "source" vimrc#join_path($VIMDIR, "rc/plugins/denite.rc.vim")
+execute 'source' vimrc#join_path($VIMDIR, 'rc/plugins/denite.rc.vim')
 '''
 
 [[plugins]]
@@ -210,9 +206,6 @@ on_path = '.*'
 repo = 'thinca/vim-ref'
 if = 'executable("lynx")'
 on_map = { n = '<Plug>' }
-hook_post_update = '''
-call system(vimrc#join_path($VIMDIR, 'script/phpmanual-install.sh'))
-'''
 hook_add = '''
 nmap K <Plug>(ref-keyword)
 
@@ -232,6 +225,8 @@ autocmd MyAutocmd FileType ref nnoremap <silent> <buffer> q :q<CR>
 
 [[plugins]]
 repo = 'yyotti/eskk.vim'
+rev = 'crvskkserv-support'
+depends = 'vimproc.vim'
 on_map = { ic = '<Plug>' }
 hook_add = '''
 imap <C-j> <Plug>(eskk:toggle)
@@ -269,17 +264,17 @@ if executable('google-ime-skk')
   let g:eskk#server = {
         \   'host': 'localhost',
         \   'port': 55100,
-        \   'timeout': 200,
+        \   'timeout': 1000,
         \ }
 else
   let g:eskk#server = {
         \   'host': 'localhost',
-        \   'timeout': 200,
+        \   'timeout': 1000,
         \   'last_cr': 0,
         \ }
 endif
 
-autocmd MyAutocmd User eskk-initialize-pre call s:eskk_initial_pre()
+autocmd MyAutocmd User eskk-initialize-pre call <SID>eskk_initial_pre()
 function! s:eskk_initial_pre() abort "{{{
   let l:t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
   call l:t.add_map('z ', "\u3000")
@@ -322,13 +317,37 @@ let g:gitgutter_sign_added = 'A'
 let g:gitgutter_sign_modified = 'M'
 let g:gitgutter_sign_removed = 'D'
 let g:gitgutter_sign_modified_removed = 'MD'
-'''
-hook_source = '''
-let g:gitgutter_map_keys = 0
-let g:gitgutter_async = 0
 
-nmap [c <Plug>GitGutterPrevHunkzvzz
-nmap ]c <Plug>GitGutterNextHunkzvzz
+" Disable default mappings
+let g:gitgutter_map_keys = 0
+'''
+hook_post_source = '''
+autocmd MyAutocmd BufEnter * call <SID>gitgutter_mapping()
+function! s:gitgutter_mapping() abort "{{{
+  if !hasmapto('<Plug>GitGutterPrevHunk') && maparg('[c', 'n') ==# ''
+    nmap <buffer> [c <Plug>GitGutterPrevHunk
+  endif
+  if !hasmapto('<Plug>GitGutterNextHunk') && maparg(']c', 'n') ==# ''
+    nmap <buffer> ]c <Plug>GitGutterNextHunk
+  endif
+
+  if !hasmapto('<Plug>GitGutterTextObjectInnerPending')
+        \ && maparg('ic', 'o') ==# ''
+    omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+  endif
+  if !hasmapto('<Plug>GitGutterTextObjectOuterPending')
+        \ && maparg('ac', 'o') ==# ''
+    omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+  endif
+  if !hasmapto('<Plug>GitGutterTextObjectInnerVisual')
+        \ && maparg('ic', 'x') ==# ''
+    xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+  endif
+  if !hasmapto('<Plug>GitGutterTextObjectOuterVisual')
+        \ && maparg('ac', 'x') ==# ''
+    xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+  endif
+endfunction "}}}
 '''
 
 [[plugins]]
@@ -387,10 +406,6 @@ endif
 [[plugins]]
 repo = 'w0rp/ale'
 if = 'has("nvim") || has("job") && has("channel") && has("timers")'
-build = '''
-go get -v github.com/haya14busa/go-vimlparser/cmd/vimlparser;
-pip install --user vim-vint;
-'''
 on_cmd = 'ALELint'  # for vim-ariline
 on_path = '.*'
 hook_source = '''
@@ -423,6 +438,17 @@ if executable('gometalinter')
 else
   let g:ale_linters.go = [ 'go build', 'gofmt', 'golint', 'go vet' ]
 endif
+
+let stylelintrc =
+      \ expand(vimrc#join_path($XDG_CONFIG_HOME, 'stylelint/stylelintrc.json'))
+if filereadable(stylelintrc)
+  let g:ale_css_stylelint_options = '--config ' . stylelintrc
+endif
+
+let tslintrc = expand(vimrc#join_path($XDG_CONFIG_HOME, 'tslint/tslint.json'))
+if filereadable(tslintrc)
+  let g:ale_typescript_tslint_config_path = tslintrc
+endif
 '''
 
 [[plugins]]
@@ -434,7 +460,7 @@ nmap <silent> <Leader>r <Plug>(quickrun)
 
 [[plugins]]
 repo = 'machakann/vim-highlightedyank'
-if = 'exists("##TextYankPost")'
+if = 'exists("##TextYankPost") && 0'
 on_map = { nx = '<Plug>' }
 hook_add = '''
 map y <Plug>(highlightedyank)
@@ -492,7 +518,7 @@ xnoremap <silent> D :Linediff<CR>
 [[plugins]]
 repo = 'fatih/vim-go'
 if = 'executable("go")'
-on_ft = 'go'
+on_ft = [ 'go', 'gohtmltmpl' ]
 hook_source = '''
 let g:go_fmt_fail_silently = 1
 let g:go_highlight_types = 1
@@ -533,10 +559,8 @@ endif
 [[plugins]]
 repo = 'yyotti/neosnippet-php.vim'
 depends = 'neosnippet.vim'
+on_ft = 'php'
 hook_post_update = '''
-let install_sh = vimrc#join_path($VIMDIR, 'script/phpmanual-install_sh')
-call system(fnamemodify(install_sh, ':p'))
-
 let install_php = vimrc#join_path(g:dein#plugin.path, 'install.php')
 let manual_dir = vimrc#join_path($_CACHE, 'refs/php-chunked-xhtml')
 call system(printf('php "%s" -d"%s"', install_php, manual_dir))
@@ -553,7 +577,7 @@ depends = 'context_filetype.vim'
 on_event = 'InsertEnter'
 hook_source = '''
 let g:deoplete#enable_at_startup = 1
-execute "source" vimrc#join_path($VIMDIR, "rc/plugins/deoplete.rc.vim")
+execute 'source' vimrc#join_path($VIMDIR, 'rc/plugins/deoplete.rc.vim')
 '''
 
 [[plugins]]
@@ -561,7 +585,6 @@ repo = 'zchee/deoplete-go'
 if = 'executable("go")'
 depends = 'deoplete.nvim'
 build = 'go get -u github.com/nsf/gocode && make'
-on_event = 'InsertEnter'
 on_ft = 'go'
 
 [[plugins]]
@@ -612,10 +635,38 @@ hook_source = '''
 let g:openbrowser_no_default_menus = 1
 '''
 
-# TODO 止まる
 [[plugins]]
 repo = 'mhartington/nvim-typescript'
 depends = 'deoplete.nvim'
-if = 0
-build = 'npm install --global neovim && ./install.sh'
+on_source = 'denite.nvim'
+build = './install.sh'
 on_ft = 'typescript'
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+depends = 'deoplete.nvim'
+if = '0 && executable("tern")'
+on_ft = [ 'javascript', 'javascript.jsx' ]
+hook_source = '''
+let g:deoplete#sources#ternjs#types = 1
+let g:deoplete#sources#ternjs#case_insensitive = 1
+
+let g:deoplete#sources#ternjs#filetypes = [
+      \   'jsx',
+      \   'javascript.jsx',
+      \ ]
+'''
+
+[[plugins]]
+repo = 'lvht/phpcd.vim'
+rev = 'php5'
+depends = 'deoplete.nvim'
+if = '0 && executable("composer")'
+build = 'composer install'
+on_ft = 'php'
+hook_source = '''
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = [ 'omni' ]
+
+let g:phpcd_disable_modifier = 0
+'''

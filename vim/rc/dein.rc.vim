@@ -15,20 +15,12 @@ call dein#load_toml(
       \ vimrc#join_path($VIMDIR, 'rc/dein/lazy.toml'), { 'lazy': 1 })
 call dein#load_toml(vimrc#join_path($VIMDIR, 'rc/dein/ft.toml'))
 
-" TODO Local plugins
-" let s:vimrc_local = findfile('vimrc_local.vim', '.;')
-" if s:vimrc_local !=# ''
-"   call dein#local(
-"         \   fnamemodify(s:vimrc_local, ':h'),
-"         \   { 'frozen': 1, 'merged': 0 },
-"         \   [ 'vim*', 'nvim-*', 'unite-*', 'neco-*', '*.vim', 'denite.nvim' ]
-"         \ )
-"   call dein#local(
-"         \   fnamemodify(s:vimrc_local, ':h'),
-"         \   { 'frozen': 1, 'merged': 0 },
-"         \   [ 'deoplete-*', '*.nvim' ]
-"         \ )
-" endif
+" Local plugins
+let s:local_dein_toml = vimrc#join_path($HOME, '.dein_local.toml')
+if filereadable(s:local_dein_toml)
+  call dein#load_toml(s:local_dein_toml,
+        \ { 'local': 1, 'frozen': 1, 'merged': 0 })
+endif
 
 call dein#end()
 call dein#save_state()

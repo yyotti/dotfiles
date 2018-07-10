@@ -19,8 +19,10 @@ version='1.0.0'
 symlink_targets=(
   config/powerline
   config/git
+  config/stylelint
   config/tmux
   config/tig
+  config/tslint
   config/zsh
   config/vint
   vim
