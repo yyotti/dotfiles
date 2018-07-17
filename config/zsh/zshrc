@@ -791,6 +791,7 @@ function __prompt_setup() # {{{
   __init_color prompt_color_symbol 255
   __init_color prompt_color_symbol_error 196
 
+  # TODO prompt_color_xxxにリネーム
   __init_color prompt_git_separator 243
   __init_color prompt_git_bare_repo 001
   __init_color prompt_git_in_git_dir 001
@@ -809,6 +810,8 @@ function __prompt_setup() # {{{
   __init_color prompt_git_upstream_ahead 135
   __init_color prompt_git_unmerged 011
   __init_color prompt_git_now 196
+
+  __init_color prompt_color_job_cnt 045
 
   # PROMPT2
   __init_color prompt2_color 006
@@ -1355,6 +1358,7 @@ function __prompt_preprompt_render() # {{{
   _ps1=(
   $prompt_newline
   ${(j. .)_preprompt_parts}
+  ' %(1j,${prompt_color_job_cnt_start}[%j]${prompt_color_job_cnt_end},)'
   $prompt_newline
   "$prompt_username"
   $prompt_symbol
