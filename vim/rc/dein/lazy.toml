@@ -116,7 +116,7 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#enable_completed_snippet = 1
 let g:neosnippet#expand_word_boundary = 1
 
-" let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
+let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
 '''
 
 [[plugins]]
@@ -558,6 +558,7 @@ endif
 
 [[plugins]]
 repo = 'yyotti/neosnippet-php.vim'
+if = 0
 depends = 'neosnippet.vim'
 on_ft = 'php'
 hook_post_update = '''
@@ -641,6 +642,10 @@ depends = 'deoplete.nvim'
 on_source = 'denite.nvim'
 build = './install.sh'
 on_ft = 'typescript'
+hook_source = '''
+let g:nvim_typescript#default_signs = []
+let g:nvim_typescript#default_mappings = 1
+'''
 
 [[plugins]]
 repo = 'carlitux/deoplete-ternjs'
@@ -661,7 +666,7 @@ let g:deoplete#sources#ternjs#filetypes = [
 repo = 'lvht/phpcd.vim'
 rev = 'php5'
 depends = 'deoplete.nvim'
-if = '0 && executable("composer")'
+if = 'executable("composer")'
 build = 'composer install'
 on_ft = 'php'
 hook_source = '''

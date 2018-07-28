@@ -27,52 +27,52 @@ options     head
 snippet     mdb2_query
 abbr        $cursor = $mdb2->query($sql); if (PEAR::isError($cursor)) { die(...); }
 options     head
-	$${1:cursor} = $mdb2->query($${2:sql});
+	$${1:cursor} = $${2:mdb2}->query($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$2);
+	    die($$1->getUserInfo() . '<br />' . $$3);
 	}
 	${0}
 
 snippet     mdb2_queryOne
 abbr        $res = $mdb2->queryOne($sql); if (PEAR::isError($res)) { die(...); }
 options     head
-	$${1:res} = $mdb2->queryOne($${2:sql});
+	$${1:res} = $${2:mdb2}->queryOne($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$2);
+	    die($$1->getUserInfo() . '<br />' . $$3);
 	}
 	${0}
 
 snippet     mdb2_queryRow
 abbr        $row = $mdb2->queryRow($sql); if (PEAR::isError($row)) { die(...); }
 options     head
-	$${1:row} = $mdb2->queryRow($${2:sql});
+	$${1:row} = $${2:mdb2}->queryRow($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$2);
+	    die($$1->getUserInfo() . '<br />' . $$3);
 	}
 	${0}
 
 snippet     mdb2_queryAll
 abbr        $rows = $mdb2->queryRow($sql); if (PEAR::isError($rows)) { die(...); }
 options     head
-	$${1:rows} = $mdb2->queryAll($${2:sql});
+	$${1:rows} = $${2:mdb2}->queryAll($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$2);
+	    die($$1->getUserInfo() . '<br />' . $$3);
 	}
 	${0}
 
 snippet     mdb2_exec
 abbr        $ret = $mdb2->exec($sql); if (PEAR::isError($ret)) { die(...); }
 options     head
-	$${1:ret} = $mdb2->exec($${2:sql});
+	$${1:ret} = $${2:mdb2}->exec($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$2);
+	    die($$1->getUserInfo() . '<br />' . $$3);
 	}
 	${0}
 
 snippet     mdb2_quote
 abbr        $mdb2->quote($var, 'text')
 options     word
-	$mdb2->quote(${1:#:value}, '${2:text}')${0}
+	$${1:mdb2}->quote(${2:value}, '${3:text}')${0}
 
 snippet for
 options head
