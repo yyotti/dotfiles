@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# See: https://qiita.com/kyanny/items/10a57a4f1d2806e3a3b8
+
+set -euC
+trap 'on-error $LINENO "$@"' ERR
+
+usage() # {{{
+{
+  cat <<_EOM_ >&${1:-1}
+Usage: git delete-merged-branches
+
+Options:
+  -h                    Show this message.
+_EOM_
+}
+# }}}
+
+# Global variables
+readonly script_dir="$(cd "$(dirname "$(readlink "${BASH_SOURCE:-$0}" || echo "${BASH_SOURCE:-$0}")")" && pwd -P)"
+
+source "${script_dir}/../../_helpers.sh"
+
+# Parse options {{{
+for _opt in "$@"; do
+  case "$_opt" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -*)
+      echoe "Unknown option: $_opt"
+      usage 2
+      exit 1
+      ;;
+    *)
+      if [[ $1 != '' ]]; then
+        shift 1
+      fi
+      ;;
+  esac
+done
+# }}}
+
+if [[ $(git rev-parse --abbrev-ref HEAD) == 'master' ]]; then
+  echoe 'Checkout master branch before run this command'
+  exit 1
+fi
+
+git branch --merged \
+  | grep -vE '^\s*(\*|master$|develop$)' \
+  | xargs git branch -d
