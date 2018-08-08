@@ -149,7 +149,7 @@ endif
 '''
 
 php = '''
-setlocal colorcolumn=
+" setlocal colorcolumn=
 setlocal nowrap
 '''
 
@@ -232,7 +232,7 @@ setlocal shiftwidth=2
 '''
 
 smarty = '''
-setlocal colorcolumn=
+" setlocal colorcolumn=
 setlocal nowrap
 '''
 

@@ -5,6 +5,9 @@ nmap <C-Space> <C-@>
 cmap <C-Space> <C-@>
 
 " Normal/Visual mode mappings: "{{{
+nmap <Space> [Space]
+nmap S [Alt]
+
 nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
@@ -35,11 +38,11 @@ endif
 
 nnoremap x "_x
 
-nnoremap \w :<C-u>call vimrc#toggle_option('wrap')<CR>
-nnoremap \n :<C-u>call vimrc#toggle_option('number')<CR>
+nnoremap [Space]w :<C-u>call vimrc#toggle_option('wrap')<CR>
+nnoremap [Space]n :<C-u>call vimrc#toggle_option('number')<CR>
 
 " Clear hlsearch
-nnoremap \h :<C-u>nohlsearch<CR>
+nnoremap [Space]h :<C-u>nohlsearch<CR>
 
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
@@ -102,11 +105,10 @@ nnoremap <silent> gj :<C-u>call OpenGF('j')<CR>
 nnoremap <silent> gk :<C-u>call OpenGF('k')<CR>
 
 nnoremap [Alt] <Nop>
-nmap S [Alt]
 
 " Indent paste
 nnoremap <silent> [Alt]p o<Esc>pm``[=`]``^
-nnoremap <silent> [Alt]P o<Esc>Pm``[=`]``^
+nnoremap <silent> [Alt]P O<Esc>Pm``[=`]``^
 
 " If press l on fold, fold open.
 nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
@@ -186,7 +188,6 @@ xnoremap id i"
 "}}}
 
 " Edit config files "{{{
-nmap  <Space>   [Space]
 nnoremap  [Space]   <Nop>
 
 " reload vimrc
@@ -211,7 +212,7 @@ nnoremap [Space]J <C-w>J
 
 " Operate buffer "{{{
 nnoremap <silent> [Space]o :<C-u>only<CR>
-nnoremap <silent> [Space]h :<C-u>hide<CR>
+nnoremap <silent> [Space]O :<C-u>hide<CR>
 nnoremap <silent> [Space]d :<C-u>call vimrc#smart_bdelete(0)<CR>
 nnoremap <silent> [Space]D :<C-u>call vimrc#smart_bdelete(1)<CR>
 
@@ -236,5 +237,5 @@ for s:c in g:marker_chars
   execute printf('nnoremap <silent> m%s <NOP>', s:c)
   unlet s:c
 endfor
-nnoremap <silent> mm :<C-u>call vimrc#automark<CR>
+nnoremap <silent> mm :<C-u>call vimrc#automark()<CR>
 "}}}
