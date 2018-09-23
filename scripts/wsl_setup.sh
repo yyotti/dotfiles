@@ -65,7 +65,7 @@ echo
 # }}}
 
 # Install {{{
-bash "${DOTFILES}/scripts/install/tmpreaper.sh"
+# bash "${DOTFILES}/scripts/install/tmpreaper.sh"
 
 bash "${DOTFILES}/scripts/install/zsh.sh"
 

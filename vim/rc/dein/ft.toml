@@ -100,9 +100,11 @@ setlocal shiftwidth=2
 '''
 
 go = '''
-setlocal tabstop=4
+if !dein#tap('editorconfig-vim')
+  setlocal tabstop=4
 
-let b:del_last_whitespaces = 0
+  let b:del_last_whitespaces = 0
+endif
 
 if dein#tap('vim-go')
   nnoremap <silent> <buffer> <LocalLeader>t :<C-u>GoTest<CR>

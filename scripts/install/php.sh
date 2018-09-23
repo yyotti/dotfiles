@@ -22,6 +22,7 @@ if [[ ${expected_signature} != ${actual_signature} ]]; then
   exit 1
 fi
 
+mkdir -p "${HOME}/bin"
 php /tmp/composer-setup.php \
   --install-dir="${HOME}/bin" \
   --filename=composer

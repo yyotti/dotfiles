@@ -98,8 +98,10 @@ autocmd MyAutocmd InsertLeave *
 autocmd MyAutocmd BufWritePre *
       \ call vimrc#mkdir_as_necessary(expand('<afile>:p:h'))
 
-" Remove last whitespaces
-autocmd MyAutocmd BufWritePre * call vimrc#del_last_whitespaces()
+if !dein#tap('editorconfig-vim')
+  " Remove last whitespaces
+  autocmd MyAutocmd BufWritePre * call vimrc#del_last_whitespaces()
+endif
 
 " Use autofmt.
 set formatexpr=autofmt#japanese#formatexpr()

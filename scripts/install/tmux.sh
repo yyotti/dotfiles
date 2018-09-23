@@ -22,9 +22,10 @@ sudo make install
 # https://gist.github.com/z80oolong/e65baf0d590f62fab8f4f7c358cbcc34
 echo '  Install tmux.'
 sudo apt -y install \
-  libevent-2.0-5 \
+  libevent-2.1-6 \
   libevent-dev \
-  libncurses5-dev
+  libncurses5-dev \
+  pkg-config
 repo=tmux/tmux
 ghq get ${repo}
 cd "$(ghq root)/github.com/${repo}"

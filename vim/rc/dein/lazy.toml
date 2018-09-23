@@ -558,7 +558,7 @@ endif
 
 [[plugins]]
 repo = 'yyotti/neosnippet-php.vim'
-if = 0
+if = 1
 depends = 'neosnippet.vim'
 on_ft = 'php'
 hook_post_update = '''
@@ -666,7 +666,7 @@ let g:deoplete#sources#ternjs#filetypes = [
 repo = 'lvht/phpcd.vim'
 rev = 'php5'
 depends = 'deoplete.nvim'
-if = 'executable("composer")'
+if = '0 && executable("composer")'
 build = 'composer install'
 on_ft = 'php'
 hook_source = '''
@@ -675,3 +675,7 @@ let g:deoplete#ignore_sources.php = [ 'omni' ]
 
 let g:phpcd_disable_modifier = 0
 '''
+
+[[plugins]]
+repo = 'editorconfig/editorconfig-vim'
+on_path = '.*'
