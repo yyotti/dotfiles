@@ -102,7 +102,7 @@ setopt always_to_end
 # setopt bash_auto_list
 
 # エイリアスを別のコマンド名として処理する
-# setopt complete_aliases
+setopt complete_aliases
 
 # カーソル部分から補完を開始する
 # setopt complete_in_word
@@ -673,6 +673,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias sudo='sudo '
 alias lspath='echo "${PATH//:/\n}"'
+
+alias ssh='(){tmux select-pane -P "bg=colour235"; command ssh "$@"; tmux select-pane -P "fg=default,bg=default"}'
+
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
   alias tigr='tig refs'
