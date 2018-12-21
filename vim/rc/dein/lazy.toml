@@ -321,7 +321,7 @@ let g:gitgutter_sign_modified_removed = 'MD'
 " Disable default mappings
 let g:gitgutter_map_keys = 0
 '''
-hook_post_source = '''
+hook_source = '''
 autocmd MyAutocmd BufEnter * call <SID>gitgutter_mapping()
 function! s:gitgutter_mapping() abort "{{{
   if !hasmapto('<Plug>GitGutterPrevHunk') && maparg('[c', 'n') ==# ''
@@ -558,7 +558,7 @@ endif
 
 [[plugins]]
 repo = 'yyotti/neosnippet-php.vim'
-if = 1
+if = 0
 depends = 'neosnippet.vim'
 on_ft = 'php'
 hook_post_update = '''
@@ -666,7 +666,7 @@ let g:deoplete#sources#ternjs#filetypes = [
 repo = 'lvht/phpcd.vim'
 rev = 'php5'
 depends = 'deoplete.nvim'
-if = '0 && executable("composer")'
+if = '1 && executable("composer")'
 build = 'composer install'
 on_ft = 'php'
 hook_source = '''
