@@ -55,7 +55,7 @@ echo
 # Install dotfiles {{{
 echo 'Clone dotfiles repo.'
 export DOTFILES=${XDG_DATA_HOME}/dotfiles
-git clone https://github.com/yyotti/dotfiles.git "${DOTFILES}"
+git clone git@github.com:yyotti/dotfiles.git "${DOTFILES}"
 find "${DOTFILES}/scripts/git" -type d -exec chmod 755 {} \;
 
 echo '  Install dotfiles'
