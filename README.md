@@ -4,7 +4,7 @@
 ## Bash on Windows環境構築手順
 下記のコマンドを実行
 ```sh
-curl -sL https://raw.githubusercontent.com/yyotti/dotfiles/master/scripts/wsl_setup.sh | bash
+bash -c "$(curl -sL https://raw.githubusercontent.com/yyotti/dotfiles/master/scripts/wsl_setup.sh)"
 ```
 
 ## Linux環境構築手順
