@@ -15,13 +15,13 @@ fi
 if [[ ${HOMEBREW_PREFIX} != '' ]]; then
   export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
   export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
-  export MANPATH="${HOMEBREW_PREFIX}/share/man:$MANPATH"
-  export INFOPATH="${HOMEBREW_PREFIX}/share/info:$INFOPATH"
+  export MANPATH="${HOMEBREW_PREFIX}/share/man:${MANPATH}"
+  export INFOPATH="${HOMEBREW_PREFIX}/share/info:${INFOPATH}"
 
   path=(
   ${HOMEBREW_PREFIX}/bin(N-/)
   ${HOMEBREW_PREFIX}/sbin(N-/)
-  $path
+  ${path}
   )
 fi
 
@@ -33,11 +33,11 @@ path=(
 ~/.cabal/bin(N-/)
 ~/.composer/vendor/bin(N-/)
 /usr/local/go/bin(N-/)
-$DOTFILES/scripts/git/subcommands(N-/)
-$HOME/.nodebrew/current/bin(N-/)
-$HOME/.yarn/bin(N-/)
+${DOTFILES}/scripts/git/subcommands(N-/)
+${HOME}/.nodebrew/current/bin(N-/)
+${HOME}/.yarn/bin(N-/)
 ${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
-$path
+${path}
 )
 
 if (( ${+commands[vim]} )); then
@@ -45,21 +45,25 @@ if (( ${+commands[vim]} )); then
 fi
 
 if (( ${+commands[go]} )); then
-  export GOPATH=$XDG_DATA_HOME/go
-  path=($GOPATH/bin(N-/) $path)
+  export GOPATH=${XDG_DATA_HOME}/go
+  path=(${GOPATH}/bin(N-/) ${path})
 fi
 
+# TODO
+if [[ -f "${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so" ]]; then
+  export LD_PRELOAD="${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so"
+fi
 if (( ${+commands[wcwidth-cjk]} )); then
   export LD_PRELOAD=/usr/local/lib/wcwidth-cjk.so
 fi
 
 if (( ${+commands[tig]} )); then
-  export TIGRC_USER=$XDG_CONFIG_HOME/tig/tigrc
+  export TIGRC_USER=${XDG_CONFIG_HOME}/tig/tigrc
 fi
 
 if (( ${+commands[less]} )); then
-  export LESSHISTFILE=$XDG_CACHE_HOME/less/history
-  export LESSKEY=$XDG_CONFIG_HOME/less/key
+  export LESSHISTFILE=${XDG_CACHE_HOME}/less/history
+  export LESSKEY=${XDG_CONFIG_HOME}/less/key
 fi
 
 skip_global_compinit=1
