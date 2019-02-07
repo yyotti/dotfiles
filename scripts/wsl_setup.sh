@@ -23,9 +23,9 @@ export PATH="${GOPATH}/bin:${PATH}"
 export DOTFILES=${DOTFILES:-${XDG_DATA_HOME}/dotfiles}
 echo # }}}
 
-echo 'Create ~/bin' # {{{
-if [[ ! -d ${HOME}/bin ]]; then
-  mkdir -p "${HOME}/bin"
+echo 'Create ~/.bin' # {{{
+if [[ ! -d ${HOME}/.bin ]]; then
+  mkdir -p "${HOME}/.bin"
 fi
 echo # }}}
 
@@ -134,6 +134,21 @@ pip3 install --user \
   powerline-status \
   psutil
 
+brew install \
+  autoconf \
+  automake \
+  libtool
+git clone https://github.com/fumiyas/wcwidth-cjk /tmp/wcwidth-cjk
+_pwd="$(pwd)"
+cd /tmp/wcwidth-cjk
+git checkout -b "v$(date +'%Y%m%d')" master
+autoreconf --install
+./configure --prefix="${HOME}/.opt/wcwidth-cjk"
+make -j2
+make install
+cd "${_pwd}"
+rm -rf /tmp/wcwidth-cjk
+
 echo # }}}
 
 echo 'Install Neovim.' # {{{
@@ -142,7 +157,7 @@ brew install \
   lynx \
   shellcheck
 
-ln -s "${HOMEBREW_PREFIX}/bin/nvim" "${HOME}/bin/vim"
+ln -s "${HOMEBREW_PREFIX}/bin/nvim" "${HOME}/.bin/vim"
 
 if which pecl &>/dev/null; then
   pecl install msgpack
