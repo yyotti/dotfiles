@@ -207,6 +207,5 @@ if [[ $SHELL != "${_zsh_path}" ]]; then
 fi
 
 if which gist &>/dev/null; then
-  echo 'Configure gist'
-  gist config
+  echo 'Rem: Configure gist (run: gist config)'
 fi
