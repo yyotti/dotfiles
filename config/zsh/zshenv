@@ -3,23 +3,42 @@ export LESSCHARSET=utf-8
 export JLESSCHARSET=japanese-utf-8
 export PAGER='less -isr'
 # export LSCOLORS=gxfxcxdxbxegedabagacad
+export TERM=xterm-256color
 
-if [[ $TMUX == '' ]]; then
-  export TERM=xterm-256color
+# `brew shellenv` is too late.
+if [[ -d "${HOME}/.linuxbrew" ]]; then
+  export HOMEBREW_PREFIX="${HOME}/.linuxbrew"
+elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+fi
+
+if [[ ${HOMEBREW_PREFIX} != '' ]]; then
+  export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
+  export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
+  export MANPATH="${HOMEBREW_PREFIX}/share/man:$MANPATH"
+  export INFOPATH="${HOMEBREW_PREFIX}/share/info:$INFOPATH"
 
   path=(
-  ~/bin(N-/)
-  ~/.local/bin(N-/)
-  ~/.cabal/bin(N-/)
-  ~/.composer/vendor/bin(N-/)
-  /usr/local/go/bin(N-/)
-  $DOTFILES/scripts/git/subcommands(N-/)
-  $HOME/.nodebrew/current/bin(N-/)
-  $HOME/.yarn/bin(N-/)
-  ${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
+  ${HOMEBREW_PREFIX}/bin(N-/)
+  ${HOMEBREW_PREFIX}/sbin(N-/)
   $path
   )
 fi
+
+# TODO Check
+path=(
+~/bin(N-/)
+~/.bin(N-/)
+~/.local/bin(N-/)
+~/.cabal/bin(N-/)
+~/.composer/vendor/bin(N-/)
+/usr/local/go/bin(N-/)
+$DOTFILES/scripts/git/subcommands(N-/)
+$HOME/.nodebrew/current/bin(N-/)
+$HOME/.yarn/bin(N-/)
+${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
+$path
+)
 
 if (( ${+commands[vim]} )); then
   export EDITOR=vim
