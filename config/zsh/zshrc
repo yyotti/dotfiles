@@ -474,7 +474,8 @@ autoload -Uz \
   colors \
   add-zsh-hook \
   is-at-least \
-  async
+  async \
+  compinit
 # }}}
 
 # Completions {{{
@@ -531,50 +532,28 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
 # }}}
 
 # plugins {{{
+declare -A ZPLGM
+ZPLGM[HOME_DIR]=${XDG_CACHE_HOME}/zsh/zplugin
+ZPLGM[BIN_DIR]=${ZPLGM[HOME_DIR]}/bin
+ZPLGM[PLUGINS_DIR]=${ZPLGM[HOME_DIR]}/plugins
+ZPLGM[COMPLETIONS_DIR]=${ZPLGM[HOME_DIR]}/completions
+ZPLGM[SNIPPETS_DIR]=${ZPLGM[HOME_DIR]}/snippets
+ZPLGM[ZCOMPDUMP_PATH]=${XDG_CACHE_HOME}/zsh/.zcompdump
 
-function __chmod_dir()
-{
-  if __is_wsl; then
-    # only wsl
-    find "$1" -type d -name '.git' -prune -o -type d -exec chmod 755 {} \;
-  fi
-}
+export ZPLGM
 
-export ZPLUG_HOME=$XDG_CACHE_HOME/zsh/zplug
-if [[ ! -d $ZPLUG_HOME ]]; then
-  {
-    if [[ $(uname -a) =~ Linux && $(uname -a) =~ Microsoft ]]; then
-      echo unsetopt bg_nice
-    fi
-    curl -sL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh
-  } | zsh
-
-  __chmod_dir $ZPLUG_HOME
+if [[ ! -d "${ZPLGM[BIN_DIR]}" ]]; then
+  git clone https://github.com/zdharma/zplugin.git "${ZPLGM[BIN_DIR]}"
 fi
-source $ZPLUG_HOME/init.zsh
+# TODO
+# zcompile ${ZPLGM[BIN_DIR]}/zplugin.zsh
+source "${ZPLGM[BIN_DIR]}/zplugin.zsh"
 
-zplug 'zplug/zplug', \
-  hook-build:'zplug --self-manage', \
-  dir:"$ZPLUG_HOME"
-zplug 'zsh-users/zsh-completions', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/zsh-users"; zplug clear', \
-  hook-load:'fpath=($ZPLUG_REPOS/zsh-users/zsh-completions/src $fpath)'
-zplug 'mollifier/zload', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/mollifier"'
-zplug 'mafredri/zsh-async', \
-  hook-build:'__chmod_dir "$ZPLUG_REPOS/mafredri"'
+# TODO lazy loading
+zplugin load 'zsh-users/zsh-completions'
+zplugin load 'mafredri/zsh-async'
 
-if [[ ! -f $ZPLUG_CACHE_DIR/interface ]] \
-  || [[ $ZPLUG_LOADFILE -nt $ZPLUG_CACHE_DIR/interface ]] \
-  || ! zplug check --verbose; then
-  printf 'Install? [y/N]: '
-  if read -q; then
-    echo
-    zplug install
-  fi
-fi
-zplug load
-
+compinit -d "${ZPLGM[ZCOMPDUMP_PATH]}"
 # }}}
 
 # FuzzyFinder {{{

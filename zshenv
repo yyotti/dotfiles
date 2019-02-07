@@ -1,4 +1,5 @@
 # zmodload zsh/zprof && zprof
+umask 022
 
 # XDG Base Directory
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
