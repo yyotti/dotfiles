@@ -4,6 +4,7 @@ export JLESSCHARSET=japanese-utf-8
 export PAGER='less -isr'
 # export LSCOLORS=gxfxcxdxbxegedabagacad
 export TERM=xterm-256color
+export WORDCHARS=${WORDCHARS:s/\///}
 
 # `brew shellenv` is too late.
 if [[ -d "${HOME}/.linuxbrew" ]]; then
@@ -11,6 +12,8 @@ if [[ -d "${HOME}/.linuxbrew" ]]; then
 elif [[ -d /home/linuxbrew/.linuxbrew ]]; then
   export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 fi
+
+typeset -U path cdpath fpath manpath
 
 if [[ ${HOMEBREW_PREFIX} != '' ]]; then
   export HOMEBREW_CELLAR="${HOMEBREW_PREFIX}/Cellar"
@@ -25,18 +28,11 @@ if [[ ${HOMEBREW_PREFIX} != '' ]]; then
   )
 fi
 
-# TODO Check
 path=(
-~/bin(N-/)
 ~/.bin(N-/)
 ~/.local/bin(N-/)
-~/.cabal/bin(N-/)
-~/.composer/vendor/bin(N-/)
-/usr/local/go/bin(N-/)
-${DOTFILES}/scripts/git/subcommands(N-/)
-${HOME}/.nodebrew/current/bin(N-/)
-${HOME}/.yarn/bin(N-/)
 ${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
+${DOTFILES}/scripts/git/subcommands(N-/)
 ${path}
 )
 
@@ -49,12 +45,8 @@ if (( ${+commands[go]} )); then
   path=(${GOPATH}/bin(N-/) ${path})
 fi
 
-# TODO
 if [[ -f "${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so" ]]; then
   export LD_PRELOAD="${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so"
-fi
-if (( ${+commands[wcwidth-cjk]} )); then
-  export LD_PRELOAD=/usr/local/lib/wcwidth-cjk.so
 fi
 
 if (( ${+commands[tig]} )); then
@@ -66,4 +58,32 @@ if (( ${+commands[less]} )); then
   export LESSKEY=${XDG_CONFIG_HOME}/less/key
 fi
 
-skip_global_compinit=1
+if [[ -d "${HOMEBREW_PREFIX}/opt/php@5.6" ]]; then
+  path=(
+  ${HOMEBREW_PREFIX}/opt/php@5.6/bin
+  ${HOMEBREW_PREFIX}/opt/php@5.6/sbin
+  $path
+  )
+fi
+
+if (( ${+commands[fzf]} )); then
+  if (( ${+commands[tmux]} )); then
+    export FZF_TMUX=1
+  fi
+
+  if (( ${+commands[rg]} )); then
+    export FZF_DEFAULT_COMMAND="command rg --files --glob '!.git' --hidden --follow"
+    export FZF_CTRL_T_COMMAND="command rg --files --glob '!.git' --hidden --follow"
+  elif (( ${+commands[ag]} )); then
+    export FZF_DEFAULT_COMMAND="command ag --follow --nocolor --nogroup -g ''"
+    export FZF_CTRL_T_COMMAND="command ag --follow --nocolor --nogroup -g ''"
+  elif (( ${+commands[pt]} )); then
+    export FZF_DEFAULT_COMMAND='command pt --follow --nocolor --nogroup --hidden --ignore=.git -g='
+    export FZF_CTRL_T_COMMAND='command pt --follow --nocolor --nogroup --hidden --ignore=.git -g='
+  else
+    export FZF_DEFAULT_COMMAND=
+    export FZF_CTRL_T_COMMAND=
+  fi
+fi
+
+# skip_global_compinit=1

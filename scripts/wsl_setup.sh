@@ -95,7 +95,7 @@ brew install zsh
 
 echo '  Add Zsh path to /etc/shells'
 _shells_file=/etc/shells
-_zsh_path=$(which zsh)
+_zsh_path=$(command -v zsh)
 if ! grep -q "${_zsh_path}" <"${_shells_file}"; then
   sudo sh -c "echo ${_zsh_path} >>${_shells_file}"
 fi
@@ -122,7 +122,8 @@ brew install \
   git-now \
   fzf \
   ripgrep \
-  z80oolong/tmux/tmux
+  z80oolong/tmux/tmux \
+  nkf
 
 go get -d github.com/lemonade-command/lemonade
 cd "${GOPATH}/src/github.com/lemonade-command/lemonade/"
@@ -159,11 +160,11 @@ brew install \
 
 ln -s "${HOMEBREW_PREFIX}/bin/nvim" "${HOME}/.bin/vim"
 
-if which pecl &>/dev/null; then
+if command -v pecl &>/dev/null; then
   pecl install msgpack
 fi
 
-if which pip2 &>/dev/null; then
+if command -v pip2 &>/dev/null; then
   pip2 install --user \
     neovim
 fi
@@ -177,33 +178,32 @@ pip3 install --user \
 
 go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
-if which composer &>/dev/null; then
+if command -v composer &>/dev/null; then
   composer global require jdorn/sql-formatter:dev-master
 fi
 
-if which npm &>/dev/null; then
+if command -v npm &>/dev/null; then
   npm install --global neovim
 fi
 
-if which yarn &>/dev/null; then
+if command -v yarn &>/dev/null; then
   yarn global add tern
 fi
 
-# TODO Install PHP Manual
-# echo '  Install PHP Manual. (for plugin)'
-# refs_dir=${XDG_CACHE_HOME}/vim/refs
-# phpmanual_dir=${refs_dir}/php-chunked-xhtml
-# if [[ ! -d ${phpmanual_dir} ]]; then
-#   wget -q -O /tmp/php_manual_ja.tar.gz \
-#     http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
-#
-#   if [[ ! -d ${refs_dir} ]]; then
-#     mkdir -p "${refs_dir}"
-#   fi
-#
-#   cd "${refs_dir}"
-#   tar xzf /tmp/php_manual_ja.tar.gz
-# fi
+# Install PHP Manual (for vim plugin [thinca/vim-ref])
+refs_dir=${XDG_CACHE_HOME}/vim/refs
+phpmanual_dir=${refs_dir}/php-chunked-xhtml
+if [[ ! -d ${phpmanual_dir} ]]; then
+  wget -q -O /tmp/php_manual_ja.tar.gz \
+    http://jp2.php.net/get/php_manual_ja.tar.gz/from/this/mirror
+
+  if [[ ! -d ${refs_dir} ]]; then
+    mkdir -p "${refs_dir}"
+  fi
+
+  cd "${refs_dir}"
+  tar xzf /tmp/php_manual_ja.tar.gz
+fi
 echo # }}}
 
 echo 'Clone dotfiles repo.' # {{{
@@ -221,6 +221,6 @@ if [[ $SHELL != "${_zsh_path}" ]]; then
   chsh -s "${_zsh_path}"
 fi
 
-if which gist &>/dev/null; then
+if command -v gist &>/dev/null; then
   echo 'Rem: Configure gist (run: gist config)'
 fi

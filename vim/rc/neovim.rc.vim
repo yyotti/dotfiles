@@ -5,8 +5,17 @@ if has('vim_starting') && argc() == 0
   syntax off
 endif
 
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
+if exists('$HOMEBREW_PREFIX') && executable(expand('$HOMEBREW_PREFIX') . '/bin/python2')
+  let g:python_host_prog = expand('$HOMEBREW_PREFIX') . '/bin/python2'
+else
+  let g:python_host_prog = '/usr/bin/python'
+endif
+
+if exists('$HOMEBREW_PREFIX') && executable(expand('$HOMEBREW_PREFIX') . '/bin/python3')
+  let g:python3_host_prog = expand('$HOMEBREW_PREFIX') . '/bin/python3'
+else
+  let g:python3_host_prog = '/usr/bin/python3'
+endif
 
 if exists('&inccommand')
   set inccommand=nosplit
