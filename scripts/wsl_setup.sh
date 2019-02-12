@@ -123,13 +123,15 @@ brew install \
   fzf \
   ripgrep \
   z80oolong/tmux/tmux \
-  nkf
+  nkf \
+  zip
 
 go get -d github.com/lemonade-command/lemonade
 cd "${GOPATH}/src/github.com/lemonade-command/lemonade/"
 make install
 
 go get github.com/b4b4r07/gist
+go get github.com/mattn/memo
 
 pip3 install --user \
   powerline-status \

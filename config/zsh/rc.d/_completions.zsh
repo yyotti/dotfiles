@@ -2,6 +2,9 @@
 # ZSH completions
 #
 
+# TODO
+# find ${HOMEBREW_PREFIX}/opt/*/share/zsh/site-functions -type d
+
 # git
 if (( ${+commands[git]} )); then
   # git-now

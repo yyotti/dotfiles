@@ -27,6 +27,7 @@ symlink_targets=(
   config/vint
   vim
   zshenv
+  editorconfig
 )
 
 # Default options

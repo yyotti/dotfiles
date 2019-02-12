@@ -635,3 +635,40 @@ function __prompt_preprompt_render() # {{{
 # }}}
 
 __prompt_setup
+
+function __slimes() # {{{
+{
+  local _dir=${1}
+
+  if [[ ! -d ${_dir} ]]; then
+    return
+  fi
+
+  # https://github.com/dot-motd/dragon-quest
+
+  # ランダムで値を取得(0〜99の範囲)
+  readonly n=$((RANDOM % 100))
+
+  if [[ ${n} -lt 40 ]]; then
+    # スライム 40%
+    cat "${_dir}/slime.txt"
+  elif [[ ${n} -lt 65 ]]; then
+    # スライムベス 25%
+    cat "${_dir}/slime-beth.txt"
+  elif [[ ${n} -lt 85 ]]; then
+    # バブルスライム 20%
+    cat "${_dir}/bubble-slime.txt"
+  elif [[ ${n} -lt 95 ]]; then
+    # メタルスライム 10%
+    cat "${_dir}/metal-slime.txt"
+  elif [[ ${n} -lt 99 ]]; then
+    # はぐれメタル 4%
+    cat "${_dir}/hagure-metal.txt"
+  elif [[ ${n} -eq 99 ]]; then
+    # オールスター 1%
+    cat "${_dir}/slime-allstar.txt"
+  fi
+}
+# }}}
+
+__slimes "${0:a:h}/slimes"
