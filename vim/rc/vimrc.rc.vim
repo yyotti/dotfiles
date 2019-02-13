@@ -1,6 +1,10 @@
 "-----------------------------------------------------------------------------
 " Initialize:
 "
+if v:version < 800
+  finish
+endif
+
 if !has('nvim') && filereadable(vimrc#join_path($VIMRUNTIME, 'defaults.vim'))
   unlet! g:skip_defaults_vim
   execute 'source' vimrc#join_path($VIMRUNTIME, 'defaults.vim')
