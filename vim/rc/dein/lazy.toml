@@ -150,6 +150,7 @@ execute 'source' vimrc#join_path($VIMDIR, 'rc/plugins/denite.rc.vim')
 [[plugins]]
 repo = 'cocopon/vaffle.vim'
 on_cmd = 'Vaffle'
+if = 0
 hook_add = '''
 nnoremap <silent> <Leader>fe :<C-u>Vaffle <C-r>=expand('%:h')<CR><CR>
 '''
@@ -679,3 +680,17 @@ let g:phpcd_disable_modifier = 0
 [[plugins]]
 repo = 'editorconfig/editorconfig-vim'
 on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+# on_cmd = 'Defx'
+hook_add = '''
+nnoremap <silent> <Leader>fe :<C-u>Defx -listed -resume -buffer-name=tab`tabpagenr()`<CR>
+'''
+hook_source = '''
+" call defx#custom#column('mark', {
+"      \ 'directory_icon': '▸',
+"      \ 'readonly_icon': '✗',
+"      \ 'selected_icon': '✓',
+"      \ })
+'''

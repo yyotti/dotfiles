@@ -18,3 +18,9 @@ indent_size = 2
 
 [zsh{rc,env}]
 indent_size = 2
+
+[*.vim]
+indent_size = 2
+
+[vimrc{,.local}]
+indent_size = 2
