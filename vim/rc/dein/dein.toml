@@ -58,22 +58,6 @@ let g:vim_json_syntax_conceal = 0
 '''
 
 [[plugins]]
-repo = 'jwalton512/vim-blade'
-if = 0
-
-[[plugins]]
-repo = 'itchyny/vim-haskell-indent'
-if = 0
-
-[[plugins]]
-repo = 'neovimhaskell/haskell-vim'
-if = 0
-on_ft = 'haskell'
-hook_post_source = '''
-let g:haskell_indent_disable = 1
-'''
-
-[[plugins]]
 repo = 'HerringtonDarkholme/yats.vim'
 
 [[plugins]]
@@ -87,4 +71,128 @@ repo = 'MaxMEllon/vim-jsx-pretty'
 depends = 'yajs.vim'
 hook_add = '''
 let g:vim_jsx_pretty_colorful_config = 1
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+hook_add = '''
+" let g:asyncomplete_log_file = '/home/tsutsui/asyncomplete-log.log'
+" let g:asyncomplete_smart_completion = 1
+
+imap <C-Space> <Plug>(asyncomplete_force_refresh)
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-buffer.vim'
+depends = 'asyncomplete.vim'
+hook_add = '''
+autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
+      \   asyncomplete#sources#buffer#get_source_options({
+      \     'name': 'buffer',
+      \     'whitelist': [ '*' ],
+      \     'blacklist': [ 'go' ],
+      \     'completor': function('asyncomplete#sources#buffer#completor'),
+      \     'priority': 2,
+      \   })
+      \ )
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-file.vim'
+depends = 'asyncomplete.vim'
+hook_add = '''
+autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
+      \   asyncomplete#sources#buffer#get_source_options({
+      \     'name': 'file',
+      \     'whitelist': [ '*' ],
+      \     'completor': function('asyncomplete#sources#file#completor'),
+      \     'priority': 1,
+      \   })
+      \ )
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-neosnippet.vim'
+depends = [ 'asyncomplete.vim', 'neosnippet.vim', 'neosnippet-snippets' ]
+hook_add = '''
+autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
+      \   asyncomplete#sources#buffer#get_source_options({
+      \     'name': 'neosnippet',
+      \     'whitelist': [ '*' ],
+      \     'completor': function('asyncomplete#sources#neosnippet#completor'),
+      \     'priority': 3,
+      \   })
+      \ )
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-necovim.vim'
+depends = [ 'asyncomplete.vim', 'neco-vim' ]
+hook_add = '''
+autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
+      \   asyncomplete#sources#buffer#get_source_options({
+      \     'name': 'necovim',
+      \     'whitelist': [ 'vim' ],
+      \     'completor': function('asyncomplete#sources#necovim#completor'),
+      \     'priority': 5,
+      \   })
+      \ )
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+depends = 'async.vim'
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+depends = [ 'vim-lsp', 'asyncomplete.vim' ]
+hook_add = '''
+if executable('pyls')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'pyls',
+        \   'cmd': { server_info -> [ 'pyls' ] },
+        \   'whitelist': [ 'python' ],
+        \   'priority': 5,
+        \ })
+endif
+
+if executable('bingo')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'bingo',
+        \   'cmd': { server_info -> [ 'bingo', '-mode', 'stdio' ] },
+        \   'whitelist': [ 'go' ],
+        \   'priority': 5,
+        \ })
+endif
+
+" if executable('javascript-typescript-stdio')
+"   let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
+"   let g:LanguageClient_serverCommands.typescript = [ 'javascript-typescript-stdio' ]
+"
+"   let g:LanguageClient_rootMarkers.javascript = [ '.git', 'package.json' ]
+"   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
+" endif
+
+" if executable('php-language-server.php')
+"   let s:php_language_server = exepath('php-language-server.php')
+"   autocmd MyAutocmd User lsp_setup call lsp#register_server({
+"       \   'name': 'php-language-server',
+"       \   'cmd': { server_info -> [ 'php', s:php_language_server ] },
+"       \   'whitelist': [ 'php' ],
+"       \ })
+" endif
+if executable('node') &&
+      \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
+  let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'intelephense',
+        \   'cmd': { server_info -> [ 'node', s:php_language_server, '--stdio' ] },
+        \   'initialization_options': { 'storagePath': '/tmp/intelephense' },
+        \   'whitelist': [ 'php' ],
+        \   'priority': 5,
+        \ })
+endif
 '''

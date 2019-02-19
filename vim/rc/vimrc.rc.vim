@@ -1,7 +1,7 @@
 "-----------------------------------------------------------------------------
 " Initialize:
 "
-if v:version < 800
+if !has('nvim') && v:version < 800
   finish
 endif
 
@@ -37,7 +37,6 @@ endfunction "}}}
 " Delete all my autocmd
 augroup MyAutocmd
   autocmd!
-  autocmd FileType,Syntax,BufNewFile,BufNew,BufRead *? call vimrc#on_filetype()
 augroup END
 
 let $VIMDIR = fnamemodify($MYVIMRC, ':h')
@@ -56,17 +55,8 @@ endif
 "
 call s:source_rc('dein.rc.vim')
 
-if has('vim_starting') && argc() > 0
-  call vimrc#on_filetype()
-endif
-
-if !has('vim_starting')
-  call dein#call_hook('source')
-  call dein#call_hook('post_source')
-
-  syntax enable
-  filetype plugin indent on
-endif
+filetype plugin indent on
+syntax enable
 
 "-----------------------------------------------------------------------------
 " Options:
@@ -74,17 +64,12 @@ endif
 call s:source_rc('encoding.rc.vim')
 call s:source_rc('options.rc.vim')
 call s:source_rc('mappings.rc.vim')
+
 if has('nvim')
   call s:source_rc('neovim.rc.vim')
 endif
-if IsWindows()
-  " call s:source_rc('windows.rc.vim')
-else
-  call s:source_rc('unix.rc.vim')
-endif
-if !has('nvim') && has('gui_running')
-  " call s:source_rc('gui.rc.vim')
-endif
+
+call s:source_rc('unix.rc.vim')
 
 "-----------------------------------------------------------------------------
 " Colorscheme:
@@ -94,18 +79,10 @@ call s:source_rc('colorscheme.rc.vim')
 "-----------------------------------------------------------------------------
 " Local Settings:
 "
-" 1. user vimrc.local
-" 2. project vimrc.local
-let s:local_vimrc = [
-      \   fnamemodify(vimrc#join_path($HOME, '.vimrc.local'), ':p'),
-      \   fnamemodify('./.vimrc.local', ':p'),
-      \ ]
-call uniq(s:local_vimrc)
-for s:file in s:local_vimrc
-  if filereadable(s:file)
-    execute 'source' s:file
-  endif
-endfor
+let s:local_vimrc = fnamemodify(vimrc#join_path($HOME, '.vimrc.local'), ':p')
+if filereadable(s:local_vimrc)
+  execute 'source' s:local_vimrc
+endif
 
 set helplang&
 set helplang=ja,en

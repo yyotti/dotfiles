@@ -2,8 +2,6 @@
 " Encoding:
 "
 
-autocmd MyAutocmd BufReadPost * call vimrc#re_check_fenc()
-
 set fileformat=unix
 set fileformats=unix,dos,mac
 

@@ -19,7 +19,6 @@ set smartindent
 " Disable modeline
 set modelines=0
 set nomodeline
-autocmd MyAutocmd BufRead,BufWritePost *.txt setlocal modelines=5 modeline
 
 " Clipboard
 if has('clipboard')
@@ -45,15 +44,15 @@ set commentstring=%s
 
 " FastFold
 autocmd MyAutocmd TextChangedI,TextChanged *
-      \ if &l:foldenable && &l:foldmethod !=# 'manual' |
-      \   let b:foldmethod_save = &l:foldmethod |
-      \   let &l:foldmethod = 'manual' |
-      \ endif
+     \ if &l:foldenable && &l:foldmethod !=# 'manual' |
+     \   let b:foldmethod_save = &l:foldmethod |
+     \   let &l:foldmethod = 'manual' |
+     \ endif
 autocmd MyAutocmd BufWritePost *
-      \ if &l:foldmethod ==# 'manual' && exists('b:foldmethod_save') |
-      \   let &l:foldmethod = b:foldmethod_save |
-      \   execute 'normal! zx' |
-      \ endif
+     \ if &l:foldmethod ==# 'manual' && exists('b:foldmethod_save') |
+     \   let &l:foldmethod = b:foldmethod_save |
+     \   execute 'normal! zx' |
+     \ endif
 
 if exists('*FoldCCtext')
   set foldtext=FoldCCtext()
@@ -85,6 +84,7 @@ set virtualedit=block
 
 set keywordprg=:help
 
+" 00 -> 01
 set nrformats=
 
 autocmd MyAutocmd WinEnter * checktime
@@ -92,11 +92,6 @@ autocmd MyAutocmd WinEnter * checktime
 autocmd MyAutocmd InsertLeave *
       \ if &paste | setlocal nopaste | echo 'nopaste' | endif |
       \ if &l:diff | diffupdate | endif
-
-" Create directory automatically
-" http://vim-users.jp/2011/02/hack202/
-autocmd MyAutocmd BufWritePre *
-      \ call vimrc#mkdir_as_necessary(expand('<afile>:p:h'))
 
 if !dein#tap('editorconfig-vim')
   " Remove last whitespaces
@@ -117,21 +112,15 @@ endif
 set number
 
 set list
-if IsWindows()
-  set listchars=tab:>-,extends:<,trail:-
-else
-  execute "set listchars=tab:\u00bb\\ "
-  execute "set listchars+=eol:\u21b2"
-  execute "set listchars+=nbsp:\u2423"
-  execute 'set listchars+=trail:-'
-  execute "set listchars+=extends:\u27e9"
-  execute "set listchars+=precedes:\u27e8"
-endif
+execute "set listchars=tab:\u00bb\\ "
+execute "set listchars+=eol:\u21b2"
+execute "set listchars+=nbsp:\u2423"
+execute 'set listchars+=trail:-'
+execute "set listchars+=extends:\u27e9"
+execute "set listchars+=precedes:\u27e8"
 
 set laststatus=2
 set cmdheight=2
-
-set noshowcmd
 
 set ambiwidth=double
 
@@ -153,19 +142,17 @@ autocmd MyAutocmd BufEnter,BufWinEnter,FilterWritePost *
       \ execute 'setlocal' (&diff ? 'no' : '') . 'cursorline'
 set diffopt+=vertical
 
-set shortmess=aTI
-if has('patch-7.4.314')
-  set shortmess+=c
-else
-  autocmd MyAutocmd VimEnter *
-        \ highlight ModeMsg guifg=bg guibg=bg |
-        \ highlight Question guifg=bg guibg=bg
-endif
-
-" Do not display the edit messages
-if has('patch-7.4.1570')
-  set shortmess+=F
-endif
+" a: all of the [f,i,l,m,n,r,w,x] abbreviations
+" T: truncate other messages in the middle if they are too long to
+"    fit on the command line.  "..." will appear in the middle.
+"    Ignored in Ex mode.
+" I: don't give the intro message when starting Vim |:intro|.
+" c: don't give |ins-completion-menu| messages.  For example,
+"    "-- XXX completion (YYY)", "match 1 of 2", "The only match",
+"    "Pattern not found", "Back at original", etc.
+" F: don't give the file info when editing a file, like `:silent`
+"    was used for the command
+set shortmess=aTIcF
 
 set t_vb=
 set novisualbell
@@ -188,10 +175,7 @@ endif
 " Disable menu
 let g:did_install_default_menus = 1
 
-set completeopt=menuone
-if has('patch-7.4.775')
-  set completeopt+=noinsert
-endif
+set completeopt=menuone,noinsert
 set complete=.
 set pumheight=20
 
@@ -213,22 +197,6 @@ set helpheight=12
 set ttyfast
 
 set display=lastline
-
-function! WidthPart(str, width) abort "{{{
-  if a:width <= 0
-    return ''
-  endif
-
-  let l:ret = a:str
-  let l:width = strwidth(a:str)
-  while l:width > a:width
-    let l:char = matchstr(l:ret, '.$')
-    let l:ret = l:ret[: -1 - len(l:char)]
-    let l:width -= strwidth(l:char)
-  endwhile
-
-  return l:ret
-endfunction "}}}
 
 set conceallevel=2
 set concealcursor=niv

@@ -11,6 +11,9 @@ call gina#custom#command#option('log', '--pretty',
 call gina#custom#command#option('log', '--abbrev-commit')
 call gina#custom#command#option('log', '--date', 'relative')
 call gina#custom#command#option('log', '--opener', 'tabnew')
+
+" set status window height
+call gina#custom#execute('status', 'setlocal winfixheight')
 " }}}
 
 " log {{{

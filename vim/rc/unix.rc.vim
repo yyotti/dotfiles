@@ -5,8 +5,6 @@
 " Use sh (It is faster)
 set shell=sh
 
-let $PATH = expand('~/bin') . ':/usr/local/bin/:' . $PATH
-
 if has('gui_running')
   finish
 endif
@@ -24,4 +22,3 @@ endif
 if exists('+termguicolors')
   set termguicolors
 endif
-

@@ -13,24 +13,9 @@ function! vimrc#join_path(base, ...) abort "{{{
   return empty(l:paths) ? a:base : join([ a:base ] + l:paths, '/')
 endfunction "}}}
 
-function! vimrc#on_filetype() abort "{{{
-  if execute('filetype') =~# 'OFF'
-    silent! filetype plugin indent on
-    syntax enable
-    filetype detect
-  endif
-endfunction "}}}
-
 function! vimrc#toggle_option(option_name) abort "{{{
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
-endfunction "}}}
-
-function! vimrc#re_check_fenc() abort "{{{
-  let l:is_multi_byte = search("[^\x01-\x7e]", 'n', 100, 100)
-  if &fileencoding =~# 'iso-2022-jp' && !l:is_multi_byte
-    let &fileencoding = &encoding
-  endif
 endfunction "}}}
 
 function! vimrc#toggle_cmdline_word_boundary() abort "{{{
@@ -39,13 +24,28 @@ function! vimrc#toggle_cmdline_word_boundary() abort "{{{
     return l:cmdline
   endif
 
-  if l:cmdline !~# '^\\<.*\\>$'
-    let l:cmdline = '\<' . l:cmdline . '\>'
-  else
-    let l:cmdline = l:cmdline[2:len(l:cmdline) - 3]
+  let l:magic = ''
+  if l:cmdline =~# '^\\[vVmM]'
+    let l:magic = l:cmdline[:1]
+    let l:cmdline = l:cmdline[2:]
   endif
 
-  return l:cmdline
+  if l:magic ==# '\v'
+    let l:start = '<'
+    let l:end = '>'
+    let l:regex = '^<.*>$'
+  else
+    let l:start = '\<'
+    let l:end = '\>'
+    let l:regex = '^\\<.*\\>$'
+  endif
+  if l:cmdline !~# l:regex
+    let l:cmdline = printf('%s%s%s', l:start, l:cmdline, l:end)
+  else
+    let l:cmdline = l:cmdline[len(l:start):len(l:cmdline) - len(l:end) - 1]
+  endif
+
+  return l:magic . l:cmdline
 endfunction "}}}
 
 function! vimrc#automark() abort "{{{
@@ -108,30 +108,6 @@ function! vimrc#cd_gitroot() abort "{{{
   execute 'lcd' escape(l:git_root, ' ')
 endfunction "}}}
 
-" function! vimrc#smart_bdelete(force) abort "{{{
-"   let l:cur_bufnr = bufnr('%')
-"
-"   let l:buffers = {}
-"   for l:buf in split(execute('ls'), "\n")
-"     let l:mt = matchlist(l:buf, '^\s*\(\d\+\)\s*\([+-=auhx%#]\+\)')
-"     let l:buffers[l:mt[1]] = l:mt[2]
-"   endfor
-"
-"   if len(l:buffers) > winnr('$') && has_key(l:buffers, l:cur_bufnr)
-"     let l:alt_bufnr = bufnr('#')
-"     if !has_key(l:buffers, l:alt_bufnr) || l:buffers[l:alt_bufnr] =~# 'a'
-"       " Alt buffer is active buffer or not listed
-"       let l:next_bufnr =
-"             \ keys(filter(copy(l:buffers), { _, val -> val !~# 'a' }))[0]
-"     else
-"       let l:next_bufnr = l:alt_bufnr
-"     endif
-"
-"     execute 'buffer' l:next_bufnr
-"   endif
-"
-"   execute 'bdelete' . (a:force ? '!' : '') l:cur_bufnr
-" endfunction "}}}
 function! vimrc#smart_bdelete(force) abort "{{{
   let l:cur_bufnr = bufnr('%')
   let l:alt_bufnr = bufnr('#')
@@ -156,4 +132,15 @@ function! vimrc#smart_bdelete(force) abort "{{{
       execute 'buffer' l:cur_bufnr
     endif
   endif
+endfunction "}}}
+
+function! vimrc#smart_ctrl_u() abort "{{{
+  let l:cmdline = getcmdline()
+  if (getcmdtype() ==# '/' || getcmdtype() ==# '?') &&
+        \ l:cmdline =~# '^\\[vVmM]'
+    " Using magic
+    return l:cmdline[:1]
+  endif
+
+  return ''
 endfunction "}}}

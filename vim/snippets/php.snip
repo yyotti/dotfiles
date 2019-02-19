@@ -29,7 +29,7 @@ abbr        $cursor = $mdb2->query($sql); if (PEAR::isError($cursor)) { die(...)
 options     head
 	$${1:cursor} = $${2:mdb2}->query($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$3);
+	    die($$1->getUserInfo());
 	}
 	${0}
 
@@ -38,7 +38,7 @@ abbr        $res = $mdb2->queryOne($sql); if (PEAR::isError($res)) { die(...); }
 options     head
 	$${1:res} = $${2:mdb2}->queryOne($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$3);
+	    die($$1->getUserInfo());
 	}
 	${0}
 
@@ -47,7 +47,7 @@ abbr        $row = $mdb2->queryRow($sql); if (PEAR::isError($row)) { die(...); }
 options     head
 	$${1:row} = $${2:mdb2}->queryRow($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$3);
+	    die($$1->getUserInfo());
 	}
 	${0}
 
@@ -56,7 +56,7 @@ abbr        $rows = $mdb2->queryRow($sql); if (PEAR::isError($rows)) { die(...);
 options     head
 	$${1:rows} = $${2:mdb2}->queryAll($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$3);
+	    die($$1->getUserInfo());
 	}
 	${0}
 
@@ -65,7 +65,7 @@ abbr        $ret = $mdb2->exec($sql); if (PEAR::isError($ret)) { die(...); }
 options     head
 	$${1:ret} = $${2:mdb2}->exec($${3:sql});
 	if (PEAR::isError($$1)) {
-	    die($$1->getUserInfo() . '<br />' . $$3);
+	    die($$1->getUserInfo());
 	}
 	${0}
 
@@ -88,5 +88,5 @@ options     word
 snippet     reqd
 abbr        require_once('[debug_log.php]');
 options     head
-        require_once('https://gist.githubusercontent.com/yyotti/59c0642ae2659ab0eea468e482e117ee/raw/a26ba6587f3bd5657c5c69c9024ba3b65286685b/debug_log.php');
-        ${0}
+	require_once('https://gist.githubusercontent.com/yyotti/59c0642ae2659ab0eea468e482e117ee/raw/a26ba6587f3bd5657c5c69c9024ba3b65286685b/debug_log.php');
+	${0}

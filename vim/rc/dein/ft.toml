@@ -64,6 +64,18 @@ augroup filetypedetect
   " jsx
   " autocmd BufRead,BufNewFile *.jsx setfiletype javascript.jsx
 augroup END
+
+if dein#tap('LanguageClient-neovim')
+  autocmd MyAutocmd FileType * call s:lc_map()
+  function! s:lc_map() abort "{{{
+    if has_key(g:LanguageClient_serverCommands, &filetype)
+      nnoremap <buffer> <silent> gd
+            \ :<C-u>call LanguageClient#textDocument_definition()<CR>
+      nnoremap <buffer> <silent> <LocalLeader>r
+            \ :<C-u>call LanguageClient#textDocument_rename()<CR>
+    endif
+  endfunction "}}}
+endif
 '''
 
 [ftplugin]
@@ -102,7 +114,7 @@ setlocal shiftwidth=2
 defx = '''
 " Define mappings
 nnoremap <silent><buffer><expr> <CR>
-\ defx#async_action('drop')
+\ defx#async_action('open')
 nnoremap <silent><buffer><expr> c
 \ defx#do_action('copy')
 nnoremap <silent><buffer><expr> !
@@ -131,7 +143,7 @@ nnoremap <silent><buffer><expr> yy
 \ defx#do_action('yank_path')
 nnoremap <silent><buffer><expr> h
 \ defx#do_action('cd', ['..'])
-nnoremap <silent><buffer><expr> q
+nnoremap <silent><buffer><expr><nowait> q
 \ defx#do_action('quit')
 nnoremap <silent><buffer><expr> <C-Space>
 \ defx#do_action('toggle_select') . 'j'
@@ -151,7 +163,7 @@ endif
 
 if dein#tap('vim-go')
   nnoremap <silent> <buffer> <LocalLeader>t :<C-u>GoTest<CR>
-  nnoremap <silent> <buffer> <LocalLeader>r :<C-u>GoRename<CR>
+  " nnoremap <silent> <buffer> <LocalLeader>r :<C-u>GoRename<CR>
   nnoremap          <buffer> <LocalLeader>i :<C-u>GoImport
   nnoremap <silent> <buffer> <LocalLeader>I :<C-u>GoImports<CR>
   nnoremap <silent> <buffer> gt :call go#alternate#Switch(0, 'vsplit')<CR>
@@ -166,7 +178,7 @@ syntax match goErr /\<err\>/
 '''
 
 godoc = '''
-nnoremap <silent> <buffer> q :q<CR>
+nnoremap <silent> <buffer> <nowait> q :q<CR>
 '''
 
 haskell = '''
@@ -179,7 +191,7 @@ setlocal iskeyword+=:
 setlocal iskeyword+=#
 setlocal iskeyword+=-
 
-nnoremap <silent> <buffer> q :q<CR>
+nnoremap <silent> <buffer> <nowait> q :q<CR>
 '''
 
 markdown = '''
@@ -264,7 +276,7 @@ endif
 '''
 
 qf = '''
-nnoremap <silent> <buffer> q :q<CR>
+nnoremap <silent> <buffer> <nowait> q :q<CR>
 '''
 
 scss = '''

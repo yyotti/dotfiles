@@ -32,11 +32,12 @@ nnoremap g* g*<C-o>zvzz
 nnoremap # #<C-o>zvzz
 nnoremap g# g#<C-o>zvzz
 
-if has('clipboard')
+if !has('nvim') && has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>
 endif
 
 nnoremap x "_x
+xnoremap x "_x
 
 nnoremap [Space]w :<C-u>call vimrc#toggle_option('wrap')<CR>
 nnoremap [Space]n :<C-u>call vimrc#toggle_option('number')<CR>
@@ -46,11 +47,17 @@ nnoremap [Space]h :<C-u>nohlsearch<CR>
 
 " Smart <C-f>/<C-b>
 nnoremap <expr> <C-f>
-      \ max([winheight(0) - 2, 1]) . "\<C-d>" .
-      \   (line('w$') >= line('$') ? 'L' : 'M')
+     \ max([winheight(0) - 2, 1]) . "\<C-d>" .
+     \   (line('w$') >= line('$') ? 'L' : 'M')
 nnoremap <expr> <C-b>
-      \ max([winheight(0) - 2, 1]) . "\<C-u>" .
-      \   (line('w0') < 1 ? 'H' : 'M')
+     \ max([winheight(0) - 2, 1]) . "\<C-u>" .
+     \   (line('w0') <= 1 ? 'H' : 'M')
+
+" Smart <C-d>/<C-u>
+nnoremap <expr> <C-d>
+     \ "\<C-d>" . (line('w$') >= line('$') ? 'L' : 'M')
+nnoremap <expr> <C-u>
+     \ "\<C-u>" . (line('w0') <= 1 ? 'H' : 'M')
 
 nmap Y y$
 
@@ -107,16 +114,17 @@ nnoremap <silent> gk :<C-u>call OpenGF('k')<CR>
 nnoremap [Alt] <Nop>
 
 " Indent paste
-nnoremap <silent> [Alt]p o<Esc>pm``[=`]``^
-nnoremap <silent> [Alt]P O<Esc>Pm``[=`]``^
+nnoremap <silent> [Alt]p pm``[=`]``^
+nnoremap <silent> [Alt]P Pm``[=`]``^
+
+" Visual yank
+xnoremap <silent> y y`]0
 
 " If press l on fold, fold open.
 nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
 " If press l on fold, range fold open.
 xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
 
-nnoremap / /\v
-xnoremap / /\v
 "}}}
 
 " Insert mode mappings: "{{{
@@ -129,11 +137,23 @@ inoremap <C-u> <C-g>u<C-u>
 " Move cursor
 inoremap <C-f> <C-g>U<Right>
 inoremap <C-b> <C-g>U<Left>
+inoremap <C-g>j <C-g>U<C-g>j
+inoremap <C-g>k <C-g>U<C-g>k
 inoremap <C-a> <C-g>U<Home>
 inoremap <C-e> <C-g>U<End>
+inoremap <Right> <C-g>U<Right>
+inoremap <Left> <C-g>U<Left>
+inoremap <Down> <C-g>U<Down>
+inoremap <Up> <C-g>U<Up>
+inoremap <Home> <C-g>U<Home>
+inoremap <End> <C-g>U<End>
 
 " Delete
 inoremap <C-d> <DEL>
+
+" Input same chars
+inoremap <C-e> <C-y>
+inoremap <C-q> <C-e>
 
 " Toggle paste
 inoremap <C-\> <C-o>:call vimrc#toggle_option('paste')<CR>
@@ -153,12 +173,17 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
 cnoremap <C-k>
-      \ <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
+     \ <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
 cnoremap <C-t> <C-r>*
 cnoremap <C-g> <C-c>
 
 " Toggle word boundary
-cnoremap <C-o> <C-\>evimrc#toggle_cmdline_word_boundary()<CR>
+cnoremap <C-o> <C-\>e vimrc#toggle_cmdline_word_boundary()<CR>
+" Smart <C-u>
+cnoremap <C-u> <C-\>e vimrc#smart_ctrl_u()<CR>
+
+" Insert current buffer name
+cnoremap <C-x> <C-r>=expand('%')<CR>
 "}}}
 
 " Replace a>,i>,etc... "{{{
@@ -219,10 +244,6 @@ nnoremap <silent> [Space]D :<C-u>call vimrc#smart_bdelete(1)<CR>
 nnoremap <silent> [Space]- :<C-u>new<CR>
 nnoremap <silent> [Space]<Bar> :<C-u>vnew<CR>
 "}}}
-
-" For plugins {{{
-nnoremap [Space]u <Nop>
-" }}}
 
 " Marks "{{{
 let g:marker_chars = [

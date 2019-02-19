@@ -58,14 +58,6 @@ if (( ${+commands[less]} )); then
   export LESSKEY=${XDG_CONFIG_HOME}/less/key
 fi
 
-if [[ -d "${HOMEBREW_PREFIX}/opt/php@5.6" ]]; then
-  path=(
-  ${HOMEBREW_PREFIX}/opt/php@5.6/bin
-  ${HOMEBREW_PREFIX}/opt/php@5.6/sbin
-  $path
-  )
-fi
-
 if (( ${+commands[fzf]} )); then
   if (( ${+commands[tmux]} )); then
     export FZF_TMUX=1

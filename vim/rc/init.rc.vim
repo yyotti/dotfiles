@@ -1,31 +1,14 @@
 "---------------------------------------------------------------------------
 " Initialize:
 "
-
-let s:is_windows = has('win32') || has('win64')
-
-function! IsWindows() abort "{{{
-  return s:is_windows
-endfunction "}}}
-
 if has('vim_starting') && &encoding !=# 'utf-8'
-  if IsWindows() && !has('gui_running')
-    " CUI in Windows (Command prompt)
-    set encoding=cp932
-  else
-    set encoding=utf-8
-  endif
+  set encoding=utf-8
 endif
 
 " Build encodings
 let &fileencodings = join([
       \   'ucs-bom', 'iso-2022-jp-3', 'utf-8', 'euc-jp', 'cp932'
       \ ])
-
-" Setting of terminal encoding
-if IsWindows()
-  set termencoding=cp932
-endif
 
 if has('multi_byte_ime')
   set iminsert=0
@@ -42,12 +25,8 @@ let g:maplocalleader = ','
 
 " Disable mappings for some plugins
 nnoremap ; <Nop>
+nnoremap "\<Space>" <Nop>
 nnoremap , <Nop>
-
-if IsWindows()
-  " Change path separator
-  set shellslash
-endif
 
 if !isdirectory($_CACHE)
   call mkdir($_CACHE, 'p')
@@ -89,4 +68,4 @@ let g:loaded_tarPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
-" }}}
+"}}}

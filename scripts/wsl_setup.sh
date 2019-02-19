@@ -107,10 +107,22 @@ brew install \
   go \
   python \
   python@2 \
-  php \
+  php@5.6 \
   composer \
   node \
   yarn
+
+if [[ -d ${HOMEBREW_PREFIX}/opt/php@5.6 ]]; then
+  PATH=${HOMEBREW_PREFIX}/opt/php@5.6/bin:${HOMEBREW_PREFIX}/opt/php@5.6/sbin:${PATH}
+  if command -v pecl &>/dev/null; then
+    pecl install msgpack-0.5.7
+  fi
+fi
+
+if command -v go &>/dev/null; then
+  brew tap yyotti/homebrew-gometalinter-tap
+  brew install gometalinter
+fi
 
 echo # }}}
 
@@ -216,7 +228,7 @@ bash "${DOTFILES}/scripts/dotinstall.sh" -v install
 
 echo # }}}
 
-echo "Setup finished."
+echo 'Setup finished.'
 
 if [[ $SHELL != "${_zsh_path}" ]]; then
   echo 'Change login shell'
