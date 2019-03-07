@@ -175,7 +175,7 @@ endif
 " Disable menu
 let g:did_install_default_menus = 1
 
-set completeopt=menuone,noinsert
+set completeopt=menuone,noinsert,noselect
 set complete=.
 set pumheight=20
 

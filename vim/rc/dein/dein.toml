@@ -45,6 +45,25 @@ repo = 'rcmdnk/vim-markdown'
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
+repo = 'Shougo/neosnippet.vim'  # TODO lazy
+on_ft = 'snippet'
+depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
+hook_add = '''
+let g:neosnippet#enable_snipmate_compatibility = 1
+let g:neosnippet#enable_completed_snippet = 1
+let g:neosnippet#expand_word_boundary = 1
+
+let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
+
+imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
+smap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
+xmap <silent> <C-k> <Plug>(neosnippet_expand_target)
+imap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
+smap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
+xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
+'''
+
+[[plugins]]
 repo = 'PProvost/vim-ps1'
 
 [[plugins]]
@@ -74,82 +93,15 @@ let g:vim_jsx_pretty_colorful_config = 1
 '''
 
 [[plugins]]
-repo = 'prabirshrestha/asyncomplete.vim'
-hook_add = '''
-" let g:asyncomplete_log_file = '/home/tsutsui/asyncomplete-log.log'
-" let g:asyncomplete_smart_completion = 1
-
-imap <C-Space> <Plug>(asyncomplete_force_refresh)
-'''
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-buffer.vim'
-depends = 'asyncomplete.vim'
-hook_add = '''
-autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
-      \   asyncomplete#sources#buffer#get_source_options({
-      \     'name': 'buffer',
-      \     'whitelist': [ '*' ],
-      \     'blacklist': [ 'go' ],
-      \     'completor': function('asyncomplete#sources#buffer#completor'),
-      \     'priority': 2,
-      \   })
-      \ )
-'''
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-file.vim'
-depends = 'asyncomplete.vim'
-hook_add = '''
-autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
-      \   asyncomplete#sources#buffer#get_source_options({
-      \     'name': 'file',
-      \     'whitelist': [ '*' ],
-      \     'completor': function('asyncomplete#sources#file#completor'),
-      \     'priority': 1,
-      \   })
-      \ )
-'''
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-neosnippet.vim'
-depends = [ 'asyncomplete.vim', 'neosnippet.vim', 'neosnippet-snippets' ]
-hook_add = '''
-autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
-      \   asyncomplete#sources#buffer#get_source_options({
-      \     'name': 'neosnippet',
-      \     'whitelist': [ '*' ],
-      \     'completor': function('asyncomplete#sources#neosnippet#completor'),
-      \     'priority': 3,
-      \   })
-      \ )
-'''
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-necovim.vim'
-depends = [ 'asyncomplete.vim', 'neco-vim' ]
-hook_add = '''
-autocmd MyAutocmd User asyncomplete_setup call asyncomplete#register_source(
-      \   asyncomplete#sources#buffer#get_source_options({
-      \     'name': 'necovim',
-      \     'whitelist': [ 'vim' ],
-      \     'completor': function('asyncomplete#sources#necovim#completor'),
-      \     'priority': 5,
-      \   })
-      \ )
-'''
-
-[[plugins]]
 repo = 'prabirshrestha/async.vim'
 
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 depends = 'async.vim'
-
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-lsp.vim'
-depends = [ 'vim-lsp', 'asyncomplete.vim' ]
 hook_add = '''
+let g:lsp_diagnostics_enabled = 0
+
+let s:lsp_filetypes = []
 if executable('pyls')
   autocmd MyAutocmd User lsp_setup call lsp#register_server({
         \   'name': 'pyls',
@@ -157,6 +109,7 @@ if executable('pyls')
         \   'whitelist': [ 'python' ],
         \   'priority': 5,
         \ })
+  call add(s:lsp_filetypes, 'python')
 endif
 
 if executable('bingo')
@@ -166,6 +119,7 @@ if executable('bingo')
         \   'whitelist': [ 'go' ],
         \   'priority': 5,
         \ })
+  call add(s:lsp_filetypes, 'go')
 endif
 
 " if executable('javascript-typescript-stdio')
@@ -176,14 +130,6 @@ endif
 "   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
 " endif
 
-" if executable('php-language-server.php')
-"   let s:php_language_server = exepath('php-language-server.php')
-"   autocmd MyAutocmd User lsp_setup call lsp#register_server({
-"       \   'name': 'php-language-server',
-"       \   'cmd': { server_info -> [ 'php', s:php_language_server ] },
-"       \   'whitelist': [ 'php' ],
-"       \ })
-" endif
 if executable('node') &&
       \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
   let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
@@ -194,5 +140,51 @@ if executable('node') &&
         \   'whitelist': [ 'php' ],
         \   'priority': 5,
         \ })
+  call add(s:lsp_filetypes, 'php')
+endif
+
+if len(s:lsp_filetypes) > 0
+  execute 'autocmd MyAutocmd Filetype' join(s:lsp_filetypes, ',')
+        \ 'call s:lsp_mappings()'
+  function! s:lsp_mappings() abort "{{{
+    nmap <buffer> <LocalLeader>r <Plug>(lsp-rename)
+    nmap <buffer> <LocalLeader>f <Plug>(lsp-document-format)
+  endfunction "}}}
 endif
 '''
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+
+[[plugins]]
+repo = 'ncm2/ncm2'
+depends = [ 'nvim-yarp' ]
+hook_add = '''
+let g:ncm2#auto_popup = 1
+autocmd MyAutocmd BufEnter *
+      \ silent if !dein#check_install('ncm2')
+      \|  call ncm2#enable_for_buffer()
+      \|endif
+
+inoremap <expr> <nowait> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+'''
+
+[[plugins]]
+repo = 'ncm2/ncm2-bufword'
+depends = [ 'ncm2' ]
+
+[[plugins]]
+repo = 'ncm2/ncm2-path'
+depends = [ 'ncm2' ]
+
+[[plugins]]
+repo = 'ncm2/ncm2-vim-lsp'
+depends = [ 'ncm2', 'vim-lsp' ]
+
+[[plugins]]
+repo = 'ncm2/ncm2-neosnippet'
+depends = [ 'ncm2', 'neosnippet.vim' ]
+
+[[plugins]]
+repo = 'ncm2/ncm2-vim'
+depends = [ 'ncm2', 'neco-vim' ]

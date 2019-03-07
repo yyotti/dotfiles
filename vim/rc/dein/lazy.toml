@@ -96,26 +96,6 @@ execute 'source' vimrc#join_path($VIMDIR, 'rc/plugins/gina.rc.vim')
 '''
 
 [[plugins]]
-repo = 'Shougo/neosnippet.vim'
-depends = [ 'neosnippet-snippets', 'context_filetype.vim' ]
-on_ft = 'snippet'
-hook_add = '''
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#enable_completed_snippet = 1
-let g:neosnippet#expand_word_boundary = 1
-
-let g:neosnippet#snippets_directory = vimrc#join_path($VIMDIR, 'snippets')
-'''
-hook_source = '''
-imap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
-smap <silent> <C-k> <Plug>(neosnippet_jump_or_expand)
-xmap <silent> <C-k> <Plug>(neosnippet_expand_target)
-imap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
-smap <silent> <C-l> <Plug>(neosnippet_expand_or_jump)
-xmap <silent> o <Plug>(neosnippet_register_oneshot_snippet)
-'''
-
-[[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
 nnoremap <silent> ;b :<C-u>Denite buffer file/old<CR>
@@ -397,7 +377,14 @@ nmap <silent> ]E <Plug>(ale_last)
 if !exists('g:ale_linters')
   let g:ale_linters = {}
 endif
-if executable('gometalinter')
+if executable('golangci-lint')
+  let g:ale_linters.go = [ 'golangci-lint' ]
+  let g:ale_go_golangci_lint_options = join([
+        \   '--tests',
+        \   '--enable-all',
+        \ ])
+        "\   '--fast',
+elseif executable('gometalinter')
   let g:ale_linters.go = [ 'gometalinter' ]
   let g:ale_go_gometalinter_options = join([
         \   '--tests',
@@ -478,7 +465,7 @@ xnoremap <silent> D :Linediff<CR>
 
 [[plugins]]
 repo = 'fatih/vim-go'
-if = 'executable("go") && 0'
+if = 'executable("go")'
 on_ft = [ 'go', 'gohtmltmpl' ]
 hook_source = '''
 let g:go_fmt_fail_silently = 1

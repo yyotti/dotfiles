@@ -120,8 +120,39 @@ if [[ -d ${HOMEBREW_PREFIX}/opt/php@5.6 ]]; then
 fi
 
 if command -v go &>/dev/null; then
-  brew tap yyotti/homebrew-gometalinter-tap
-  brew install gometalinter
+  go get github.com/golangci/golangci-lint/cmd/golangci-lint
+  # go get github.com/kisielk/errcheck  # errcheck
+  # go get honnef.co/go/tools/cmd/...  # (errcheck-ng)
+  #                                    # gosimple
+  #                                    # (keyify)
+  #                                    # (megacheck)
+  #                                    # (rdeps)
+  #                                    # staticcheck
+  #                                    # (structlayout-optimize)
+  #                                    # (structlayout-pretty)
+  #                                    # structlayout
+  #                                    # unused
+  # go get gitlab.com/opennota/check/cmd/structcheck  # structcheck
+  # go get gitlab.com/opennota/check/cmd/varcheck  # varcheck
+  # go get github.com/gordonklaus/ineffassign  # ineffassign
+  # go get github.com/remyoudompheng/go-misc/deadcode  # deadcode
+  # go get github.com/golang/lint/golint  # golint
+  # # TODO stylecheck ???
+  # go get github.com/securego/gosec/cmd/gosec/...  # gosec
+  # # interfacer: repository has been archived
+  # go get github.com/mdempsky/unconvert  # unconvert
+  # go get github.com/mibk/dupl  # dupl
+  # go get github.com/jgautheron/goconst/cmd/goconst  # goconst
+  # go get github.com/fzipp/gocyclo  # gocyclo
+  # go get golang.org/x/tools/cmd/goimports  # goimports
+  # go get github.com/mdempsky/maligned  # maligned
+  # go get github.com/OpenPeeDeeP/depguard/cmd/depguard  # depguard
+  # # misspell: ignore
+  # # lll: ignore? TODO
+  # go get mvdan.cc/unparam  # unparam
+  # go get github.com/alexkohler/nakedret  # nakedret
+  # go get github.com/alexkohler/prealloc  # prealloc
+  # go get github.com/kyoh86/scopelint  # scopelint
 fi
 
 echo # }}}
