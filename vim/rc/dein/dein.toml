@@ -93,33 +93,24 @@ let g:vim_jsx_pretty_colorful_config = 1
 '''
 
 [[plugins]]
-repo = 'prabirshrestha/async.vim'
-
-[[plugins]]
-repo = 'prabirshrestha/vim-lsp'
-depends = 'async.vim'
+repo = 'autozimu/LanguageClient-neovim'
+rev = 'next'
+build = 'bash install.sh'
 hook_add = '''
-let g:lsp_diagnostics_enabled = 0
+let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
 
-let s:lsp_filetypes = []
 if executable('pyls')
-  autocmd MyAutocmd User lsp_setup call lsp#register_server({
-        \   'name': 'pyls',
-        \   'cmd': { server_info -> [ 'pyls' ] },
-        \   'whitelist': [ 'python' ],
-        \   'priority': 5,
-        \ })
-  call add(s:lsp_filetypes, 'python')
+  let g:LanguageClient_serverCommands.python = [ 'pyls' ]
 endif
 
 if executable('bingo')
-  autocmd MyAutocmd User lsp_setup call lsp#register_server({
-        \   'name': 'bingo',
-        \   'cmd': { server_info -> [ 'bingo', '-mode', 'stdio' ] },
-        \   'whitelist': [ 'go' ],
-        \   'priority': 5,
-        \ })
-  call add(s:lsp_filetypes, 'go')
+  let g:LanguageClient_serverCommands.go = [ 'bingo', '-mode', 'stdio' ]
+endif
+
+if executable('node') &&
+      \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
+  let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
+  let g:LanguageClient_serverCommands.php = [ 'node', s:php_language_server, '--stdio' ]
 endif
 
 " if executable('javascript-typescript-stdio')
@@ -129,28 +120,6 @@ endif
 "   let g:LanguageClient_rootMarkers.javascript = [ '.git', 'package.json' ]
 "   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
 " endif
-
-if executable('node') &&
-      \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
-  let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
-  autocmd MyAutocmd User lsp_setup call lsp#register_server({
-        \   'name': 'intelephense',
-        \   'cmd': { server_info -> [ 'node', s:php_language_server, '--stdio' ] },
-        \   'initialization_options': { 'storagePath': '/tmp/intelephense' },
-        \   'whitelist': [ 'php' ],
-        \   'priority': 5,
-        \ })
-  call add(s:lsp_filetypes, 'php')
-endif
-
-if len(s:lsp_filetypes) > 0
-  execute 'autocmd MyAutocmd Filetype' join(s:lsp_filetypes, ',')
-        \ 'call s:lsp_mappings()'
-  function! s:lsp_mappings() abort "{{{
-    nmap <buffer> <LocalLeader>r <Plug>(lsp-rename)
-    nmap <buffer> <LocalLeader>f <Plug>(lsp-document-format)
-  endfunction "}}}
-endif
 '''
 
 [[plugins]]
@@ -167,6 +136,11 @@ autocmd MyAutocmd BufEnter *
       \|endif
 
 inoremap <expr> <nowait> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+
+if dein#tap('eskk.vim')
+  autocmd MyAutocmd User eskk-enable-post call ncm2#disable_for_buffer()
+  autocmd MyAutocmd User eskk-disable-post call ncm2#enable_for_buffer()
+endif
 '''
 
 [[plugins]]
@@ -176,10 +150,6 @@ depends = [ 'ncm2' ]
 [[plugins]]
 repo = 'ncm2/ncm2-path'
 depends = [ 'ncm2' ]
-
-[[plugins]]
-repo = 'ncm2/ncm2-vim-lsp'
-depends = [ 'ncm2', 'vim-lsp' ]
 
 [[plugins]]
 repo = 'ncm2/ncm2-neosnippet'

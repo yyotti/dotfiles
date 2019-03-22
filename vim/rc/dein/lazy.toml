@@ -464,7 +464,7 @@ xnoremap <silent> D :Linediff<CR>
 '''
 
 [[plugins]]
-repo = 'fatih/vim-go'
+repo = 'fatih/vim-go' # GoFmtやGoImportを使いたいだけ
 if = 'executable("go")'
 on_ft = [ 'go', 'gohtmltmpl' ]
 hook_source = '''
@@ -473,6 +473,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
+let g:go_def_mapping_enabled = 0
 '''
 hook_post_update = '''
 call dein#source('vim-go')
