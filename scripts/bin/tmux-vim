@@ -1,0 +1,5 @@
+#!/bin/bash
+
+_file=$(mktemp).txt
+tmux capture-pane -pS -32768 >"${_file}"
+tmux new-window -n:tmux-capture "vim ${_file}"
