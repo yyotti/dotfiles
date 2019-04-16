@@ -71,8 +71,20 @@ if dein#tap('LanguageClient-neovim')
     if has_key(g:LanguageClient_serverCommands, &filetype)
       nnoremap <buffer> <silent> gd
             \ :<C-u>call LanguageClient#textDocument_definition()<CR>
+      nnoremap <buffer> <silent> gD
+            \ :<C-u>call LanguageClient#textDocument_typeDefinition()<CR>
+      nnoremap <buffer> <silent> gi
+            \ :<C-u>call LanguageClient#textDocument_implementation()<CR>
+      nnoremap <buffer> <silent> gr
+            \ :<C-u>call LanguageClient#textDocument_references()<CR>
       nnoremap <buffer> <silent> <LocalLeader>r
             \ :<C-u>call LanguageClient#textDocument_rename()<CR>
+      nnoremap <buffer> <silent> <LocalLeader>f
+            \ :<C-u>call LanguageClient#textDocument_formatting_sync()<CR>
+      nnoremap <buffer> <silent> <LocalLeader>h
+            \ :<C-u>call LanguageClient#textDocument_hover()<CR>
+      nnoremap <buffer> <silent> <LocalLeader>c
+            \ :<C-u>call LanguageClient_contextMenu()<CR>
     endif
   endfunction "}}}
 endif
