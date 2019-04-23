@@ -3,14 +3,12 @@
 "
 
 if exists('$HOMEBREW_PREFIX')
-  let g:python_host_prog = vimrc#join_path($HOMEBREW_PREFIX, 'bin/python2')
+  let g:python_host_prog =
+        \ fnamemodify(expand('$HOMEBREW_PREFIX/bin/python2'), ':p')
+  let g:python_host_prog =
+        \ fnamemodify(expand('$HOMEBREW_PREFIX/bin/python3'), ':p')
 elseif executable('/usr/bin/python')
   let g:python_host_prog = '/usr/bin/python'
-endif
-
-if exists('$HOMEBREW_PREFIX')
-  let g:python_host_prog = vimrc#join_path($HOMEBREW_PREFIX, 'bin/python3')
-elseif executable('/usr/bin/python3')
   let g:python_host_prog = '/usr/bin/python3'
 endif
 

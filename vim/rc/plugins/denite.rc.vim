@@ -246,20 +246,28 @@ function! s:simple_items(...) abort "{{{
 endfunction "}}}
 
 function! s:vimrc_items() abort "{{{
-  let l:path = resolve(expand($VIMDIR))
-  if !isdirectory(l:path)
+  let $_VIMDIR = '/home/tsutsui/.config/nvim'
+  if !isdirectory($_VIMDIR)
     return []
   endif
 
-  let l:command =
-        \ 'git -C ' . shellescape(l:path) . ' ls-files -co --exclude-standard'
+  let l:command = join([
+        \   'git',
+        \   '-C ',
+        \   shellescape($_VIMDIR),
+        \   'ls-files',
+        \   '-co',
+        \   '--exclude-standard'
+        \ ])
 
   return map(
         \   sort(systemlist(l:command)),
-        \   '{' .
-        \     "'title': v:val," .
-        \     "'path': vimrc#join_path(path, v:val)," .
-        \   '}'
+        \   {
+        \     _, v -> {
+        \       'title': v,
+        \       'path': fnamemodify(expand('$_VIMDIR/' . v), ':p'),
+        \     }
+        \   }
         \ )
 endfunction "}}}
 
@@ -277,7 +285,7 @@ function! s:zsh_items() abort "{{{
         \   sort(systemlist(l:command)),
         \   '{' .
         \     "'title': v:val," .
-        \     "'path': vimrc#join_path(path, v:val)," .
+        \     "'path': fnamemodify(expand(path . '/' . v:val), ':p')," .
         \   '}'
         \ )
 endfunction "}}}
@@ -295,7 +303,7 @@ function! s:config_items(path) abort "{{{
         \   sort(systemlist(l:command)),
         \   '{' .
         \     "'title': v:val," .
-        \     "'path': vimrc#join_path(path, v:val)," .
+        \     "'path': fnamemodify(expand(path . '/' . v:val), ':p')," .
         \   '}'
         \ )
 endfunction "}}}
@@ -313,7 +321,7 @@ function! s:script_items() abort "{{{
         \   sort(systemlist(l:command)),
         \   '{' .
         \     "'title': v:val," .
-        \     "'path': vimrc#join_path(path, v:val)," .
+        \     "'path': fnamemodify(expand(path . '/' . v:val), ':p')," .
         \   '}'
         \ )
 endfunction "}}}

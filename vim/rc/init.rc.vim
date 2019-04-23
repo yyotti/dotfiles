@@ -25,26 +25,14 @@ let g:maplocalleader = ','
 
 " Disable mappings for some plugins
 nnoremap ; <Nop>
-nnoremap "\<Space>" <Nop>
+nnoremap <Space> <Nop>
 nnoremap , <Nop>
 
-if !isdirectory($_CACHE)
-  call mkdir($_CACHE, 'p')
-endif
-
-" Load dein
-if &runtimepath !~# '/dein.vim'
-  let s:dein_dir = vimrc#join_path(
-        \   $_CACHE,
-        \   'dein/repos/github.com/Shougo/dein.vim'
-        \ )
-  if !isdirectory(s:dein_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
-  endif
-
-  execute 'set runtimepath^=' . substitute(
-        \   fnamemodify(s:dein_dir, ':p') , '/$', '', ''
-        \ )
+" Download vim-plug
+let s:plug_vim = fnamemodify(expand('$_VIMDIR/autoload/plug.vim'), ':p')
+if empty(glob(s:plug_vim))
+  execute 'silent !curl -fLo' s:plug_vim '--create-dirs'
+        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 " Disable packpath

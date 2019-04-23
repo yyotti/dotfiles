@@ -93,11 +93,6 @@ autocmd MyAutocmd InsertLeave *
       \ if &paste | setlocal nopaste | echo 'nopaste' | endif |
       \ if &l:diff | diffupdate | endif
 
-if !dein#tap('editorconfig-vim')
-  " Remove last whitespaces
-  autocmd MyAutocmd BufWritePre * call vimrc#del_last_whitespaces()
-endif
-
 " Use autofmt.
 set formatexpr=autofmt#japanese#formatexpr()
 

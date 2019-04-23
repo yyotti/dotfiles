@@ -1,18 +1,3 @@
-function! vimrc#join_path(base, ...) abort "{{{
-  let l:paths = filter(
-        \   map(
-        \     map(
-        \       copy(a:000),
-        \       { _, part -> type(part) !=# v:t_string ? string(part) : part }
-        \     ),
-        \     { _, val ->
-        \       join(filter(split(val, '/'), { _, val -> !empty(val) }), '/') }
-        \   ),
-        \   { _, val -> !empty(val) }
-        \ )
-  return empty(l:paths) ? a:base : join([ a:base ] + l:paths, '/')
-endfunction "}}}
-
 function! vimrc#toggle_option(option_name) abort "{{{
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
@@ -55,38 +40,12 @@ function! vimrc#automark() abort "{{{
   echo printf('marked [%s]', l:char)
 endfunction "}}}
 
-function! vimrc#mkdir_as_necessary(dir) abort "{{{
-  if isdirectory(a:dir) || &buftype !=# ''
-    return
-  endif
-
-  let l:msg = printf('"%s" does not exists. Creaet ?', a:dir)
-  if confirm(l:msg, "&Yes\n&No", 2) ==# 1
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-  endif
-endfunction "}}}
-
-function! vimrc#del_last_whitespaces() abort "{{{
-  if !get(b:, 'del_last_whitespaces', 1)
-    return
-  endif
-
-  if &binary || &diff || !&l:modifiable
-    return
-  endif
-
-  let l:cursor = getpos('.')
-
-  global/^/ s/\s\+$//e
-
-  call setpos('.', l:cursor)
-endfunction "}}}
-
 function! vimrc#trim(str) abort "{{{
   return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')
 endfunction "}}}
 
 function! vimrc#cd_gitroot() abort "{{{
+  " TODO Improve
   let l:dir = getcwd()
 
   let l:buf_path = expand('%:p')
