@@ -25,6 +25,7 @@ symlink_targets=(
   config/tslint
   config/zsh
   config/vint
+  config/lemonade.toml
   vim
   zshenv
   editorconfig
@@ -240,6 +241,10 @@ function install() # {{{
 {
   for _target in "${symlink_targets[@]}"; do
     local _from="${dotfiles_dir}/${_target}"
+    if [[ ! -e ${_from} ]]; then
+      __warn "${_from} is not exists. skipped."
+      continue
+    fi
 
     local _to="${_target}"
     if [[ ! ${_to} =~ ^\. ]]; then

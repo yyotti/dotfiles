@@ -5,3 +5,4 @@ wiki/
 .zcompdump
 config/powerline/mail_config.json
 config/zsh/.zshrc
+config/lemonade.toml
