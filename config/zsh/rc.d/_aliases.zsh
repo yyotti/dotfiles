@@ -29,3 +29,9 @@ fi
 if (( ${+commands[rg]} )); then
   alias rg='rg --no-heading --column'
 fi
+
+if (( ${+commands[docker.exe]} )); then
+  alias d='docker.exe'
+elif (( ${+commands[docker]} )); then
+  alias d='docker'
+fi
