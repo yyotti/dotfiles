@@ -10,7 +10,7 @@ alias mv='mv -i'
 alias sudo='sudo '
 alias lspath='echo "${PATH//:/\n}"'
 
-alias ssh='(){tmux select-pane -P "bg=colour235"; command ssh "$@"; tmux select-pane -P "fg=default,bg=default"}'
+# alias ssh='(){tmux select-pane -P "bg=colour235"; command ssh "$@"; tmux select-pane -P "fg=default,bg=default"}'
 
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
@@ -34,4 +34,10 @@ if (( ${+commands[docker.exe]} )); then
   alias d='docker.exe'
 elif (( ${+commands[docker]} )); then
   alias d='docker'
+fi
+
+if (( ${+commands[docker-compose.exe]} )); then
+  alias dc='docker-compose.exe'
+elif (( ${+commands[docker-compose]} )); then
+  alias dc='docker-compose'
 fi
