@@ -356,26 +356,21 @@ Plug 'Shougo/denite.nvim', {
       \   'on': [ 'Denite' ],
       \ }
 function! s:denite_nvim_init() abort "{{{
-  nnoremap <silent> ;b :<C-u>Denite buffer file/old<CR>
-  nnoremap <silent> ;f :<C-u>Denite `finddir('.git', ';') != '' ?
+  nnoremap <silent> ;b :<C-u>Denite -start-filter buffer file_mru<CR>
+  nnoremap <silent> ;f :<C-u>Denite -start-filter `finddir('.git', ';') != '' ?
        \  'file/rec/git' :
-       \  'file/rec'` file file:new<CR>
-  nnoremap <silent> ;l :<C-u>Denite -auto-highlight line<CR>
+       \  'file/rec'` file<CR>
+  nnoremap <silent> ;l :<C-u>Denite -start-filter line<CR>
   nnoremap <silent> ;g
-       \ :<C-u>Denite grep -mode=normal -no-empty -buffer-name=grep<CR>
+       \ :<C-u>Denite grep -no-empty -buffer-name=grep<CR>
   nnoremap <silent> ;r
-       \ :<C-u>Denite -resume -mode=normal -no-empty -buffer-name=grep<CR>
+       \ :<C-u>Denite -resume -no-empty -buffer-name=grep<CR>
   nnoremap <silent> ;e :<C-u>Denite menu:_<CR>
-  nnoremap <silent> ;c :<C-u>Denite command_history command<CR>
-  nnoremap <silent> ;y
-       \ :<C-u>Denite register neoyank<CR>
-  xnoremap <silent> ;y
-       \ :<C-u>Denite -default-action=replace register neoyank<CR>
 
   nnoremap <silent> ,n
-       \ :<C-u>Denite -resume -select=+1 -immediately -buffer-name=grep<CR>
+       \ :<C-u>Denite -resume -cursor-pos=+1 -immediately -buffer-name=grep<CR>
   nnoremap <silent> ,p
-       \ :<C-u>Denite -resume -select=-1 -immediately -buffer-name=grep<CR>
+       \ :<C-u>Denite -resume -cursor-pos=-1 -immediately -buffer-name=grep<CR>
 endfunction "}}}
 call s:denite_nvim_init()
 autocmd MyAutocmd User denite.nvim

@@ -6,55 +6,34 @@
 " mappings:
 "
 
-" Insert mode mappings
-call denite#custom#map('insert',
-      \ '<C-n>', '<denite:move_to_next_line>')
-call denite#custom#map('insert',
-      \ '<C-p>', '<denite:move_to_previous_line>')
-call denite#custom#map('insert',
-      \ '<C-g>', '<denite:quit>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-t>', '<denite:paste_from_register>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-d>', '<denite:scroll_window_downwards>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-u>', '<denite:scroll_window_upwards>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-f>', '<denite:scroll_page_forwards>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-b>', '<denite:scroll_page_backwards>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-a>', '<denite:move_caret_to_head>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-k>', '<denite:delete_text_after_caret>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-v>', '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-x>', '<denite:do_action:split>', 'noremap')
-call denite#custom#map('insert',
-      \ '<C-r>', '<denite:toggle_matchers:matcher/substring>', 'noremap')
+autocmd MyAutocmd FileType denite call s:denite_settings()
+function! s:denite_settings() abort "{{{
+  nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> q denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <C-g> denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr><nowait> <Space>
+        \ denite#do_map('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> <Tab> denite#do_map('choose_action')
+  nnoremap <silent><buffer><expr> <C-x> denite#do_map('do_action', 'split')
+  nnoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'vsplit')
+  nnoremap <silent><buffer><expr> * denite#do_map('toggle_select_all')
+  nnoremap <silent><buffer><expr> <C-r> denite#do_map('redraw')
+endfunction "}}}
 
-" Normal mode mappings
-call denite#custom#map('normal',
-      \ 'a', '<denite:enter_mode:insert>', 'noremap')
-call denite#custom#map('normal',
-      \ '<C-g>', '<denite:quit>', 'noremap')
-call denite#custom#map('normal',
-      \ '<C-v>', '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('normal',
-      \ '<C-s>', '<denite:do_action:split>', 'noremap')
+autocmd MyAutocmd FileType denite-filter call s:denite_filter_settings()
+function! s:denite_filter_settings() abort "{{{
+  imap <silent><buffer><nowait> <C-g> <Plug>(denite_filter_quit)
+endfunction "}}}
 
 "-----------------------------------------------------------------------------
 " sources:
 "
-call denite#custom#source('file/old', 'matchers',
+call denite#custom#source('file_mru', 'matchers',
       \ [ 'matcher/fuzzy', 'matcher/project_files' ])
 
-if has('nvim')
-  " call denite#custom#source('file/rec,grep', 'matchers', [ 'matcher/cpsm' ])
-endif
-
-call denite#custom#source('file/old', 'converters',
+call denite#custom#source('file_mru', 'converters',
       \ [ 'converter/relative_word' ])
 
 
@@ -65,16 +44,15 @@ call denite#custom#var('file/rec/git', 'command',
 "-----------------------------------------------------------------------------
 " options:
 "
-call denite#custom#option('default,grep', {
+call denite#custom#option('_', {
       \   'prompt': '>',
       \   'highlight_matched_char': 'WarningMsg',
-      \   'highlight_mode_normal': 'CursorLine',
       \ })
 
 "-----------------------------------------------------------------------------
-" grep:
+" grep/filerec:
 "
-" priorities: rg > ag > pt > git > grep {{{
+" priorities: rg > git > default {{{
 if executable('rg')
   call denite#custom#var('grep', 'command', [ 'rg' ])
   call denite#custom#var('grep', 'recursive_opts', [])
@@ -99,63 +77,6 @@ if executable('rg')
         \     '--files',
         \     '--glob',
         \     '!.git',
-        \   ]
-        \ )
-elseif executable('ag')
-  call denite#custom#var('grep', 'command', [ 'ag' ])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#var('grep', 'separator', [])
-  call denite#custom#var(
-        \   'grep',
-        \   'default_opts',
-        \   [
-        \     '--ignore', '.hg',
-        \     '--ignore', '.svn',
-        \     '--ignore', '.git',
-        \     '--ignore', '.bzr',
-        \   ]
-        \ )
-
-  call denite#custom#var(
-        \   'file/rec',
-        \   'command',
-        \   [
-        \     'ag',
-        \     '--follow',
-        \     '--nocolor',
-        \     '--nogroup',
-        \     '-g',
-        \     '',
-        \   ]
-        \ )
-elseif executable('pt')
-  call denite#custom#var('grep', 'command', [ 'pt' ])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#var('grep', 'separator', [])
-  call denite#custom#var(
-        \   'grep',
-        \   'default_opts',
-        \   [
-        \     '--nogroup',
-        \     '--nocolor',
-        \     '--smart-case',
-        \     '--hidden',
-        \   ]
-        \ )
-
-  call denite#custom#var(
-        \   'file/rec',
-        \   'command',
-        \   [
-        \     'pt',
-        \     '--follow',
-        \     '--nocolor',
-        \     '--nogroup',
-        \     '--hidden',
-        \     '--ignore=.git',
-        \     '-g=',
         \   ]
         \ )
 elseif executable('git')
