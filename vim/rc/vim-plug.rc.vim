@@ -16,8 +16,6 @@ Plug 'Shougo/vimproc.vim', {
 
 Plug 'w0ng/vim-hybrid'
 
-Plug 'w0ng/vim-hybrid'
-
 Plug 'hail2u/vim-css3-syntax'
 
 Plug 'othree/html5.vim'
@@ -269,6 +267,7 @@ function! s:ale_init() abort "{{{
 
   if executable('golangci-lint')
     let g:ale_linters.go = [ 'golangci-lint' ]
+    let g:ale_go_golangci_lint_package = v:true
     let g:ale_go_golangci_lint_options = join([
           \   '--tests',
           \   '--enable-all',
@@ -288,7 +287,7 @@ function! s:ale_init() abort "{{{
     "\   '--enable=misspell',
     "\   '--enable=unconvert',
   else
-    let g:ale_linters.go = [ 'go build', 'gofmt', 'golint', 'go vet' ]
+    let g:ale_linters.go = [ 'gobuild', 'gofmt', 'golint', 'govet' ]
   endif
   let g:ale_fixers.go = [ 'goimports' ]
 
@@ -377,6 +376,8 @@ autocmd MyAutocmd User denite.nvim
       \ execute 'source'
       \  fnamemodify(expand('$_VIMDIR/rc/plugins/denite.rc.vim'), ':p')
 
+Plug 'Shougo/neomru.vim'
+
 Plug 'Shougo/neco-vim', {
       \   'for': [ 'vim' ],
       \ }
@@ -415,7 +416,6 @@ endif
 Plug 'yyotti/eskk.vim', {
       \   'branch': 'crvskkserv-support',
       \   'depends': [ 'vimproc.vim' ],
-      \   'on': [ '<Plug>(eskk' ],
       \ }
 function! s:eskk_vim_init() abort "{{{
   imap <C-j> <Plug>(eskk:toggle)
@@ -436,7 +436,7 @@ function! s:eskk_vim_init() abort "{{{
   if filereadable('/usr/share/skk/SKK-JISYO.L')
     let l:large_dic = '/usr/share/skk/SKK-JISYO.L'
   elseif filereadable('/usr/local/share/skk/SKK-JISYO.L')
-    let l:large_dic = '/usr/share/skk/SKK-JISYO.L'
+    let l:large_dic = '/usr/local/share/skk/SKK-JISYO.L'
   endif
 
   if !empty(l:large_dic)
@@ -448,16 +448,18 @@ function! s:eskk_vim_init() abort "{{{
 
   endif
 
+  let l:host = filereadable('/.dockerenv') ?
+       \ 'host.docker.internal' : 'localhost'
   " google-ime-skk
   if executable('google-ime-skk')
     let g:eskk#server = {
-          \   'host': 'localhost',
+          \   'host': l:host,
           \   'port': 55100,
           \   'timeout': 1000,
           \ }
   else
     let g:eskk#server = {
-          \   'host': 'localhost',
+          \   'host': l:host,
           \   'timeout': 1000,
           \   'last_cr': 0,
           \ }
