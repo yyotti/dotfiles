@@ -153,7 +153,7 @@ inoremap <C-d> <DEL>
 
 " Input same chars
 inoremap <C-e> <C-y>
-inoremap <C-q> <C-e>
+inoremap <C-z> <C-e>
 
 " Toggle paste
 inoremap <C-\> <C-o>:call vimrc#toggle_option('paste')<CR>
