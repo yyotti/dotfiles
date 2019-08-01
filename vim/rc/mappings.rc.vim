@@ -7,6 +7,7 @@ cmap <C-Space> <C-@>
 " Normal/Visual mode mappings: "{{{
 nmap <Space> [Space]
 nmap S [Alt]
+xmap S [Alt]
 
 nnoremap > >>
 nnoremap < <<
@@ -112,10 +113,13 @@ nnoremap <silent> gj :<C-u>call OpenGF('j')<CR>
 nnoremap <silent> gk :<C-u>call OpenGF('k')<CR>
 
 nnoremap [Alt] <Nop>
+xnoremap [Alt] <Nop>
 
 " Indent paste
 nnoremap <silent> [Alt]p pm``[=`]``^
 nnoremap <silent> [Alt]P Pm``[=`]``^
+xnoremap <silent> [Alt]p pm``[=`]``^
+xnoremap <silent> [Alt]P Pm``[=`]``^
 
 " Visual yank
 xnoremap <silent> y y`]0
@@ -152,8 +156,8 @@ inoremap <End> <C-g>U<End>
 inoremap <C-d> <DEL>
 
 " Input same chars
-inoremap <C-e> <C-y>
-inoremap <C-z> <C-e>
+" inoremap <C-e> <C-y>
+" inoremap <C-z> <C-e>
 
 " Toggle paste
 inoremap <C-\> <C-o>:call vimrc#toggle_option('paste')<CR>

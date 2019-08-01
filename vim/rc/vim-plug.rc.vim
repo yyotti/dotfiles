@@ -347,34 +347,8 @@ function! s:gina_vim_init() abort "{{{
 endfunction "}}}
 call s:gina_vim_init()
 autocmd MyAutocmd User gina.vim
-     \ execute 'source'
-     \  fnamemodify(expand('$_VIMDIR/rc/plugins/gina.rc.vim'), ':p')
-
-Plug 'Shougo/denite.nvim', {
-      \   'do': ':UpdateRemotePlugins',
-      \   'on': [ 'Denite' ],
-      \ }
-function! s:denite_nvim_init() abort "{{{
-  nnoremap <silent> ;b :<C-u>Denite -start-filter buffer file_mru<CR>
-  nnoremap <silent> ;f :<C-u>Denite -start-filter `finddir('.git', ';') != '' ?
-       \  'file/rec/git' :
-       \  'file/rec'` file<CR>
-  nnoremap <silent> ;l :<C-u>Denite -start-filter line<CR>
-  nnoremap <silent> ;g
-       \ :<C-u>Denite grep -no-empty -buffer-name=grep<CR>
-  nnoremap <silent> ;r
-       \ :<C-u>Denite -resume -no-empty -buffer-name=grep<CR>
-  nnoremap <silent> ;e :<C-u>Denite menu:_<CR>
-
-  nnoremap <silent> ,n
-       \ :<C-u>Denite -resume -cursor-pos=+1 -immediately -buffer-name=grep<CR>
-  nnoremap <silent> ,p
-       \ :<C-u>Denite -resume -cursor-pos=-1 -immediately -buffer-name=grep<CR>
-endfunction "}}}
-call s:denite_nvim_init()
-autocmd MyAutocmd User denite.nvim
       \ execute 'source'
-      \  fnamemodify(expand('$_VIMDIR/rc/plugins/denite.rc.vim'), ':p')
+      \  fnamemodify(expand('$_VIMDIR/rc/plugins/gina.rc.vim'), ':p')
 
 Plug 'Shougo/neomru.vim'
 
@@ -671,15 +645,6 @@ if executable('go') && 0
   call s:vim_go_init()
 endif
 
-Plug 'yyotti/denite-marks', {
-      \   'depends': [ 'denite.nvim' ],
-      \   'on': [ 'Denite' ],
-      \ }
-function! s:denite_marks_init() abort "{{{
-  nnoremap <silent> ;m :<C-u>Denite marks<CR>
-endfunction "}}}
-call s:denite_marks_init()
-
 Plug 'Shougo/defx.nvim', {
       \   'do': ':UpdateRemotePlugins',
       \   'on': [ 'Defx' ],
@@ -690,6 +655,13 @@ function! s:defx_nvim_init() abort "{{{
         \   -search=<C-r>=expand('%:p')<CR><CR>
 endfunction "}}}
 call s:defx_nvim_init()
+
+Plug '/home/linuxbrew/.linuxbrew/opt/fzf'
+Plug 'junegunn/fzf.vim'
+function! s:fzf_init() abort "{{{
+  execute 'source' fnamemodify(expand('$_VIMDIR/rc/plugins/fzf.rc.vim'), ':p')
+endfunction "}}}
+call s:fzf_init()
 
 " ================ Local plugins ============================
 
