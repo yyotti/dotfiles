@@ -34,10 +34,7 @@ function! s:dotfiles_items() abort "{{{
         \   '--exclude-standard'
         \ ])
 
-  return map(
-        \   sort(systemlist(l:command)),
-        \   {_, v -> '$DOTFILES/' . v}
-        \ )
+  return map(sort(systemlist(l:command)), {_, v -> '$DOTFILES/' . v})
 endfunction "}}}
 
 function! FzfMenu() abort "{{{

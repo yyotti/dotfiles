@@ -36,17 +36,6 @@ autocmd MyAutocmd BufWritePost * nested
       \   filetype detect |
       \ endif
 
-" " Auto reload *.vim files
-" autocmd MyAutocmd BufWritePost .vimrc,vimrc,*.rc.vim,vimrc.local nested
-"       \ source $MYVIMRC | redraw
-
-" Auto reload VimScript
-" autocmd MyAutocmd BufWritePost,FileWritePost *.vim nested
-"       \ if &l:autoread > 0 |
-"       \   source <afile> |
-"       \   echo 'source ' . bufname('%') |
-"       \ endif
-
 " Highlight whitespaces (EOL)
 highlight default link WhitespaceEOL Error
 match WhitespaceEOL /\s\+$/
