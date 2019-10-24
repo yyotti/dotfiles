@@ -12,6 +12,10 @@ alias lspath='echo "${PATH//:/\n}"'
 
 # alias ssh='(){tmux select-pane -P "bg=colour235"; command ssh "$@"; tmux select-pane -P "fg=default,bg=default"}'
 
+if (( ${+commands[git]} )); then
+  alias g='git'
+fi
+
 if (( ${+commands[tig]} )); then
   alias tiga='tig --all'
   alias tigr='tig refs'

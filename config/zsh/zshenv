@@ -20,10 +20,12 @@ if [[ ${HOMEBREW_PREFIX} != '' ]]; then
   export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
   export MANPATH="${HOMEBREW_PREFIX}/share/man:${MANPATH}"
   export INFOPATH="${HOMEBREW_PREFIX}/share/info:${INFOPATH}"
+  export LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:${HOMEBREW_PREFIX}/lib:${LD_LIBRARY_PATH}"
 
   path=(
   ${HOMEBREW_PREFIX}/bin(N-/)
   ${HOMEBREW_PREFIX}/sbin(N-/)
+  ${HOME}/.cargo/bin(N-/)
   ${path}
   )
 fi

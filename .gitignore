@@ -6,3 +6,4 @@ wiki/
 config/powerline/mail_config.json
 config/zsh/.zshrc
 config/lemonade.toml
+plug.vim.old

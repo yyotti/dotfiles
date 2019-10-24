@@ -110,6 +110,11 @@ function! s:language_client_neovim_init() abort "{{{
     let g:LanguageClient_serverCommands.php = [ 'node', s:php_language_server, '--stdio' ]
   endif
 
+  if executable('rls')
+    " let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'stable', 'rls' ]
+    let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'beta', 'rls' ]
+  endif
+
   " if executable('javascript-typescript-stdio')
   "   let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
   "   let g:LanguageClient_serverCommands.typescript = [ 'javascript-typescript-stdio' ]
@@ -135,6 +140,8 @@ function! s:language_client_neovim_init() abort "{{{
             \ :<C-u>call LanguageClient#textDocument_formatting_sync()<CR>
       nnoremap <buffer> <silent> <LocalLeader>h
             \ :<C-u>call LanguageClient#textDocument_hover()<CR>
+      nnoremap <buffer> <silent> <LocalLeader>H
+            \ :<C-u>call LanguageClient#textDocument_documentHighlight()<CR>
       nnoremap <buffer> <silent> <LocalLeader>c
             \ :<C-u>call LanguageClient_contextMenu()<CR>
     endif
@@ -179,7 +186,7 @@ Plug 'ncm2/ncm2-vim', {
       \   'depends': [ 'ncm2', 'neco-vim' ],
       \ }
 
-Plug 'itchyny/vim-parenmatch'
+" Plug 'itchyny/vim-parenmatch'
 
 Plug 'LeafCage/foldCC.vim'
 
@@ -489,28 +496,32 @@ autocmd MyAutocmd User vim-gitgutter call <SID>vim_gitgutter_loaded()
 function! s:vim_gitgutter_loaded() abort "{{{
   autocmd MyAutocmd BufEnter * call <SID>gitgutter_mapping()
   function! s:gitgutter_mapping() abort "{{{
-    if !hasmapto('<Plug>GitGutterPrevHunk') && maparg('[c', 'n') ==# ''
-      nmap <buffer> [c <Plug>GitGutterPrevHunk
+    if !hasmapto('<Plug>(GitGutterPrevHunk)') && maparg('[c', 'n') ==# ''
+      nmap <buffer> [c <Plug>(GitGutterPrevHunk)
     endif
-    if !hasmapto('<Plug>GitGutterNextHunk') && maparg(']c', 'n') ==# ''
-      nmap <buffer> ]c <Plug>GitGutterNextHunk
+    if !hasmapto('<Plug>(GitGutterNextHunk)') && maparg(']c', 'n') ==# ''
+      nmap <buffer> ]c <Plug>(GitGutterNextHunk)
+    endif
+    if !hasmapto('<Plug>(GitGutterPreviewHunk)')
+          \ && maparg('<Leader>p', 'n') ==# ''
+      nmap <buffer> <Leader>gp <Plug>(GitGutterPreviewHunk)
     endif
 
-    if !hasmapto('<Plug>GitGutterTextObjectInnerPending')
+    if !hasmapto('<Plug>(GitGutterTextObjectInnerPending)')
           \ && maparg('ic', 'o') ==# ''
-      omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+      omap <buffer> ic <Plug>(GitGutterTextObjectInnerPending)
     endif
-    if !hasmapto('<Plug>GitGutterTextObjectOuterPending')
+    if !hasmapto('<Plug>(GitGutterTextObjectOuterPending)')
           \ && maparg('ac', 'o') ==# ''
-      omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+      omap <buffer> ac <Plug>(GitGutterTextObjectOuterPending)
     endif
-    if !hasmapto('<Plug>GitGutterTextObjectInnerVisual')
+    if !hasmapto('<Plug>(GitGutterTextObjectInnerVisual)')
           \ && maparg('ic', 'x') ==# ''
-      xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+      xmap <buffer> ic <Plug>(GitGutterTextObjectInnerVisual)
     endif
-    if !hasmapto('<Plug>GitGutterTextObjectOuterVisual')
+    if !hasmapto('<Plug>(GitGutterTextObjectOuterVisual)')
           \ && maparg('ac', 'x') ==# ''
-      xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+      xmap <buffer> ac <Plug>(GitGutterTextObjectOuterVisual)
     endif
   endfunction "}}}
 
