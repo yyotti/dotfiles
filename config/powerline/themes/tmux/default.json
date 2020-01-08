@@ -4,6 +4,7 @@
 			{
 				"function": "ext.segments.common.mail.email_imap_alert",
 				"priority": 30,
+                "before": "\uf003",
 				"args": {
 					"server": "imap.gmail.com",
 					"port": 993,
@@ -13,13 +14,15 @@
 			{
 				"function": "powerline.segments.common.sys.cpu_load_percent",
 				"priority": 50,
+                "before": "\uf471",
 				"args": {
-					"format": "CPU {0:3.1f}%"
+					"format": "{0:3.1f}%"
 				}
 			},
 			{
 				"function": "ext.segments.tmux.ps.used_memory",
-				"priority": 50
+				"priority": 50,
+                "before": "\ue266"
 			},
 			{
 				"function": "ext.segments.tmux.ps.total_memory",
@@ -39,17 +42,20 @@
 				"draw_soft_divider": false
 			},
 			{
-				"function": "powerline.segments.common.net.external_ip"
+				"function": "powerline.segments.common.net.external_ip",
+                "before": "\uf041"
 			},
 			{
 				"function": "powerline.segments.common.time.date",
+                "before": "\uf073",
 				"args": {
 					"format": "%Y/%m/%d %H:%M",
 					"istime": true
 				}
 			},
 			{
-				"function": "powerline.segments.common.net.hostname"
+				"function": "powerline.segments.common.net.hostname",
+                "before": "\uf109"
 			}
 		]
 	}

@@ -1,20 +1,12 @@
 {
 	"dividers": {
 		"left": {
-			"hard": "\u2b80 ",
-			"soft": "\u2b81 "
+			"hard": "\ue0b0",
+			"soft": "\ue0b1"
 		},
 		"right": {
-			"hard": " \u2b82",
-			"soft": " \u2b83"
-		}
-	},
-	"segment_data": {
-		"powerline.segments.common.net.hostname": {
-			"before": ""
-		},
-		"ext.segments.common.mail.email_imap_alert": {
-			"before": "\u2709 "
+			"hard": "\ue0b2",
+			"soft": "\ue0b3"
 		}
 	}
 }
