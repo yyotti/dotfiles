@@ -20,3 +20,9 @@ zplugin load 'zsh-users/zsh-completions'
 zplugin load 'mafredri/zsh-async'
 zplugin load 'zdharma/fast-syntax-highlighting'
 zplugin load 'zsh-users/zsh-autosuggestions'
+
+# Setup time {{{
+ZSH_COMMAND_TIME_MIN_SECONDS=3
+ZSH_COMMAND_TIME_MSG='** Execution time: %s sec **'
+ZSH_COMMAND_TIME_COLOR=cyan
+# }}}
