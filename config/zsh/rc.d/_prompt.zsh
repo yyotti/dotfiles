@@ -411,6 +411,8 @@ function __prompt_async_callback() # {{{
           _branch_prefix="${prompt_git_bare_repo_start}BARE:${prompt_git_bare_repo_end}"
         elif ${_repo[is_inside_gitdir]}; then
           _branch_prefix="${prompt_git_in_git_dir_start}GIT:${prompt_git_in_git_dir_end}"
+        else
+          _branch_prefix="$(echo -e "\uf126")"
         fi
 
         local _branch
@@ -428,12 +430,12 @@ function __prompt_async_callback() # {{{
         local _ahead=${_repo[ahead]}
         local _behind=${_repo[behind]}
         if [[ ${_ahead} > 0 ]]; then
-          _ahead="${prompt_git_merge_ahead_start}+${_repo[ahead]}${prompt_git_merge_ahead_end}"
+          _ahead="${prompt_git_merge_ahead_start}$(echo -e "\uf062")${_repo[ahead]}${prompt_git_merge_ahead_end}"
         else
           _ahead=
         fi
         if [[ ${_behind} > 0 ]]; then
-          _behind="${prompt_git_merge_behind_start}-${_repo[behind]}${prompt_git_merge_behind_end}"
+          _behind="${prompt_git_merge_behind_start}$(echo -e "\uf063")${_repo[behind]}${prompt_git_merge_behind_end}"
         else
           _behind=
         fi
@@ -457,22 +459,22 @@ function __prompt_async_callback() # {{{
         echo "${_output}" | read _staged _unstaged _untracked _invalid
 
         if [[ ${_staged} > 0 ]]; then
-          _staged="${prompt_git_staged_start}+${prompt_git_staged_end}"
+          _staged="${prompt_git_staged_start}$(echo -e "\uf00c")${prompt_git_staged_end}"
         else
           _staged=
         fi
         if [[ ${_unstaged} > 0 ]]; then
-          _unstaged="${prompt_git_unstaged_start}*${prompt_git_unstaged_end}"
+          _unstaged="${prompt_git_unstaged_start}$(echo -e "\uf069")${prompt_git_unstaged_end}"
         else
           _unstaged=
         fi
         if [[ ${_untracked} > 0 ]]; then
-          _untracked="${prompt_git_untracked_start}?${prompt_git_untracked_end}"
+          _untracked="${prompt_git_untracked_start}$(echo -e "\uf067")${prompt_git_untracked_end}"
         else
           _untracked=
         fi
         if [[ ${_invalid} > 0 ]]; then
-          _invalid="${prompt_git_invalid_start}!${prompt_git_invalid_end}"
+          _invalid="${prompt_git_invalid_start}$(echo -e "\uf00d")${prompt_git_invalid_end}"
         else
           _invalid=
         fi
@@ -500,12 +502,12 @@ function __prompt_async_callback() # {{{
           _upstream=
         fi
         if [[ ${_up[ahead]} > 0 ]]; then
-          _ahead="${prompt_git_upstream_ahead_start}+${_up[ahead]}${prompt_git_upstream_ahead_end}"
+          _ahead="${prompt_git_upstream_ahead_start}$(echo -e "\uf062")${_up[ahead]}${prompt_git_upstream_ahead_end}"
         else
           _ahead=
         fi
         if [[ ${_up[behind]} > 0 ]]; then
-          _behind="${prompt_git_upstream_behind_start}-${_up[behind]}${prompt_git_upstream_behind_end}"
+          _behind="${prompt_git_upstream_behind_start}$(echo -e "\uf063")${_up[behind]}${prompt_git_upstream_behind_end}"
         else
           _behind=
         fi
@@ -527,12 +529,12 @@ function __prompt_async_callback() # {{{
         echo "${_output}" | read _stash _now
 
         if [[ ${_stash} > 0 ]]; then
-          _stash="${prompt_git_stashed_start}\$${_stash}${prompt_git_stashed_end}"
+          _stash="${prompt_git_stashed_start}$(echo -e "\uf155")${_stash}${prompt_git_stashed_end}"
         else
           _stash=
         fi
         if [[ ${_now} > 0 ]]; then
-          _now="${prompt_git_now_start}N${_now}${prompt_git_now_end}"
+          _now="${prompt_git_now_start}$(echo -e "\uf017")${_now}${prompt_git_now_end}"
         else
           _now=
         fi
