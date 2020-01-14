@@ -7,6 +7,10 @@ let s:path = fnamemodify(expand('$_CACHE/vim-plug'), ':p')
 let g:plug_threads = 5
 let g:plug_timeout = 10
 
+let s:gitgutter_sign_added = "\uf067"
+let s:gitgutter_sign_modified = "\uf069"
+let s:gitgutter_sign_removed = "\uf068"
+
 call plug#begin(s:path)
 
 " ================ Not lazy ============================
@@ -212,21 +216,24 @@ function! s:vim_airline_init() abort "{{{
   let g:airline_symbols.linenr = "\ue0a1"
   let g:airline_symbols.readonly = "\uf023"
   let g:airline_symbols.branch = "\uf126"
-endfunction "}}}
-call s:vim_airline_init()
-autocmd MyAutocmd User AirlineAfterInit call <SID>airline_init()
-function! s:airline_init() abort "{{{
-  let g:airline#extensions#ale#error_symbol = 'E'
-  let g:airline#extensions#ale#warning_symbol = 'W'
+
+  let g:airline#extensions#ale#error_symbol = "\uf057"
+  let g:airline#extensions#ale#warning_symbol = "\uf071"
+
+  let g:airline#extensions#hunks#enabled = 1
 
   " vim-gitgutter
   let g:airline#extensions#hunks#non_zero_only = 1
   let g:airline#extensions#hunks#hunk_symbols = [
-        \   get(g:, 'gitgutter_sign_added', ''),
-        \   get(g:, 'gitgutter_sign_modified', ''),
-        \   get(g:, 'gitgutter_sign_removed', ''),
+        \   get(g:, 'gitgutter_sign_added', s:gitgutter_sign_added),
+        \   get(g:, 'gitgutter_sign_modified', s:gitgutter_sign_modified),
+        \   get(g:, 'gitgutter_sign_removed', s:gitgutter_sign_removed),
         \ ]
 
+endfunction "}}}
+call s:vim_airline_init()
+autocmd MyAutocmd User AirlineAfterInit call <SID>airline_init()
+function! s:airline_init() abort "{{{
   " eskk.vim
   function! EskkMode() abort "{{{
     return exists('*eskk#statusline') && !empty(eskk#statusline()) ?
@@ -482,11 +489,11 @@ call s:vim_operator_surround_init()
 
 Plug 'airblade/vim-gitgutter', { 'on': [] }  " Force lazy
 function! s:vim_gitgutter_init() abort "{{{
-  let g:gitgutter_sign_added = 'A'
-  let g:gitgutter_sign_modified = 'M'
-  let g:gitgutter_sign_removed = 'D'
-  let g:gitgutter_sign_removed_first_line = '~'
-  let g:gitgutter_sign_modified_removed = 'MD'
+  let g:gitgutter_sign_added = s:gitgutter_sign_added
+  let g:gitgutter_sign_modified = s:gitgutter_sign_modified
+  let g:gitgutter_sign_removed = s:gitgutter_sign_removed
+  let g:gitgutter_sign_removed_first_line = s:gitgutter_sign_removed
+  let g:gitgutter_sign_modified_removed = s:gitgutter_sign_modified
 
   " Disable default mappings
   let g:gitgutter_map_keys = 0

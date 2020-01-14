@@ -47,10 +47,6 @@ if (( ${+commands[go]} )); then
   path=(${GOPATH}/bin(N-/) ${path})
 fi
 
-if [[ -f "${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so" ]]; then
-  export LD_PRELOAD="${HOME}/.opt/wcwidth-cjk/lib/wcwidth-cjk.so"
-fi
-
 if (( ${+commands[tig]} )); then
   export TIGRC_USER=${XDG_CONFIG_HOME}/tig/tigrc
 fi
