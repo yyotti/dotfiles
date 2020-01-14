@@ -204,14 +204,14 @@ function! s:vim_airline_init() abort "{{{
   endif
 
   let g:airline_symbols.maxlinenr = ''
-  let g:airline_left_sep = "\u2b80"
-  let g:airline_left_alt_sep = "\u2b81"
-  let g:airline_right_sep = "\u2b82"
-  let g:airline_right_alt_sep = "\u2b83"
+  let g:airline_left_sep = "\ue0b0"
+  let g:airline_left_alt_sep = "\ue0b1"
+  let g:airline_right_sep = "\ue0b2"
+  let g:airline_right_alt_sep = "\ue0b3"
 
-  let g:airline_symbols.linenr = "\u2b61"
-  let g:airline_symbols.readonly = "\u2b64"
-  let g:airline_symbols.branch = "\u2b60"
+  let g:airline_symbols.linenr = "\ue0a1"
+  let g:airline_symbols.readonly = "\uf023"
+  let g:airline_symbols.branch = "\uf126"
 endfunction "}}}
 call s:vim_airline_init()
 autocmd MyAutocmd User AirlineAfterInit call <SID>airline_init()
@@ -242,7 +242,7 @@ function! s:airline_init() abort "{{{
 
   if has_key(g:plugs, 'gina.vim') && isdirectory(g:plugs['gina.vim'].dir)
     call plug#load('gina.vim')
-    call add(l:section_b, '%{gina#component#repo#branch()}')
+    call add(l:section_b, '%{g:airline_symbols.branch}%{gina#component#repo#branch()}')
   endif
 
   let g:airline_section_a = airline#section#create_left([ 'mode', 'eskk' ])
