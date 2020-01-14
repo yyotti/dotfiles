@@ -36,9 +36,9 @@
     ca = commit --amend
     ft = fetch
     ig = ignore -r
-[ghq]
-    root = ~/.local/share/ghq
+[ghq] # 後に書いたものがデフォルトになることに注意
     root = ~/.local/share/go/src
+    root = ~/.local/share/ghq
 [url "git@github.com:yyotti"]
     pushInsteadOf = git://github.com/yyotti
     pushInsteadOf = https://github.com/yyotti
