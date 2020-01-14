@@ -242,7 +242,7 @@ function! s:airline_init() abort "{{{
 
   if has_key(g:plugs, 'gina.vim') && isdirectory(g:plugs['gina.vim'].dir)
     call plug#load('gina.vim')
-    call add(l:section_b, '%{g:airline_symbols.branch}%{gina#component#repo#branch()}')
+    call add(l:section_b, '%{gina#component#repo#branch()!=#""?g:airline_symbols.branch:""}%{gina#component#repo#branch()}')
   endif
 
   let g:airline_section_a = airline#section#create_left([ 'mode', 'eskk' ])
