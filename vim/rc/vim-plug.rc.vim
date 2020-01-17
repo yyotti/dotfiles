@@ -244,16 +244,8 @@ function! s:airline_init() abort "{{{
   call airline#parts#define('lineinfo', {
         \   'raw': ' %3v %{g:airline_symbols.linenr}%3l/%L',
         \ })
-  let l:section_b = []
-  call add(l:section_b, 'hunks')
-
-  if has_key(g:plugs, 'gina.vim') && isdirectory(g:plugs['gina.vim'].dir)
-    call plug#load('gina.vim')
-    call add(l:section_b, '%{gina#component#repo#branch()!=#""?g:airline_symbols.branch:""}%{gina#component#repo#branch()}')
-  endif
 
   let g:airline_section_a = airline#section#create_left([ 'mode', 'eskk' ])
-  let g:airline_section_b = airline#section#create(l:section_b)
   let g:airline_section_z = airline#section#create([ 'windowswap', 'obsession', 'lineinfo' ])
 endfunction "}}}
 
@@ -487,7 +479,7 @@ function! s:vim_operator_surround_init() abort "{{{
 endfunction "}}}
 call s:vim_operator_surround_init()
 
-Plug 'airblade/vim-gitgutter', { 'on': [] }  " Force lazy
+Plug 'airblade/vim-gitgutter'
 function! s:vim_gitgutter_init() abort "{{{
   let g:gitgutter_sign_added = s:gitgutter_sign_added
   let g:gitgutter_sign_modified = s:gitgutter_sign_modified
@@ -497,10 +489,7 @@ function! s:vim_gitgutter_init() abort "{{{
 
   " Disable default mappings
   let g:gitgutter_map_keys = 0
-endfunction "}}}
-call s:vim_gitgutter_init()
-autocmd MyAutocmd User vim-gitgutter call <SID>vim_gitgutter_loaded()
-function! s:vim_gitgutter_loaded() abort "{{{
+
   autocmd MyAutocmd BufEnter * call <SID>gitgutter_mapping()
   function! s:gitgutter_mapping() abort "{{{
     if !hasmapto('<Plug>(GitGutterPrevHunk)') && maparg('[c', 'n') ==# ''
@@ -537,12 +526,7 @@ function! s:vim_gitgutter_loaded() abort "{{{
   highlight link GitGutterChange qfLineNr
   highlight link GitGutterChangeDelete GitGutterChange
 endfunction "}}}
-augroup load_vim_gitgutter
-  autocmd!
-  autocmd VimEnter *
-        \ call plug#load('vim-gitgutter')
-        \|autocmd! load_vim_gitgutter
-augroup END
+call s:vim_gitgutter_init()
 
 Plug 'easymotion/vim-easymotion', {
       \   'depends': [ 'vim-repeat' ],
