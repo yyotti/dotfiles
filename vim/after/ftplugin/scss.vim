@@ -8,7 +8,7 @@ let s:undo = []
 setlocal iskeyword+=-
 call add(s:undo, 'setlocal iskeyword<')
 
-if has_key(g:plugs, 'editorconfig-vim')
+if !has_key(g:plugs, 'editorconfig-vim')
   setlocal shiftwidth=2
   call add(s:undo, 'setlocal shiftwidth<')
 endif

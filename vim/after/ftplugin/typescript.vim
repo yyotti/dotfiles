@@ -5,7 +5,7 @@ else
 endif
 let s:undo = []
 
-if has_key(g:plugs, 'editorconfig-vim')
+if !has_key(g:plugs, 'editorconfig-vim')
   setlocal shiftwidth=2
   setlocal softtabstop=2
   call add(s:undo, 'setlocal shiftwidth< softtabstop<')
