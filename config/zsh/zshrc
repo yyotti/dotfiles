@@ -10,7 +10,9 @@ function __zcompile() # {{{
 
 __zcompile "${ZDOTDIR}/.zshrc"
 
-if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ $TMUX == '' ]] && (( ${+commands[tmux]} )); then
+__zcompile "${ZDOTDIR}/rc.d/_asdf.zsh" && source "${ZDOTDIR}/rc.d/_asdf.zsh"
+
+if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ ${TMUX} == '' ]] && (( ${+commands[tmux]} )); then
   __zcompile "${ZDOTDIR}/rc.d/_tmux.zsh" && source "${ZDOTDIR}/rc.d/_tmux.zsh"
 fi
 
@@ -23,7 +25,6 @@ __zcompile "${ZDOTDIR}/rc.d/_histories.zsh" && source "${ZDOTDIR}/rc.d/_historie
 __zcompile "${ZDOTDIR}/rc.d/_completions.zsh" && source "${ZDOTDIR}/rc.d/_completions.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_prompt.zsh" && source "${ZDOTDIR}/rc.d/_prompt.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_keybinds.zsh" && source "${ZDOTDIR}/rc.d/_keybinds.zsh"
-__zcompile "${ZDOTDIR}/rc.d/_asdf.zsh" && source "${ZDOTDIR}/rc.d/_asdf.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_aliases.zsh" && source "${ZDOTDIR}/rc.d/_aliases.zsh"
 
 if [[ -f ${ZDOTDIR}/zshrc.local ]]; then

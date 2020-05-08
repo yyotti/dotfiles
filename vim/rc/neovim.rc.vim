@@ -2,14 +2,19 @@
 " Neovim:
 "
 
-if exists('$HOMEBREW_PREFIX')
+if exists('$ASDF_DATA_DIR')
+  let g:python_host_prog =
+        \ fnamemodify(expand('$ASDF_DATA_DIR/shims/python'), ':p')
+  let g:python3_host_prog =
+        \ fnamemodify(expand('$ASDF_DATA_DIR/shims/python3'), ':p')
+elseif exists('$HOMEBREW_PREFIX')
   let g:python_host_prog =
         \ fnamemodify(expand('$HOMEBREW_PREFIX/bin/python2'), ':p')
-  let g:python_host_prog =
+  let g:python3_host_prog =
         \ fnamemodify(expand('$HOMEBREW_PREFIX/bin/python3'), ':p')
 elseif executable('/usr/bin/python')
   let g:python_host_prog = '/usr/bin/python'
-  let g:python_host_prog = '/usr/bin/python3'
+  let g:python3_host_prog = '/usr/bin/python3'
 endif
 
 if exists('&inccommand')
