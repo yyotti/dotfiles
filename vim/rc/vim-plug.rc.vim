@@ -79,6 +79,9 @@ call s:vim_json_init()
 Plug 'HerringtonDarkholme/yats.vim'
 
 Plug 'othree/yajs.vim'
+Plug 'othree/es.next.syntax.vim', {
+      \   'depends': 'yajs.vim',
+      \ }
 
 Plug 'pangloss/vim-javascript'
 
@@ -90,68 +93,326 @@ function! s:vim_jsx_pretty_init() abort "{{{
 endfunction "}}}
 call s:vim_jsx_pretty_init()
 
-Plug 'autozimu/LanguageClient-neovim', {
-      \   'branch': 'next',
-      \   'do': 'bash install.sh',
+" Plug 'autozimu/LanguageClient-neovim', {
+"      \   'branch': 'next',
+"      \   'do': 'bash install.sh',
+"      \ }
+" function! s:language_client_neovim_init() abort "{{{
+"   let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
+"   let g:LanguageClient_rootMarkers = get(g:, 'LanguageClient_rootMarkers', {})
+"
+"   if executable('pyls')
+"     let g:LanguageClient_serverCommands.python = [ 'pyls' ]
+"   endif
+"
+"   if executable('bingo')
+"     let g:LanguageClient_serverCommands.go = [ 'bingo', '-mode', 'stdio' ]
+"   elseif executable('gopls')
+"     let g:LanguageClient_serverCommands.go = [ 'gopls' ]
+"   endif
+"
+"   if executable('node') &&
+"        \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
+"     let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
+"     let g:LanguageClient_serverCommands.php = [ 'node', s:php_language_server, '--stdio' ]
+"   endif
+"
+"   if executable('rls')
+"     " let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'stable', 'rls' ]
+"     let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'beta', 'rls' ]
+"   endif
+"
+"   " if executable('javascript-typescript-stdio')
+"   "   let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
+"   "   let g:LanguageClient_serverCommands.typescript = [ 'javascript-typescript-stdio' ]
+"   "
+"   "   let g:LanguageClient_rootMarkers.javascript = [ '.git', 'package.json' ]
+"   "   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
+"   " endif
+"   let g:LanguageClient_serverCommands.javascript = [ 'tcp://localhost:40010' ]
+"   let g:LanguageClient_serverCommands.javascriptreact = [ 'tcp://localhost:40010' ]
+"   let g:LanguageClient_serverCommands.typescript = [ 'tcp://localhost:40010' ]
+"   let g:LanguageClient_serverCommands.typescriptreact = [ 'tcp://localhost:40010' ]
+"
+"   let g:LanguageClient_rootMarkers.javascript = [ 'jsconfig.json', '.git/' ]
+"   let g:LanguageClient_rootMarkers.javascriptreact = [ 'jsconfig.json', '.git/' ]
+"   let g:LanguageClient_rootMarkers.typescript = [ 'tsconfig.json', '.git/' ]
+"   let g:LanguageClient_rootMarkers.typescriptreact = [ 'tsconfig.json', '.git/' ]
+"
+"   autocmd MyAutocmd FileType * call <SID>lc_map()
+"   function! s:lc_map() abort "{{{
+"     if has_key(g:LanguageClient_serverCommands, &filetype)
+"       nnoremap <buffer> <silent> gd
+"            \ :<C-u>call LanguageClient#textDocument_definition()<CR>
+"       nnoremap <buffer> <silent> gD
+"            \ :<C-u>call LanguageClient#textDocument_typeDefinition()<CR>
+"       nnoremap <buffer> <silent> gi
+"            \ :<C-u>call LanguageClient#textDocument_implementation()<CR>
+"       nnoremap <buffer> <silent> gr
+"            \ :<C-u>call LanguageClient#textDocument_references()<CR>
+"       nnoremap <buffer> <silent> <LocalLeader>r
+"            \ :<C-u>call LanguageClient#textDocument_rename()<CR>
+"       nnoremap <buffer> <silent> <LocalLeader>f
+"            \ :<C-u>call LanguageClient#textDocument_formatting_sync()<CR>
+"       nnoremap <buffer> <silent> <LocalLeader>h
+"            \ :<C-u>call LanguageClient#textDocument_hover()<CR>
+"       nnoremap <buffer> <silent> <LocalLeader>H
+"            \ :<C-u>call LanguageClient#textDocument_documentHighlight()<CR>
+"       nnoremap <buffer> <silent> <LocalLeader>c
+"            \ :<C-u>call LanguageClient_contextMenu()<CR>
+"     endif
+"   endfunction "}}}
+" endfunction "}}}
+" call s:language_client_neovim_init()
+
+Plug 'ncm2/ncm2-vim-lsp', {
+      \   'depends': 'vim-lsp',
       \ }
-function! s:language_client_neovim_init() abort "{{{
-  let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
-  let g:LanguageClient_rootMarkers = get(g:, 'LanguageClient_rootMarkers', {})
-
-  if executable('pyls')
-    let g:LanguageClient_serverCommands.python = [ 'pyls' ]
+Plug 'prabirshrestha/vim-lsp', {
+      \   'depends': 'async.vim',
+      \ }
+Plug 'prabirshrestha/async.vim'
+autocmd MyAutocmd FileType * call LangServerMapping()
+function! LangServerMapping() abort "{{{
+  " TODO 条件は :LspServerStatus で'running'になったらでいいかもしれない？
+  if has_key(g:langservers, &filetype)
+    nmap <buffer> <silent> <LocalLeader>c <Plug>(lsp-code-action)
+    nmap <buffer> <silent> gd <Plug>(lsp-definition)
+    nmap <buffer> <silent> <LocalLeader>d <Plug>(lsp-peek-definition)
+    nmap <buffer> <silent> gD <Plug>(lsp-type-definition)
+    nmap <buffer> <silent> <LocalLeader>i <Plug>(lsp-implementation)
+    nmap <buffer> <silent> gr <Plug>(lsp-references)
+    nmap <buffer> <silent> <LocalLeader>r <Plug>(lsp-rename)
+    " TODO Formatはfixerとかでやる、もしくは保存時にやる
+    nnoremap <buffer> <silent> <LocalLeader>f :<C-u>LspDocumentFormatSync<CR>
+    nmap <buffer> <silent> <LocalLeader>h <Plug>(lsp-hover)
+    " nnoremap <buffer> <silent> <LocalLeader>H
+    "      \ :<C-u>call LanguageClient#textDocument_documentHighlight()<CR>
+    nmap <buffer> <silent> ]e <Plug>(lsp-next-diagnostic)
+    nmap <buffer> <silent> [e <Plug>(lsp-previous-diagnostic)
   endif
-
-  if executable('bingo')
-    let g:LanguageClient_serverCommands.go = [ 'bingo', '-mode', 'stdio' ]
-  elseif executable('gopls')
-    let g:LanguageClient_serverCommands.go = [ 'gopls' ]
-  endif
-
-  if executable('node') &&
-       \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
-    let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
-    let g:LanguageClient_serverCommands.php = [ 'node', s:php_language_server, '--stdio' ]
-  endif
-
-  if executable('rls')
-    " let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'stable', 'rls' ]
-    let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'beta', 'rls' ]
-  endif
-
-  " if executable('javascript-typescript-stdio')
-  "   let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
-  "   let g:LanguageClient_serverCommands.typescript = [ 'javascript-typescript-stdio' ]
-  "
-  "   let g:LanguageClient_rootMarkers.javascript = [ '.git', 'package.json' ]
-  "   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
-  " endif
-
-  autocmd MyAutocmd FileType * call <SID>lc_map()
-  function! s:lc_map() abort "{{{
-    if has_key(g:LanguageClient_serverCommands, &filetype)
-      nnoremap <buffer> <silent> gd
-            \ :<C-u>call LanguageClient#textDocument_definition()<CR>
-      nnoremap <buffer> <silent> gD
-            \ :<C-u>call LanguageClient#textDocument_typeDefinition()<CR>
-      nnoremap <buffer> <silent> gi
-            \ :<C-u>call LanguageClient#textDocument_implementation()<CR>
-      nnoremap <buffer> <silent> gr
-            \ :<C-u>call LanguageClient#textDocument_references()<CR>
-      nnoremap <buffer> <silent> <LocalLeader>r
-            \ :<C-u>call LanguageClient#textDocument_rename()<CR>
-      nnoremap <buffer> <silent> <LocalLeader>f
-            \ :<C-u>call LanguageClient#textDocument_formatting_sync()<CR>
-      nnoremap <buffer> <silent> <LocalLeader>h
-            \ :<C-u>call LanguageClient#textDocument_hover()<CR>
-      nnoremap <buffer> <silent> <LocalLeader>H
-            \ :<C-u>call LanguageClient#textDocument_documentHighlight()<CR>
-      nnoremap <buffer> <silent> <LocalLeader>c
-            \ :<C-u>call LanguageClient_contextMenu()<CR>
-    endif
-  endfunction "}}}
 endfunction "}}}
-call s:language_client_neovim_init()
+
+let g:langservers = {}
+
+" golang {{{
+if executable('gopls')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'gopls',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'gopls']},
+        \   'whitelist': [
+        \     'go',
+        \   ],
+        \   'workspace_config': {
+        \     'gopls': {
+        \       'staticcheck': v:true,
+        \       'completeUnimported': v:true,
+        \       'caseSensitiveCompletion': v:true,
+        \       'usePlaceholders': v:true,
+        \       'watchFileChanges': v:true,
+        \
+        \       'analyses': {
+        \         'unreachable': v:true,
+        \         'unusedparams': v:true,
+        \       },
+        \     },
+        \   },
+        \   'root_uri': {server_info ->
+        \     lsp#utils#path_to_uri(
+        \       lsp#utils#find_nearest_parent_file_directory(
+        \         lsp#utils#get_buffer_path(), 'go.mod'
+        \       )
+        \     )
+        \   },
+        \ })
+
+  let g:langservers.go = 'gopls'
+endif
+" }}}
+
+" javascript/typescript {{{
+function! s:get_ts_langserver_cmd(exe, arg) abort "{{{
+  if executable(a:exe)
+    return [&shell, &shellcmdflag, join([a:exe, a:arg], ' ')]
+  endif
+
+  let l:global_bin = ''
+  if executable('yarn')
+    silent let l:global_bin := trim(system('yarn global bin'))
+  elseif executable('npm')
+    silent let l:global_bin := trim(system('npm bin --global'))
+  endif
+
+  if l:global_bin ==# '' || v:shell_error !=# 0
+    return []
+  endif
+
+  let l:exe = join([l:global_bin, a:exe], '/')
+  if executable(l:exe)
+    return [&shell, &shellcmdflag, join([l:exe, a:arg], ' ')]
+  endif
+
+  return []
+endfunction "}}}
+
+autocmd MyAutocmd User lsp_setup call lsp#register_server({
+      \   'name': 'typescript-language-server',
+      \   'cmd': {server_info ->
+      \     s:get_ts_langserver_cmd('typescript-language-server', '--stdio')},
+      \   'whitelist': [
+      \     'javascript',
+      \     'javascriptreact',
+      \     'typescript',
+      \     'typescriptreact',
+      \   ],
+      \   'root_uri': {server_info ->
+      \     lsp#utils#path_to_uri(
+      \       lsp#utils#find_nearest_parent_file_directory(
+      \         lsp#utils#get_buffer_path(),
+      \         ['package.json', 'tsconfig.json', '.git/']
+      \       )
+      \     )
+      \   },
+      \ })
+      "\   'cmd': {server_info ->
+      "\     [&shell, &shellcmdflag, 'docker run -i --rm -v "${PWD}/app:${PWD}/app" -w "${PWD}/app" javascript-typescript-langserver']},
+      "\   'cmd': {server_info ->
+      "\     [&shell, &shellcmdflag, 'socat stdio tcp4:localhost:40010,shut-none']},
+      "\   'cmd': {server_info ->
+      "\     [&shell, &shellcmdflag, 'docker-compose run lsp-js-ts']},
+let g:langservers.javascript = 'typescript-language-server'
+let g:langservers.javascriptreact = 'typescript-language-server'
+let g:langservers.typescript = 'typescript-language-server'
+let g:langservers.typescriptreact = 'typescript-language-server'
+" }}}
+
+" css/less/sass {{{
+" " FIXME ルールをよく考える。いっそLintは別のLinterにやらせる。
+" let g:css_lsp_config = {
+"      \   'validate': v:true,
+"      \   'lint': {
+"      \     'compatibleVendorPrefixes': 'error',
+"      \     'vendorPrefix': 'error',
+"      \     'duplicateProperties': 'error',
+"      \     'emptyRules': 'error',
+"      \     'importStatement': 'error',
+"      \     'boxModel': 'error',
+"      \     'universalSelector': 'error',
+"      \     'zeroUnits': 'error',
+"      \     'fontFaceProperties': 'error',
+"      \     'hexColorLength': 'error',
+"      \     'argumentsInColorFunction': 'error',
+"      \     'unknownProperties': 'error',
+"      \     'ieHack': 'error',
+"      \     'unknownVendorSpecificProperties': 'error',
+"      \     'propertyIgnoredDueToDisplay': 'error',
+"      \     'important': 'error',
+"      \     'float': 'error',
+"      \     'idSelector': 'error',
+"      \   },
+"      \ }
+" autocmd MyAutocmd User lsp_setup call lsp#register_server({
+"      \   'name': 'css-langserver',
+"      \   'cmd': {server_info ->
+"      \     [&shell, &shellcmdflag, 'docker-compose run lsp-css']},
+"      \   'whitelist': [
+"      \     'css',
+"      \     'less',
+"      \     'sass',
+"      \     'scss',
+"      \   ],
+"      \   'root_uri': {server_info ->
+"      \     lsp#utils#path_to_uri(
+"      \       lsp#utils#find_nearest_parent_file_directory(
+"      \         lsp#utils#get_buffer_path(), 'package.json'
+"      \       )
+"      \     )
+"      \   },
+"      \   'workspace_config': {
+"      \     'css': g:css_lsp_config,
+"      \     'less': g:css_lsp_config,
+"      \     'scss': g:css_lsp_config,
+"      \   },
+"      \ })
+" let g:langservers.css = 'css-langserver'
+" let g:langservers.less = 'css-langserver'
+" let g:langservers.sass = 'css-langserver'
+" let g:langservers.scss = 'css-langserver'
+" }}}
+
+" rust {{{
+if executable('rustup') && executable('rls')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'rls',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'rustup run stable rls']},
+        \   'whitelist': [
+        \     'rust',
+        \   ],
+        \   'workspace_config': {
+        \     'rust': {
+        \       'clippy_preference': 'on',
+        \     },
+        \   },
+        \   'root_uri': {server_info ->
+        \     lsp#utils#path_to_uri(
+        \       lsp#utils#find_nearest_parent_file_directory(
+        \         lsp#utils#get_buffer_path(), 'Cargo.toml'
+        \       )
+        \     )
+        \   },
+        \ })
+
+  let g:langservers.rust = 'rls'
+endif
+"}}}
+
+" php {{{
+if executable('intelephense')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'intelephense',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'intelephense --stdio']},
+        \   'whitelist': [
+        \     'php',
+        \   ],
+        \   'initialization_options': {
+        \     'storagePath': '/tmp/intelephense',
+        \   },
+        \   'workspace_config': {
+        \     'intelephense': {
+        \       'files': {
+        \         'maxSize': 1000000,
+        \         'associations': ['*.php', '*.phtml'],
+        \         'exclude': [],
+        \       },
+        \       'completion': {
+        \         'insertUseDeclaration': v:true,
+        \         'fullyQualifyGlobalConstantsAndFunctions': v:false,
+        \         'triggerParameterHints': v:true,
+        \         'maxItems': 100,
+        \       },
+        \       'format': {
+        \         'enable': v:true,
+        \       },
+        \     },
+        \   },
+        \   'root_uri': {server_info ->
+        \     lsp#utils#path_to_uri(
+        \       lsp#utils#find_nearest_parent_file_directory(
+        \         lsp#utils#get_buffer_path(), 'Cargo.toml'
+        \       )
+        \     )
+        \   },
+        \ })
+
+  let g:langservers.php = 'intelephense'
+endif
+"}}}
+
+let g:lsp_highlight_references_enabled = 1
+let g:lsp_highlights_enabled = 1
+let g:lsp_textprop_enabled = 1
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
 
 Plug 'roxma/nvim-yarp'
 
@@ -275,10 +536,10 @@ function! s:ale_init() abort "{{{
     let g:ale_linters.go = [ 'golangci-lint' ]
     let g:ale_go_golangci_lint_package = v:true
     let g:ale_go_golangci_lint_options = join([
-          \   '--tests',
-          \   '--enable-all',
           \ ])
     "\   '--fast',
+    "\   '--enable-all',
+    "\   '--tests',
   elseif executable('gometalinter')
     " NOTE: gometalinter is old
     let g:ale_linters.go = [ 'gometalinter' ]
@@ -296,6 +557,12 @@ function! s:ale_init() abort "{{{
     let g:ale_linters.go = [ 'gobuild', 'gofmt', 'golint', 'govet' ]
   endif
   let g:ale_fixers.go = [ 'goimports' ]
+
+  " TODO Setup JavaScript linters (in docker container)
+  let g:ale_linters.javascript = []
+  let g:ale_linters.javascriptreact = []
+  let g:ale_linters.typescript = []
+  let g:ale_linters.typescriptreact = []
 
   let l:stylelintrc = fnamemodify(
         \   expand('$XDG_CONFIG_HOME/stylelint/stylelintrc.json'), ':p'
@@ -587,7 +854,7 @@ endfunction "}}}
 call s:vim_quickrun_init()
 
 Plug 'yyotti/vim-autoupload', {
-      \   'for': [ 'php', 'smarty', 'css', 'js' ],
+      \   'for': [ 'php', 'smarty', 'css', 'javascript' ],
       \ }
 function! s:vim_autoupload_init() abort "{{{
   " TODO hook_source ...
@@ -646,6 +913,10 @@ if executable('go') && 0
   endfunction "}}}
   call s:vim_go_init()
 endif
+
+Plug 'mattn/vim-goimports', {
+      \   'for': [ 'go' ],
+      \ }
 
 Plug 'Shougo/defx.nvim', {
       \   'do': ':UpdateRemotePlugins',

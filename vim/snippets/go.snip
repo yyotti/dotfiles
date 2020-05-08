@@ -1,0 +1,27 @@
+snippet     funcTest
+abbr        func Test... (t *testing.T) { ... }
+options     head
+  func Test${1} (${2:t *testing.T}) {
+    var tests = []struct {
+        arg1 string
+        arg2 int
+
+        expected string
+    }{
+        {
+          arg1: "",
+          arg2: 0,
+
+          expected: "",
+        },
+    }
+
+    for i, tt := range tests {
+        tt := tt
+
+        t.Run(fmt.Sprintf("%02d", i), func(t *testing.T) {
+            actual := ${3:Function}(tt.arg1, tt.arg2)
+            assert.Equal(t, tt.expected, actual)
+        })
+    }
+  }

@@ -25,27 +25,36 @@ if [[ ${HOMEBREW_PREFIX} != '' ]]; then
   path=(
   ${HOMEBREW_PREFIX}/bin(N-/)
   ${HOMEBREW_PREFIX}/sbin(N-/)
-  ${HOME}/.cargo/bin(N-/)
   ${path}
   )
 fi
+
+export CARGO_HOME=${XDG_DATA_HOME}/cargo
+export RUSTUP_HOME=${XDG_DATA_HOME}/rustup
 
 path=(
 ~/.bin(N-/)
 ~/.local/bin(N-/)
 ${XDG_CONFIG_HOME}/composer/vendor/bin(N-/)
 ${DOTFILES}/scripts/git/subcommands(N-/)
+${XDG_DATA_HOME}/yarn/global/node_modules/.bin(N-/)
+${CARGO_HOME}/bin(N-/)
+${XDG_DATA_HOME}/google-cloud-sdk/bin(N-/)
 ${path}
 )
+
+if (( ${+commands[asdf]} )); then
+  export ASDF_DATA_DIR=${XDG_DATA_HOME}/asdf
+fi
 
 if (( ${+commands[vim]} )); then
   export EDITOR=vim
 fi
 
-if (( ${+commands[go]} )); then
+# if (( ${+commands[go]} )); then
   export GOPATH=${XDG_DATA_HOME}/go
-  path=(${GOPATH}/bin(N-/) ${path})
-fi
+  path=(${GOPATH}/bin ${path})
+# fi
 
 if (( ${+commands[tig]} )); then
   export TIGRC_USER=${XDG_CONFIG_HOME}/tig/tigrc
@@ -74,6 +83,10 @@ if (( ${+commands[fzf]} )); then
     export FZF_DEFAULT_COMMAND=
     export FZF_CTRL_T_COMMAND=
   fi
+fi
+
+if (( ${+commands[gcloud]} )); then
+  export CLOUDSDK_PYTHON=python3
 fi
 
 # skip_global_compinit=1

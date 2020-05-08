@@ -14,15 +14,17 @@ if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ $TMUX == '' ]] && (( ${+commands[tmu
   __zcompile "${ZDOTDIR}/rc.d/_tmux.zsh" && source "${ZDOTDIR}/rc.d/_tmux.zsh"
 fi
 
-__zcompile "${ZDOTDIR}/rc.d/_zplugin.zsh" && source "${ZDOTDIR}/rc.d/_zplugin.zsh"
+# __zcompile "${ZDOTDIR}/rc.d/_zplugin.zsh" && source "${ZDOTDIR}/rc.d/_zplugin.zsh"
+__zcompile "${ZDOTDIR}/rc.d/_zinit.zsh" && source "${ZDOTDIR}/rc.d/_zinit.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_utilities.zsh" && source "${ZDOTDIR}/rc.d/_utilities.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_options.zsh" && source "${ZDOTDIR}/rc.d/_options.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_fzf.zsh" && source "${ZDOTDIR}/rc.d/_fzf.zsh"
-__zcompile "${ZDOTDIR}/rc.d/_aliases.zsh" && source "${ZDOTDIR}/rc.d/_aliases.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_histories.zsh" && source "${ZDOTDIR}/rc.d/_histories.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_completions.zsh" && source "${ZDOTDIR}/rc.d/_completions.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_prompt.zsh" && source "${ZDOTDIR}/rc.d/_prompt.zsh"
 __zcompile "${ZDOTDIR}/rc.d/_keybinds.zsh" && source "${ZDOTDIR}/rc.d/_keybinds.zsh"
+__zcompile "${ZDOTDIR}/rc.d/_asdf.zsh" && source "${ZDOTDIR}/rc.d/_asdf.zsh"
+__zcompile "${ZDOTDIR}/rc.d/_aliases.zsh" && source "${ZDOTDIR}/rc.d/_aliases.zsh"
 
 if [[ -f ${ZDOTDIR}/zshrc.local ]]; then
   __zcompile "${ZDOTDIR}/zshrc.local" && source "${ZDOTDIR}/zshrc.local"
@@ -30,7 +32,12 @@ fi
 
 autoload -Uz compinit
 compinit
-zplugin cdreplay -q
+zinit cdreplay -q
+
+if [[ -f ${XDG_DATA_HOME}/google-cloud-sdk/completion.zsh.inc ]]; then
+  # これのタイミングがよく分からない
+  source "${XDG_DATA_HOME}/google-cloud-sdk/completion.zsh.inc"
+fi
 
 if (( ${+commands[zprof]} )); then
   zprof | less
