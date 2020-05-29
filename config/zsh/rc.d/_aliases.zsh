@@ -34,14 +34,10 @@ if (( ${+commands[rg]} )); then
   alias rg='rg --no-heading --column'
 fi
 
-if (( ${+commands[docker.exe]} )); then
-  alias d='docker.exe'
-elif (( ${+commands[docker]} )); then
+if (( ${+commands[docker]} )); then
   alias d='docker'
 fi
 
-if (( ${+commands[docker-compose.exe]} )); then
-  alias dc='docker-compose.exe'
-elif (( ${+commands[docker-compose]} )); then
+if (( ${+commands[docker-compose]} )); then
   alias dc='docker-compose'
 fi

@@ -12,6 +12,11 @@ __zcompile "${ZDOTDIR}/.zshrc"
 
 __zcompile "${ZDOTDIR}/rc.d/_asdf.zsh" && source "${ZDOTDIR}/rc.d/_asdf.zsh"
 
+if [[ ${WSL_DISTRO_NAME} != '' ]] && [[ ${WSL_GUEST_IP} == '' ]]; then
+  # for WSL2
+  return
+fi
+
 if ${USE_TMUX:-true} && [[ $- =~ i ]] && [[ ${TMUX} == '' ]] && (( ${+commands[tmux]} )); then
   __zcompile "${ZDOTDIR}/rc.d/_tmux.zsh" && source "${ZDOTDIR}/rc.d/_tmux.zsh"
 fi
