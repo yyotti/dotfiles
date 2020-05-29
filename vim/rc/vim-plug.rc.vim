@@ -238,9 +238,9 @@ function! s:get_ts_langserver_cmd(exe, arg) abort "{{{
 
   let l:global_bin = ''
   if executable('yarn')
-    silent let l:global_bin := trim(system('yarn global bin'))
+    silent let l:global_bin = trim(system('yarn global bin'))
   elseif executable('npm')
-    silent let l:global_bin := trim(system('npm bin --global'))
+    silent let l:global_bin = trim(system('npm bin --global'))
   endif
 
   if l:global_bin ==# '' || v:shell_error !=# 0
