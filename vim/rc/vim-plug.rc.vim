@@ -40,7 +40,14 @@ Plug 'tpope/vim-repeat'
 
 Plug 'cakebaker/scss-syntax.vim'
 
-Plug 'rcmdnk/vim-markdown'
+" Plug 'rcmdnk/vim-markdown'
+Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
+" FIXME ↓適切な場所に移す
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_conceal = 0
 
 Plug 'Shougo/neosnippet-snippets'
 
@@ -92,78 +99,6 @@ function! s:vim_jsx_pretty_init() abort "{{{
   let g:vim_jsx_pretty_colorful_config = 1
 endfunction "}}}
 call s:vim_jsx_pretty_init()
-
-" Plug 'autozimu/LanguageClient-neovim', {
-"      \   'branch': 'next',
-"      \   'do': 'bash install.sh',
-"      \ }
-" function! s:language_client_neovim_init() abort "{{{
-"   let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
-"   let g:LanguageClient_rootMarkers = get(g:, 'LanguageClient_rootMarkers', {})
-"
-"   if executable('pyls')
-"     let g:LanguageClient_serverCommands.python = [ 'pyls' ]
-"   endif
-"
-"   if executable('bingo')
-"     let g:LanguageClient_serverCommands.go = [ 'bingo', '-mode', 'stdio' ]
-"   elseif executable('gopls')
-"     let g:LanguageClient_serverCommands.go = [ 'gopls' ]
-"   endif
-"
-"   if executable('node') &&
-"        \ filereadable(expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js'))
-"     let s:php_language_server = expand('$XDG_DATA_HOME/yarn/global/node_modules/intelephense/lib/intelephense.js')
-"     let g:LanguageClient_serverCommands.php = [ 'node', s:php_language_server, '--stdio' ]
-"   endif
-"
-"   if executable('rls')
-"     " let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'stable', 'rls' ]
-"     let g:LanguageClient_serverCommands.rust = [ 'rustup', 'run', 'beta', 'rls' ]
-"   endif
-"
-"   " if executable('javascript-typescript-stdio')
-"   "   let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
-"   "   let g:LanguageClient_serverCommands.typescript = [ 'javascript-typescript-stdio' ]
-"   "
-"   "   let g:LanguageClient_rootMarkers.javascript = [ '.git', 'package.json' ]
-"   "   let g:LanguageClient_rootMarkers.typescript = [ '.git', 'package.json' ]
-"   " endif
-"   let g:LanguageClient_serverCommands.javascript = [ 'tcp://localhost:40010' ]
-"   let g:LanguageClient_serverCommands.javascriptreact = [ 'tcp://localhost:40010' ]
-"   let g:LanguageClient_serverCommands.typescript = [ 'tcp://localhost:40010' ]
-"   let g:LanguageClient_serverCommands.typescriptreact = [ 'tcp://localhost:40010' ]
-"
-"   let g:LanguageClient_rootMarkers.javascript = [ 'jsconfig.json', '.git/' ]
-"   let g:LanguageClient_rootMarkers.javascriptreact = [ 'jsconfig.json', '.git/' ]
-"   let g:LanguageClient_rootMarkers.typescript = [ 'tsconfig.json', '.git/' ]
-"   let g:LanguageClient_rootMarkers.typescriptreact = [ 'tsconfig.json', '.git/' ]
-"
-"   autocmd MyAutocmd FileType * call <SID>lc_map()
-"   function! s:lc_map() abort "{{{
-"     if has_key(g:LanguageClient_serverCommands, &filetype)
-"       nnoremap <buffer> <silent> gd
-"            \ :<C-u>call LanguageClient#textDocument_definition()<CR>
-"       nnoremap <buffer> <silent> gD
-"            \ :<C-u>call LanguageClient#textDocument_typeDefinition()<CR>
-"       nnoremap <buffer> <silent> gi
-"            \ :<C-u>call LanguageClient#textDocument_implementation()<CR>
-"       nnoremap <buffer> <silent> gr
-"            \ :<C-u>call LanguageClient#textDocument_references()<CR>
-"       nnoremap <buffer> <silent> <LocalLeader>r
-"            \ :<C-u>call LanguageClient#textDocument_rename()<CR>
-"       nnoremap <buffer> <silent> <LocalLeader>f
-"            \ :<C-u>call LanguageClient#textDocument_formatting_sync()<CR>
-"       nnoremap <buffer> <silent> <LocalLeader>h
-"            \ :<C-u>call LanguageClient#textDocument_hover()<CR>
-"       nnoremap <buffer> <silent> <LocalLeader>H
-"            \ :<C-u>call LanguageClient#textDocument_documentHighlight()<CR>
-"       nnoremap <buffer> <silent> <LocalLeader>c
-"            \ :<C-u>call LanguageClient_contextMenu()<CR>
-"     endif
-"   endfunction "}}}
-" endfunction "}}}
-" call s:language_client_neovim_init()
 
 Plug 'ncm2/ncm2-vim-lsp', {
       \   'depends': 'vim-lsp',
@@ -341,10 +276,33 @@ let g:langservers.typescriptreact = 'typescript-language-server'
 " }}}
 
 " rust {{{
-if executable('rustup') && executable('rls')
+" if executable('rustup') && executable('rls')
+"   autocmd MyAutocmd User lsp_setup call lsp#register_server({
+"        \   'name': 'rls',
+"        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'rustup run stable rls']},
+"        \   'whitelist': [
+"        \     'rust',
+"        \   ],
+"        \   'workspace_config': {
+"        \     'rust': {
+"        \       'clippy_preference': 'on',
+"        \     },
+"        \   },
+"        \   'root_uri': {server_info ->
+"        \     lsp#utils#path_to_uri(
+"        \       lsp#utils#find_nearest_parent_file_directory(
+"        \         lsp#utils#get_buffer_path(), 'Cargo.toml'
+"        \       )
+"        \     )
+"        \   },
+"        \ })
+"
+"   let g:langservers.rust = 'rls'
+" endif
+if executable('rustup') && executable('rust-analyzer')
   autocmd MyAutocmd User lsp_setup call lsp#register_server({
-        \   'name': 'rls',
-        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'rustup run stable rls']},
+        \   'name': 'rust-analyzer',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'rust-analyzer']},
         \   'whitelist': [
         \     'rust',
         \   ],
@@ -362,7 +320,7 @@ if executable('rustup') && executable('rls')
         \   },
         \ })
 
-  let g:langservers.rust = 'rls'
+  let g:langservers.rust = 'rust-analyzer'
 endif
 "}}}
 
@@ -405,6 +363,34 @@ if executable('intelephense')
         \ })
 
   let g:langservers.php = 'intelephense'
+endif
+"}}}
+
+" bash {{{
+if executable('bash-language-server')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'bash-language-server',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'bash-language-server start']},
+        \   'whitelist': [
+        \     'sh',
+        \   ],
+        \ })
+
+  let g:langservers.sh = 'bash-language-server'
+endif
+"}}}
+
+" bash {{{
+if executable('pyls')
+  autocmd MyAutocmd User lsp_setup call lsp#register_server({
+        \   'name': 'pyls',
+        \   'cmd': {server_info -> [&shell, &shellcmdflag, 'pyls']},
+        \   'whitelist': [
+        \     'python',
+        \   ],
+        \ })
+
+  let g:langservers.python = 'pyls'
 endif
 "}}}
 
@@ -695,8 +681,10 @@ function! s:eskk_vim_init() abort "{{{
 
   endif
 
+  " let l:host = filereadable('/.dockerenv') || !empty($WSL_INTEROP) ?
+  "    \ 'host.docker.internal' : 'localhost'
   let l:host = filereadable('/.dockerenv') ?
-       \ 'host.docker.internal' : 'localhost'
+      \ 'host.docker.internal' : 'localhost'
   " google-ime-skk
   if executable('google-ime-skk')
     let g:eskk#server = {
@@ -707,9 +695,10 @@ function! s:eskk_vim_init() abort "{{{
   else
     let g:eskk#server = {
           \   'host': l:host,
+          \   'port': 1178,
           \   'timeout': 1000,
-          \   'last_cr': 0,
           \ }
+          "\   'last_cr': 0,
   endif
 
   autocmd MyAutocmd User eskk-initialize-pre call EskkInitialPre()
@@ -935,6 +924,18 @@ function! s:fzf_init() abort "{{{
   execute 'source' fnamemodify(expand('$_VIMDIR/rc/plugins/fzf.rc.vim'), ':p')
 endfunction "}}}
 call s:fzf_init()
+
+Plug 'b4b4r07/vim-sqlfmt', {
+      \   'do': 'pip install --user sqlparse',
+      \   'on': [ 'SQLFmt' ],
+      \   'for': [ 'sql' ],
+      \ }
+function! s:vim_sqlfmt_init() abort "{{{
+  let g:sqlfmt_command = 'sqlformat'
+  let g:sqlfmt_options = '-r -k upper'
+  let g:sqlfmt_auto = 0
+endfunction "}}}
+call s:vim_sqlfmt_init()
 
 " ================ Local plugins ============================
 

@@ -28,10 +28,10 @@ xnoremap k gk
 
 nnoremap n nzz
 nnoremap N Nzz
-nnoremap * *<C-o>zvzz
-nnoremap g* g*<C-o>zvzz
-nnoremap # #<C-o>zvzz
-nnoremap g# g#<C-o>zvzz
+nnoremap * *Nzvzz
+nnoremap g* g*Nzvzz
+nnoremap # #nzvzz
+nnoremap g# g#nzvzz
 
 if !has('nvim') && has('clipboard')
   xnoremap <silent> y "*y:let [@+,@"]=[@*,@*]<CR>

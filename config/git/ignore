@@ -1,2 +1,3 @@
 .autoupload.json*
 vimrc_local
+.tool-versions
