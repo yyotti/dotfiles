@@ -918,6 +918,8 @@ function! s:defx_nvim_init() abort "{{{
 endfunction "}}}
 call s:defx_nvim_init()
 
+Plug 'justinmk/vim-dirvish'
+
 Plug '/home/linuxbrew/.linuxbrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
 function! s:fzf_init() abort "{{{
