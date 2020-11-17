@@ -5,6 +5,26 @@
 "-----------------------------------------------------------------------------
 " mappings:
 "
+" Customize fzf colors to match your color scheme
+" let g:fzf_colors = {
+"      \   'fg': [ 'fg', 'Normal' ],
+"      \   'bg': [ 'bg', 'Normal' ],
+"      \   'hl': [ 'fg', 'Comment' ],
+"      \   'fg+': [ 'fg', 'CursorLine', 'CursorColumn', 'Normal' ],
+"      \   'bg+': [ 'bg', 'CursorLine', 'CursorColumn' ],
+"      \   'hl+': [ 'fg', 'Statement' ],
+"      \   'info': [ 'fg', 'PreProc' ],
+"      \   'border': [ 'fg', 'Ignore' ],
+"      \   'prompt': [ 'fg', 'Conditional' ],
+"      \   'pointer': [ 'fg', 'Exception' ],
+"      \   'marker': [ 'fg', 'Keyword' ],
+"      \   'spinner': [ 'fg', 'Label' ],
+"      \   'header': [ 'fg', 'Comment' ],
+"      \ }
+
+"-----------------------------------------------------------------------------
+" mappings:
+"
 nnoremap <silent> ;b :<C-u>call fzf#vim#buffers()<CR>
 nnoremap <silent> ;f :<C-u>call FzfFiles()<CR>
 nnoremap <silent> ;l :<C-u>call fzf#vim#buffer_lines()<CR>
@@ -71,7 +91,8 @@ if executable('rg')
         \   'rg',
         \   '--line-number',
         \   '--column',
-        \   '--color=never',
+        \   '--color=always',
+        \   '--colors=match:fg:yellow',
         \   '--no-heading',
         \   '--smart-case',
         \ ]
@@ -80,7 +101,7 @@ elseif executable('git')
         \   'git',
         \   'grep',
         \   '--no-index',
-        \   '--no-color',
+        \   '--color=always',
         \   '--exclude-standard',
         \   '-I',
         \   '--line-number',
@@ -110,5 +131,7 @@ function! FzfGrep() abort "{{{
   let l:cmd = copy(s:grep_command)
   let l:cmd += [ '--', fzf#shellescape(l:pat), fzf#shellescape(l:dir) ]
   echomsg join(l:cmd)
-  call fzf#vim#grep(join(l:cmd), v:true)
+  call fzf#vim#grep(join(l:cmd), v:true, {
+        \   'options': [ '--color', 'hl:210,hl+:210,marker:222,info:222' ],
+        \ })
 endfunction "}}}
