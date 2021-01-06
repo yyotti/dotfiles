@@ -1,6 +1,3 @@
-[user]
-    email = yosuke.tsutsui@gmail.com
-    name = Y.Tsutsui
 [diff]
     tool = vimdiff
     algorithm = histogram
@@ -13,8 +10,6 @@
     default = simple
 [fetch]
     prune = true
-[pull]
-    rebase = true
 [rebase]
     autosquash = true
     autoStash = true
@@ -39,9 +34,6 @@
 [ghq] # 後に書いたものがデフォルトになることに注意
     root = ~/.local/share/go/src
     root = ~/.local/share/ghq
-[url "git@github.com:yyotti"]
-    pushInsteadOf = git://github.com/yyotti
-    pushInsteadOf = https://github.com/yyotti
 [include]
     path = ~/.config/git/config.local
 
